@@ -1,0 +1,307 @@
+/**
+ * Copyright (C) 2015 Orange
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/*
+This is your main CSS file
+All application specific styles should be in this package
+
+You can split css into multiple files 
+but remeber to use the minify-maven-plugin to merge them for production !
+Declare all your css in the plugin configuration (see the <configuratio> element in your pom.xml
+
+This archetype use 4 stylesheets : footer.css, application.css, gabarits.css et signin.css
+*/
+
+/*
+Ceci est votre fichier css principal
+Tous les styles applicatifs devrait être dans ce fichier
+
+Pour une gestion plus simple de nombreux styles, vous pouvez séparer vos css en plusieurs fichiers 
+Rappelez vous d'utiliser le plugin Maven minify-maven-plugin pour fusionner les CSS pour la production
+Déclarer tous vos fichiers css dans l'élement <configuration> du pom.xml
+
+Cet archetype utilise 4 feuilles de styles : footer.css, application.css, gabarits.css et signin.css
+*/
+
+
+.popin-close-for-button {
+	margin:0;
+	
+}
+
+h1 a {
+	text-decoration: none;
+	color:#333;
+}
+
+.popin h2
+{
+	margin:0.2em;
+}
+
+#logo {
+	text-decoration: none;
+}
+
+#header h1
+{
+	font-size:2.7em;
+	margin:0;
+	color:#333;
+	font: 2.67em/1.2 "Helvetica 45 Light",Arial,sans-serif;
+}
+
+#navigation
+{
+	margin:0;
+}
+
+hr.separator-light, hr.separator-heavy {
+	margin:1.5em 2em;
+	border-color:#999 #CCC #CCC #999;
+	border-style:solid;
+	border-width:.1em .1em .2em;
+	border-width:1px 1px 2px;
+	height:3px;
+}
+
+hr.separator-heavy {
+	border-color:#930 #F50 #F50 #930;
+}
+
+.createOrUpdateMarketForm .form_text input[type="text"],
+.createOrUpdateMarketForm .form_textarea textarea
+{
+	width:241px;
+}
+
+.createOrUpdateMarketForm .button-ok
+{
+	margin-right:5px;
+}
+
+.createOrUpdateMarketForm .formButtons { text-align:right; }
+*+html .createOrUpdateMarketForm .formButtons input { display:inline; }
+.createOrUpdateMarketForm .formButtons .popin-close {
+   /*  background:url("background-gradient-01-lightgray.png") repeat-x scroll left center #FFFFFF; */
+    float:none;
+}
+.marketForm
+{
+	margin-bottom:1em;
+}
+
+.formMarketSearchButton {
+    display: inline;
+    padding-left: 1em;
+    padding-right: 1em;
+    width: auto;
+}
+
+.panel {
+	color:#444;
+	line-height:1.4em;
+	margin:0 0 1em;
+	padding:1.2em;
+	/* background-color:#FAFAFA; */
+	border:1px solid #CCC;
+	box-shadow:1px 1px 1px #999; 
+}
+.panel p {
+	margin-top:0;
+	line-height:1.4em;
+}
+.panel p:first-child {
+	margin-top:0;
+}
+.panel p:last-child {
+	margin-bottom:0;
+}
+
+#toplinks {
+	width:300px;
+}
+
+
+.marketForm input.formMarketSearchButton {
+	width:120px;
+}
+.marketForm input.formMarketSearchButton:focus {
+	background:#000 url("background-gradient-01-black.png") center center repeat-x;
+}
+/* Ajout */
+
+/* Reset */
+article, aside, details, figcaption, figure, footer, header, hgroup, nav, section { display: block; }
+audio, canvas, video { display: inline-block; *display: inline; *zoom: 1; }
+audio:not([controls]) { display: none; }
+[hidden] { display: none; }
+
+html { font-size: 100%; overflow-y: scroll; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+body { margin: 0; font-size: 13px; line-height: 1.231; }
+body, button, input, select, textarea { font-family:sans-serif; color: #222; }
+
+::-moz-selection { background: #333; color: #fff; text-shadow: none; }
+::selection { background: #333; color: #fff; text-shadow: none; }
+
+a { color: #333; }
+a:visited { color: #333; }
+a:hover { color: #f50; }
+a:focus { color: #f50; outline: thin dotted; }
+a:hover, a:active { outline: 0; }
+
+abbr[title] { border-bottom: 1px dotted; }
+b, strong { font-weight: bold; }
+blockquote { margin: 1em 40px; }
+dfn { font-style: italic; }
+hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin: 1em 0; padding: 0; }
+ins { background: #ff9; color: #000; text-decoration: none; }
+mark { background: #ff0; color: #000; font-style: italic; font-weight: bold; }
+pre, code, kbd, samp { font-family: monospace, monospace; _font-family: 'courier new', monospace; font-size: 1em; }
+pre { white-space: pre; white-space: pre-wrap; word-wrap: break-word; }
+q { quotes: none; }
+q:before, q:after { content: ""; content: none; }
+small { font-size: 85%; }
+sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
+sup { top: -0.5em; }
+sub { bottom: -0.25em; }
+ul, ol { margin: 1em 0; padding: 0 0 0 40px;}
+ul {list-style-type:square;}
+dd { margin: 0 0 0 40px; }
+nav ul, nav ol { list-style: none; list-style-image: none; margin: 0; padding: 0; }
+img { border: 0; -ms-interpolation-mode: bicubic; vertical-align: middle; }
+svg:not(:root) { overflow: hidden; }
+figure { margin: 0; }
+
+form { margin: 0; }
+fieldset { border: 0; margin: 0; padding: 0; }
+label { cursor: pointer; }
+legend { border: 0; *margin-left: -7px; padding: 0; }
+button, input, select, textarea { font-size: 100%; margin: 0; vertical-align: baseline; *vertical-align: middle; }
+button, input { line-height: normal; *overflow: visible; }
+table button, table input { *overflow: auto; }
+button, input[type="button"], input[type="reset"], input[type="submit"] { cursor: pointer; -webkit-appearance: button; }
+input[type="checkbox"], input[type="radio"] { box-sizing: border-box; }
+input[type="search"] { -webkit-appearance: textfield; -moz-box-sizing: content-box; -webkit-box-sizing: content-box; box-sizing: content-box; }
+input[type="search"]::-webkit-search-decoration { -webkit-appearance: none; }
+button::-moz-focus-inner, input::-moz-focus-inner { border: 0; padding: 0; }
+textarea { overflow: auto; vertical-align: top; resize: vertical; }
+input:valid, textarea:valid {  }
+input:invalid, textarea:invalid { background-color: #f0dddd; }
+
+table { border-collapse: collapse; border-spacing: 0; }
+td { vertical-align: top; }
+
+
+/* Orange default styles */
+body {
+    color:#444;
+    font:.75em/1.3 Arial,Helvetica,sans-serif;
+    background:#FFF;
+}
+a:focus, button:focus, input:focus, textarea:focus, select:focus {
+    outline:0.06em dotted #F50;
+}
+ul {
+	list-style-image:url("square-list-m-orange.png");
+	*list-style-image:url("square-list-m-orange.ie.png");
+	list-style-position:outside;
+}
+ul ul {
+	margin:0;
+	padding: 0 0 0 1.2em;
+	list-style-image:url("square-list-m-lightgray.png");
+	*list-style-image:url("square-list-m-lightgray.ie.png");
+}
+ul ul ul {
+	list-style-image:url("square-list-m-gainsboro.png");
+	*list-style-image:url("square-list-m-gainsboro.ie.png");
+}
+kbd {
+	padding:1px;
+	color:#000;
+	font-family:Courier, monospace;
+	border:1px solid #EEE;
+	border-top-color:#FAFAFA;
+	border-left-color:#FAFAFA;
+	border-right-color:#838383;
+	border-bottom-color:#838383;
+	background:#EEE;
+}
+
+
+/* Utils */
+.clear:after{
+	display:block;
+	clear:both;
+	height:0;
+	visibility:hidden;
+	content:".";
+}
+* html .clear {height:1%;}
+*:first-child+html .clear{min-height:1%;}
+
+.none {
+	display:none !important;
+	visibility: hidden;
+}
+.invisible {
+	visibility: hidden;
+}
+.hide {
+	position:absolute;
+	left:-9999px;
+	top:auto;
+	width:1px;
+	height:1px;
+	overflow:hidden;
+}
+
+/* Media queries (not yet suppported)
+
+@media only screen and (min-width: 480px) {
+}
+@media only screen and (min-width: 768px) {
+}
+*/
+
+/* Print styles */
+@media print {
+  * { background: transparent !important; color: black !important; text-shadow: none !important; filter:none !important; -ms-filter: none !important; } 
+  a, a:visited { text-decoration: underline; }
+  a[href]:after { content: " (" attr(href) ")"; }
+  abbr[title]:after { content: " (" attr(title) ")"; }
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after { content: ""; } 
+  pre, blockquote { border: 1px solid #999; page-break-inside: avoid; }
+  thead { display: table-header-group; }
+  tr, img { page-break-inside: avoid; }
+  img { max-width: 100% !important; }
+  @page { margin: 0.5cm; }
+  p, h2, h3 { orphans: 3; widows: 3; }
+  h2, h3 { page-break-after: avoid; }
+}
+
+.table th.wicket_orderUp, .table th.wicket_orderDown {
+	background:#777;
+	color:#FFF;
+}
+
+.table th.wicket_orderUp a {
+	background:#777 url("triangle-m-white-s.png") 95% center no-repeat;
+	color:#FFF;
+}
+
+.table th.wicket_orderDown a {
+	background:#777 url("triangle-m-white-n.png") 95% center no-repeat;
+	color:#FFF;
+}
+

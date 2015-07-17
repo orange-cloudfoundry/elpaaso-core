@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="beanInitiatedFromJndi" class="com.francetelecom.clara.cloud.commons.TestBean">
+        <property name="sampleProp1" value="${key1FromJndiOnly}"/>
+        <property name="sampleProp2" value="${key2FromPropertiesOnly}"/>
+        <property name="sampleProp3" value="${key3FromSystemOnly}"/>
+        <property name="sampleProp4" value="${key4InJndiPropsSystem}"/>
+    </bean>
+
+    <bean id="propertyPlaceholderConfigurer"
+          class="com.francetelecom.clara.cloud.commons.JndiAwarePropertyPlaceholderConfigurer" init-method="initialize">
+        <property name="locations">
+            <list>
+                <value>classpath:/com/francetelecom/clara/cloud/commons/sample_test_commons-default.properties</value>
+            </list>
+        </property>
+    </bean>
+</beans>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	
+	<import resource="classpath:/META-INF/spring/dbaas-orange-10-consumer-V2-it-context.xml" />
+    
+	 <util:map id="dBaasConsumers-V2" map-class="java.util.HashMap">
+		<entry key="DBAAS_10"><ref bean="dbaasConsumer-10-V2"></ref></entry>						
+	</util:map>
+
+</beans>

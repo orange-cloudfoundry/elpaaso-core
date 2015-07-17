@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations" value="classpath:/com/francetelecom/clara/cloud/commons/testconfigurations/credentials-${datacenter:reference}.properties"/>
+    </bean>
+
+	<import resource="classpath:/META-INF/spring/paas-projection-context.xml"/>
+    <import resource="classpath:/META-INF/spring/paas-constraint-context.xml"/>
+
+    <import resource="classpath:/META-INF/spring/sampleCatalog-context.xml" />
+
+	<!--  maven repo DAO is mocked  -->
+	<bean id="mvnDao" class="org.mockito.Mockito" factory-method="mock">
+		<constructor-arg
+			value="com.francetelecom.clara.cloud.mvn.consumer.MvnRepoDao" />
+	</bean>
+
+    <!-- override projection service to set the projection timestamp -->
+    <bean id="projectionService"
+          class="com.francetelecom.clara.cloud.paas.projection.TestMultiProfileProjectionServiceDispatcherImpl">
+        <property name="projectionsPerMiddlewareProfileVersion" ref="ProjectorPerProfiles"></property>
+    </bean>
+	
+</beans>

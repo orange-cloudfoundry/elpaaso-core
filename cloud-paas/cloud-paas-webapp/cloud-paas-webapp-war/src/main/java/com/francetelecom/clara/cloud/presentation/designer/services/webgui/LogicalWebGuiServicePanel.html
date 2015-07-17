@@ -1,0 +1,77 @@
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<html xmlns:wicket="http://wicket.apache.org/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://wicket.apache.org/ ">
+
+    <wicket:extend>
+
+        <!-- Service Head -->
+        <div class="svc_title">
+            <div class="svc_title_content">
+                <img wicket:id="logicalWebGuiPanelIcon"  class="svc_img" />
+                <span><wicket:message key="portal.designer.service.gui.title" /></span>
+            </div>
+        </div>
+
+        <div class="svc_form">
+            <div class="svc_label_category">
+                <wicket:message key="portal.designer.service.description.title" />
+            </div>
+
+            <p class="svc_form">
+                <span class="svc_description">
+                    <wicket:message key="portal.designer.service.gui.description" />
+	                <a class="svc_onlineHelp" wicket:id="onlineHelpLink" target="_blank"><wicket:message key="portal.designer.logical.service.online_manual.seeMore" /></a>
+                </span>
+            </p>
+
+            <!-- Functional -->
+            <div class="svc_label_category">
+                <wicket:message key="portal.designer.service.functional" />
+            </div>
+
+            <p class="content">
+                <input type="text" id="label" wicket:id="label" name="label"/>
+            </p>
+
+            <p class="content">
+                <input type="text" id="contextRoot.value" wicket:id="contextRoot.value" name="contextRoot.value"/>
+            </p>
+
+            <p class="content">
+                <input type="checkbox" id="stateful" wicket:id="stateful" name="stateful"/>
+            </p>
+            
+            <!-- SLO -->
+            <div class="svc_label_category">
+                <wicket:message key="portal.designer.service.nonfunctional" />
+            </div>
+
+            <p class="content">
+                <input type="checkbox" id="secure" wicket:id="secure" name="secure"/>
+            </p>
+
+            <p class="content">
+                <input type="text" id="maxNumberSessions" wicket:id="maxNumberSessions" name="maxNumberSessions"/>
+            </p>
+
+            <p class="content">
+                <input type="text" id="maxReqPerSeconds" wicket:id="maxReqPerSeconds" name="maxReqPerSeconds"/>
+            </p>
+        </div>
+
+    </wicket:extend>
+
+</html>

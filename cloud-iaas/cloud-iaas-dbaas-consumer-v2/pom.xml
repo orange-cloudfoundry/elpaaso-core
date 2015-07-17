@@ -1,0 +1,231 @@
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>cloud-iaas</artifactId>
+		<groupId>com.orange.clara.cloud</groupId>
+		<version>3.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>cloud-iaas-dbaas-consumer-v2</artifactId>
+	<name>${project.artifactId} - Clara Cloud API Connector to DBAAS</name>
+	<description> Clara Cloud API Connector V2 to DBAAS</description>
+
+	<properties>
+		<dbaas.wsdl.package>com.orange.clara.cloud.dbaas.wsdl</dbaas.wsdl.package>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>com.orange.clara.cloud</groupId>
+			<artifactId>cloud-technical-model</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.orange.clara.cloud</groupId>
+			<artifactId>cloud-technical-model</artifactId>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.orange.clara.cloud</groupId>
+			<artifactId>cloud-commons</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.orange.clara.cloud</groupId>
+			<artifactId>cloud-mvn-consumer</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+
+		<!-- dozer -->
+		<dependency>
+			<groupId>net.sf.dozer</groupId>
+			<artifactId>dozer</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+		</dependency>
+
+		<dependency>
+			<!-- To launch SQL script for POSTGRESQL databases -->
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<!-- setting compile scope does not embbed it into the war :-( -->
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<!-- To launch SQL script for MySQL databases -->
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<!-- setting compile scope does not embbed it into the war :-( -->
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.orange.clara.cloud</groupId>
+			<artifactId>cloud-paas-activation</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.orange.clara.cloud</groupId>
+			<artifactId>cloud-paas-activation-v1-impl</artifactId>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.orange.clara.cloud</groupId>
+			<artifactId>cloud-paas-daos-impl</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+
+		<!-- cxf -->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>p6spy</groupId>
+			<artifactId>p6spy</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.orange.clara.cloud.dbaas.wsdl</groupId>
+			<artifactId>cloud-orange-dbaas-wsdl</artifactId>
+			<version>${cloud-dbaas-wsdl.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.scala-lang</groupId>
+			<artifactId>scala-library</artifactId>
+			<version>2.10.4</version>
+		</dependency>
+
+	</dependencies>
+	<build>
+		<plugins>
+			<!-- generates a test jar for reuse in test using cloud-iaas-cloudfoundry-consummer -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+						<configuration>
+							<skip>false</skip>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<!-- Plugin pour la generation de source a partir du wsdl -->
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-codegen-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>generate-sources-composite</id>
+						<phase>generate-sources</phase>
+						<configuration>
+							<!-- WDM G4R3 (wsc) api -->
+							<wsdlOptions>
+								<wsdlOption>
+									<wsdl>
+										classpath:dbaas.wsdl
+									</wsdl>
+									<extraargs>
+										<extraarg>-impl</extraarg>
+										<extraarg>-client</extraarg>
+										<extraarg>-verbose</extraarg>
+										<extraarg>-p</extraarg>
+										<extraarg>http://orange_dbaas/Ws/Api/data=${dbaas.wsdl.package}.data</extraarg>
+										<extraarg>-p</extraarg>
+										<extraarg>http://orange_dbaas/Ws/Api/enumeration=${dbaas.wsdl.package}.enumeration</extraarg>
+										<extraarg>-p</extraarg>
+										<extraarg>http://orange_dbaas/Ws/Api/exception=${dbaas.wsdl.package}.exception</extraarg>
+										<extraarg>-p</extraarg>
+										<extraarg>http://orange_dbaas/Ws/Api/request=${dbaas.wsdl.package}.request</extraarg>
+										<extraarg>-p</extraarg>
+										<extraarg>http://orange_dbaas/Ws/Api/response=${dbaas.wsdl.package}.response</extraarg>
+										<extraarg>-p</extraarg>
+										<extraarg>http://orange_dbaas/Ws/Api=${dbaas.wsdl.package}.service</extraarg>
+									</extraargs>
+								</wsdlOption>
+							</wsdlOptions>
+						</configuration>
+						<goals>
+							<goal>wsdl2java</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Needed with Eclipse Indigo / m2e 1.0 because there are no m2e connectors 
+				for cxf-codegen-plugin for the moment -->
+			<!-- This declaration will force m2e to define target/generated-sources/cxf 
+				as a source folder in Eclipse -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${project.build.directory}/generated-sources/cxf</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+	</plugins>
+	</build>
+</project>

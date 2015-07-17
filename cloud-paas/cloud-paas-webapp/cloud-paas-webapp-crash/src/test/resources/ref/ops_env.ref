@@ -1,0 +1,20 @@
+
+Environment [uid:1234] OPS details :
+
+application  release  environment                                                                                                                                                  
+--------------------------------------                                                                                                                                             
+applicationA releaseR devOpsWonderEnv                                                                                                                                              
+date             owner                           logs                                                                                                                              
+-----------------------------------------------------------------------------------------------------------                                                                        
+07/07/2013 15:39 DonVitoCorleone(vite@patate.fr) http://splunk.is.everywhere.org/query?withoutFilter=33452                                                                         
+
+Environment [uid:1234] 2 vm(s) :
+ip      user password iaasId      hostname                                                                                                                                         
+------------------------------------------------                                                                                                                                   
+1.2.3.4 root root     11114345232 dev-vmAsample                                                                                                                                    
+1.2.3.4 root root     11114345232 dev-vmBsample                                                                                                                                    
+
+Environment [uid:1234] 1 access link(s) :
+type        url                                                                                                                                                                    
+------------------------------------------------------                                                                                                                             
+ACCESS_LINK http://remote.iaas.fr:8080/my-app/portal/                                                                                                                              

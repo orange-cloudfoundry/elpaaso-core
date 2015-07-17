@@ -1,0 +1,92 @@
+<com.francetelecom.clara.cloud.logicalmodel.LogicalDeployment>
+    <version>0</version>
+    <name>b108ab1f-3872-4ca3-b116-ee06b1546114</name>
+    <id>0</id>
+    <available>false</available>
+    <status>TRANSIENT</status>
+    <template>true</template>
+    <sox>false</sox>
+    <logicalServices>
+        <com.francetelecom.clara.cloud.logicalmodel.LogicalWebGUIService>
+            <version>0</version>
+            <name>cc5f29f5-e659-4325-ac0d-0722f48975a5</name>
+            <id>0</id>
+            <available>false</available>
+            <status>TRANSIENT</status>
+            <label>SpringooWebUi</label>
+            <logicalDeployment reference="../../.."/>
+            <logicalNodeServiceAssociations>
+                <com.francetelecom.clara.cloud.logicalmodel.LogicalNodeServiceAssociation>
+                    <id>0</id>
+                    <logicalExecutionNode>
+                        <version>0</version>
+                        <name>cf82a7b1-d45e-4b7a-aed9-50a2a97b3331</name>
+                        <id>0</id>
+                        <available>false</available>
+                        <status>TRANSIENT</status>
+                        <label>Springoo_Jee_processing</label>
+                        <logicalDeployment reference="../../../../../.."/>
+                        <logicalNodeServiceAssociations>
+                            <com.francetelecom.clara.cloud.logicalmodel.LogicalNodeServiceAssociation reference="../../.."/>
+                            <com.francetelecom.clara.cloud.logicalmodel.LogicalNodeServiceAssociation>
+                                <id>0</id>
+                                <logicalExecutionNode reference="../../.."/>
+                                <logicalService class="com.francetelecom.clara.cloud.logicalmodel.LogicalRelationalService">
+                                    <version>0</version>
+                                    <name>9a25aff0-1e11-4435-b59b-0b2a1d510c15</name>
+                                    <id>0</id>
+                                    <available>false</available>
+                                    <status>TRANSIENT</status>
+                                    <label>SpringooRds</label>
+                                    <logicalDeployment reference="../../../../../../../../.."/>
+                                    <logicalNodeServiceAssociations>
+                                        <com.francetelecom.clara.cloud.logicalmodel.LogicalNodeServiceAssociation reference="../../.."/>
+                                    </logicalNodeServiceAssociations>
+                                    <jndiName>jdbc/MyDataSource</jndiName>
+                                    <sqlVersion>POSTGRESQL_DEFAULT</sqlVersion>
+                                    <maintenanceWindow>
+                                        <version>0</version>
+                                        <name>067dded5-d830-49f0-9b0e-86f70c04b156</name>
+                                        <id>0</id>
+                                        <available>false</available>
+                                        <status>TRANSIENT</status>
+                                    </maintenanceWindow>
+                                    <initialPopulationScript>
+                                        <groupId>com.francetelecom.clara.prototype.springoojpa</groupId>
+                                        <artifactId>springoojpa-sql-postgres</artifactId>
+                                        <version>6.1.0</version>
+                                        <extension>sql</extension>
+                                    </initialPopulationScript>
+                                    <capacityMo>1000</capacityMo>
+                                    <relationalReplicaNumber>0</relationalReplicaNumber>
+                                    <maxConnection>50</maxConnection>
+                                </logicalService>
+                                <accessType>NOT_APPLICABLE</accessType>
+                            </com.francetelecom.clara.cloud.logicalmodel.LogicalNodeServiceAssociation>
+                        </logicalNodeServiceAssociations>
+                        <softwareReference>
+                            <groupId>com.francetelecom.clara.prototype.springoojpa</groupId>
+                            <artifactId>springoojpa-ear</artifactId>
+                            <version>6.1.0</version>
+                            <extension>ear</extension>
+                        </softwareReference>
+                        <minMemoryMbHint>128</minMemoryMbHint>
+                        <memoryKbPerActiveSessionHint>1024</memoryKbPerActiveSessionHint>
+                    </logicalExecutionNode>
+                    <logicalService class="com.francetelecom.clara.cloud.logicalmodel.LogicalWebGUIService" reference="../../.."/>
+                    <accessType>NOT_APPLICABLE</accessType>
+                </com.francetelecom.clara.cloud.logicalmodel.LogicalNodeServiceAssociation>
+            </logicalNodeServiceAssociations>
+            <contextRoot>/springoojpa</contextRoot>
+            <stateful>true</stateful>
+            <secure>false</secure>
+            <maxNumberSessions>1</maxNumberSessions>
+            <maxReqPerSeconds>20</maxReqPerSeconds>
+            <jndiPrefix>defaultWebGuiPrefix</jndiPrefix>
+        </com.francetelecom.clara.cloud.logicalmodel.LogicalWebGUIService>
+        <com.francetelecom.clara.cloud.logicalmodel.LogicalRelationalService reference="../com.francetelecom.clara.cloud.logicalmodel.LogicalWebGUIService/logicalNodeServiceAssociations/com.francetelecom.clara.cloud.logicalmodel.LogicalNodeServiceAssociation/logicalExecutionNode/logicalNodeServiceAssociations/com.francetelecom.clara.cloud.logicalmodel.LogicalNodeServiceAssociation[2]/logicalService"/>
+    </logicalServices>
+    <executionNodes>
+        <com.francetelecom.clara.cloud.logicalmodel.JeeProcessing reference="../../logicalServices/com.francetelecom.clara.cloud.logicalmodel.LogicalWebGUIService/logicalNodeServiceAssociations/com.francetelecom.clara.cloud.logicalmodel.LogicalNodeServiceAssociation/logicalExecutionNode"/>
+    </executionNodes>
+</com.francetelecom.clara.cloud.logicalmodel.LogicalDeployment>

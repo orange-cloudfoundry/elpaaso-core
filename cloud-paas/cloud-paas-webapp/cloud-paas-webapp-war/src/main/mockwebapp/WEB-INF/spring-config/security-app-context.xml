@@ -1,0 +1,66 @@
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!-- Remove DLAP configuration from mocked context. Use a static list of users. -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+                       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <security:http create-session="never" auto-config="true" >
+        <security:intercept-url pattern="/portal/login*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <security:intercept-url pattern="/portal/**" access="ROLE_ADMIN, ROLE_USER"/>
+        <security:intercept-url pattern="/togglz/**" access="ROLE_ADMIN"/>
+        <security:logout invalidate-session="true" logout-success-url="/portal/login" />
+        <security:form-login login-page="/portal/login" default-target-url="/portal/home" always-use-default-target="true" />
+        <security:access-denied-handler error-page="/index.html"/>
+    </security:http>
+
+    <security:authentication-manager alias="authenticationManager" >
+        <security:authentication-provider>
+            <!-- <password-encoder hash="md5"/> -->
+            <security:user-service>
+                <!-- admin users -->
+                <security:user name="poblin" password="fRaTu48u" authorities="ROLE_ADMIN" />
+                <security:user name="gberche" password="W8Br6naH" authorities="ROLE_ADMIN" />
+                <security:user name="oorand" password="9rubupU7" authorities="ROLE_ADMIN" />
+                <security:user name="ggqz1668" password="gqz1668paas" authorities="ROLE_ADMIN" /> <!-- Fabrice Bourel -->
+                <security:user name="blupin" password="5uTrUPeT" authorities="ROLE_ADMIN" />
+                <security:user name="gsurrel" password="F567DxdCD" authorities="ROLE_ADMIN" />
+                <security:user name="sbortolussi" password="4HAmUpRu" authorities="ROLE_ADMIN" />
+                <security:user name="testuser" password="ce6utEtH" authorities="ROLE_ADMIN" />
+                <security:user name="alecerf" password="7unAGuKa" authorities="ROLE_ADMIN" />
+                <security:user name="read7320" password="poipoi" authorities="ROLE_ADMIN" /> <!-- Romain Du Chaffaut -->
+                <security:user name="mcormier" password="hIyiu75" authorities="ROLE_ADMIN" />
+
+                <!-- demo users -->
+                <security:user name="tutorial" password="tutopass" authorities="ROLE_USER" />
+                <security:user name="demo" password="demo" authorities="ROLE_USER" />
+                <security:user name="obs_eval" password="ELPaaSO" authorities="ROLE_USER" />
+                <security:user name="demo_dev1" password="1Demons!" authorities="ROLE_USER" />
+                <security:user name="demo_dev2" password="1Demons!" authorities="ROLE_USER" />
+                <security:user name="demo_archi1" password="1Demons!" authorities="ROLE_USER" />
+                <security:user name="demo_qa1" password="1Demons!" authorities="ROLE_USER" />
+                <security:user name="demo_ops1" password="1Demons!" authorities="ROLE_USER" />
+            </security:user-service>
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+    <security:global-method-security secured-annotations="enabled" />
+
+</beans>

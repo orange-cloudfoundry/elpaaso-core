@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd"
+	logicalFilePath="denormalization-migration">
+	<changeSet author="test" id="create-new-columns">
+		<addColumn tableName="table_3">
+			<column name="c1" type="varchar(10)"/>
+		</addColumn>
+		<addColumn tableName="table_3">
+			<column name="c2" type="varchar(10)"/>
+		</addColumn>
+	</changeSet>
+	<changeSet author="test" id="drop-old-foreignkeys">
+		<dropForeignKeyConstraint baseTableName="table_2" constraintName="fk21"/>
+		<dropForeignKeyConstraint baseTableName="table_3" constraintName="fk32"/>
+	</changeSet>
+	<changeSet author="test" id="migrate-data">
+		<sql>update table_3 set c2 = table_2.c2 from table_2 where table_3.id = table_2.id</sql>
+		<sql>update table_3 set c1 = table_1.c1 from table_1 where table_3.id = table_1.id</sql>
+	</changeSet>
+	<changeSet author="test" id="add-not-null-constraints">
+		<addNotNullConstraint tableName="table_3" columnName="c1"/>
+		<addNotNullConstraint tableName="table_3" columnName="c2"/>
+	</changeSet>
+	<changeSet author="test" id="drop-old-tables">
+		<dropTable tableName="table_1" />
+		<dropTable tableName="table_2" />
+	</changeSet>
+</databaseChangeLog>

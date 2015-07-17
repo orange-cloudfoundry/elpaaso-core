@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+
+<!--
+
+   This file contains a catalog of sample logical model. It is used both by automated tests and by
+        the UI to propose inspection and reuse of those models
+
+   Warning: as some of the automated tests rely on the bean name to select one of the sample, make sure
+        to update the test (e.g. ProjectionServiceTest when changing bean names)
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<!-- this bean is used to fetch sample app properties (e.g. ear maven references) from paas-samples.properties -->
+	<bean id="sampleAppProperties" class="com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppProperties"/>
+</beans>

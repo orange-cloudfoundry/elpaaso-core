@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:wicket="https://git-wip-us.apache.org/repos/asf/wicket/repo?p=wicket.git;a=blob_plain;f=wicket-core/src/main/resources/META-INF/wicket-1.5.xsd;hb=master"
+      xml:lang="en" lang="en">
+    <wicket:extend>
+        <div id="navigation_01" class="clear" wicket:id="navigation_01" />
+        <div id="breadcrumbs" wicket:id="breadcrumbs" />
+		<!-- Content -->
+		<div id="content" class="clear">
+			<!-- Colonnage -->
+			<div id="colonnes" class="clear">
+                <!-- feedback -->
+                <div wicket:id="globalFeedback"/>
+                <!-- new release container-->
+                <div wicket:id="createReleaseContainer">
+                    <div wicket:id="createReleaseForm"></div>
+                </div>
+                <!-- new release button-->
+                <div wicket:id="buttonContainer">
+                    <p class="button right">
+                        <a class="button_action_special" wicket:id="newReleaseLink" id="newReleaseLink">
+                            <span><wicket:message key="portal.release.new.button" /></span>
+                        </a>
+                    </p>
+                </div>
+                <!-- releases table-->
+                <div wicket:id="releasesTablePanel"></div>
+            </div>
+        </div>
+    </wicket:extend>
+</html>

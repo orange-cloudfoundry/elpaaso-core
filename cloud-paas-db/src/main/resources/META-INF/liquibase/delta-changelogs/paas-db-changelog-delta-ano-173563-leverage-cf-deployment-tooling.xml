@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+    <changeSet author="paas" id="1431443324360-1">
+        <createTable tableName="organization">
+            <column name="id" type="INT4">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(250)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT4">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deploymentstate" type="INT4">
+                <constraints nullable="false"/>
+            </column>
+            <column name="logicalmodelid" type="VARCHAR(255)"/>
+            <column name="monitoringstate" type="INT4">
+                <constraints nullable="false"/>
+            </column>
+            <column name="technicalid" type="VARCHAR(255)"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="technicaldeployment_id" type="INT4">
+                <constraints nullable="false"/>
+            </column>
+            <column name="hash" type="INT4">
+                <constraints nullable="false"/>
+            </column>
+            <column name="value" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="paas" id="1431443324360-2">
+        <addColumn tableName="space">
+            <column name="organization_id" type="int4"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="paas" id="1431443324360-3">
+        <addPrimaryKey columnNames="id" constraintName="organization_pkey" tableName="organization"/>
+    </changeSet>
+    <changeSet author="paas" id="1431443324360-4">
+        <addUniqueConstraint columnNames="name" constraintName="uk_griwilufaypfq6nxhupb1jfrv" deferrable="false" disabled="false" initiallyDeferred="false" tableName="organization"/>
+    </changeSet>
+    <changeSet author="paas" id="1431443324360-5">
+        <addForeignKeyConstraint baseColumnNames="technicaldeployment_id" baseTableName="organization" constraintName="fk_7mhpaxsgblh6slj3utk02foj0" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="technical_deployment"/>
+    </changeSet>
+    <changeSet author="paas" id="1431443324360-6">
+        <addForeignKeyConstraint baseColumnNames="organization_id" baseTableName="space" constraintName="fk_cmklemvowg0rhfm3nq84893f3" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="organization"/>
+    </changeSet>
+</databaseChangeLog>

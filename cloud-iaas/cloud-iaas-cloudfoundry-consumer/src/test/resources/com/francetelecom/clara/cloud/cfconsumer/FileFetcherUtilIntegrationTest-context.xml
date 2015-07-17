@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:/com/francetelecom/clara/cloud/commons/testconfigurations/credentials-${datacenter:reference}.properties</value>
+            </list>
+        </property>
+    </bean>
+    <!-- <groupId>com.orange.clara.cloud</groupId>
+            <artifactId>paas-probe-jee</artifactId>
+            <version>${paasSamplesVersion}</version> -->
+
+    <bean class="com.francetelecom.clara.cloud.commons.MavenReference" id="jeeProbeMavenReference">
+        <constructor-arg name="groupId" value="com.orange.clara.cloud.samples" />
+        <constructor-arg name="artifactId" value="paas-probe-jee-ear" />
+        <constructor-arg name="version" value="${paasSamplesVersion}" />
+        <constructor-arg name="extension" value="ear" />
+    </bean>
+    <bean id="fileFetcherUtil" class="com.francetelecom.clara.cloud.activation.plugin.cf.infrastructure.FileFetcherUtil" />
+    <import resource="classpath:/META-INF/spring/mvn-consumer-context.xml"/>
+
+</beans>

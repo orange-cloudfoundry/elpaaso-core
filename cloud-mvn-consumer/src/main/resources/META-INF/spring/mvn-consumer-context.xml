@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<bean id="mvnDao"
+		class="com.francetelecom.clara.cloud.mvn.consumer.MvnRepoDaoImpl"
+		init-method="init">
+		<property name="mvnConsumerConfigurer" ref="mvnConsumerConfigurer" />
+		<property name="aetherConfigurer" ref="aetherConfigurer" />
+		<property name="mavenDeployer" ref="mavenDeployer" />
+	</bean>
+
+	<bean id="mvnConsumerConfigurer"
+		class="com.francetelecom.clara.cloud.mvn.consumer.MvnConsumerConfigurer"
+		init-method="init">
+		<property name="releaseRepositoryRefreshIntervalInMin"
+			value="${maven.release.repository.refresh.minutes:15}" />
+		<property name="snapshotRepositoryRefreshIntervalInMin"
+			value="${maven.snapshot.repository.refresh.minutes:10}" />
+		<property name="pullRepositoryUrl" value="${maven.pull.repository.url}" />
+		<property name="pushSnapshotRepositoryUrl" value="${maven.push.repository.snapshot.url}" />
+		<property name="pushSnapshotRepositoryUser" value="${maven.push.repository.snapshot.user}" />
+		<property name="pushSnapshotRepositoryPassword" value="${maven.push.repository.snapshot.password}" />
+		<property name="pushReleaseRepositoryUrl" value="${maven.push.repository.release.url}" />
+		<property name="pushReleaseRepositoryUser" value="${maven.push.repository.release.user}" />
+		<property name="pushReleaseRepositoryPassword" value="${maven.push.repository.release.password}" />
+		<property name="localM2RepoPath" value="${maven.local.repository.path}" />
+		<property name="localWorkDir" value="${maven.local.work.dir}" />
+		<property name="deleteLocalRepoOnStartup" value="${maven.local.repository.start.cleanup:true}"/>
+		<property name="paasRepositoryId" value="${maven.pull.repository.id}" />
+		<property name="assemblyTemplateFile"
+			value="classpath:/com/francetelecom/clara/cloud/mvn/consumer/assemblyTemplate.xml" />
+		<property name="assemblyDescriptionFileLocation" value="src/main/assembly/bin.xml" />
+	</bean>
+
+	<bean id="mavenSettingsGenerator"
+		class="com.francetelecom.clara.cloud.mvn.consumer.maven.SettingsGenerator">
+		<constructor-arg ref="mvnConsumerConfigurer" />
+	</bean>
+	<bean id="mavenPomGenerator"
+		class="com.francetelecom.clara.cloud.mvn.consumer.maven.PomGenerator">
+		<constructor-arg ref="mvnConsumerConfigurer" />
+	</bean>
+	<bean id="aetherConfigurer"
+		class="com.francetelecom.clara.cloud.mvn.consumer.aether.AetherConfigurer">
+	</bean>
+
+	<bean id="mavenDeployer"
+		class="com.francetelecom.clara.cloud.mvn.consumer.maven.MavenDeployer"
+		init-method="init">
+		<constructor-arg ref="mvnConsumerConfigurer" />
+		<property name="settingsGenerator" ref="mavenSettingsGenerator" />
+		<property name="pomGenerator" ref="mavenPomGenerator" />
+		<property name="aetherConfigurer" ref="aetherConfigurer" />
+	</bean>
+
+</beans>

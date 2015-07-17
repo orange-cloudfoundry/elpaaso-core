@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:amq="http://activemq.apache.org/schema/core"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
+	<!-- common paas services int context ******************************** -->
+	<!-- required to configure LogicalModelCatalog -->
+	<!-- this bean is used to fetch sample app properties (e.g. ear maven references) 
+		from paas-samples.properties -->
+	<bean id="sampleAppProperties"
+		class="com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppProperties" />
+
+
+	<import resource="classpath:/META-INF/spring/cloud-services-context.xml" />
+
+	<!--Needed to use projection -->
+	<import resource="classpath:/META-INF/spring/paas-projection-context.xml" />
+	<import resource="classpath:/META-INF/spring/paas-constraint-context.xml" />
+
+	<!-- consumers -->
+	<import resource="classpath:/META-INF/spring/mvn-consumer-context.xml" />
+	<import resource="classpath:/META-INF/spring/cloud-archive-context.xml" />
+
+	<!-- Needed by ManageEnvironment bean -->
+	<import
+		resource="classpath:/com/francetelecom/clara/cloud/paas/it/services/mock-taskexecutor-context.xml" />
+	<!-- import resource="classpath:/com/francetelecom/clara/cloud/paas/it/services/jmx-context.xml" 
+		/ -->
+	<import
+		resource="classpath:/com/francetelecom/clara/cloud/paas/it/services/transaction-context.xml" />
+	<!-- note: datasources contexts must be imported in each test context to 
+		select between hsql and postgresql -->
+
+	<import resource="classpath:/META-INF/spring/cloud-daos-context.xml" />
+
+	<!-- Configuration d un gestionnaire local de transactions pour activitiDS -->
+	<bean id="activitiTransactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="activitiDS" />
+	</bean>
+
+	<beans profile="default">
+		<!-- JMS server -->
+		<amq:broker useJmx="true" persistent="false">
+
+			<amq:destinationPolicy>
+				<amq:policyMap>
+					<amq:policyEntries>
+						<amq:policyEntry queue="jms/activationRequestQueue">
+							<amq:deadLetterStrategy>
+								<amq:sharedDeadLetterStrategy>
+									<amq:deadLetterQueue>
+										<amq:queue physicalName="jms/activationDeadLetterQueue" />
+									</amq:deadLetterQueue>
+								</amq:sharedDeadLetterStrategy>
+							</amq:deadLetterStrategy>
+						</amq:policyEntry>
+						<amq:policyEntry queue="jms/activationReplyQueue">
+							<amq:deadLetterStrategy>
+								<amq:sharedDeadLetterStrategy>
+									<amq:deadLetterQueue>
+										<amq:queue physicalName="jms/activationDeadLetterQueue" />
+									</amq:deadLetterQueue>
+								</amq:sharedDeadLetterStrategy>
+							</amq:deadLetterStrategy>
+						</amq:policyEntry>
+					</amq:policyEntries>
+				</amq:policyMap>
+			</amq:destinationPolicy>
+
+			<amq:transportConnectors>
+				<amq:transportConnector uri="tcp://localhost:0" />
+			</amq:transportConnectors>
+
+		</amq:broker>
+
+		<!-- JMS queue connection factory : used for unit testing -->
+		<amq:pooledConnectionFactory id="asyncTaskHandlingConnectionFactory">
+			<amq:connectionFactory>
+				<amq:connectionFactory
+					brokerURL="vm://localhost?jms.redeliveryPolicy.maximumRedeliveries=2" />
+			</amq:connectionFactory>
+		</amq:pooledConnectionFactory>
+
+
+		<!-- JMS queue definition to handle request message -->
+		<amq:queue id="activationRequestQueue" physicalName="jms/activationRequestQueue" />
+
+		<!-- JMS queue definition to handle reply message -->
+		<amq:queue id="activationReplyQueue" physicalName="jms/activationReplyQueue" />
+
+		<!-- JMS queue definition to handle error message -->
+		<amq:queue id="activationErrorQueue" physicalName="jms/activationErrorQueue" />
+
+		<!-- JMS queue definition to handle error message -->
+		<amq:queue id="activationDeadLetterQueue" physicalName="jms/activationDeadLetterQueue" />
+
+	</beans>
+
+	<!-- Configuration d un gestionnaire local de transactions pour asyncTaskHandlingConnectionFactory -->
+	<!-- bean id="jmsTransactionManager" class="org.springframework.jms.connection.JmsTransactionManager"> 
+		<property name="connectionFactory" ref="asyncTaskHandlingConnectionFactory" 
+		/> </bean -->
+
+	<!-- FIXME: remove duplicated content from E:\workspaceProtoClaraV8Intellij\cloud-orange-paas\cloud-paas\cloud-paas-activation\src\test\resources\META-INF\spring\paas-activation-activiti-asynctaskhandling-context.xml -->
+
+</beans>

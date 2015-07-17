@@ -1,0 +1,346 @@
+/**
+ * Copyright (C) 2015 Orange
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.francetelecom.clara.cloud.test.database;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.francetelecom.clara.cloud.commons.TechnicalException;
+import com.orange.clara.cloud.dbaas.wsdl.data.CreateDatabaseResponseObject;
+import com.orange.clara.cloud.dbaas.wsdl.data.DatabaseUserInfo;
+import com.orange.clara.cloud.dbaas.wsdl.data.JobInfo;
+import com.orange.clara.cloud.dbaas.wsdl.data.JobMessage;
+import com.orange.clara.cloud.dbaas.wsdl.enumeration.BackupPlanWsEnum;
+import com.orange.clara.cloud.dbaas.wsdl.enumeration.DatabaseUserTypeWsEnum;
+import com.orange.clara.cloud.dbaas.wsdl.enumeration.EngineWsEnum;
+import com.orange.clara.cloud.dbaas.wsdl.enumeration.JobStateWsEnum;
+import com.orange.clara.cloud.dbaas.wsdl.enumeration.NetworkZoneWsEnum;
+import com.orange.clara.cloud.dbaas.wsdl.enumeration.ServiceClassWsEnum;
+import com.orange.clara.cloud.dbaas.wsdl.enumeration.SloWsEnum;
+import com.orange.clara.cloud.dbaas.wsdl.enumeration.UsageWsEnum;
+import com.orange.clara.cloud.dbaas.wsdl.response.DescribeDatabaseResponse;
+import com.orange.clara.cloud.dbaas.wsdl.service.DbaasApiRemote;
+
+/**
+ * Simple facade to dbaas service
+ * Only create and delete operations used to create a database for test are implemented
+ */
+public class DbaasService {
+
+	private static Logger logger = LoggerFactory.getLogger(DbaasService.class.getName());
+
+	/**
+	 * dbaas url, usernamme, password and group name
+	 */
+	String dbaasUrl;
+	String dbaasUsername;
+	String dbaasPassword;
+	String dbaasGroupName = "elpaaso";
+	
+	/**
+	 * timeout to be used before considering that a dbaas operation timed-out
+	 */
+	long dbaasTimeout = 300000;
+
+	/**
+	 * Webservice stub
+	 */
+	DbaasApiRemote dbaasStub;
+	
+
+	/**
+	 * Random generator used to generate database name
+	 */
+	Random randomGenerator = new Random();
+
+	/**
+	 * @return dbaasUrl property
+	 */
+	public String getDbaasUrl() {
+		return dbaasUrl;
+	}
+	/**
+	 * set dbaasUrl property
+	 */
+	public void setDbaasUrl(String dbaasUrl) {
+		this.dbaasUrl = dbaasUrl;
+	}
+	/**
+	 * @return dbaasUsername property
+	 */
+	public String getDbaasUsername() {
+		return dbaasUsername;
+	}
+	/**
+	 * set dbaasUsername property
+	 */
+	public void setDbaasUsername(String dbaasUsername) {
+		this.dbaasUsername = dbaasUsername;
+	}
+	/**
+	 * @return dbaasPassword property
+	 */
+	public String getDbaasPassword() {
+		return dbaasPassword;
+	}
+	/**
+	 * set dbaasPassword property
+	 */
+	public void setDbaasPassword(String dbaasPassword) {
+		this.dbaasPassword = dbaasPassword;
+	}
+	public String getDbaasGroupName() {
+		return dbaasGroupName;
+	}
+	public void setDbaasGroupName(String dbaasGroupName) {
+		this.dbaasGroupName = dbaasGroupName;
+	}
+	/**
+	 * @return dbaasStub (dbaas webservice stub) property
+	 */
+	public DbaasApiRemote getDbaasStub() {
+		return dbaasStub;
+	}
+	/**
+	 * set dbaasStub (dbaas webservice stub) property
+	 */
+	public void setDbaasStub(DbaasApiRemote dbaasStub) {
+		this.dbaasStub = dbaasStub;
+	}
+	/**
+	 * @return dbaasTimeout property
+	 */
+	public long getDbaasTimeout() {
+		return dbaasTimeout;
+	}
+	/**
+	 * set dbaasTimeout property
+	 */
+	public void setDbaasTimeout(long dbaasTimeout) {
+		this.dbaasTimeout = dbaasTimeout;
+	}
+	/**
+	 * create dbaas web service stub
+	 */
+	private synchronized void createDbaasStub() {
+		logger.debug("Initializing DBaaS webservice stub");
+
+		JaxWsProxyFactoryBean factoryBean = new JaxWsProxyFactoryBean();
+
+		factoryBean.setServiceClass(DbaasApiRemote.class);
+		factoryBean.setAddress(dbaasUrl);
+		factoryBean.setPassword(dbaasPassword);
+		factoryBean.setUsername(dbaasUsername);
+
+		dbaasStub = factoryBean.create(DbaasApiRemote.class);
+	}
+	
+	/**
+	 * Request dbaas service to create a database corresponding to the DbaasDatabase database parameter The database host and host returned by dbaas service are
+	 * updated on the database parameter The database name is generated and set on the database parameter if it was null
+	 * 
+	 * @param database
+	 */
+	public void createDatabase(DbaasDatabase database) {
+		if(dbaasStub == null) createDbaasStub();
+		if (database.getHost() != null && database.getPort() != null) {
+			// Database is already created
+			return;
+		}
+
+		String name = database.getName();
+		if (name == null) logger.info("Database name is not set and will be generated by dbaas");
+		ServiceClassWsEnum serviceClass = ServiceClassWsEnum.XXXS;
+		int size = 1;
+		EngineWsEnum engine = database.getEngine();
+		String engineVersion = null; // use default
+		boolean autoUpgrade = true;
+		SloWsEnum slo = SloWsEnum.STANDARD;
+		boolean sox = false;
+		UsageWsEnum usage = UsageWsEnum.DEVTEST;
+		String datacenter = "Default";
+		NetworkZoneWsEnum networkZone = NetworkZoneWsEnum.RSC;
+		String dbSecurityGroup = "";
+		String databaseParametersSetName = "Default";
+		String maintenanceWindow = "Sun:20:00-04";
+		BackupPlanWsEnum backupPlan = BackupPlanWsEnum.NONE;
+		String backupWindow = "22:00-04";
+		String description = database.getDescription();
+
+		List<DatabaseUserInfo> users = new ArrayList<DatabaseUserInfo>();
+		DatabaseUserInfo user = new DatabaseUserInfo();
+		user.setLogin(database.getUser());
+		user.setPassword(database.getPassword());
+		user.setDatabaseUserType(DatabaseUserTypeWsEnum.OWNER);
+		users.add(user);
+
+		CreateDatabaseResponseObject taskObject = null; // do not use task id to check if creation is started
+
+		try {
+			logger.info("Creating database - " + " databaseName: " + name + " databaseUser: " + database.getUser() + " databasePassword: "
+					+ database.getPassword());
+			taskObject = dbaasStub.createDatabase(name, this.dbaasGroupName, size, serviceClass, engine, engineVersion, users, slo, sox, usage,
+					datacenter, networkZone, dbSecurityGroup, databaseParametersSetName, maintenanceWindow, backupPlan, backupWindow, autoUpgrade, description);
+		} catch(Exception e) {
+				throw new TechnicalException("dbaas failure " + e.getMessage(), e);
+		}
+		
+		// Name was not set and has been generated by dbaas
+		if(name==null) {
+			logger.info("Database name generated by dbaas: " + taskObject.getDatabaseName());
+			database.setName(taskObject.getDatabaseName());
+		}
+		logger.info("Database UUId generated by dbaas: " + taskObject.getDatabaseUUId());
+		database.setUUId(taskObject.getDatabaseUUId());
+
+		// Wait for creation task to be completed
+		boolean databaseCreationFailure = true;
+		String databaseCreationErrorMessage = "Database creation timeout: database " + database.getName() + " still not created after "
+				+ this.getDbaasTimeout() / 1000 + " s";
+		boolean completed = false;
+		try {
+			long timeout = this.getDbaasTimeout();
+			long timeLimit = System.currentTimeMillis() + timeout;
+			while (!completed && System.currentTimeMillis() < timeLimit) {
+				JobStateWsEnum jobstate = dbaasStub.getJobState(taskObject.getJobId());
+				switch (jobstate) {
+				case FINISHED:
+					completed = true;
+					databaseCreationFailure = false;
+					break;
+				case CANCELLED:
+				case ERROR:
+					completed = true;
+					databaseCreationFailure = true;
+					JobInfo job = dbaasStub.getJob(taskObject.getJobId());
+					for (JobMessage message : job.getMessages()) {
+						databaseCreationErrorMessage += message.getMessage() + "\n";
+					}
+					break;
+				case PROCESSING:
+				case WAITING:
+				case SCHEDULED:
+				default:
+					long sleepTime = Math.min(5000, Math.max(0,(timeLimit-System.currentTimeMillis())));
+					logger.debug("Creating database " + database.getName() + "...");
+					Thread.sleep(sleepTime);
+					break;
+				}
+			}
+		} catch (Exception e) {
+			logger.error("dbaas failure: ", e.getMessage());
+			throw new TechnicalException("dbaas failure " + e.getMessage(), e);
+		}
+
+		// If creation job failed, throw an exception
+		if (databaseCreationFailure) {
+			logger.error(databaseCreationErrorMessage);
+			// Database creation not completed nor in error => timeout : try to delete it to avoid after resource leak
+			if(!completed) {
+				logger.info("request dbaas to delete database " + database.getName());
+				try {
+					dbaasStub.deleteDatabase(database.getUUId());
+				} catch(Exception e) {
+					logger.error("Exception while requesting dbaas to delete database " + database.getName() + ": " + e.getMessage(), e);
+				}
+			}
+			throw new TechnicalException(databaseCreationErrorMessage);
+		}
+
+		// Fetch database ip and port
+		try {
+			DescribeDatabaseResponse describeDatabase = dbaasStub.describeDatabase(database.getUUId());
+			database.setHost(describeDatabase.getEndPointFQDN());
+			database.setPort(describeDatabase.getEndPointTCPPort());
+		} catch (Exception e) {
+			logger.error("dbaas failure: ", e.getMessage());
+			throw new TechnicalException("dbaas failure " + e.getMessage(), e);
+		} 
+
+	}
+
+	/**
+	 * Request dbaas service to delete a database
+	 * 
+	 * @param database
+	 */
+	public void deleteDatabase(DbaasDatabase database) {
+		if(dbaasStub == null) createDbaasStub();
+		
+		String databaseUUId = database.getUUId();
+		
+		if( database.getHost() == null || database.getPort() == null) {
+			logger.warn("database has not be created : host and/or port ar not set; delete operation is ignored");
+			return;
+		}
+		if (databaseUUId == null) {
+			throw new TechnicalException("databaseUUId is a required parameter");
+		}
+		
+		logger.info("Deleting database - databaseUUId: " + databaseUUId);
+
+		boolean dbaasFailure = true;
+		String dbaasErrorMessage = "Database delete timeout";
+		try {
+			int jobId = dbaasStub.deleteDatabase(databaseUUId);
+			
+			boolean completed = false;
+			long timeout = getDbaasTimeout();
+			long timeLimit = System.currentTimeMillis()+timeout;
+			while (!completed && System.currentTimeMillis() < timeLimit) {
+				JobStateWsEnum jobState = dbaasStub.getJobState(jobId);
+				switch (jobState) {
+				case FINISHED:
+					completed = true;
+					dbaasFailure = false;
+					break;
+				case CANCELLED:
+				case ERROR:
+					completed = true;
+					dbaasFailure = true;
+					dbaasErrorMessage = "";
+					JobInfo job = dbaasStub.getJob(jobId);
+					for (JobMessage message : job.getMessages()) {
+						dbaasErrorMessage += message.getMessage() + "\n";
+					}
+					break;
+				case PROCESSING:
+				case WAITING:
+				case SCHEDULED:
+				default:
+					logger.debug("Deleting database " + database.getName() + "...");
+					long sleepTime = Math.min(5000, (timeLimit-System.currentTimeMillis()));
+					Thread.sleep(sleepTime);
+					break;
+				}
+			}
+		} catch (Exception e) {
+			logger.error("unable to delete database "+e.getMessage());
+			throw new TechnicalException("Unable to delete database", e);
+		}
+		
+		if(dbaasFailure) {
+			logger.error(dbaasErrorMessage);
+			throw new TechnicalException(dbaasErrorMessage);
+		}
+		// Set database object as deleted
+		database.setDeleted(true);
+	}
+
+
+}

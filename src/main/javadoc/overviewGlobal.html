@@ -1,0 +1,97 @@
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>clara-paas-aggregate overview</title>
+</head>
+<body>
+ The clara-paas-aggregate is the entry point for the paas.
+
+ The high-level metaphor for the project is:
+ <img src="http://www.plantuml.com:80/plantuml/img/XL913e8m4BoJ-8SD5q_ym9XuzA8andWWXDIoWIgqJLky6Fuk440AHM_TwSpixcGbeK-I8VYX4Y-Mej8-l3SUG7Gv7q8u2MLoE8J7kCDkU8Th-wwRSkE5evYGGQTHlHZ5X4W60KH3oKfPM1uG1FifsTLpoUbOL2XCIf5YxrY8Z55Iz13iWYLbKhV_yxwsGmSPf3cVWrA91rB318_xMOIYEMgZI0_EeKGMLSQu7lXM7jr-jgcRiXnckze8N09OStRC_uyrMQc6Tgtn38xVCsWIvxego-QWnkZIYXhj36uoVDjkhlt5jNph3m00" />
+
+ The metaphor translates into the following packages and maven modules. Each provide additional detailed documentation
+ <ul>
+     <li> {@link com.francetelecom.clara.cloud.presentation.applications Web Ui}</li>
+     <li> {@link com.francetelecom.clara.cloud.providersoap Soap North Api}</li>
+     <li> {@link com.francetelecom.clara.cloud.environment service_api}</li>
+     <li>{@link com.francetelecom.clara.cloud.environment.impl service_impl}</li>
+
+     <li>{@link com.francetelecom.clara.cloud.coremodel core_model}</li>
+     <li>{@link com.francetelecom.clara.cloud.logicalmodel logical_model}</li>
+     <li>{@link com.francetelecom.clara.cloud.model technical_model}</li>
+     <li>{@link com.francetelecom.clara.cloud.paas.projection projection}</li>
+
+     <li>{@link com.francetelecom.clara.cloud.paas.activation orchestration}</li>
+     <li>{@link com.francetelecom.clara.cloud.iaas orchestration-plugins}
+         <ul>
+             <li>{@link com.francetelecom.clara.cloud.dbaasconsumer dbaas-consumer}</li>
+         </ul>
+     </li>
+ </ul>
+
+ <!--
+Source of the metaphor diagram
+@startuml
+
+' more details on syntax at http://plantuml.sourceforge.net/component.html
+' some automatically generated class diagrams at http://plantuml.sourceforge.net/doclet.html
+' integrate plantuml during javadoc generation: http://plantuml.sourceforge.net/javadoc.html
+' invoke plantuml using maven https://github.com/jeluard/maven-plantuml-plugin
+' also support as experimental support with urls  directly in the diagram, to have relative hrefs to subpackages
+
+package "Providers" {
+[SOAP North API]
+[Web UI]
+}
+
+Package "Paas" {
+service_api - [service_impl]
+[Web UI] --> service_api
+ [SOAP North API] --> service_api
+
+ [core_model]
+ [logical_model] <- [core_model]
+ [core_model] <- service_api
+ [logical_model]
+ [technical_model]
+ [projection]
+
+ [orchestration]
+ [orchestration_plugins]
+
+ [service_impl] --> [projection]
+ [service_impl] --> [technical_model]
+ '  [orchestration_plugins] -> [technical_model]
+ [service_impl] --> [orchestration]
+ [service_impl] --> [orchestration_plugins]
+ }
+
+ Package "Iaas" {
+ [consummers]
+ [products]
+
+ [orchestration_plugins] --> [consummers]
+ [orchestration_plugins] --> [products]
+
+ }
+
+ @enduml
+-->
+
+</body>
+</html>

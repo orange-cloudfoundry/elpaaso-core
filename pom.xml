@@ -1,0 +1,1352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.orange.clara.cloud</groupId>
+        <artifactId>cloud-plugins-management</artifactId>
+        <version>3.0.0-SNAPSHOT</version>
+        <relativePath/>
+    </parent>
+    <!-- NOTE: group id must be duplicated even if it is the same as the parent
+        one; if not, sonar plugin for jenkins generates incorrect urls -->
+    <artifactId>elpaaso-core</artifactId>
+    <version>3.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>${project.artifactId} - Parent Module for Orange Platform As A Service (El Paaso Project)</name>
+    <description>Parent Module for Orange Platform As A Service (El Paaso Project)</description>
+
+    <issueManagement>
+        <system>Github</system>
+        <url>https://github.com/Orange-OpenSource/elpaaso-core/issues</url>
+    </issueManagement>
+    <ciManagement>
+        <system>Travis</system>
+        <url>https://travis-ci.org/Orange-OpenSource/elpaaso-core</url>
+    </ciManagement>
+    <scm>
+        <connection>scm:git:https://github.com/Orange-OpenSource/elpaaso-core.git</connection>
+        <developerConnection>scm:git:https://github.com/Orange-OpenSource/elpaaso-core.git</developerConnection>
+        <url>https://github.com/Orange-OpenSource/elpaaso-core</url>
+    </scm>
+    <inceptionYear>2015</inceptionYear>
+
+    <repositories>
+        <repository>
+            <id>bintray</id>
+            <name>JCenter-Bintray</name>
+            <url>http://jcenter.bintray.com</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>jfrog-oss-snapshots</id>
+            <name>JFrog OSS Snapshots</name>
+            <url>http://oss.jfrog.org/artifactory/oss-snapshot-local</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    <properties>
+        <!-- == Project env == -->
+        <project.build.java.version>1.8</project.build.java.version>
+        <!--<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> -->
+        <project.build.sourceEncoding>ISO-8859-15</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- unit tests are skipped when skipTests = true or skipUTs=true -->
+        <!-- see surefire configuration for further details -->
+        <skipUTs>${skipTests}</skipUTs>
+        <skipITs>true</skipITs>
+        <skipATs>true</skipATs>
+        <!-- version of PaaS sample apps; used in several modules (e.g. logical-model,
+            paas-services-int, cloud-mvn-consumer) -->
+        <wsdl.administration.version>5.0-SNAPSHOT</wsdl.administration.version>
+        <wsdl.environment.version>4.0-SNAPSHOT</wsdl.environment.version>
+        <wsdl.incubator.version>5.0-SNAPSHOT</wsdl.incubator.version>
+
+        <!-- dbaas wsdl version -->
+        <cloud-dbaas-wsdl.version>1.63-SNAPSHOT</cloud-dbaas-wsdl.version>
+
+        <spring-boot.version>1.2.4.RELEASE</spring-boot.version>
+
+        <!-- long line are converted to multi line and release plugin failed. So use intermediate variable as workaround -->
+        <release-plugin-ssl-arguments>-Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true
+        </release-plugin-ssl-arguments>
+        <release-plugin-notest-arguments>-DskipTests=true -DskipITs -DskipATs</release-plugin-notest-arguments>
+
+        <!-- ======================================================-->
+        <!-- ======================================================-->
+        <!-- ======================================================-->
+        <!-- ======================================================-->
+
+
+        <togglz.version>1.1.1.Final</togglz.version>
+
+
+        <!-- == JEE specs versions == -->
+        <mail.version>1.4.4</mail.version>
+        <hibernate-jpa-2.1-api.version>1.0.0.Final</hibernate-jpa-2.1-api.version>
+        <geronimo-jms_1.1_spec.version>1.1.1</geronimo-jms_1.1_spec.version>
+
+        <javax.inject.version>1</javax.inject.version>
+
+        <!-- == Dependencies versions == -->
+        <spring-retry.version>1.1.2.RELEASE</spring-retry.version>
+        <aspectj.version>1.6.11</aspectj.version>
+        <jclouds.version>1.8.0</jclouds.version>
+
+        <!-- Persistence -->
+        <!-- actual (29/10/2014) is 5.1.3.Final -->
+        <hibernate-search.version>3.4.1.Final</hibernate-search.version>
+        <!-- actual (29/10/2014) is 4.5.1.Final -->
+        <ehcache.version>2.6.7</ehcache.version>
+        <cglib.version>2.2.2</cglib.version>
+        <p6spy.version>1.3</p6spy.version>
+        <postgresql.version>9.0-801.jdbc4</postgresql.version>
+        <mysql-connector.version>5.1.21</mysql-connector.version>
+        <hsqldb.version>2.2.9</hsqldb.version>
+        <h2.version>1.4.180</h2.version>
+        <commons-pool.version>1.5.6</commons-pool.version>
+
+        <!-- WS -->
+        <cxf.version>2.7.12</cxf.version>
+
+        <!-- XML/JSon -->
+        <jaxp-api.version>1.4.2</jaxp-api.version>
+        <jdom.version>1.1</jdom.version>
+        <xstream.version>1.4.3</xstream.version>
+        <gson.version>2.2.4</gson.version>
+
+        <!-- cloudfoundry -->
+        <cloudfoundry-client-lib.version>1.1.4.BUILD-SNAPSHOT</cloudfoundry-client-lib.version>
+        <cfrouter-java.version>0.2.0</cfrouter-java.version>
+        <nats-client>0.6</nats-client>
+        <protobuf-java.version>2.6.1</protobuf-java.version>
+
+
+        <!-- Web -->
+        <wicket.version>6.19.0</wicket.version>
+        <clara.wicket.widget>1.3.6</clara.wicket.widget>
+        <wicket-webjars.version>0.4.4</wicket-webjars.version>
+        <activemq.version>5.10.1</activemq.version>
+
+        <activiti.version>5.17.0</activiti.version>
+        <jasypt.version>1.9.0</jasypt.version>
+
+        <!-- Log dependencies -->
+        <!-- should ensure all versions are matching, for slf4j !!!-->
+        <slf4j.version>1.7.7</slf4j.version>
+
+
+        <!-- Utilities -->
+        <guava.version>13.0.1</guava.version>
+        <commons-collections.version>3.2.1</commons-collections.version>
+        <commons-compress.version>1.4.1</commons-compress.version>
+        <commons-configuration.version>1.9</commons-configuration.version>
+        <commons.lang3.version>3.2.1</commons.lang3.version>
+        <commons-lang2.version>2.6</commons-lang2.version>
+        <commons-io.version>2.4</commons-io.version>
+        <commons-beanutils.version>1.8.3</commons-beanutils.version>
+        <apache-httpclient.version>4.3.5</apache-httpclient.version>
+        <apache-httpclient-core.version>4.3.3</apache-httpclient-core.version>
+        <!-- Should be removed in favor of 4.2.2 -->
+        <commons.codec.version>1.6</commons.codec.version>
+        <dozer.version>5.3.2</dozer.version>
+        <jolokia.version>1.2.2</jolokia.version>
+        <hazelcast.version>3.1.5</hazelcast.version>
+        <bcprov-jdk15on.version>1.52</bcprov-jdk15on.version>
+
+
+        <!-- Test dependencies -->
+        <xmlunit.version>1.3</xmlunit.version>
+        <festassert.version>1.4</festassert.version>
+        <cucumber.version>1.2.2</cucumber.version>
+        <spock.version>1.0-groovy-2.3</spock.version>
+
+        <festassert.version>1.4</festassert.version>
+        <spring-platform-bom.version>1.1.2.RELEASE</spring-platform-bom.version>
+        <!-- ======================================================-->
+    </properties>
+
+    <modules>
+        <module>cloud-commons-parent</module>
+        <module>cloud-mvn-consumer</module>
+        <module>cloud-technical-model</module>
+        <module>cloud-iaas</module>
+        <module>cloud-paas</module>
+        <module>cloud-paas-db</module>
+        <module>cloud-paas-test</module>
+        <module>cloud-cleaner</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <!-- override spring boot 1.2.4 liquibase version to avoid https://liquibase.jira.com/browse/CORE-2346 -->
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-core</artifactId>
+                <version>3.3.2</version>
+
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-parent</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.spring.platform</groupId>
+                <artifactId>platform-bom</artifactId>
+                <version>${spring-platform-bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-amqp</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-jpa</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-cloud-connectors</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-remote-shell</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-integration</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>${spring-boot.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud.cloudfoundry</groupId>
+                <artifactId>cloudfoundry-client-lib</artifactId>
+                <version>${cloudfoundry-client-lib.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java</artifactId>
+                <version>${protobuf-java.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.xbean</groupId>
+                <artifactId>xbean-spring</artifactId>
+                <version>4.1</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.retry</groupId>
+                <artifactId>spring-retry</artifactId>
+                <version>${spring-retry.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-config-client</artifactId>
+                <version>1.0.0.RELEASE</version>
+            </dependency>
+            <dependency>
+                <!-- The Spring Test library seems to require JCL (jakarta-commons-logging) as it was throwing the following exception:
+    java.lang.NoClassDefFoundError: org/apache/commons/logging/LogFactory  -->
+
+                <groupId>org.slf4j</groupId>
+                <artifactId>jcl-over-slf4j</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.mail</groupId>
+                <artifactId>mail</artifactId>
+                <version>${mail.version}</version>
+            </dependency>
+
+
+            <!-- Crypto -->
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk15on</artifactId>
+                <version>${bcprov-jdk15on.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcpkix-jdk15on</artifactId>
+                <version>${bcprov-jdk15on.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jasypt</groupId>
+                <artifactId>jasypt</artifactId>
+                <version>${jasypt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jasypt</groupId>
+                <artifactId>jasypt-spring31</artifactId>
+                <version>${jasypt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jasypt</groupId>
+                <artifactId>jasypt-hibernate4</artifactId>
+                <version>${jasypt.version}</version>
+            </dependency>
+
+            <dependency>
+                <!-- version 2.2.0-b21 is a Injection API (JSR 330) version 1 repackaged as OSGi bundle -->
+                <groupId>javax.inject</groupId>
+                <artifactId>javax.inject</artifactId>
+                <version>${javax.inject.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jolokia</groupId>
+                <artifactId>jolokia-war</artifactId>
+                <version>${jolokia.version}</version>
+                <type>war</type>
+            </dependency>
+            <dependency>
+                <groupId>org.togglz</groupId>
+                <artifactId>togglz-core</artifactId>
+                <version>${togglz.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.togglz</groupId>
+                <artifactId>togglz-spring</artifactId>
+                <version>${togglz.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.togglz</groupId>
+                <artifactId>togglz-spring-security</artifactId>
+                <version>${togglz.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.togglz</groupId>
+                <artifactId>togglz-servlet</artifactId>
+                <version>${togglz.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.togglz</groupId>
+                <artifactId>togglz-testing</artifactId>
+                <version>${togglz.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.togglz</groupId>
+                <artifactId>togglz-junit</artifactId>
+                <version>${togglz.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.togglz</groupId>
+                <artifactId>togglz-console</artifactId>
+                <version>${togglz.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.activiti</groupId>
+                <artifactId>activiti-spring</artifactId>
+                <version>${activiti.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.activiti</groupId>
+                <artifactId>activiti-bpmn-layout</artifactId>
+                <version>${activiti.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-jms_1.1_spec</artifactId>
+                <version>${geronimo-jms_1.1_spec.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.activemq</groupId>
+                <artifactId>activemq-kahadb-store</artifactId>
+                <version>${activemq.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.activemq</groupId>
+                <artifactId>activemq-spring</artifactId>
+                <version>${activemq.version}</version>
+            </dependency>
+
+            <!-- cglib is needed with spring because cxf is proxying classes -->
+            <dependency>
+                <groupId>cglib</groupId>
+                <artifactId>cglib-nodep</artifactId>
+                <version>${cglib.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.spockframework</groupId>
+                <artifactId>spock-core</artifactId>
+                <version>${spock.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.spockframework</groupId>
+                <artifactId>spock-spring</artifactId>
+                <version>${spock.version}</version>
+
+            </dependency>
+
+
+            <!-- JPA 2.1 specification -->
+            <dependency>
+                <groupId>org.hibernate.javax.persistence</groupId>
+                <artifactId>hibernate-jpa-2.1-api</artifactId>
+                <version>${hibernate-jpa-2.1-api.version}</version>
+            </dependency>
+
+
+            <!-- CXF-WS dependencies -->
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-frontend-jaxws</artifactId>
+                <version>${cxf.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-transports-http</artifactId>
+                <version>${cxf.version}</version>
+            </dependency>
+            <!-- Database drivers -->
+            <dependency>
+                <groupId>p6spy</groupId>
+                <artifactId>p6spy</artifactId>
+                <version>${p6spy.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector.version}</version>
+            </dependency>
+            <!-- hsqldb driver used for unit tests -->
+            <dependency>
+                <groupId>org.hsqldb</groupId>
+                <artifactId>hsqldb</artifactId>
+                <version>${hsqldb.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>commons-pool</groupId>
+                <artifactId>commons-pool</artifactId>
+                <version>${commons-pool.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>${commons-collections.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-compress</artifactId>
+                <version>${commons-compress.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-configuration</groupId>
+                <artifactId>commons-configuration</artifactId>
+                <version>${commons-configuration.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <!-- commons lang deprecated but still required by commons-configuration (LogicalConfigServiceUtils.java) -->
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>${commons-lang2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
+
+            <!-- -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons.lang3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>${commons-beanutils.version}</version>
+                <exclusions>
+                    <!-- use slf4j instead -->
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${apache-httpclient.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpmime</artifactId>
+                <version>${apache-httpclient.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpcore</artifactId>
+                <version>${apache-httpclient-core.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${commons.codec.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.dozer</groupId>
+                <artifactId>dozer</artifactId>
+                <version>${dozer.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
+            <!-- JSON dependencies -->
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${gson.version}</version>
+            </dependency>
+            <!-- This library is scoped as runtime so that it is included in the war and to avoid ClassNotFoundException: javax.xml.transform.stax.StAXSource with Jonas 5.2.x -->
+            <!-- Not needed with JBoss, this library is in the JDK -->
+            <dependency>
+                <groupId>javax.xml</groupId>
+                <artifactId>jaxp-api</artifactId>
+                <version>${jaxp-api.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jdom</groupId>
+                <artifactId>jdom</artifactId>
+                <version>${jdom.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.thoughtworks.xstream</groupId>
+                <artifactId>xstream</artifactId>
+                <version>${xstream.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.thoughtworks.xstream</groupId>
+                <artifactId>xstream-hibernate</artifactId>
+                <version>${xstream.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>hsqldb</groupId>
+                        <artifactId>hsqldb</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+
+            <!-- wicket dependencies -->
+            <dependency>
+                <groupId>de.agilecoders.wicket.webjars</groupId>
+                <artifactId>wicket-webjars</artifactId>
+                <version>${wicket-webjars.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>codemirror</artifactId>
+                <version>4.3</version>
+            </dependency>
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>jquery-blockui</artifactId>
+                <version>2.65</version>
+            </dependency>
+            <dependency>
+                <groupId>com.francetelecom.clara.component</groupId>
+                <artifactId>wicket-app-core-widget</artifactId>
+                <version>${clara.wicket.widget}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.wicket</groupId>
+                <artifactId>wicket</artifactId>
+                <version>${wicket.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.wicket</groupId>
+                <artifactId>wicket-extensions</artifactId>
+                <version>${wicket.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.wicket</groupId>
+                <artifactId>wicket-datetime</artifactId>
+                <version>${wicket.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.wicket</groupId>
+                <artifactId>wicket-jmx</artifactId>
+                <version>${wicket.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.wicket</groupId>
+                <artifactId>wicket-core</artifactId>
+                <version>${wicket.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.wicket</groupId>
+                <artifactId>wicket-spring</artifactId>
+                <version>${wicket.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.wicketstuff</groupId>
+                <artifactId>wicketstuff-annotation</artifactId>
+                <version>${wicket.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.wicket</groupId>
+                <artifactId>wicket-bean-validation</artifactId>
+                <version>${wicket.version}</version>
+            </dependency>
+            <!-- wicket dependencies -->
+            <dependency>
+                <groupId>org.apache.wicket</groupId>
+                <artifactId>wicket-ioc</artifactId>
+                <version>${wicket.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.wicket</groupId>
+                <artifactId>wicket-auth-roles</artifactId>
+                <version>${wicket.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.wicket</groupId>
+                <artifactId>wicket-request</artifactId>
+                <version>${wicket.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.wicket</groupId>
+                <artifactId>wicket-util</artifactId>
+                <version>${wicket.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.wicket</groupId>
+                <artifactId>wicket-guice</artifactId>
+                <version>${wicket.version}</version>
+            </dependency>
+
+            <!-- Jclouds library -->
+            <dependency>
+                <groupId>org.jclouds</groupId>
+                <artifactId>jclouds-core</artifactId>
+                <version>${jclouds.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jclouds</groupId>
+                <artifactId>jclouds-blobstore</artifactId>
+                <version>${jclouds.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jclouds.driver</groupId>
+                <artifactId>jclouds-slf4j</artifactId>
+                <version>${jclouds.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.gberche</groupId>
+                <artifactId>cfrouter-java</artifactId>
+                <version>${cfrouter-java.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.cloudfoundry-community</groupId>
+                <artifactId>nats-client-spring</artifactId>
+                <version>${nats-client}</version>
+            </dependency>
+
+            <!-- Test dependencies -->
+            <dependency>
+                <groupId>xmlunit</groupId>
+                <artifactId>xmlunit</artifactId>
+                <version>${xmlunit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.easytesting</groupId>
+                <artifactId>fest-assert</artifactId>
+                <version>${festassert.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- aop -->
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjtools</artifactId>
+                <version>${aspectj.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>${aspectj.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjrt</artifactId>
+                <version>${aspectj.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>info.cukes</groupId>
+                <artifactId>cucumber-java8</artifactId>
+                <version>${cucumber.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>info.cukes</groupId>
+                <artifactId>cucumber-spring</artifactId>
+                <version>${cucumber.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>info.cukes</groupId>
+                <artifactId>cucumber-picocontainer</artifactId>
+                <version>${cucumber.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>info.cukes</groupId>
+                <artifactId>cucumber-junit</artifactId>
+                <version>${cucumber.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- ===================== -->
+            <!-- Clara Cloud libraries -->
+            <!-- ===================== -->
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-cleaner</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-technical-model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-technical-model</artifactId>
+                <type>test-jar</type>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-paas-logical-model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-paas-logical-model</artifactId>
+                <type>test-jar</type>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-paas-daos</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-paas-test-database</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-commons</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <!-- For P6SpyAppender -->
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-commons</artifactId>
+                <type>test-jar</type>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-paas-projection</artifactId>
+                <version>${project.version}</version>
+                <type>test-jar</type>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-paas-projection</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-paas-activation</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-paas-activation</artifactId>
+                <version>${project.version}</version>
+                <type>test-jar</type>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-paas-activation-v1-impl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-paas-activation-v1-impl</artifactId>
+                <version>${project.version}</version>
+                <type>test-jar</type>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-paas-activation-stubbed-impl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-mvn-consumer</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-paas-archive</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-mvn-consumer</artifactId>
+                <type>test-jar</type>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-commons-test-configurations</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-paas-orchestration-integration</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-paas-webapp-ear-mocks</artifactId>
+                <version>${project.version}</version>
+                <type>ear</type>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-paas-webapp-ear</artifactId>
+                <version>${project.version}</version>
+                <type>ear</type>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-paas-services</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-paas-daos-impl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-paas-core-model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-paas-core-model</artifactId>
+                <type>test-jar</type>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-paas-constraint</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-paas-services-dto</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-paas-services-impl</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-iaas-cloudfoundry-consumer</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-iaas-dbaas-consumer-v2</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-paas-ws-provider</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-paas-ws-administration-wsdl</artifactId>
+                <version>${wsdl.administration.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-paas-ws-environment-wsdl</artifactId>
+                <version>${wsdl.environment.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-paas-ws-incubator-wsdl</artifactId>
+                <version>${wsdl.incubator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-paas-services-mocks</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>cloud-paas-webapp-war</artifactId>
+                <version>${project.version}</version>
+                <type>war</type>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-paas-db</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.orange.clara.cloud</groupId>
+                <artifactId>cloud-paas-webapp-crash</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- Test -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.easytesting</groupId>
+            <artifactId>fest-assert</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <!-- The Spring Test library seems to require JCL (jakarta-commons-logging) as it was throwing the following exception:
+java.lang.NoClassDefFoundError: org/apache/commons/logging/LogFactory  -->
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- end Test -->
+    </dependencies>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <configuration>
+                        <autoVersionSubmodules>true</autoVersionSubmodules>
+                        <!-- Goals to run as part of the preparation step -->
+                        <preparationGoals>clean</preparationGoals>
+                        <!-- goals to execute on deployment -->
+                        <goals>deploy</goals>
+                        <arguments>${release-plugin-notest-arguments} ${release-plugin-ssl-arguments}</arguments>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <configuration>
+                        <deployAtEnd>true</deployAtEnd>
+                    </configuration>
+                </plugin>
+                <!-- adds hudson build info jar manifest -->
+                <plugin>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <configuration>
+                        <archive>
+                            <manifestEntries>
+                                <Git-Commit-Id>${GIT_COMMIT}</Git-Commit-Id>
+                                <Build-Tag>${BUILD_TAG}</Build-Tag>
+                                <Build-Number>${BUILD_NUMBER}</Build-Number>
+                                <Build-Id>${BUILD_ID}</Build-Id>
+                            </manifestEntries>
+                        </archive>
+                    </configuration>
+                </plugin>
+                <!-- adds hudson build info into rar manifest -->
+                <plugin>
+                    <artifactId>maven-rar-plugin</artifactId>
+                    <configuration>
+                        <archive>
+                            <manifestEntries>
+                                <Git-Commit-Id>${GIT_COMMIT}</Git-Commit-Id>
+                                <Build-Tag>${BUILD_TAG}</Build-Tag>
+                                <Build-Number>${BUILD_NUMBER}</Build-Number>
+                                <Build-Id>${BUILD_ID}</Build-Id>
+                            </manifestEntries>
+                        </archive>
+                    </configuration>
+                </plugin>
+                <!-- adds hudson build info into ear manifest -->
+                <plugin>
+                    <artifactId>maven-ear-plugin</artifactId>
+                    <configuration>
+                        <version>1.4</version>
+                        <archive>
+                            <manifestEntries>
+                                <Git-Commit-Id>${GIT_COMMIT}</Git-Commit-Id>
+                                <Build-Tag>${BUILD_TAG}</Build-Tag>
+                                <Build-Number>${BUILD_NUMBER}</Build-Number>
+                                <Build-Id>${BUILD_ID}</Build-Id>
+                            </manifestEntries>
+                        </archive>
+                    </configuration>
+                </plugin>
+                <!-- adds hudson build info into war manifest -->
+                <plugin>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <configuration>
+                        <archive>
+                            <manifestEntries>
+                                <Git-Commit-Id>${GIT_COMMIT}</Git-Commit-Id>
+                                <Build-Tag>${BUILD_TAG}</Build-Tag>
+                                <Build-Number>${BUILD_NUMBER}</Build-Number>
+                                <Build-Id>${BUILD_ID}</Build-Id>
+                            </manifestEntries>
+                        </archive>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                            <configuration>
+                                <!-- Fork to be sure that context are clean (avoid transaction problems) -->
+                                <!-- ForkMode is DEPRECATED since version 2.14-->
+                                <!-- <forkMode>always</forkMode> => forkCount=1	(default), reuseForks=false -->
+                                <forkCount>1</forkCount>
+                                <reuseForks>false</reuseForks>
+                                <argLine>-Xmx768m</argLine>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <configuration>
+                        <!-- unit tests are skipped when skipTests = true or skipUTs=true -->
+                        <!-- see properties for further details -->
+                        <skipTests>${skipUTs}</skipTests>
+                        <argLine>-Xmx512m</argLine>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>com.mycila</groupId>
+                    <artifactId>license-maven-plugin</artifactId>
+                    <version>2.11</version>
+                    <configuration>
+                        <header>https://raw.githubusercontent.com/Orange-OpenSource/elpaaso/master/src/license/apache-2-custom-header.txt</header>
+                        <properties>
+                            <owner>Orange</owner>
+                        </properties>
+                        <excludes>
+                            <exclude>**.launch</exclude>
+                            <exclude>**/spy.log</exclude>
+                            <exclude>**/banner.txt</exclude>
+                            <exclude>LICENSE-2.0.txt</exclude>
+                            <exclude>**/infinitest.filters</exclude>
+                            <exclude>release note/**</exclude>
+                            <exclude>src/test/resources/**</exclude>
+                            <exclude>src/main/resources/crash/commands/base/**</exclude>
+                            <exclude>**/EOS-ElpaasoOpenSourceCheck.txt</exclude>
+                            <exclude>**/documentation/**</exclude>
+                            <!-- ignores version file generated on commit-stage -->
+                            <exclude>version.txt</exclude>
+                            <exclude>**/.mvn/**</exclude>
+                        </excludes>
+                        <useDefaultExcludes>true</useDefaultExcludes>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>${surefire.version}</version>
+                <configuration>
+                    <aggregate>true</aggregate>
+                    <showSuccess>false</showSuccess>
+                </configuration>
+
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>report-only</report>
+                            <report>failsafe-report-only</report>
+                        </reports>
+                    </reportSet>
+                    <reportSet>
+                        <id>default-report</id>
+                        <reports>
+                            <report>report-only</report>
+                            <report>failsafe-report-only</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.7</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>summary</report>
+                            <report>dependencies</report>
+                            <report>dependency-convergence</report>
+                            <report>project-team</report>
+                            <report>issue-tracking</report>
+                            <report>scm</report>
+                            <report>cim</report>
+                            <report>modules</report>
+                            <report>plugins</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>2.1</version>
+            </plugin>
+        </plugins>
+    </reporting>
+    <profiles>
+        <profile>
+            <id>jenkins-orange</id>
+            <properties>
+                <datacenter>hudson</datacenter>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.francetelecom.clara.cloud</groupId>
+                    <artifactId>elpaaso-credentials</artifactId>
+                    <version>1.0-SNAPSHOT</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <profile>
+            <id>license-check</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.mycila</groupId>
+                        <artifactId>license-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>license-check</id>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>license-add</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.mycila</groupId>
+                        <artifactId>license-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>license-add</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>format</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>license-remove</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.mycila</groupId>
+                        <artifactId>license-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>remove</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>

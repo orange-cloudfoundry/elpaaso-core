@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<context:annotation-config />
+
+	<aop:config>
+		<aop:pointcut id="servicePointcut"
+			expression="
+        	execution(* com.francetelecom.clara.cloud.application.*.create*(..))
+			OR execution(* com.francetelecom.clara.cloud.application.*.update*(..))
+			OR execution(* com.francetelecom.clara.cloud.application.*.delete*(..))
+			OR execution(* com.francetelecom.clara.cloud.application.*.grant*(..))
+			OR execution(* com.francetelecom.clara.cloud.application.*.*deploy*(..))
+			OR execution(* com.francetelecom.clara.cloud.environment.*.create*(..))
+			OR execution(* com.francetelecom.clara.cloud.environment.*.update*(..))
+			OR execution(* com.francetelecom.clara.cloud.environment.*.delete*(..))
+			OR execution(* com.francetelecom.clara.cloud.environment.*.start*(..))
+			OR execution(* com.francetelecom.clara.cloud.environment.*.stop*(..))
+			OR execution(* com.francetelecom.clara.cloud.deployment.*.deployOnPaas*(..))
+        " />
+		<aop:aspect id="loggingAspect" ref="aopLogger">
+			<aop:before method="logMethodEntry" pointcut-ref="servicePointcut" />
+			<aop:after-returning method="logMethodExit"
+				returning="result" pointcut-ref="servicePointcut" />
+		</aop:aspect>
+	</aop:config>
+
+	<bean id="aopLogger"
+		class="com.francetelecom.clara.cloud.presentation.tools.AOPLogger" />
+
+	<!-- when loaded in first position, this avoid jsch error on redeploy (but 
+		not CRaSH error) cf. anomalie #115298 -->
+	<import
+		resource="classpath:/META-INF/spring/crash-tool-${paas.ops.crash.enabled:disabled}-context.xml" />
+
+	<import resource="application-context-common.xml" />
+	<import resource="application-context-plugins.xml" />
+
+	<import resource="transaction-context.xml" />
+	
+
+	<!--<import resource="wicket-context.xml" />-->
+	<import resource="classpath:/META-INF/spring/toggles-context.xml" />
+
+	<context:component-scan base-package="com.orange.clara.cloud.cleaner.db"/>
+
+	<import resource="classpath:/META-INF/spring/liquibase-context.xml" />
+	<import
+		resource="classpath:/META-INF/spring/paas-activation-activiti-context.xml" />
+
+	<import resource="classpath*:services/*-logical-services.xml" />
+
+	<beans profile="!rabbitmq">
+		<import resource="jms-context.xml" />
+	</beans>
+
+</beans>

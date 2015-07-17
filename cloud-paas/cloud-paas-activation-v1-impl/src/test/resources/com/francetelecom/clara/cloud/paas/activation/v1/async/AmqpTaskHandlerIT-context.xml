@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jms="http://www.springframework.org/schema/jms"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:amq="http://activemq.apache.org/schema/core"
+	xmlns:rabbit="http://www.springframework.org/schema/rabbit" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
+		http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd
+		http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.4.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.1.xsd">
+
+	<!-- bean id="transactionManager" class="org.springframework.amqp.rabbit.transaction.RabbitTransactionManager" 
+		p:connectionFactory-ref="connectionFactory" / -->
+
+	<rabbit:connection-factory id="connectionFactory"
+		host="localhost" />
+
+	<rabbit:queue name="deadletter.queue" />
+
+	<rabbit:queue name="request.queue">
+		<rabbit:queue-arguments>
+			<entry key="x-dead-letter-exchange" value="deadletter.exchange" />
+			<entry key="x-dead-letter-routing-key" value="deadletter.queue" />
+		</rabbit:queue-arguments>
+	</rabbit:queue>
+	<rabbit:queue name="reply.queue">
+		<rabbit:queue-arguments>
+			<entry key="x-dead-letter-exchange" value="deadletter.exchange" />
+			<entry key="x-dead-letter-routing-key" value="deadletter.queue" />
+		</rabbit:queue-arguments>
+	</rabbit:queue>
+	<rabbit:queue name="error.queue">
+		<rabbit:queue-arguments>
+			<entry key="x-dead-letter-exchange" value="deadletter.exchange" />
+			<entry key="x-dead-letter-routing-key" value="deadletter.queue" />
+		</rabbit:queue-arguments>
+	</rabbit:queue>
+
+
+	<rabbit:direct-exchange name="request.exchange">
+		<rabbit:bindings>
+			<rabbit:binding queue="request.queue" />
+		</rabbit:bindings>
+	</rabbit:direct-exchange>
+
+	<rabbit:direct-exchange name="reply.exchange">
+		<rabbit:bindings>
+			<rabbit:binding queue="reply.queue" />
+		</rabbit:bindings>
+	</rabbit:direct-exchange>
+
+	<rabbit:direct-exchange name="error.exchange">
+		<rabbit:bindings>
+			<rabbit:binding queue="error.queue" />
+		</rabbit:bindings>
+	</rabbit:direct-exchange>
+
+	<rabbit:direct-exchange name="deadletter.exchange">
+		<rabbit:bindings>
+			<rabbit:binding queue="deadletter.queue" />
+		</rabbit:bindings>
+	</rabbit:direct-exchange>
+
+	<!-- SimpleTaskHandler to handle async request/reply with polling pattern 
+		for myBackend -->
+	<bean id="myBackendSimpleTaskHandler"
+		class="com.francetelecom.clara.cloud.paas.activation.v1.async.AmqpTaskHandler">
+		<property name="taskHandlerCallback" ref="myBackendTaskHandlerCallback" />
+		<property name="amqpRequestTemplate">
+			<rabbit:template exchange="request.exchange"
+				routing-key="request.queue" channel-transacted="true"
+				connection-factory="connectionFactory" />
+		</property>
+		<property name="amqpReplyTemplate">
+			<rabbit:template exchange="reply.exchange"
+				routing-key="reply.queue" connection-factory="connectionFactory"
+				channel-transacted="true" />
+		</property>
+		<property name="amqpErrorTemplate">
+			<rabbit:template exchange="error.exchange"
+				routing-key="error.queue" connection-factory="connectionFactory"
+				channel-transacted="true" />
+		</property>
+	</bean>
+
+	<!-- this is the Message Driven POJO (MDP) -->
+	<bean id="myBackendRetryableMessageListener"
+		class="com.francetelecom.clara.cloud.paas.activation.v1.async.listener.amqp.RetryableMessageListener">
+		<property name="taskHandler" ref="myBackendSimpleTaskHandler" />
+	</bean>
+
+	<!-- this is the Message Driven POJO (MDP) -->
+	<bean id="myBackendReplyMessageListener"
+		class="com.francetelecom.clara.cloud.paas.activation.v1.async.listener.amqp.ReplyMessageListener">
+		<property name="taskHandler" ref="myBackendSimpleTaskHandler" />
+	</bean>
+
+	<!-- this is the Message Driven POJO (MDP) -->
+	<bean id="myBackendErrorMessageListener"
+		class="com.francetelecom.clara.cloud.paas.activation.v1.async.listener.amqp.ErrorMessageListener">
+		<property name="taskHandler" ref="myBackendSimpleTaskHandler" />
+	</bean>
+
+	<!-- this is the Message Driven POJO (MDP) -->
+	<bean id="myBackendUnexpectedErrorMessageListener"
+		class="com.francetelecom.clara.cloud.paas.activation.v1.async.listener.amqp.UnexpectedErrorMessageListener">
+		<property name="amqpErrorTemplate">
+			<rabbit:template exchange="error.exchange" routing-key="error.queue"
+				connection-factory="connectionFactory" channel-transacted="true" />
+		</property>
+	</bean>
+
+	<!-- handles Message Driven POJO (MDP) -->
+	<!-- missing this attribute ? transaction-manager="jmsTransactionManager"> -->
+	<rabbit:listener-container
+		connection-factory="connectionFactory" acknowledge="auto" concurrency="1"
+		advice-chain="retryInterceptor">
+		<rabbit:listener queue-names="request.queue"
+			ref="myBackendRetryableMessageListener" />
+		<rabbit:listener queue-names="reply.queue"
+			ref="myBackendReplyMessageListener" />
+		<rabbit:listener queue-names="error.queue"
+			ref="myBackendErrorMessageListener" />
+		<rabbit:listener queue-names="deadletter.queue"
+			ref="myBackendUnexpectedErrorMessageListener" />
+	</rabbit:listener-container>
+
+	<bean id="retryInterceptor"
+		class="org.springframework.amqp.rabbit.config.StatefulRetryOperationsInterceptorFactoryBean">
+		<property name="messageRecoverer" ref="rejectAndDontRequeueRecoverer" />
+		<property name="retryOperations" ref="retryTemplate" />
+	</bean>
+
+	<bean id="rejectAndDontRequeueRecoverer"
+		class="org.springframework.amqp.rabbit.retry.RejectAndDontRequeueRecoverer" />
+
+	<bean id="retryTemplate" class="org.springframework.retry.support.RetryTemplate">
+		<property name="retryPolicy">
+			<bean class="org.springframework.retry.policy.SimpleRetryPolicy">
+				<property name="maxAttempts" value="2" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- this is a mock -->
+	<bean id="myBackendTaskHandlerCallback" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg
+			value="com.francetelecom.clara.cloud.paas.activation.v1.async.TaskHandlerCallback" />
+	</bean>
+
+</beans>

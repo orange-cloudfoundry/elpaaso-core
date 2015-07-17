@@ -1,0 +1,668 @@
+/**
+ * Copyright (C) 2015 Orange
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * CSS file : designer
+ * please check it using W3C Validator : http://jigsaw.w3.org/css-validator/#validate_by_input
+ */
+.service_section {
+  border: 1px dashed #CACACA;
+  margin:auto;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius:.25em;
+  -webkit-border-radius:.25em;
+  border-radius:.25em;
+}
+
+.sectionTitle {
+    font-weight: bold;
+    border: 0px;
+    margin-bottom: 10px;
+    height:18px;
+
+    /*padding: 3px;*/
+}
+
+.sectionTitleIcon {
+    background-image:url(images/common/arrowRight.gif);
+    background-repeat: no-repeat;
+    display:inline-block;
+    float:left;
+    width:16px;
+    height:16px;
+    position:relative;
+    top:3px;
+    left:3px;
+}
+
+.sectionTitle h2 {
+    vertical-align: middle;
+    position:relative;
+    top:3px;
+    left:3px;
+}
+
+
+.service_select {
+  /* debug border: 2px solid yellow; */
+  display: block;
+  float: left;
+  width: 19%;
+}
+.service_select select {
+  width: 100%;
+}
+
+
+
+.service_matrix {
+  /* debug  border: 2px solid red; */
+  margin-top: 0px;
+  margin-right: auto;
+  margin-bottom: 0px;
+  margin-left: auto;
+}
+
+.service_matrix table {
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.matrixLegend {
+    font-size: 10px;
+    margin-left:1em;
+}
+
+.logicalServiceActions {
+	display: inline-block;	
+}
+
+.matrixLegend span {
+    vertical-align: middle;
+}
+
+.svc_definition {
+  border: 1px dashed #CACACA;
+  padding-top: 2px;
+  padding-right: 10px;
+  padding-bottom: 7px;
+  padding-left: 2px;
+  vertical-align: top;
+}
+
+
+.svc_title {
+  font-weight:	bold;
+}
+
+.svc_title_old {
+  /* debug border: 5px solid blue; */
+  padding-left: 5px;
+  font-weight:	bold;
+  width:40%;
+  background-color: #FF8800
+}
+
+.svc_title_content{
+  /* debug border: 2px solid yellow; */
+  /*background: none;*/
+  /*background-position: right top;*/
+  background-repeat: repeat-x;
+  background-image: url("images/designer/menu_first_level_act_button.gif");
+  line-height: 40px;
+  color:white;
+  border-top-left-radius:.25em;
+  border-top-right-radius:.25em;
+  -webkit-border-radius:.25em;
+  border-radius:.25em;
+}
+
+.svc_title_content_old {
+  /* debug border: 2px solid yellow; */
+  background: none;
+  background-position: right top;
+  background-repeat: no-repeat;
+  background-image: url("images/designer/serviceRight.gif");
+  line-height: 32px;
+}
+
+.svc_img {
+    margin-left:5px;
+    margin-right:5px;
+}
+
+.svc_onlineHelp {
+  font-style: italic;
+}
+
+
+/* Non functional vs functional sections */
+.svc_label_category {
+  vertical-align: middle;
+  font-weight: bold;
+  /*background-color: whiteSmoke;*/
+  /*color: #6E6E6E;*/
+  padding: 0.5em 1.25em .25em .5em;
+  border-bottom: 1px solid #6E6E6E;
+  font-size: 0.92em;
+}
+
+.svc_label_category_old {
+  vertical-align: middle;
+  font-weight: bold;
+  background-color: whiteSmoke;
+  color: #6E6E6E;
+  padding: .25em 1.25em .25em .5em;
+  font-size: 0.92em;
+}
+
+.svc_mandatory {
+  text-align:  left;
+  width:       14em;
+  font-size:   11px;
+  font-weight: normal;
+  font-style:  normal;
+  color:	   #444444;
+  text-transform:	none;
+  text-decoration:	none;
+  letter-spacing:	normal;
+  word-spacing:	0;
+  line-height: 14px;
+}
+
+.svc_mandatory_code {
+  font-size: 11px;
+  font-weight: bold;
+  font-style:normal;
+  color:#FF5500;
+}
+
+.svc_mandatory_code_2 {
+  position: relative;
+  left : -1.3em;
+  float:left;
+  font-size: 11px;
+  font-weight: bold;
+  font-style:normal;
+  color:#FF5500;
+}
+
+.svc_label {
+  /*cursor:pointer;*/
+  float:left;
+  text-align:right;
+  width:14em;
+  line-height: 14px;
+  /** spaces between labels and inputs */
+  padding-right: 20px;
+}
+
+.svc_label_description {
+  line-height: 14px;
+  text-align:left;
+}
+
+.svc_description {
+  /*line-height: 14px;*/
+  text-align:left;
+}
+
+
+.svc_description_old {
+  line-height: 14px;
+  text-align:left;
+}
+
+.svc_form {
+  margin:10px;
+  outline-width:0;
+  vertical-align:baseline;
+}
+
+.svc_form_old {
+  border:0;
+  font-family:inherit;
+  font-size:100%;
+  font-style:inherit;
+  font-weight:inherit;
+  margin:0;
+  outline-width:0;
+  padding-bottom:0;
+  padding-left:10px;
+  padding-right:10px;
+  padding-top:0;
+  vertical-align:baseline;
+}
+
+.svc_field_size_e {
+  vertical-align:middle;
+}
+
+/**
+ * Boutons
+ */
+ button ::-moz-focus-inner {
+  border:0;
+  padding:0;
+}
+
+* html button.button_svc_add,
+* html button.button_svc_back {
+    overflow:visible;
+}
+
+.button_svc_add:hover,
+.button_svc_add:focus,
+.button_svc_back:hover,
+button_svc_back:focus {
+  color: #F60;
+  text-decoration: none;
+}
+
+.button_svc_add,
+.button_svc_back {
+  height: 1.6em;
+  position: relative;
+  display: -moz-inline-box;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
+  color: black;
+  font: bold 1em/1.2 Arial, Helvetica, sans-serif;
+  text-decoration: none;
+  text-transform: lowercase;
+  white-space: nowrap;
+  border: .08em solid #C1C1C1;
+  background: white;
+  cursor: pointer;
+  border-radius: .25em;
+  -webkit-border-radius: .25em;
+  border-radius: .25em;
+
+  -moz-box-shadow: .08em .08em .08em #7B7B7B;
+  -webkit-box-shadow: .08em .08em .08em #7B7B7B;
+  box-shadow: .08em .08em .08em #7B7B7B;
+}
+
+.button_svc_add span,
+.button_svc_back span {
+  height:1em;
+  padding: .15em .65em;
+  display: -moz-inline-box;
+  display: inline-block;
+  font-size: 1em;
+  line-height: 1.2;
+  border: .08em solid white;
+  border-radius: .25em;
+  -webkit-border-radius: .25em;
+  border-radius: .25em;
+  background: white url("images/orange/button_action_background.gif") repeat-x left bottom;
+}
+
+.button_svc_add span span,
+.button_svc_back span span {
+  height:1.6em;
+  font-size: 1em;
+  line-height: 1.2;
+  font-weight: bold;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  background: none;
+  background-position: left center;
+  background-repeat: no-repeat;
+  display: inline-block;
+}
+
+/* tab top left corner */
+.tables {
+ /* width: 100%; */
+  margin-bottom: .83em;
+  text-align: left;
+  border-spacing: 0;
+  border-bottom: .17em solid #DDD;
+}
+
+.cornerCell,
+.hColCell {
+  font-size: 0.92em;
+  text-align: left;
+  vertical-align: middle;
+  font-weight: bold;
+  /*background-color: #EFEFEF;*/
+  padding: .25em 1.25em .25em .5em;
+  border-left: .17em solid white;
+  border-right: .25em solid #DDD;
+  border-top: .17em solid white;
+  border-bottom: .25em solid #DDD;
+  white-space:normal;
+}
+
+.hColCell {
+  border-top: .25em solid #DDD !important;
+}
+
+.hRowCelleven,
+.hRowCellodd,
+.even,
+.odd {
+  padding: .25em 1.25em .25em .5em;
+  font-size: 0.92em;
+  text-align: left;
+  font-weight: normal;
+  white-space:normal;
+}
+
+/** first cell of a row */
+.hRowCelleven,
+.hRowCellodd {
+  vertical-align: middle;
+  text-align: right;
+}
+
+.hRowCelleven_old,
+.hRowCellodd_old {
+  vertical-align: top;
+  text-align: right;
+}
+
+.even,
+.odd {
+  /*vertical-align: middle;*/
+  text-align: center;
+}
+
+.even_old,
+.odd_old {
+  vertical-align: middle;
+  text-align: center;
+}
+
+/** even row got grey background */
+.hRowCelleven,
+.even {
+  background-color: #EFEFEF;
+}
+
+.hRowCell {
+    font-weight: bold;
+    border-left: .17em solid #DDD;
+}
+
+.externalSrvBckGrd {
+    background-color:#F9D4A9;
+    border-right: #DDD;
+    text-align: center;
+    vertical-align: middle;
+    border-bottom: 1px white solid;
+	border-right: 1px solid white;
+
+}
+
+.internalSrvBckGrd {
+    background-color: #DDD;
+    border-right: #F9D4A9;
+    text-align: center;
+    vertical-align: middle;
+    border-bottom: 1px solid white;
+	border-right: 1px solid white;
+}
+
+.internalSrvLegend {
+    display: inline-block;
+    width:16px;
+    height:16px;
+    background: url(images/designer/matrixInternalServiceLegend.png) no-repeat transparent;
+}
+
+.externalSrvLegend {
+    display: inline-block;
+    width:16px;
+    height:16px;
+    background: url(images/designer/matrixExternalServiceLegend.png) no-repeat transparent;
+}
+
+.svc_row {
+  /*line-height: 14px;*/
+  /** spaces between labels and inputs */
+    padding-right: 10px;
+    vertical-align: middle;
+    display: table-cell;
+    width: 100px;
+}
+
+.external {
+    background-color: #ccffcc;
+}
+
+.internal {
+    background-color: #ff11aa; /*!important*/
+}
+
+.notAvailable {
+  font-size:0.8em;
+  color: #6E6E6E;
+  font-style: italic;
+  /*display: inline;             *//* FF */
+  /*display: expression("none"); *//* IE */
+}
+
+
+
+.formCss p .CodeMirror span {
+    display: inline-table;
+    padding: 2px 0px 2px 0px;
+    font-size: 12px;
+    font-weight: initial;
+}
+
+.formCss p span {
+    display: table-cell;
+    padding: 5px;
+    display:inline-block;
+}
+
+span.notAvailableStar {
+  text-align:  left;
+  color:	   #6E6E6E;
+  font-weight: bold;
+  font-size: 1em;
+  padding-right: 20px !important;
+  width:6%;
+  /*text-transform:	none;*/
+  /*text-decoration:	none;*/
+  /*letter-spacing:	normal;*/
+  /*word-spacing:	0;*/
+  /*display: inline;              FF*/
+  /*display: expression("none");  IE*/
+
+  /*text-align:center;*/
+  /*color:red;*/
+
+}
+
+/** EXTERNAL SERVICES **/
+.LogicalWebGUIService {
+    background-image: url("images/designer/web-ui-icon.png");
+}
+
+.LogicalSoapConsumer {
+    background-image :url("images/designer/webservice-consumer.png");
+}
+
+.LogicalSoapService {
+    background-image :url("images/designer/webservice-provider.png");
+}
+
+
+.LogicalQueueReceiveService {
+    background-image :url("images/designer/queue-receive.png");
+}
+
+.LogicalQueueSendService {
+    background-image :url("images/designer/queue-send-icon.png");
+}
+
+/** INTERNAL SERVICES **/
+.LogicalRabbitService {
+    background-image :url("images/designer/rabbitmq-icon2.png");
+}
+
+.LogicalRelationalService {
+    background-image :url("images/designer/online-database-icon.png");
+}
+
+.LogicalOnlineStorageService {
+    background-image :url("images/designer/online-storage-icon.png");
+}
+
+.LogicalConfigService {
+    background-image :url("images/designer/config-icon.png");
+}
+
+.LogicalExecutionNode {
+    background-image :url("images/designer/jee-processing-icon.png");
+}
+
+.LogicalProcessingNode {
+    background-image :url("images/designer/jee-processing-icon.png");
+}
+
+.LogicalJeeProcessing {
+    background-image :url("images/designer/jee-processing-icon.png");
+}
+
+.LogicalCFJavaProcessing {
+    background-image :url("images/designer/cloudfoundry-icon.png");
+}
+
+.LogicalMomService {
+    background-image :url("images/designer/internal-mom-icon.png");
+}
+
+.logicalService {
+    height: 40px;
+    padding-left: 35px;
+    vertical-align: middle;
+    text-align: left;
+    background-position: left center;
+    background-repeat: no-repeat;
+}
+
+.matrixActionIconSpan {
+    display: table-cell;
+}
+
+.matrixRowHeader {
+    display:table-row;
+}
+
+form.formCss {
+    text-align: left;
+    background-color: #EEEEEE;
+    border-radius:.25em;
+    -webkit-border-radius:.25em;
+    border-radius:.25em;
+    margin:0;
+    padding: 0;
+    width: 100%;
+}
+
+div.svc_form p.content span.param textarea {
+    overflow:scroll;
+    width:100%;
+	min-width:500px !important;
+	min-height:30em !important;
+    margin: auto;
+}
+
+div.svc_form p.content span.param {
+    text-align:right;
+    min-width: 32%;
+    vertical-align: top;
+}
+
+div.svc_form p.content span.required {
+    text-align:left;
+    color:red;
+    font-weight: bold;
+    font-size: 1em;
+    width:5%;
+    vertical-align:top;
+}
+div.svc_form p.content span.notrequired {
+    text-align:left;
+    width:5%;
+}
+
+div.svc_form p.content span.value {
+    text-align:left;
+    font-weight: bold;
+    /*width:22%;*/
+}
+
+div.svc_form p.content span.value input[type="text"].smallLabel {
+    width: 75px !important;
+}
+
+div.stepped_process_buttons {
+    padding: 5px;
+    background-color: #AAAAAA;
+    text-align: center;
+    border-radius:.25em;
+    -webkit-border-radius:.25em;
+    margin: 10px 0;
+    clear:both;
+}
+
+.service_define {
+    width:100%;
+    vertical-align: top;
+}
+
+div.service_define_tab_row {
+    display:table-row;
+    width:auto;
+    /*float:left;*/
+}
+
+div.service_define_tab_cell {
+    display:table-cell;
+    padding-left: 10px;
+    /*float:left;*/
+}
+
+div.service_define_tab_row form {
+    float:left;
+}
+
+.serviceMinorVersion {
+     width: 35px !important;
+}
+
+.serviceMajorVersion {
+     width: 35px !important;
+}
+
+.image {
+    width: 32px;
+    height: 32px;
+    background-color: #CCC;
+    border: 1px solid #545454;
+    position: relative;
+    margin-left: 35px;
+    margin-top: -35px;
+}

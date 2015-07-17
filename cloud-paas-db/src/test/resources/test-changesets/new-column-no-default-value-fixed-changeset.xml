@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd"
+	logicalFilePath = "test-add-col">
+    <changeSet author="user-test" id="cs-nc1">
+    	<preConditions onFail="MARK_RAN">
+    			<sqlCheck expectedResult="0">SELECT COUNT(*) FROM table_test_1</sqlCheck>
+        </preConditions>
+		<addColumn tableName="table_test_1">
+    		<column name="new_data" type="varchar(255)">
+    		      <constraints nullable="false"/>
+    		</column>
+		</addColumn>
+    </changeSet>
+    <changeSet author="user-test" id="cs-nc1-fix">
+    	<preConditions onFail="MARK_RAN">
+    		<not>
+    			<columnExists tableName="table_test_1" columnName="new_data"/>
+    		</not>
+    	</preConditions>
+		<addColumn tableName="table_test_1">
+    		<column name="new_data" type="varchar(255)" defaultValue="defaultValue">
+    		      <constraints nullable="false"/>
+    		</column>
+		</addColumn>
+    </changeSet>
+</databaseChangeLog>

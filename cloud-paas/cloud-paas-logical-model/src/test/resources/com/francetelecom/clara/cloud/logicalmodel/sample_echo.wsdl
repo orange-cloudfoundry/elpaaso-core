@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions name="Echo" targetNamespace="http://cloud.clara.francetelecom.com/sample/echo/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://cloud.clara.francetelecom.com/sample/echo/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://cloud.clara.francetelecom.com/sample/echo/" xmlns="http://cloud.clara.francetelecom.com/sample/echo/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://cloud.clara.francetelecom.com/sample/echo/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema">        
+         <xs:element name="getRequestParametersRequest" type="getRequestParametersRequest" />
+         <xs:complexType name="getRequestParametersRequest">
+            <xs:sequence>
+               <xs:element name="paramString" type="xs:string" />
+               <xs:element name="paramBoolean" type="xs:boolean" />
+               <xs:element name="delayMsBeforeResponse" type="xs:int" />
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="getRequestParametersResponse" type="getRequestParametersResponse" />
+         <xs:complexType name="getRequestParametersResponse">
+            <xs:sequence>              
+               <xs:element minOccurs="0" name="paramString" type="xs:string" />
+               <xs:element minOccurs="0" name="paramBoolean" type="xs:boolean" />
+               <xs:element minOccurs="0" name="receivedAuthType" type="xs:string" />
+               <xs:element minOccurs="0" name="receivedBasicAuthLogin" type="xs:string" />
+               <xs:element minOccurs="0" name="receivedBasicAuthPassword" type="xs:string" />       
+            </xs:sequence>
+         </xs:complexType>
+      </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getRequestParametersResponse">
+    <wsdl:part element="tns:getRequestParametersResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRequestParametersRequest">
+    <wsdl:part element="tns:getRequestParametersRequest" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="EchoService">
+    <wsdl:operation name="getRequestParameters">
+      <wsdl:input message="tns:getRequestParametersRequest" name="getRequestParametersRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:getRequestParametersResponse" name="getRequestParametersResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Echo_Binding" type="tns:EchoService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getRequestParameters">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getRequestParametersRequest">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getRequestParametersResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="EchoService">
+    <wsdl:port binding="tns:Echo_Binding" name="EchoService">
+      <soap:address location="http://10.196.170.158:9000/echowar/echo" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

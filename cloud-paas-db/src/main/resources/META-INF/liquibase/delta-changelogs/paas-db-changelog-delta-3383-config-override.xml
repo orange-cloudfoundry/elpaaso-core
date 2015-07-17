@@ -1,0 +1,97 @@
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+	<changeSet author="qbwb2700" id="1406620480609-1">
+		<createTable tableName="config_role">
+			<column name="applicationuid" type="VARCHAR(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="lastmodificationcomment" type="VARCHAR(255)" />
+			<column name="lastmodificationdate" type="TIMESTAMP WITH TIME ZONE">
+				<constraints nullable="false" />
+			</column>
+			<column name="id" type="integer">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="config_role_pkey" />
+			</column>
+		</createTable>
+		<modifySql dbms="postgresql">
+			<replace replace="WITH" with="WITHOUT" />
+		</modifySql>
+	</changeSet>
+	<changeSet author="qbwb2700" id="1406620480609-2">
+		<createTable tableName="config_role_values">
+			<column name="configrole_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="comment" type="VARCHAR(255)" />
+			<column name="configset" type="VARCHAR(255)" />
+			<column name="key" type="VARCHAR(255)" />
+			<column name="value" type="VARCHAR(255)" />
+		</createTable>
+	</changeSet>
+	<changeSet author="qbwb2700" id="1406620480609-3">
+		<createTable tableName="core_application_config_role">
+			<column name="core_application_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="configroles_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="qbwb2700" id="1406620480609-4">
+		<addColumn tableName="technical_deployment_template">
+			<column name="middlewareprofileversion" type="VARCHAR(255)" defaultValue="1.4.0">
+				<constraints nullable="false" />
+			</column>
+		</addColumn>
+		
+	</changeSet>
+	<changeSet author="qbwb2700" id="1406620480609-5">
+		<addPrimaryKey columnNames="core_application_id, configroles_id" constraintName="core_application_config_role_pkey" tableName="core_application_config_role" />
+	</changeSet>
+	<changeSet author="qbwb2700" id="1406620480609-6">
+		<addUniqueConstraint columnNames="configroles_id" constraintName="core_application_config_role_configroles_id_key" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="core_application_config_role" />
+	</changeSet>
+	<changeSet author="qbwb2700" id="1406620480609-7">
+		<addForeignKeyConstraint baseColumnNames="id" baseTableName="config_role" baseTableSchemaName="public" constraintName="fk8320f35375642890"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="core_item"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+	</changeSet>
+	<changeSet author="qbwb2700" id="1406620480609-8">
+		<addForeignKeyConstraint baseColumnNames="configrole_id" baseTableName="config_role_values" baseTableSchemaName="public"
+			constraintName="fk5c61c78e47fe323d" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+			referencedTableName="config_role" referencedTableSchemaName="public" referencesUniqueColumn="false" />
+	</changeSet>
+	<changeSet author="qbwb2700" id="1406620480609-9">
+		<addForeignKeyConstraint baseColumnNames="configroles_id" baseTableName="core_application_config_role" baseTableSchemaName="public"
+			constraintName="fkfbe72224a6e31d5a" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+			referencedTableName="config_role" referencedTableSchemaName="public" referencesUniqueColumn="false" />
+	</changeSet>
+	<changeSet author="qbwb2700" id="1406620480609-10">
+		<addForeignKeyConstraint baseColumnNames="core_application_id" baseTableName="core_application_config_role" baseTableSchemaName="public"
+			constraintName="fkfbe722249f526157" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+			referencedTableName="core_application" referencedTableSchemaName="public" referencesUniqueColumn="false" />
+	</changeSet>
+    <!-- fix for  art #156910 -->
+    <changeSet author="skwg9735" id="1410359454851-1">
+        <modifyDataType columnName="comment" newDataType="VARCHAR(10000)" tableName="config_role_values"/>
+    </changeSet>
+    <changeSet author="skwg9735" id="1410359454851-2">
+        <modifyDataType columnName="value" newDataType="VARCHAR(10000)" tableName="config_role_values"/>
+    </changeSet>
+</databaseChangeLog>

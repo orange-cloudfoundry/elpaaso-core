@@ -1,0 +1,585 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.orange.clara.cloud</groupId>
+        <artifactId>cloud-paas-webapp</artifactId>
+        <version>3.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>cloud-paas-webapp-int</artifactId>
+    <name>${project.artifactId} - Integration test for paas webapp</name>
+
+
+    <description>
+        Run acceptance tests on an elpaaso platform.
+        Several platforms are pre-configured using dedicated profiles: uattrunk, uatbranch, ...
+
+        Developers that want to run tests on their own platform shall specify instance details using following properties
+        paas.instance.host
+        paas.instance.port
+        If
+
+        Examples of usage
+        mvn verify -P uattrunk
+        mvn verify -Dit.test=... -Dpaas.instance.host=...
+
+        Examples of usage without backup onto dedicated elpaaso instance for HomePageIT test only
+        mvn verify -Dit.test=HomePageIT -Dpaas.instance.host=https://10.114.6.133 -Dpaas.instance.port=443
+
+        /** DB parameter are useless as dbaas is not accessible anymore**/
+        Platform database can be backed up and restored before and after tests.
+        paas.db.host
+        paas.db.port
+        paas.db.name
+        paas.db.user
+        paas.db.password
+
+    </description>
+
+    <properties>
+        <htmlunit.version>2.14</htmlunit.version>
+        <!-- htmlunit >=2.14 requires xerces 2.11 and xml-api 1.4.01 -->
+        <xerces.version>2.11.0</xerces.version>
+        <xml-api.version>1.4.01</xml-api.version>
+        <selenium.version>2.42.2</selenium.version>
+        <ear.context />
+
+        <jmx.context>paas-portal-jmx</jmx.context>
+        <jmx-browser-maven-plugin.version>0.0.3</jmx-browser-maven-plugin.version>
+        <paas.jmx.port>80</paas.jmx.port>
+
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.3.5</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>httpcore</artifactId>
+                    <groupId>org.apache.httpcomponents</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <artifactId>httpcore</artifactId>
+            <groupId>org.apache.httpcomponents</groupId>
+            <version>4.3.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sourceforge.htmlunit</groupId>
+            <artifactId>htmlunit</artifactId>
+            <version>${htmlunit.version}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>xml-apis</groupId>
+                    <artifactId>xml-apis</artifactId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>httpclient</artifactId>
+                    <groupId>org.apache.httpcomponents</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-java8</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-spring</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxws</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>asm</groupId>
+                    <artifactId>asm</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.orange.clara.cloud</groupId>
+            <artifactId>cloud-paas-ws-administration-wsdl</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.orange.clara.cloud</groupId>
+            <artifactId>cloud-paas-ws-environment-wsdl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.orange.clara.cloud</groupId>
+            <artifactId>cloud-paas-ws-incubator-wsdl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.orange.clara.cloud</groupId>
+            <artifactId>cloud-paas-core-model</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.retry</groupId>
+            <artifactId>spring-retry</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <!-- Force usage of xerces (currently 2.11.0) that include xml-apis 1.4.01 -->
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+            <version>${xerces.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis</artifactId>
+            <!-- Force usage of xml-api >=1.4.01 -->
+            <version>${xml-api.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>httpclient</artifactId>
+                    <groupId>org.apache.httpcomponents</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>log4j-over-slf4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>com.orange.clara.cloud</groupId>
+                    <artifactId>jmx-browser-maven-plugin</artifactId>
+                    <version>${jmx-browser-maven-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <!-- Overrides analyze-dep-mgt config as xerces and xml-api are required but excluded in cloud-dependencies-mgt -->
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>analyze-dep-mgt</goal>
+                        </goals>
+                        <phase>verify</phase>
+                        <inherited>true</inherited>
+                        <configuration>
+                            <ignoreDirect>true</ignoreDirect>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Launch the tests -->
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <skipITs>${skipATs}</skipITs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- generates paas WS client for acceptance tests -->
+            <plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-codegen-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-sources-1</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                        <configuration>
+                            <wsdlOptions>
+                                <wsdlOption>
+                                    <wsdl>classpath:paas-administration-service.wsdl</wsdl>
+                                    <!-- wsdl namespace - java package mapping -->
+                                    <extraargs>
+                                        <extraarg>-p</extraarg>
+                                        <extraarg>http://www.orange.com/paas/administration/v4/model=${project.groupId}.consumersoap.administration.model
+                                        </extraarg>
+                                        <extraarg>-p</extraarg>
+                                        <extraarg>
+                                            http://www.orange.com/paas/administration/v4/exception=${project.groupId}.consumersoap.administration.exception
+                                        </extraarg>
+                                        <extraarg>-p</extraarg>
+                                        <extraarg>http://www.orange.com/paas/security/v1=${project.groupId}.consumersoap.security</extraarg>
+                                        <extraarg>-p</extraarg>
+                                        <extraarg>
+                                            http://www.orange.com/paas/administration/v4/PaasAdministrationService=${project.groupId}.consumersoap.administration.service
+                                        </extraarg>
+                                        <extraarg>-client</extraarg>
+                                        <extraarg>-exsh</extraarg>
+                                        <extraarg>true</extraarg>
+                                    </extraargs>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <wsdl>classpath:paas-environment-service.wsdl</wsdl>
+                                    <!-- wsdl namespace - java package mapping -->
+                                    <extraargs>
+                                        <extraarg>-p</extraarg>
+                                        <extraarg>http://www.orange.com/paas/environment/v3/model=${project.groupId}.consumersoap.environment.model</extraarg>
+                                        <extraarg>-p</extraarg>
+                                        <extraarg>http://www.orange.com/paas/environment/v3/exception=${project.groupId}.consumersoap.environment.exception
+                                        </extraarg>
+                                        <extraarg>-p</extraarg>
+                                        <extraarg>
+                                            http://www.orange.com/paas/environment/v3/PaasEnvironmentService=${project.groupId}.consumersoap.environment.service
+                                        </extraarg>
+                                        <extraarg>-p</extraarg>
+                                        <extraarg>http://www.orange.com/paas/security/v1=${project.groupId}.consumersoap.security</extraarg>
+                                        <extraarg>-client</extraarg>
+                                        <extraarg>-exsh</extraarg>
+                                        <extraarg>true</extraarg>
+                                    </extraargs>
+                                </wsdlOption>
+                                <wsdlOption>
+                                    <wsdl>classpath:paas-incubator-service.wsdl</wsdl>
+                                    <!-- wsdl namespace - java package mapping -->
+                                    <extraargs>
+                                        <extraarg>-p</extraarg>
+                                        <extraarg>http://www.orange.com/paas/incubator/v4/model=${project.groupId}.consumersoap.incubator.model</extraarg>
+                                        <extraarg>-p</extraarg>
+                                        <extraarg>http://www.orange.com/paas/incubator/v4/exception=${project.groupId}.consumersoap.incubator.exception
+                                        </extraarg>
+                                        <extraarg>-p</extraarg>
+                                        <extraarg>
+                                            http://www.orange.com/paas/incubator/v4/PaasIncubatorService=${project.groupId}.consumersoap.incubator.service
+                                        </extraarg>
+                                        <extraarg>-p</extraarg>
+                                        <extraarg>http://www.orange.com/paas/security/v1=${project.groupId}.consumersoap.security</extraarg>
+                                        <extraarg>-client</extraarg>
+                                        <extraarg>-exsh</extraarg>
+                                        <extraarg>true</extraarg>
+                                    </extraargs>
+                                </wsdlOption>
+                            </wsdlOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Needed with Eclipse Indigo / m2e 1.0 because there are no m2e connectors for cxf-codegen-plugin for the moment -->
+            <!-- This declaration will force m2e to define target/generated-sources/cxf as a source folder in Eclipse -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.build.directory}/generated-sources/cxf</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+
+    </build>
+
+    <profiles>
+        <profile>
+            <id>acceptance-test</id>
+            <!-- enables following executions -->
+            <activation>
+                <!-- activated by default -->
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build />
+
+        </profile>
+        <profile>
+            <id>no-acceptance-test1</id>
+            <!-- executions declared in default profile are not executed when -Dmaven.test.skip=true -->
+            <activation>
+                <property>
+                    <name>maven.test.skip</name>
+                    <value>true</value>
+                </property>
+            </activation>
+        </profile>
+        <profile>
+            <id>no-acceptance-test2</id>
+            <!-- executions declared in default profile are not executed when -DskipTests -->
+            <activation>
+                <property>
+                    <name>skipTests</name>
+                    <value>true</value>
+                </property>
+            </activation>
+        </profile>
+        <profile>
+            <id>no-acceptance-test3</id>
+            <!-- executions declared in default profile are not executed when -DskipATs -->
+            <activation>
+                <property>
+                    <name>skipATs</name>
+                    <value>true</value>
+                </property>
+            </activation>
+        </profile>
+        <!-- uat trunk platform details -->
+        <profile>
+            <id>uattrunk</id>
+            <properties>
+                <backup.id>uattrunk</backup.id>
+                <paas.instance.host>${env.ELPAASO_UATTRUNK_HOST}</paas.instance.host>
+                <paas.instance.port>${env.ELPAASO_UATTRUNK_PORT}</paas.instance.port>
+                <paas.jmx.host>not-set</paas.jmx.host>
+            </properties>
+        </profile>
+
+        <!-- backup-restore-database profile -->
+        <profile>
+            <id>backup-restore-database</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.orange.clara.cloud</groupId>
+                        <artifactId>jmx-browser-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>default-cli</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>httpExportRarInfo</goal>
+                                </goals>
+                                <configuration>
+                                    <exportPrefix>paas.</exportPrefix>
+                                    <jmxServer>${paas.jmx.host}</jmxServer>
+                                    <jmxServerPort>${paas.jmx.port}</jmxServerPort>
+                                    <jmxServerEndpoint>${jmx.context}</jmxServerEndpoint>
+                                    <jndiFilter>jdbc/cloud-webappDataSource</jndiFilter>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.7</version>
+                        <executions>
+                            <execution>
+                                <id>backup-database</id>
+                                <phase>pre-integration-test</phase>
+                                <configuration>
+                                    <target>
+                                        <echo>Saving database ${backup.id}</echo>
+                                        <echo>from ${paas.db.host}:${paas.db.port}/${paas.db.name}</echo>
+                                        <echo>to</echo>
+                                        <echo>
+                                            ${project.build.directory}/backup-${backup.id}-${paas.db.name}.sql
+                                        </echo>
+                                        <echo />
+                                        <exec executable="pg_dump" failonerror="true">
+                                            <env key="PGPASSWORD" value="${paas.db.password}" />
+                                            <arg value="-h" />
+                                            <arg value="${paas.db.host}" />
+                                            <arg value="-p" />
+                                            <arg value="${paas.db.port}" />
+                                            <arg value="-U" />
+                                            <arg value="${paas.db.user}" />
+                                            <arg value="-w" />
+                                            <arg value="-n" />
+                                            <arg value="public" />
+                                            <arg value="-c" />
+                                            <arg value="-O" />
+                                            <arg value="-x" />
+                                            <arg value="-f" />
+                                            <arg value="${project.build.directory}/backup-${backup.id}-${paas.db.name}.sql" />
+                                            <arg value="${paas.db.name}" />
+                                        </exec>
+                                        <echo />
+                                        <echo>Database saved in</echo>
+                                        <echo>${project.build.directory}/backup-${backup.id}-${paas.db.name}.sql</echo>
+                                        <echo />
+                                    </target>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>restore-database</id>
+                                <phase>post-integration-test</phase>
+                                <configuration>
+                                    <target>
+                                        <echo>Restoring database</echo>
+                                        <echo>from ${project.build.directory}/backup-${backup.id}-${paas.db.name}.sql</echo>
+                                        <echo>to ${paas.db.host}:${paas.db.port}/${paas.db.name}</echo>
+                                        <echo />
+                                        <exec executable="psql" failonerror="true">
+                                            <env key="PGPASSWORD" value="${paas.db.password}" />
+                                            <arg value="-h" />
+                                            <arg value="${paas.db.host}" />
+                                            <arg value="-p" />
+                                            <arg value="${paas.db.port}" />
+                                            <arg value="-d" />
+                                            <arg value="${paas.db.name}" />
+                                            <arg value="-U" />
+                                            <arg value="${paas.db.user}" />
+                                            <arg value="-f" />
+                                            <arg value="${project.build.directory}/backup-${backup.id}-${paas.db.name}.sql" />
+                                        </exec>
+                                        <echo />
+                                        <echo>Database restored to</echo>
+                                        <echo>${paas.db.host}:${paas.db.port}/${paas.db.name}</echo>
+                                        <echo />
+                                    </target>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <!-- When we backup database, we need to reexpose sys var to failsafe as process are forked -->
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <inherited>true</inherited>
+                        <configuration>
+                            <systemPropertyVariables>
+                                <paas.db.host>${paas.db.host}</paas.db.host>
+                                <paas.db.port>${paas.db.port}</paas.db.port>
+                                <paas.db.name>${paas.db.name}</paas.db.name>
+                                <paas.db.username>${paas.db.user}</paas.db.username>
+                                <paas.db.password>${paas.db.password}</paas.db.password>
+                            </systemPropertyVariables>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>warmocks</id>
+            <properties>
+                <paas.instance.host>127.0.0.1</paas.instance.host>
+                <paas.instance.port>8080</paas.instance.port>
+
+                <!-- no db for war mocks -->
+                <paas.db.host />
+                <paas.db.port />
+                <paas.db.name />
+                <paas.db.user />
+                <paas.db.password />
+
+                <ear.context />
+            </properties>
+        </profile>
+
+    </profiles>
+</project>

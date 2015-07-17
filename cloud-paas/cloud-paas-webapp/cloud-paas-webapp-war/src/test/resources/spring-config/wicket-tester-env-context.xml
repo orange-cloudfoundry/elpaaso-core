@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+	<context:annotation-config />
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:/com/francetelecom/clara/cloud/commons/testconfigurations/credentials-${datacenter:reference}.properties
+				</value>
+				<value>classpath:/com/francetelecom/clara/cloud/commons/testconfigurations/config-hibernate-test-postgresql-create-drop.properties
+				</value>
+			</list>
+		</property>
+	</bean>
+
+	<import resource="datasources-postgresql-context.xml" />
+	<import
+		resource="classpath:/com/francetelecom/clara/cloud/commons/jpa/jpa-context.xml" />
+	<!-- following import is used to declare a dummy liquibase bean required 
+		by the jpa-context init -->
+	<import
+		resource="classpath:/com/francetelecom/clara/cloud/commons/testconfigurations/mock-liquibase-context.xml" />
+	<import resource="transaction-context.xml" />
+
+
+	<bean id="managePaasActivation"
+		class="com.francetelecom.clara.cloud.paas.activation.ManagePaasActivationStubbedImplForTestsWicket">
+	</bean>
+
+	<bean id="activationSideEffectUtils"
+		class="com.francetelecom.clara.cloud.paas.activation.ActivationStubbedSideEffectsUtils" />
+
+
+    <bean id="logService" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg
+			value="com.francetelecom.clara.cloud.environment.log.LogServiceSplunkImpl" />
+	</bean>
+
+    <bean id="splunkBean" class="org.mockito.Mockito" factory-method="mock">
+		<constructor-arg
+			value="com.francetelecom.clara.cloud.presentation.models.SplunkBean" />
+	</bean>
+
+
+    <bean id="hypericBean" class="org.mockito.Mockito" factory-method="mock">
+		<constructor-arg
+			value="com.francetelecom.clara.cloud.presentation.models.HypericBean" />
+	</bean>
+
+    <bean id="paasUserRepository" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg
+			value="com.francetelecom.clara.cloud.dao.PaasUserDaoJpaImpl" />
+	</bean>
+	
+	 <bean id="authenticationManager" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg
+			value="org.springframework.security.authentication.AuthenticationManager" />
+	</bean>
+
+    <import resource="classpath*:services/*-logical-services.xml" />
+    <context:component-scan
+		base-package="com.francetelecom.clara.cloud.presentation.designer.support" />
+
+    <import resource="classpath:/META-INF/spring/mvn-consumer-context.xml" />
+
+    <!--<bean id="springSpy" class="com.francetelecom.clara.cloud.presentation.SpringContextSpy"/> -->
+
+
+    <import resource="classpath:/META-INF/spring/paas-projection-context.xml" />
+    <import resource="classpath:/META-INF/spring/paas-constraint-context.xml" />
+    <import resource="classpath:/META-INF/spring/cloud-services-context.xml" />
+    <import resource="classpath:/META-INF/spring/cloud-daos-context.xml" />
+	<import resource="classpath:/META-INF/spring/sampleCatalog-context.xml" />
+
+	<import resource="classpath:services/*-logical-services.xml" />
+	<context:component-scan
+		base-package="com.francetelecom.clara.cloud.presentation.designer.support" />
+
+	<bean id="populateService"
+		class="com.francetelecom.clara.cloud.presentation.tools.PopulateDatasService">
+		<property name="manageApplication" ref="manageApplication"></property>
+		<property name="manageApplicationRelease" ref="manageApplicationRelease"></property>
+		<property name="manageLogicalDeployment" ref="manageLogicalDeployment"></property>
+		<property name="manageEnvironment" ref="manageEnvironment"></property>
+	</bean>
+
+</beans>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true" scan="true" scanPeriod="30 seconds">
+  <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+    <Target>System.out</Target>
+    <encoder>
+      <pattern>%date{ISO8601} %-5level [%thread] %logger{30}\(%line\) - %message%n%rEx</pattern>
+    </encoder>
+  </appender>
+  <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>target/cloud-test.log</file>
+    <encoder>
+      <pattern>%date{ISO8601} %-5level [%thread] %logger{30}\(%line\) - %message%n%rEx</pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+      <maxIndex>3</maxIndex>
+      <FileNamePattern>target/cloud-test.log.%i</FileNamePattern>
+    </rollingPolicy>
+    <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+      <MaxFileSize>1000KB</MaxFileSize>
+    </triggeringPolicy>
+  </appender>
+
+  <!--  INFO level for application -->
+<logger name="com.francetelecom.clara.cloud" level="${loglevel-cloud:-INFO}" />
+  <logger name="org.hibernate.cfg" level="WARN"/>
+  <logger name="org.hibernate.type" level="WARN"/>
+
+  <root level="INFO">
+    <appender-ref ref="stdout"/>
+    <appender-ref ref="file"/>
+  </root>
+</configuration>

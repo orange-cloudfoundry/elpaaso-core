@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+
+	<import resource="authentication-context.xml"/>
+
+	<bean id="authenticationService"
+		class="com.francetelecom.clara.cloud.providersoap.security.CredentialsAuthenticationService">
+		<constructor-arg name="authenticationManager" ref="authenticationManager" />
+	</bean>
+	
+	<!-- Interceptor used to add contextual information into MDC (log) -->
+	<bean id="logInInterceptor"
+		class="com.francetelecom.clara.cloud.ws.service.LogInInterceptor" />
+
+	<!-- Interceptor used to remove added contextual informations from MDC (log) -->
+	<bean id="logOutInterceptor"
+		class="com.francetelecom.clara.cloud.ws.service.LogOutInterceptor" />
+
+
+	<jaxws:endpoint id="paasAdministrationEndpoint"
+		implementor="#paasAdministrationSoap" address="/administration/v4">
+		<jaxws:inInterceptors>
+			<ref bean="logInInterceptor" />
+		</jaxws:inInterceptors>
+		<jaxws:inFaultInterceptors>
+			<ref bean="logInInterceptor" />
+		</jaxws:inFaultInterceptors>
+		<jaxws:outInterceptors>
+			<ref bean="logOutInterceptor" />
+		</jaxws:outInterceptors>
+		<jaxws:outFaultInterceptors>
+			<ref bean="logOutInterceptor" />
+		</jaxws:outFaultInterceptors>
+	</jaxws:endpoint>
+
+	<!-- service implementation - the link to application layer is done here -->
+	<bean id="paasAdministrationSoap"
+		class="com.francetelecom.clara.cloud.providersoap.administration.v4.service.PaasAdministrationServiceImpl">
+		<property name="manageApplication" ref="manageApplication" />
+		<property name="manageApplicationRelease" ref="manageApplicationRelease" />
+		<property name="mapper" ref="providerSoapMapper" />
+	</bean>
+
+	<jaxws:endpoint id="paasEnvironmentEndpoint"
+		implementor="#paasEnvironmentSoap" address="/environment/v3">
+		<jaxws:inInterceptors>
+			<ref bean="logInInterceptor" />
+		</jaxws:inInterceptors>
+		<jaxws:inFaultInterceptors>
+			<ref bean="logInInterceptor" />
+		</jaxws:inFaultInterceptors>
+		<jaxws:outInterceptors>
+			<ref bean="logOutInterceptor" />
+		</jaxws:outInterceptors>
+		<jaxws:outFaultInterceptors>
+			<ref bean="logOutInterceptor" />
+		</jaxws:outFaultInterceptors>
+	</jaxws:endpoint>
+
+	<!-- service implementation - the link to application layer is done here -->
+	<bean id="paasEnvironmentSoap"
+		class="com.francetelecom.clara.cloud.providersoap.environment.v3.service.PaasEnvironmentServiceImpl">
+		<property name="manageEnvironment" ref="manageEnvironment" />
+		<property name="mapper" ref="providerSoapMapper" />
+	</bean>
+
+	<jaxws:endpoint id="paasIncubatorEndpoint" implementor="#paasIncubatorSoap"
+		address="/incubator/v4">
+		<jaxws:inInterceptors>
+			<ref bean="logInInterceptor" />
+		</jaxws:inInterceptors>
+		<jaxws:inFaultInterceptors>
+			<ref bean="logInInterceptor" />
+		</jaxws:inFaultInterceptors>
+		<jaxws:outInterceptors>
+			<ref bean="logOutInterceptor" />
+		</jaxws:outInterceptors>
+		<jaxws:outFaultInterceptors>
+			<ref bean="logOutInterceptor" />
+		</jaxws:outFaultInterceptors>
+	</jaxws:endpoint>
+
+	<!-- service implementation - the link to application layer is done here -->
+	<bean id="paasIncubatorSoap"
+		class="com.francetelecom.clara.cloud.providersoap.incubator.v4.service.PaasIncubatorServiceImpl">
+		<property name="manageApplicationRelease" ref="manageApplicationRelease" />
+		<property name="manageLogicalDeployment" ref="manageLogicalDeployment" />
+		<property name="mapper" ref="providerSoapMapper" />
+		<property name="backdoorService" ref="backdoorService" />
+	</bean>
+
+	<!-- dozer configuration -->
+	<bean id="providerSoapMapper"
+		class="com.francetelecom.clara.cloud.providersoap.mapping.SoapMapper">
+		<property name="mappingFiles">
+			<list>
+				<value>dozer/soap-mapping.xml</value>
+			</list>
+		</property>
+	</bean>
+</beans>

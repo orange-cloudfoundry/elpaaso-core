@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- activiti datasource : used for production -->
+	<!-- jee:jndi-lookup id="activitiDS" jndi-name="jdbc/activitiDS" /-->
+	
+	<!-- activiti datasource : used for unit testing -->
+	<bean id="activitiDS"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<!-- property name="driverClassName" value="com.p6spy.engine.spy.P6SpyDriver" 
+			/ -->
+		<property name="driverClassName" value="org.hsqldb.jdbcDriver" />
+		<property name="url" value="jdbc:hsqldb:mem:activation" />
+		<property name="username" value="sa" />
+		<property name="password" value="" />
+	</bean>
+
+
+	<bean id="datasource"
+		class="org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy">
+		<property name="targetDataSource" ref="ds" />
+	</bean>
+
+
+	<bean id="ds"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.p6spy.engine.spy.P6SpyDriver" />
+		<property name="url" value="jdbc:hsqldb:mem:cloud-iaas-activiti-db" />
+		<property name="username" value="sa" />
+		<property name="password" value="" />
+	</bean>
+
+</beans>

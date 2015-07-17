@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.orange.clara.cloud</groupId>
+		<artifactId>cloud-paas</artifactId>
+		<version>3.0.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<artifactId>cloud-paas-ws-provider</artifactId>
+
+	<properties>
+		<wsdl.location>${project.build.directory}/wsdl</wsdl.location>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>asm</groupId>
+					<artifactId>asm</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.orange.clara.cloud</groupId>
+			<artifactId>cloud-paas-ws-administration-wsdl</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.orange.clara.cloud</groupId>
+			<artifactId>cloud-paas-ws-environment-wsdl</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.orange.clara.cloud</groupId>
+			<artifactId>cloud-paas-ws-incubator-wsdl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.orange.clara.cloud</groupId>
+			<artifactId>cloud-commons</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.orange.clara.cloud</groupId>
+			<artifactId>cloud-paas-logical-model</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.orange.clara.cloud</groupId>
+			<artifactId>cloud-paas-services</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.orange.clara.cloud</groupId>
+			<artifactId>cloud-paas-services-impl</artifactId>
+		</dependency>
+		<!-- Needed because some services (ManageApplication) are in Daos -->
+		<dependency>
+			<groupId>com.orange.clara.cloud</groupId>
+			<artifactId>cloud-paas-daos</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+		</dependency>
+	</dependencies>
+
+	<name>${project.artifactId}(${project.packaging} -  PAAS webservice api jar </name>
+	<description>api webservice, to be used by PAAS clients (eg ALM tools, click-n-dev)</description>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-codegen-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>generate-sources-1</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>wsdl2java</goal>
+						</goals>
+						<configuration>
+							<wsdlOptions>
+								<wsdlOption>
+									<wsdl>classpath:paas-administration-service.wsdl</wsdl>
+									<!-- wsdl namespace - java package mapping -->
+									<extraargs>
+										<extraarg>-p</extraarg>
+										<extraarg>http://www.orange.com/paas/administration/v4/model=${project.groupId}.providersoap.administration.v4.model</extraarg>
+										<extraarg>-p</extraarg>
+										<extraarg>http://www.orange.com/paas/administration/v4/exception=${project.groupId}.providersoap.administration.v4.exception</extraarg>
+										<extraarg>-p</extraarg>
+										<extraarg>http://www.orange.com/paas/administration/v4/PaasAdministrationService=${project.groupId}.providersoap.administration.v4.service</extraarg>
+										<extraarg>-p</extraarg>
+										<extraarg>http://www.orange.com/paas/security/v1=${project.groupId}.providersoap.security.v1</extraarg>
+										<extraarg>-exsh</extraarg>
+										<extraarg>true</extraarg>
+										<!--extraarg>-impl</extraarg -->
+									</extraargs>
+								</wsdlOption>
+								<wsdlOption>
+									<wsdl>classpath:paas-environment-service.wsdl</wsdl>
+									<!-- wsdl namespace - java package mapping -->
+									<extraargs>
+										<extraarg>-p</extraarg>
+										<extraarg>http://www.orange.com/paas/environment/v3/model=${project.groupId}.providersoap.environment.v3.model</extraarg>
+										<extraarg>-p</extraarg>
+										<extraarg>http://www.orange.com/paas/environment/v3/exception=${project.groupId}.providersoap.environment.v3.exception</extraarg>
+										<extraarg>-p</extraarg>
+										<extraarg>http://www.orange.com/paas/environment/v3/PaasEnvironmentService=${project.groupId}.providersoap.environment.v3.service</extraarg>
+										<extraarg>-p</extraarg>
+										<extraarg>http://www.orange.com/paas/security/v1=${project.groupId}.providersoap.security.v1</extraarg>
+										<extraarg>-exsh</extraarg>
+										<extraarg>true</extraarg>
+										<!-- extraarg>-impl</extraarg -->
+									</extraargs>
+								</wsdlOption>
+								<wsdlOption>
+									<wsdl>classpath:paas-incubator-service.wsdl</wsdl>
+									<!-- wsdl namespace - java package mapping -->
+									<extraargs>
+										<extraarg>-p</extraarg>
+										<extraarg>http://www.orange.com/paas/incubator/v4/model=${project.groupId}.providersoap.incubator.v4.model</extraarg>
+										<extraarg>-p</extraarg>
+										<extraarg>http://www.orange.com/paas/incubator/v4/exception=${project.groupId}.providersoap.incubator.v4.exception</extraarg>
+										<extraarg>-p</extraarg>
+										<extraarg>http://www.orange.com/paas/incubator/v4/PaasIncubatorService=${project.groupId}.providersoap.incubator.v4.service</extraarg>
+										<extraarg>-p</extraarg>
+										<extraarg>http://www.orange.com/paas/security/v1=${project.groupId}.providersoap.security.v1</extraarg>
+										<extraarg>-exsh</extraarg>
+										<extraarg>true</extraarg>
+										<!-- extraarg>-impl</extraarg -->
+									</extraargs>
+								</wsdlOption>
+							</wsdlOptions>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Needed with Eclipse Indigo / m2e 1.0 because there are no m2e connectors for cxf-codegen-plugin for the moment -->
+			<!-- This declaration will force m2e to define target/generated-sources/cxf as a source folder in Eclipse -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${project.build.directory}/generated-sources/cxf</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+</project>

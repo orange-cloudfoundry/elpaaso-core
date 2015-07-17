@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ======================================================== -->
+	<!--  Properties used in test                                 -->
+	<!-- ======================================================== -->
+	
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:/com/francetelecom/clara/cloud/commons/testconfigurations/credentials-${datacenter:reference}.properties</value>
+				<value>classpath:/com/francetelecom/clara/cloud/commons/testconfigurations/config-hibernate-test-postgresql-create-drop.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- ======================================================== -->
+	<!--  Parameters that override default                        -->
+	<!-- ======================================================== -->
+
+	<bean id="parameters" class="org.springframework.beans.factory.config.MapFactoryBean">
+		<property name="sourceMap">
+			<map>
+				<entry key="engine" value="POSTGRESQL" />
+				<entry key="liquibaseChangeLog" value="paas-db-postgresql-changelog.xml" />
+			</map>
+		</property>
+	</bean>
+	
+</beans>

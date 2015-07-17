@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="fileFetcherUtil"
+		class="com.francetelecom.clara.cloud.activation.plugin.cf.infrastructure.FileFetcherUtil" />
+
+	<bean id="cfAdapter"
+		class="com.francetelecom.clara.cloud.activation.plugin.cf.infrastructure.CfAdapterImpl">
+		<constructor-arg name="httpProxyHost" value="${cf.ccng.proxyHost}" />
+		<constructor-arg name="httpProxyPort" value="${cf.ccng.proxyPort}" />
+		<constructor-arg name="target" ref="cfApiUrl" />
+		<constructor-arg name="email" value="${cf.ccng.email}" />
+		<constructor-arg name="password" value="${cf.ccng.passwd}" />
+		<constructor-arg name="org" value="${cf.ccng.org}" />
+		<constructor-arg name="space" value="${cf.ccng.space}" />
+		<constructor-arg name="domain" value="${cf.subdomain}" />
+		<constructor-arg name="trustSelfSignedCerts" value="${cf.trustSelfSignedCerts}" />
+		<property name="fileFetcherUtil" ref="fileFetcherUtil" />
+		<property name="usingHttpProxy" value="${cf.ccng.use_proxy}" />
+	</bean>
+
+	<bean id="cfApiUrl" class="java.net.URL">
+		<constructor-arg index="0" value="${cf.ccng.target}" />
+	</bean>
+
+</beans>

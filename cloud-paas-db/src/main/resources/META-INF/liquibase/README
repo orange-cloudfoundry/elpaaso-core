@@ -1,0 +1,8 @@
+This files describes how liquibase changelog files are organized.
+
+1. Initial state of the database is described in paas-db-changelog-1.4-full.xml (this corresponds to the 1.4 release database schema)
+2. Delta changelog files are stored in delta-changelogs directory
+3. All files stored in this directory are loaded in alphabetical order 
+4. A delta file paas-db-changelog-delta-<number>-<description>.xml is available for each feature, where:
+     <number> is ordering loading number (could be story number by default), 
+     <description> is a short description of the feature 

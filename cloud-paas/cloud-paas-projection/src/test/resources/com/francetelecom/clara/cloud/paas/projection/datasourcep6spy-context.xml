@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+    xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <bean id="datasource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <!--
+				<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+				 -->
+
+        <property name="driverClassName" value="com.p6spy.engine.spy.P6SpyDriver"></property>
+
+        <property name="url" value="jdbc:hsqldb:mem:cloud-model"/>
+        <property name="username" value="sa"/>
+        <property name="password" value=""/>
+
+        <!--<property name="driverClassName" value="org.hsqldb.jdbcDriver"></property>-->
+
+        <!--&lt;!&ndash;Note: force the hsql db to be shutdown when no JDBC  &ndash;&gt;-->
+        <!--<property name="url" value="jdbc:hsqldb:mem:cloud-model;shutdown=true" />-->
+
+        <!---->
+        <!--				<property name="url" value="jdbc:mysql://localhost/cloud"></property>-->
+        <!--				<property name="username" value="develop"></property>-->
+        <!--				<property name="password" value="develop"></property>-->
+
+
+    </bean>
+
+</beans>

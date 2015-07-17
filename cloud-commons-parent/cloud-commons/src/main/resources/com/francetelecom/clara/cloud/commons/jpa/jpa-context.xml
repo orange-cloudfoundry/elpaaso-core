@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	">
+
+	<!-- Initialisation d'un entityManagerFactory -->
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" depends-on="liquibase">
+		<property name="dataSource" ref="datasource" />
+		<property name="packagesToScan"
+			value="com.francetelecom.clara.cloud.coremodel,
+				com.francetelecom.clara.cloud.logicalmodel,
+				com.francetelecom.clara.cloud.logicalmodel.experimental,
+		        com.francetelecom.clara.cloud.model,
+		        com.francetelecom.clara.cloud.techmodel,
+		        com.francetelecom.clara.cloud.techmodel.cf,
+		        com.francetelecom.clara.cloud.techmodel.dbaas,
+		        com.francetelecom.clara.cloud.techmodel.bindings,
+		        com.francetelecom.clara.cloud.model.cf,
+		        com.francetelecom.clara.cloud.model.exchangesystem.tmaas,
+		        com.francetelecom.clara.cloud.coremodel,
+		        com.francetelecom.clara.cloud.model.net,
+		        com.francetelecom.clara.cloud.model.services,
+		        com.francetelecom.clara.cloud.logicalmodel,
+		        com.francetelecom.clara.cloud.model.connectors
+		"></property>
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+		</property>
+		<property name="jpaPropertyMap">
+			<map>
+				<entry key="hibernate.dialect" value="${hibernate.dialect:org.hibernate.dialect.PostgreSQLDialect}" />
+				<entry key="hibernate.connection.release_mode" value="auto" />
+				<entry key="hibernate.max_fetch_depth" value="3" />
+				<entry key="hibernate.hbm2ddl.auto" value="${hibernate.hbm2ddl.auto:validate}" />
+
+				<entry key="hibernate.show_sql" value="${hibernate.show_sql:false}" />
+				<entry key="hibernate.format_sql" value="${hibernate.format_sql:false}" />
+				<entry key="hibernate.use_sql_comments" value="${hibernate.use_sql_comments:false}" />
+
+				<entry key="hibernate.generate_statistics" value="${hibernate.generate_statistics:true}" />
+				<entry key="hibernate.session.events.log" value="${hibernate.session.events.log:false}" />
+				<!--
+				<entry key="hibernate.session.events.auto" value="false" />
+				  -->
+
+				<entry key="hibernate.cache.use_second_level_cache" value="${hibernate.cache.use_second_level_cache:false}" />
+
+                <!-- search indexing -->
+				<entry key="hibernate.search.default.directory_provider" value="org.hibernate.search.store.FSDirectoryProvider" />
+				<entry key="hibernate.search.default.indexBase" value="target/lucene/indexes" />
+
+				<!-- Do we need to bind it into JNDI? -->
+ 				<!--<entry key="hibernate.session_factory_name" value="${hibernate.session_factory_name:cloud/HibernateSessionFactory}" /> -->
+			</map>
+		</property>
+	</bean>
+
+	<!--
+		Bean permettant à Spring d'injecter automatiquement un EntityManager
+		aux instances héritant du DAO générique qui contient l'annotation
+		@PersistenceContext
+	-->
+	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+
+	<!--
+		Bean permettant à Spring de detecter l'annotation @Repository, définie
+		sur chaque classe de DAO, qui transforme automatiquement les
+		exceptions d'accès aux données en exceptions Spring
+		DataAccessException
+	-->
+	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+
+
+	<!--
+		Jasypt Bean to configure encryptor for Hibernate custom type Password 
+	 -->
+	<bean id="hibernateStringEncryptor"
+		class="org.jasypt.hibernate4.encryptor.HibernatePBEStringEncryptor">
+		<property name="registeredName">
+			<value>strongHibernateStringEncryptor</value>
+		</property>
+		<property name="algorithm">
+			<value>PBEWithMD5AndDES</value>
+		</property>
+		<property name="password">
+			<value>${paas.password}</value>
+		</property>
+	</bean>
+</beans>

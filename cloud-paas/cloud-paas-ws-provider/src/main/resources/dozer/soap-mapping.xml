@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+	<configuration>
+		<custom-converters><!-- these are always bi-directional -->
+			<converter
+				type="com.francetelecom.clara.cloud.providersoap.mapping.EnvironmentTypeConverter">
+				<class-a>
+					com.orange.clara.cloud.providersoap.environment.v3.model.EnvironmentTypeEnum
+				</class-a>
+				<class-b>com.francetelecom.clara.cloud.services.dto.EnvironmentDto.EnvironmentTypeEnum
+				</class-b>
+			</converter>
+			<converter
+				type="com.francetelecom.clara.cloud.providersoap.mapping.EnvironmentStatusConverter">
+				<class-a>
+					com.orange.clara.cloud.providersoap.environment.v3.model.EnvironmentStatusEnum
+				</class-a>
+				<class-b>com.francetelecom.clara.cloud.services.dto.EnvironmentDto.EnvironmentStatusEnum
+				</class-b>
+			</converter>
+			<converter
+				type="com.francetelecom.clara.cloud.providersoap.mapping.ApplicationReleaseStatusConverter">
+				<class-a>
+					com.orange.clara.cloud.providersoap.administration.v4.model.StateType
+				</class-a>
+				<class-b>com.francetelecom.clara.cloud.coremodel.ApplicationReleaseStateEnum
+				</class-b>
+			</converter>
+		</custom-converters>
+	</configuration>
+
+	<mapping>
+		<class-a>com.orange.clara.cloud.providersoap.administration.v4.model.StateType
+		</class-a>
+		<class-b>com.francetelecom.clara.cloud.coremodel.ApplicationReleaseStateEnum
+		</class-b>
+	</mapping>
+
+	<mapping>
+		<class-a>com.orange.clara.cloud.providersoap.environment.v3.model.EnvironmentTypeEnum
+		</class-a>
+		<class-b>com.francetelecom.clara.cloud.services.dto.EnvironmentDto.EnvironmentTypeEnum
+		</class-b>
+	</mapping>
+
+	<mapping>
+		<class-a>com.francetelecom.clara.cloud.services.dto.EnvironmentDto
+		</class-a>
+		<class-b>com.orange.clara.cloud.providersoap.environment.v3.model.EnvironmentModel
+		</class-b>
+		<field>
+			<a>ownerId</a>
+			<b>owner</b>
+		</field>
+		<field>
+			<a>status</a>
+			<b>status.type</b>
+		</field>
+		<field>
+			<a>statusMessage</a>
+			<b>status.message</b>
+		</field>
+		<field>
+			<a>statusPercent</a>
+			<b>status.progress</b>
+		</field>
+	</mapping>
+
+	<mapping>
+		<class-a>com.francetelecom.clara.cloud.services.dto.EnvironmentDto
+		</class-a>
+		<class-b>com.orange.clara.cloud.providersoap.environment.v3.model.EnvironmentStatus
+		</class-b>
+		<field>
+			<a>status</a>
+			<b>type</b>
+		</field>
+		<field>
+			<a>statusMessage</a>
+			<b>message</b>
+		</field>
+		<field>
+			<a>statusPercent</a>
+			<b>progress</b>
+		</field>
+	</mapping>
+
+	<mapping>
+		<class-a>com.francetelecom.clara.cloud.coremodel.ApplicationRelease
+		</class-a>
+		<class-b>com.orange.clara.cloud.providersoap.administration.v4.model.ReleaseModel
+		</class-b>
+		<field>
+			<a>releaseVersion</a>
+			<b>version</b>
+		</field>
+		<field>
+			<a>application.uid</a>
+			<b>applicationUID</b>
+		</field>
+		<!-- The field "state" is identical in both classes -->
+		<!-- The field "description" is identical in both classes -->
+		<!-- The field "versionControlUrl" is identical in both classes -->
+	</mapping>
+
+	<mapping>
+		<class-a>com.francetelecom.clara.cloud.coremodel.Application</class-a>
+		<class-b>com.orange.clara.cloud.providersoap.administration.v4.model.ApplicationModel
+		</class-b>
+		<field>
+			<a>applicationRegistryUrl</a>
+			<b>registryUrl</b>
+		</field>
+		<!-- The field "code" is identical in both classes -->
+		<!-- The field "label" is identical in both classes -->
+		<!-- The field "description" is identical in both classes -->
+	</mapping>
+</mappings>

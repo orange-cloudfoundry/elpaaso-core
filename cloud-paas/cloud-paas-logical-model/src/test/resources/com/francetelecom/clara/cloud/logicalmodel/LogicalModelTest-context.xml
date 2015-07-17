@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="propertyConfigurer" class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:/com/francetelecom/clara/cloud/commons/testconfigurations/credentials-${datacenter:reference}.properties</value>
+				<value>classpath:/com/francetelecom/clara/cloud/commons/testconfigurations/config-hibernate-test-hsqldb-create-drop.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<import resource="classpath:/com/francetelecom/clara/cloud/commons/jpa/jpa-context.xml"/>
+	<import resource="classpath:/com/francetelecom/clara/cloud/commons/testconfigurations/mock-liquibase-context.xml"/>
+	<import resource="transaction-context.xml"/>
+	<!-- import resource="jmx-context.xml"/-->
+	<import resource="datasource-context.xml"/>	
+	
+    <import resource="classpath:/META-INF/spring/util-springoo-integration-context.xml" />
+    <import resource="classpath:/META-INF/spring/sampleCatalog-context.xml" />
+
+    <bean id="persistenceTestUtil" class="com.francetelecom.clara.cloud.PersistenceTestUtil">
+    </bean>
+
+</beans>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+<!-- this bean is used to fetch sample app properties (e.g. ear maven references)
+		from paas-samples.properties -->
+	<bean id="sampleAppProperties"
+		class="com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppProperties" />
+
+	<!-- manageApplication facade -->
+	<bean id="manageApplication"
+		class="com.francetelecom.clara.cloud.core.service.ManageApplicationImpl" />
+
+	<!-- manageApplicationRelease facade -->
+	<bean id="manageApplicationRelease"
+		class="com.francetelecom.clara.cloud.core.service.ManageApplicationReleaseImpl" />
+
+	<!-- managePaasUser facade -->
+	<bean id="managePaasUser"
+		class="com.francetelecom.clara.cloud.core.service.ManagePaasUserImpl" />
+
+	<bean id="environmentMapper"
+		class="com.francetelecom.clara.cloud.environment.impl.EnvironmentMapper">
+	</bean>
+
+	<bean id="manageEnvironment"
+		class="com.francetelecom.clara.cloud.environment.impl.ManageEnvironmentImpl">
+		<property name="environmentRepository" ref="environmentRepository" />
+		<property name="managePaasActivation" ref="managePaasActivation" />
+		<property name="purgeRetentionDelayInDay"
+			value="${paas.schedule.databasePurge.retentionDelayInDay}" />
+		<property name="technicalDeploymentRepository" ref="technicalDeploymentRepository"/>
+		<property name="applicationReleaseRepository" ref="applicationReleaseRepository" />
+		<property name="tdCloner" ref="technicalDeploymentCloner" />
+		<property name="logService" ref="logService" />
+		<property name="environmentMapper" ref="environmentMapper" />
+		<property name="shouldRetrieveMonitoringLink" value="false" />
+		<property name="utils">
+			<bean
+				class="com.francetelecom.clara.cloud.environment.impl.ManageEnvironmentImplUtils">
+				<property name="environmentRepository" ref="environmentRepository" />
+				<property name="projectionService" ref="projectionService" />
+				<property name="configRoleRepository" ref="configRoleRepository" />
+				<property name="paasUserRepository" ref="paasUserRepository" />
+				<property name="applicationReleaseRepository" ref="applicationReleaseRepository" />
+				<property name="tdCloner" ref="technicalDeploymentCloner" />
+				<property name="manageTechnicalDeploymentTemplate" ref="manageTechnicalDeploymentTemplate" />
+			</bean>
+		</property>
+	</bean>
+
+	<!-- manageLogicalDeployment facade -->
+	<bean id="manageLogicalDeployment"
+		class="com.francetelecom.clara.cloud.application.impl.ManageLogicalDeploymentImpl" />
+
+	<!-- manageTechnicalDeployment facade -->
+	<bean id="manageTechnicalDeployment"
+		class="com.francetelecom.clara.cloud.application.impl.ManageTechnicalDeploymentImpl">
+		<property name="technicalDeploymentRepository" ref="technicalDeploymentRepository"/>
+		<property name="technicalDeploymentInstanceRepository" ref="technicalDeploymentInstanceRepository"/>
+	</bean>
+
+	<!-- manageScalability facade -->
+	<bean id="manageScalability"
+		class="com.francetelecom.clara.cloud.scalability.impl.ManageScalabilityImpl">
+		<property name="managePaasUser" ref="managePaasUser" />
+		<property name="manageApplication" ref="manageApplication" />
+		<property name="manageApplicationRelease" ref="manageApplicationRelease" />
+		<property name="manageLogicalDeployment" ref="manageLogicalDeployment" />
+		<property name="manageEnvironment" ref="manageEnvironment" />
+		<property name="sampleAppProperties" ref="sampleAppProperties" />
+	</bean>
+
+	<!-- recuperation de la Session Factory Hibernate -->
+	<bean id="sessionFactory" factory-bean="entityManagerFactory"
+		factory-method="getSessionFactory" />
+
+	<!-- manageScalability facade -->
+	<bean id="manageStatistics"
+		class="com.francetelecom.clara.cloud.scalability.impl.ManageStatisticsImpl">
+		<constructor-arg name="statisticsEnabled"
+			value="${paas.portal.stats.enabled:false}"></constructor-arg>
+		<constructor-arg name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!-- Dynamically add all deployment rules -->
+	<context:component-scan
+		base-package="com.francetelecom.clara.cloud.deployment.rules" />
+
+	<bean id="logicalDeploymentCloner"
+		class="com.francetelecom.clara.cloud.dao.impl.LogicalDeploymentClonerImpl">
+	</bean>
+
+	<bean id="backdoorService"
+		class="com.francetelecom.clara.cloud.service.backdoor.BackdoorServiceImpl">
+		<property name="environmentRepository" ref="environmentRepository" />
+		<property name="paasUserRepository" ref="paasUserRepository" />
+	</bean>
+
+	<bean id="opsService" class="com.francetelecom.clara.cloud.service.OpsServiceImpl">
+		<property name="manageEnvironment" ref="manageEnvironment" />
+		<property name="manageRelease" ref="manageApplicationRelease" />
+		<property name="manageApplication" ref="manageApplication" />
+		<property name="buildVersion" value="${project.version}" />
+		<property name="buildDate" value="${timestamp:n/a}" />
+		<property name="buildUser" value="${user.name}" />
+	</bean>
+
+
+	<import
+		resource="classpath:META-INF/spring/cloud-services-scheduled-service-context.xml" />
+	<import
+		resource="classpath:META-INF/spring/cloud-services-scheduled-trigger-context.xml" />
+
+</beans>

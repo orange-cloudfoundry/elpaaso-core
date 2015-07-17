@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="PaasServicesEnvCF-context.xml" />
+
+	<bean name="logicalModelCatalog"
+		class="com.francetelecom.clara.cloud.logicalmodel.samplecatalog.ConfigLogicalModelCatalog">
+		<property name="simulateMavenReferenceResolution" value="false" />
+	</bean>
+
+    <bean id="itConfiguration"
+          class="com.francetelecom.clara.cloud.paas.it.services.helper.PaasServicesEnvITConfiguration">
+        <property name="managePaasUser"         ref="managePaasUser"/>
+        <property name="manageApplication"      ref="manageApplication"/>
+        <property name="manageApplicationRelease" ref="manageApplicationRelease"/>
+        <property name="manageLogicalDeployment" ref="manageLogicalDeployment"/>
+        <property name="manageEnvironment"      ref="manageEnvironment"/>
+        <property name="useSshTunnel"           value="false"/>
+        
+        <property name="logicalModelCatalog"    ref="logicalModelCatalog"/>
+        <property name="testUserEmail"          value="${test.it.user.email}"/>
+        <property name="name"                   value="PaasServicesEnvConfigProbeIT"/>
+    </bean>
+    <bean id="paasServicesEnvITHelper"
+          class="com.francetelecom.clara.cloud.paas.it.services.helper.PaasServicesEnvITHelper">
+        <constructor-arg index="0" ref="itConfiguration"/>
+    </bean>
+</beans>

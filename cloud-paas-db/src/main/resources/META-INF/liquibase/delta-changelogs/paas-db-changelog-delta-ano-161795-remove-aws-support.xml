@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet author="wooj7232" id="1413192675368-1">
+        <dropForeignKeyConstraint baseTableName="aws_iaas_subscription" baseTableSchemaName="public" constraintName="fka569bd1311ae09d6fe637310"/>
+    </changeSet>
+    <changeSet author="wooj7232" id="1413192675368-2">
+        <dropForeignKeyConstraint baseTableName="aws_image_factory_subscription" baseTableSchemaName="public" constraintName="fka569bd1311ae09d6db379d78"/>
+    </changeSet>
+    <changeSet author="wooj7232" id="1413192675368-4">
+        <dropUniqueConstraint constraintName="uk_7upd1fgrpyqwsppkippi9ntva" tableName="aws_iaas_subscription"/>
+    </changeSet>
+    <changeSet author="wooj7232" id="1413192675368-5">
+        <dropUniqueConstraint constraintName="uk_ap9l8krb8do176seu8jwk0q95" tableName="aws_image_factory_subscription"/>
+    </changeSet>
+    <changeSet author="wooj7232" id="1413192675368-6">
+        <dropTable tableName="aws_iaas_subscription"/>
+    </changeSet>
+    <changeSet author="wooj7232" id="1413192675368-7">
+        <dropTable tableName="aws_image_factory_subscription"/>
+    </changeSet>
+</databaseChangeLog>

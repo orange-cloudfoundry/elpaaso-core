@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+			<list>
+                <value>classpath:/com/francetelecom/clara/cloud/commons/testconfigurations/credentials-${datacenter:reference}.properties</value>
+        	</list>
+       	</property>
+   </bean>
+
+    <!-- credentials of test databases are defined in cloud-commons-test-configurations module  -->
+       
+
+    <!-- application datasource -->
+    <!--<bean id="datasource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+        <!--<property name="url" value="jdbc:postgresql://${test.liquibase.futcopy.host}:${test.liquibase.futcopy.port}/${test.liquibase.futcopy.dbname}?autoReconnect=true" />-->
+        <!--<property name="username" value="${test.liquibase.futcopy.user}" />-->
+        <!--<property name="password" value="${test.liquibase.futcopy.password}" />-->
+        <!--<property name="driverClassName" value="org.postgresql.Driver"  />-->
+    <!--</bean>-->
+
+</beans>

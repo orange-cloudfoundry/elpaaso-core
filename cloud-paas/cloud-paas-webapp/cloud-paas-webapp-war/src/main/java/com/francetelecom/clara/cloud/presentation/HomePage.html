@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:wicket="https://git-wip-us.apache.org/repos/asf/wicket/repo?p=wicket.git;a=blob_plain;f=wicket-core/src/main/resources/META-INF/wicket-1.5.xsd;hb=master"
+      xml:lang="en" lang="en">
+      <!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+    <wicket:extend>
+		  <div class="iecenter">
+	                    <div class="block">
+	                    	<DIV></DIV>
+		                    	<!--[if lte IE 9]>  
+		                        <div class="ie8Warning">
+									<wicket:message key="elpaaso.login.page.ie8.labelStart"/>
+									<wicket:message key="elpaaso.login.page.ie8.labelIE8"/>
+									<a href="http://blogs.msdn.com/b/askie/archive/2009/05/14/mixed-content-and-internet-explorer-8-0.aspx" target="_blank" style="text-decoration:underline;">
+										<wicket:message key="elpaaso.login.page.ie8.labelLinkIE8Warning"/></a>
+									<wicket:message key="elpaaso.login.page.ie8.labelIE8End"/>
+									<wicket:message key="elpaaso.login.page.ie8.labelIEEmulation"/>
+									<a href="http://stackoverflow.com/questions/17871124/how-to-bring-back-browser-mode-in-ie11/17877416#17877416" target="_blank" style="text-decoration:underline;">
+										<wicket:message key="elpaaso.login.page.ie8.labelLinkIEEmulation"/></a>
+									<wicket:message key="elpaaso.login.page.ie8.labelIEEmulationEnd"/>
+								</div>
+								<br /><br />
+								<![endif]--> 
+						</div>
+					</div>
+		
+        <div id="navigation_01" class="clear" wicket:id="navigation_01" ></div>
+
+		<!-- <div class="contentContainer">
+			<div class="content"> -->
+	              				<!-- </div>
+			</div> -->
+        <div id="breadcrumbs" wicket:id="breadcrumbs" ></div>
+		  
+		<!-- Content -->
+		<div id="content" class="clear">
+
+			<!-- Colonnage -->
+			<div id="colonnes" class="clear">
+
+            <div wicket:id="feedback"></div>
+
+            <!-- accordion -->
+            <div id="stackpanel-multi" class="accordeon_standard">
+
+                <ul>
+                    <!-- accordion 1 -->
+                    <li class="accordeon_zone accordeon_zone_actif">
+                        <h3 class="accordeon_title">
+                            <a class="accordeon_zone_item" href="#accordeon-content-historiques-client"><wicket:message key="portal.homepage.monitoring"/></a>
+                        </h3>
+
+                        <!-- accordion_content -->
+                        <div class="overflow_hidden">
+                            <div class="accordeon_content" id="accordeon-content-historiques-client">
+                                <div class="texts center">
+                                    <a wicket:id="hyperic-portal-url" class="action-link-homepage" >
+                                        <img wicket:id="image.monitoring_info_icon" wicket:message="alt:portal.design.fun.monitorinfo.alt" alt=""/>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /accordion_content -->
+                    </li>
+                    <!-- accordion 1 -->
+                    <!-- accordion 2 -->
+                    <li class="accordeon_zone accordeon_zone_actif">
+                        <h3 class="accordeon_title">
+                            <a class="accordeon_zone_item" href="#accordeon-content-logs"><wicket:message key="portal.homepage.logs"/></a>
+                        </h3>
+
+                        <!-- accordion_content -->
+                        <div class="overflow_hidden">
+                           <div class="accordeon_content" id="accordeon-content-logs">
+                               <div class="texts center">
+                                   <a wicket:id="splunk-access-url" class="action-link-homepage">
+                                       <img wicket:id="image.splunk_info_icon" 
+                                            wicket:message="alt:portal.design.fun.logsinfo.alt" alt=""/>
+                                   </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /accordion_content -->
+                    </li>
+                    <!-- accordion 2 -->
+                    <!-- accordion 3 -->
+                    <li class="accordeon_zone accordeon_zone_actif">
+                        <h3 class="accordeon_title">
+                            <a class="accordeon_zone_item" href="#accordeon-content-synthese-client"><wicket:message key="portal.homepage.adminactions"/></a>
+                        </h3>
+
+                        <!-- accordion_content -->
+                        <div class="overflow_hidden">
+                            <div class="accordeon_content" id="accordeon-content-synthese-client">
+                                <div class="texts center">
+                                    <span wicket:id="process-user">
+                                        <a class="action-link-homepage" wicket:id="populateLinkUser">
+                                            <!-- <img src="images/fun/process_info_icon.png" -->
+                                             <img wicket:id="image.populateLinkImgUser" 
+                                                 wicket:message="alt:portal.design.fun.processinfo.alt" alt=""/>
+                                        </a> 
+                                    </span>
+                                    <span wicket:id="process-admin">
+                                        <a class="action-link-homepage" wicket:id="populateLink">
+                                            <img wicket:id="image.populateLinkImg" 
+                                                 wicket:message="alt:portal.design.fun.processinfo.alt" alt=""/>
+                                        </a>
+                                        
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /accordion_content -->
+                    </li>
+                    <!-- accordion 3 -->
+             		<wicket:remove>
+                    <!-- accordion 4 -->
+                    <!--li class="accordeon_zone accordeon_zone_actif">
+                        <h3 class="accordeon_title">
+                            <a class="accordeon_zone_item" href="#accordeon-content-creation-contact"><wicket:message key="portal.homepage.billing"/></a>
+                        </h3-->
+
+                        <!-- accordion_content -->
+                        <!--div class="accordeon_content" id="accordeon-content-creation-contact">
+                            <div class="texts center">
+                                
+                                    <img src="images/fun/billing_info_icon.png" 
+                                         wicket:message="alt:portal.design.fun.billinginfo.alt"  alt=""/>
+                                
+                            </div>
+                        </div-->
+                        <!-- /accordion_content -->
+                    <!--/li-->
+                    <!-- accordion  4-->
+                    </wicket:remove>
+                </ul>
+
+            </div>
+            <!-- /accordion -->
+
+			</div>
+			<!-- /Colonnage -->
+
+		</div>
+		<!-- /content -->
+
+    </wicket:extend>
+</html>

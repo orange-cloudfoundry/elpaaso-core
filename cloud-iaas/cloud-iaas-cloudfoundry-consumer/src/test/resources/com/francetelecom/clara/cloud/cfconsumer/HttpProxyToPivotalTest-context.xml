@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:/com/francetelecom/clara/cloud/commons/testconfigurations/credentials-${datacenter:reference}.properties
+				</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean class="com.francetelecom.clara.cloud.commons.MavenReference"
+		id="jeeProbeMavenReference">
+		<constructor-arg name="groupId" value="com.orange.clara.cloud.samples" />
+		<constructor-arg name="artifactId" value="paas-probe-jee-ear" />
+		<constructor-arg name="version" value="${paasSamplesVersion:1.0.35}" />
+		<constructor-arg name="extension" value="ear" />
+	</bean>
+
+	<bean id="modelItemDao" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg value="com.francetelecom.clara.cloud.dao.ModelItemDaoJpa" />
+	</bean>
+	<!-- necessary for superclass's init method -->
+	<bean id="manageModelItem" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg
+			value="com.francetelecom.clara.cloud.application.ManageModelItem" />
+	</bean>
+	<bean id="manageTechnicalDeploymentInstance" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg
+			value="com.francetelecom.clara.cloud.application.ManageTechnicalDeploymentInstance" />
+	</bean>
+
+	<bean id="transactionUtil" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg
+			value="com.francetelecom.clara.cloud.dao.impl.TransactionUtil" />
+	</bean>
+
+	<!-- used to avoid having test execs conflicts -->
+	<bean id="datacenter" class="java.lang.String">
+		<constructor-arg value="${datacenter}" />
+	</bean>
+
+	<bean id="cf.online.user" class="java.lang.String">
+		<constructor-arg value="${cf.online.ccng.email}" />
+	</bean>
+
+	<bean id="cf.user" class="java.lang.String">
+		<constructor-arg value="${cf.ccng.email}" />
+	</bean>
+
+	<bean id="cf.online.domain" class="java.lang.String">
+		<constructor-arg value="${cf.online.subdomain}" />
+	</bean>
+
+	<bean id="cf.domain" class="java.lang.String">
+		<constructor-arg value="${cf.subdomain}" />
+	</bean>
+
+	<bean id="cfOnlineConsumer"
+		class="com.francetelecom.clara.cloud.activation.plugin.cf.infrastructure.CfAdapterImpl">
+		<constructor-arg name="httpProxyHost" value="${internet.access.proxyHost}" />
+		<constructor-arg name="httpProxyPort" value="${internet.access.proxyPort}" />
+		<constructor-arg name="target">
+			<bean class="java.net.URL">
+				<constructor-arg index="0" value="${cf.online.ccng.target}" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg name="email" value="${cf.online.ccng.email}" />
+		<constructor-arg name="password" value="${cf.online.ccng.passwd}" />
+		<constructor-arg name="org" value="${cf.online.ccng.org}" />
+		<constructor-arg name="space" value="${cf.online.ccng.space}" />
+		<constructor-arg name="domain" value="${cf.online.subdomain}" />
+		<constructor-arg name="trustSelfSignedCerts" value="${cf.trustSelfSignedCerts}" />
+		<property name="fileFetcherUtil" ref="fileFetcherUtil" />
+		<property name="usingHttpProxy" value="${cf.online.ccng.use_proxy}" />
+	</bean>
+
+	<!-- <bean id="jonasBuildpackUrl" class="java.lang.String"> <constructor-arg 
+		value="" /> </bean> <bean id="javaBuildpackUrl" class="java.lang.String"> 
+		<constructor-arg value="" /> </bean> -->
+
+	<import resource="classpath:/META-INF/spring/mvn-consumer-context.xml" />
+	<import resource="classpath:/META-INF/spring/cf-adapter-context.xml" />
+    <import resource="classpath:/META-INF/spring/cloud-archive-context.xml" />
+
+
+
+</beans>

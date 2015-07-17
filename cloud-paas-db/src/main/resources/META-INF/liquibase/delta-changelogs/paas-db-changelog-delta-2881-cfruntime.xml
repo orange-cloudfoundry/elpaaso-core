@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet author="skwg9735" id="1374748461481-1">
+        <createTable tableName="cf_app">
+            <column name="id" type="integer">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="cf_app_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(250)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deploymentstate" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="logicalmodelid" type="VARCHAR(255)"/>
+            <column name="monitoringstate" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="technicalid" type="VARCHAR(255)"/>
+            <column name="artifactid" type="VARCHAR(255)"/>
+            <column name="classifier" type="VARCHAR(255)"/>
+            <column name="extension" type="VARCHAR(255)"/>
+            <column name="groupid" type="VARCHAR(255)"/>
+            <column name="mvn_version" type="VARCHAR(255)"/>
+            <column name="appname" type="VARCHAR(255)"/>
+            <column name="buildpackurl" type="VARCHAR(255)"/>
+            <column name="instancecount" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rammb" type="integer">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="skwg9735" id="1374748461481-2">
+        <createTable tableName="cf_service">
+            <column name="id" type="integer">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="cf_service_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(250)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deploymentstate" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="logicalmodelid" type="VARCHAR(255)"/>
+            <column name="monitoringstate" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="technicalid" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="skwg9735" id="1374748461481-3">
+        <createTable tableName="cf_subscription">
+            <column name="id" type="integer">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="cf_subscription_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(250)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deploymentstate" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="logicalmodelid" type="VARCHAR(255)"/>
+            <column name="monitoringstate" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="technicalid" type="VARCHAR(255)"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="technicaldeployment_id" type="integer">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="skwg9735" id="1374748461481-4">
+        <createTable tableName="cf_subscription_cf_app">
+            <column name="cf_subscription_id" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="apps_id" type="integer">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="skwg9735" id="1374748461481-5">
+        <createTable tableName="cf_subscription_cf_service">
+            <column name="cf_subscription_id" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="services_id" type="integer">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="skwg9735" id="1374748461481-6">
+        <addPrimaryKey columnNames="cf_subscription_id, apps_id" constraintName="cf_subscription_cf_app_pkey" tableName="cf_subscription_cf_app"/>
+    </changeSet>
+    <changeSet author="skwg9735" id="1374748461481-7">
+        <addPrimaryKey columnNames="cf_subscription_id, services_id" constraintName="cf_subscription_cf_service_pkey" tableName="cf_subscription_cf_service"/>
+    </changeSet>
+    <changeSet author="skwg9735" id="1374748461481-8">
+        <addUniqueConstraint columnNames="name" constraintName="cf_app_name_key" deferrable="false" disabled="false" initiallyDeferred="false" tableName="cf_app"/>
+    </changeSet>
+    <changeSet author="skwg9735" id="1374748461481-9">
+        <addUniqueConstraint columnNames="name" constraintName="cf_service_name_key" deferrable="false" disabled="false" initiallyDeferred="false" tableName="cf_service"/>
+    </changeSet>
+    <changeSet author="skwg9735" id="1374748461481-10">
+        <addUniqueConstraint columnNames="name" constraintName="cf_subscription_name_key" deferrable="false" disabled="false" initiallyDeferred="false" tableName="cf_subscription"/>
+    </changeSet>
+    <changeSet author="skwg9735" id="1374748461481-11">
+        <addUniqueConstraint columnNames="apps_id" constraintName="cf_subscription_cf_app_apps_id_key" deferrable="false" disabled="false" initiallyDeferred="false" tableName="cf_subscription_cf_app"/>
+    </changeSet>
+    <changeSet author="skwg9735" id="1374748461481-12">
+        <addUniqueConstraint columnNames="services_id" constraintName="cf_subscription_cf_service_services_id_key" deferrable="false" disabled="false" initiallyDeferred="false" tableName="cf_subscription_cf_service"/>
+    </changeSet>
+    <changeSet author="skwg9735" id="1374748461481-13">
+        <addForeignKeyConstraint baseColumnNames="technicaldeployment_id" baseTableName="cf_subscription" baseTableSchemaName="public" constraintName="fka569bd1311ae09d668269b79" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="technical_deployment" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="skwg9735" id="1374748461481-14">
+        <addForeignKeyConstraint baseColumnNames="apps_id" baseTableName="cf_subscription_cf_app" baseTableSchemaName="public" constraintName="fkc87e83abb229cd7f" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="cf_app" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="skwg9735" id="1374748461481-15">
+        <addForeignKeyConstraint baseColumnNames="cf_subscription_id" baseTableName="cf_subscription_cf_app" baseTableSchemaName="public" constraintName="fkc87e83ab43e94428" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="cf_subscription" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="skwg9735" id="1374748461481-16">
+        <addForeignKeyConstraint baseColumnNames="cf_subscription_id" baseTableName="cf_subscription_cf_service" baseTableSchemaName="public" constraintName="fk3e9df33f43e94428" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="cf_subscription" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="skwg9735" id="1374748461481-17">
+        <addForeignKeyConstraint baseColumnNames="services_id" baseTableName="cf_subscription_cf_service" baseTableSchemaName="public" constraintName="fk3e9df33fcb5561a7" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="cf_service" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="wooj7232" id="1375782576861-1">
+        <createTable tableName="cfapp_uris">
+            <column name="cfapp_id" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="uris" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="wooj7232" id="1375782576861-2">
+        <createTable tableName="cfapp_uristemplate">
+            <column name="cfapp_id" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="uristemplate" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="wooj7232" id="1375782576861-3">
+        <addColumn tableName="cf_app">
+            <column name="appnametemplate" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="wooj7232" id="1375782576861-4">
+        <addForeignKeyConstraint baseColumnNames="cfapp_id" baseTableName="cfapp_uris" baseTableSchemaName="public" constraintName="fk4bf38d88cd234193" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="cf_app" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="wooj7232" id="1375782576861-5">
+        <addForeignKeyConstraint baseColumnNames="cfapp_id" baseTableName="cfapp_uristemplate" baseTableSchemaName="public" constraintName="fkd386b622cd234193" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="cf_app" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
+    </changeSet>
+ 
+     <changeSet author="paas" id="1377077171643-1">
+        <createTable tableName="cf_app_cf_route">
+            <column name="cf_app_id" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="routes_id" type="integer">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="paas" id="1377077171643-2">
+        <createTable tableName="cf_route">
+            <column name="id" type="integer">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="cf_route_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(250)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deploymentstate" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="logicalmodelid" type="VARCHAR(255)"/>
+            <column name="monitoringstate" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="technicalid" type="VARCHAR(255)"/>
+            <column name="contextroot" type="VARCHAR(255)"/>
+            <column name="uri" type="VARCHAR(255)"/>
+            <column name="uritemplate" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="paas" id="1377077171643-3">
+        <dropForeignKeyConstraint baseTableName="cfapp_uris" baseTableSchemaName="public" constraintName="fk4bf38d88cd234193"/>
+    </changeSet>
+    <changeSet author="paas" id="1377077171643-4">
+        <dropForeignKeyConstraint baseTableName="cfapp_uristemplate" baseTableSchemaName="public" constraintName="fkd386b622cd234193"/>
+    </changeSet>
+    <changeSet author="paas" id="1377077171643-5">
+        <addUniqueConstraint columnNames="routes_id" constraintName="cf_app_cf_route_routes_id_key" deferrable="false" disabled="false" initiallyDeferred="false" tableName="cf_app_cf_route"/>
+    </changeSet>
+    <changeSet author="paas" id="1377077171643-6">
+        <addUniqueConstraint columnNames="name" constraintName="cf_route_name_key" deferrable="false" disabled="false" initiallyDeferred="false" tableName="cf_route"/>
+    </changeSet>
+    <changeSet author="paas" id="1377077171643-7">
+        <addForeignKeyConstraint baseColumnNames="cf_app_id" baseTableName="cf_app_cf_route" baseTableSchemaName="public" constraintName="fkef44ce27e8f216cc" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="cf_app" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="paas" id="1377077171643-8">
+        <addForeignKeyConstraint baseColumnNames="routes_id" baseTableName="cf_app_cf_route" baseTableSchemaName="public" constraintName="fkef44ce274b12ec4f" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="cf_route" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="paas" id="1377077171643-9">
+        <dropTable tableName="cfapp_uris"/>
+    </changeSet>
+    <changeSet author="paas" id="1377077171643-10">
+        <dropTable tableName="cfapp_uristemplate"/>
+    </changeSet>   
+</databaseChangeLog>

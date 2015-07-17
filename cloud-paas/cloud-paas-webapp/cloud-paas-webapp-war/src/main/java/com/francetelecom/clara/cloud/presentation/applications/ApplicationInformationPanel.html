@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:wicket="https://git-wip-us.apache.org/repos/asf/wicket/repo?p=wicket.git;a=blob_plain;f=wicket-core/src/main/resources/META-INF/wicket-1.5.xsd;hb=master"
+      xml:lang="en" lang="en">
+    <wicket:panel>
+        <div class="tableTitle clear">
+            <span class="tableTitleIcon" ></span>
+            <h2 wicket:id="applicationLabel" ></h2>
+        </div>
+
+        <form wicket:id="appForm" class="formCss1"  action="">
+            <fieldset class="form">
+            <p class="content">
+                <input type="text" id="label" wicket:id="label" name="applicationLabel"/>
+            </p>
+            <p class="content">
+                <input type="text" id="code" wicket:id="code" name="applicationCode"/>
+            </p>
+            <p class="content">
+                <textarea id="description" cols="50" rows="5" wicket:id="description" name="appDescription" />
+            </p>
+            <p class="content">
+                <span  wicket:id="isPublic" id="isPublic">
+                    <input wicket:id="appVisibilityRadioGroup-public" type="radio"><wicket:message key="portal.application.visibility.value.public.description"/></input><br/>
+                    <input wicket:id="appVisibilityRadioGroup-private" type="radio"><wicket:message key="portal.application.visibility.value.private.description"/></input><br/>
+                </span>
+            </p>
+            <p class="content">
+                <span class="param">
+                    <wicket:message key="portal.application.members.label" />
+                    <a href="#" class="newtooltip"><img wicket:id="membersHelp" alt="Help"/>
+                        <span class="tooltipmessage"><wicket:message key="portal.application.visibility.members.tooltip"/></span>
+                    </a>
+                </span>
+                <span class="required">*</span>
+                <span class="value">
+                    <input type="text" wicket:id="members" id="members"/>
+                </span>
+            </p>
+            <div wicket:id="buttonContainer">
+                <p class="button">
+                    <span class="param" ></span>
+                    <span class="required" ></span>
+                    <a class="button_action_large" wicket:id="appModifyLink"><span wicket:id="modifyLabel"></span></a>
+                    <a class="button_action_large" wicket:id="appCancelLink"><span wicket:id="cancelLabel"></span></a>
+                    <a class="button_action_special" wicket:id="appDeleteLink"><span wicket:id="deleteLabel"></span></a>
+                    <a class="button_action_special" wicket:id="appUpdateLink"><span wicket:id="updateLabel"></span></a>
+                </p>
+            </div>
+            </fieldset>
+        </form>
+    </wicket:panel>
+
+</html>

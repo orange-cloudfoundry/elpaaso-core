@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	<bean id="propertyConfigurer" class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:/com/francetelecom/clara/cloud/commons/testconfigurations/credentials-${datacenter:reference}.properties</value>
+				<value>classpath:/com/francetelecom/clara/cloud/commons/testconfigurations/config-hibernate-test-hsqldb-create.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<import resource="classpath:/com/francetelecom/clara/cloud/commons/jpa/jpa-context.xml"/>
+	<import resource="classpath:/com/francetelecom/clara/cloud/commons/testconfigurations/mock-liquibase-context.xml"/>
+
+	<bean id="taskExecutor" class="org.springframework.core.task.SimpleAsyncTaskExecutor" />
+
+	<!-- http://internna.blogspot.com/2007/08/hibernate-statistics-in-enterprise-5.html -->
+
+	<!-- recuperation de la Session Factory Hibernate -->
+	<!-- bean id="sessionFactory" factory-bean="entityManagerFactory" factory-method="getSessionFactory"/>
+
+	<bean id="statisticsBean" class="org.hibernate.jmx.StatisticsService">
+		<property name="statisticsEnabled" value="true" />
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean id="jmxExporter" class="org.springframework.jmx.export.MBeanExporter">
+		<property name="registrationBehaviorName" value="REGISTRATION_REPLACE_EXISTING"></property>
+		<property name="beans">
+			<map>
+				<entry key="Hibernate:name=statistics">
+					<ref local="statisticsBean" />
+				</entry>
+			</map>
+		</property>
+	</bean-->
+
+	<import resource="classpath:/com/francetelecom/clara/cloud/model/util-springoo-context.xml" />
+
+	<bean id="datasource" class="org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy">
+		<property name="targetDataSource" ref="ds" />
+	</bean>
+
+	<bean id="ds" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.p6spy.engine.spy.P6SpyDriver" />
+		<property name="url" value="jdbc:hsqldb:mem:cloud-paas-activiti-db" />
+		<property name="username" value="sa" />
+		<property name="password" value="" />
+	</bean>
+
+	<!-- Configuration du gestionnaire de transactions -->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory">
+			<ref bean="entityManagerFactory" />
+		</property>
+	</bean>
+
+	<!-- marquage des transactions par annotations -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<import resource="classpath:/META-INF/spring/cloud-daos-context.xml" />
+</beans>

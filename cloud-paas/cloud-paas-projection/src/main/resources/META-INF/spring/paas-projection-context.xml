@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	                    http://www.springframework.org/schema/beans/spring-beans.xsd
+		                http://www.springframework.org/schema/util
+		                http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<import resource="classpath:/META-INF/spring/cf-projection-context.xml" />
+
+	<bean id="ProjectorPerProfiles" class="java.util.EnumMap">
+		<constructor-arg>
+			<util:map key-type="com.francetelecom.clara.cloud.coremodel.MiddlewareProfile">
+				<entry key="V200_CF">
+					<ref bean="baseProjectionService-2.0.0-cf" />
+				</entry>
+				<entry key="V210_CF">
+					<ref bean="baseProjectionService-2.1.0-cf"/>
+				</entry>
+			</util:map>
+		</constructor-arg>
+	</bean>
+
+	<bean id="projectionService"
+		class="com.francetelecom.clara.cloud.paas.projection.MultiProfileProjectionServiceDispatcherImpl">
+		<property name="projectionsPerMiddlewareProfileVersion" ref="ProjectorPerProfiles" />
+	</bean>
+
+	<bean id="cryptService" class="com.francetelecom.clara.cloud.paas.projection.security.CryptServiceImpl"
+		  init-method="init">
+		<property name="basePassword" value="${paas.password}"></property>
+	</bean>
+
+</beans>

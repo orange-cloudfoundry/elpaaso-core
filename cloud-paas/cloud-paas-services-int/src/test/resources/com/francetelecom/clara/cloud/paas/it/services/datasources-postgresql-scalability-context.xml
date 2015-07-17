@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="classpath:/META-INF/test-database-dbaas-service-context.xml"/>
+	
+	<bean id="testDatabase" class="com.francetelecom.clara.cloud.test.database.DbaasDatabase" init-method="create" destroy-method="delete" >
+		<property name="dbaasService" ref="dbaasService" />
+		<!-- @DATABASE
+			 for postgresl use POSTGRESQL
+			 for mysql     use MYSQL 
+		 -->
+		<property name="engine" value="POSTGRESQL"/>
+		<property name="user" value="${test.db.creation.user}" />
+		<property name="password" value="${test.db.creation.password}" />
+		<property name="description" value="Database used in paas-services-int scalability test - should be automatically deleted"/>
+	</bean>
+	
+	<bean id="commonDS" abstract="true"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+<!-- 		<property name="driverClassName" value="org.postgresql.xa.PGXADataSource" /> -->
+		<property name="driverClassName" value="com.p6spy.engine.spy.P6SpyDriver"></property>
+		<property name="url" value="#{ testDatabase.url }" />
+		<property name="username" value="#{testDatabase.user}" />
+		<property name="password" value="#{testDatabase.password}" />
+	</bean>
+
+	<!-- application datasource -->
+	<bean id="datasource" parent="commonDS" />
+
+	<!-- activiti datasource for unit testing -->
+	<bean id="activitiDS" parent="commonDS" />
+
+</beans>

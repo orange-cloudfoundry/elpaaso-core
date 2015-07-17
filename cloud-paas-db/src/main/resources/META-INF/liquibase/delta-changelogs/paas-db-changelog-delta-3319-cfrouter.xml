@@ -1,0 +1,71 @@
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet author="qbwb2700" id="1377617522773-1">
+        <createTable tableName="cf_router_subscription">
+            <column name="id" type="integer">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="cf_router_subscription_pkey"/>
+            </column>
+            <column name="name" type="VARCHAR(250)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deploymentstate" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="logicalmodelid" type="VARCHAR(255)"/>
+            <column name="monitoringstate" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="technicalid" type="VARCHAR(255)"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="technicaldeployment_id" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="routename" type="VARCHAR(255)"/>
+            <column name="routenametemplate" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="qbwb2700" id="1377617522773-2">
+        <createTable tableName="cf_router_subscription_load_balancer">
+            <column name="cf_router_subscription_id" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="routedestinations_id" type="integer">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="qbwb2700" id="1377617522773-3">
+        <addPrimaryKey columnNames="cf_router_subscription_id, routedestinations_id" constraintName="cf_router_subscription_load_balancer_pkey" tableName="cf_router_subscription_load_balancer"/>
+    </changeSet>
+    <changeSet author="qbwb2700" id="1377617522773-4">
+        <addUniqueConstraint columnNames="name" constraintName="cf_router_subscription_name_key" deferrable="false" disabled="false" initiallyDeferred="false" tableName="cf_router_subscription"/>
+    </changeSet>
+    <changeSet author="qbwb2700" id="1377617522773-5">
+        <addUniqueConstraint columnNames="routedestinations_id" constraintName="cf_router_subscription_load_balancer_routedestinations_id_key" deferrable="false" disabled="false" initiallyDeferred="false" tableName="cf_router_subscription_load_balancer"/>
+    </changeSet>
+    <changeSet author="qbwb2700" id="1377617522773-6">
+        <addForeignKeyConstraint baseColumnNames="technicaldeployment_id" baseTableName="cf_router_subscription" baseTableSchemaName="public" constraintName="fka569bd1311ae09d6a4000477" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="technical_deployment" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="qbwb2700" id="1377617522773-7">
+        <addForeignKeyConstraint baseColumnNames="cf_router_subscription_id" baseTableName="cf_router_subscription_load_balancer" baseTableSchemaName="public" constraintName="fk49912e8790f0f2f0" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="cf_router_subscription" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
+    </changeSet>
+    <changeSet author="qbwb2700" id="1377617522773-8">
+        <addForeignKeyConstraint baseColumnNames="routedestinations_id" baseTableName="cf_router_subscription_load_balancer" baseTableSchemaName="public" constraintName="fk49912e87ff8d4d21" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="load_balancer" referencedTableSchemaName="public" referencesUniqueColumn="false"/>
+    </changeSet>
+</databaseChangeLog>

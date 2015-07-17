@@ -1,0 +1,1384 @@
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+	<changeSet author="paas" id="1411026792350-1">
+		<createTable tableName="cf_app_v2">
+			<column name="id" type="integer">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="cf_app_v2_pkey" />
+			</column>
+			<column name="name" type="VARCHAR(250)">
+				<constraints nullable="false" />
+			</column>
+			<column name="version" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="deploymentstate" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="logicalmodelid" type="VARCHAR(255)" />
+			<column name="monitoringstate" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="technicalid" type="VARCHAR(255)" />
+			<column name="artifactid" type="VARCHAR(255)" />
+			<column name="classifier" type="VARCHAR(255)" />
+			<column name="extension" type="VARCHAR(255)" />
+			<column name="groupid" type="VARCHAR(255)" />
+			<column name="mvn_version" type="VARCHAR(255)" />
+			<column name="appname" type="VARCHAR(255)" />
+			<column name="appnametemplate" type="VARCHAR(255)" />
+			<column name="buildpackurl" type="VARCHAR(255)" />
+			<column name="instancecount" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="rammb" type="integer">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-2">
+		<createTable tableName="cf_app_v2_cf_route_v2">
+			<column name="cf_app_v2_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="routes_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-3">
+		<createTable tableName="cf_app_v2_cf_ups_v2">
+			<column name="cf_app_v2_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="boundservices_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-4">
+		<createTable tableName="cf_dbaas_ups_v2">
+			<column name="id" type="integer">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="cf_dbaas_ups_v2_pkey" />
+			</column>
+			<column name="name" type="VARCHAR(250)">
+				<constraints nullable="false" />
+			</column>
+			<column name="version" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="deploymentstate" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="logicalmodelid" type="VARCHAR(255)" />
+			<column name="monitoringstate" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="technicalid" type="VARCHAR(255)" />
+			<column name="servicename" type="VARCHAR(255)" />
+			<column name="urischeme" type="integer" />
+			<column name="dbaassubscription_id" type="integer" />
+		</createTable>
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-5">
+		<createTable tableName="cf_route_v2">
+			<column name="id" type="integer">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="cf_route_v2_pkey" />
+			</column>
+			<column name="name" type="VARCHAR(250)">
+				<constraints nullable="false" />
+			</column>
+			<column name="version" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="deploymentstate" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="logicalmodelid" type="VARCHAR(255)" />
+			<column name="monitoringstate" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="technicalid" type="VARCHAR(255)" />
+			<column name="contextroot" type="VARCHAR(255)" />
+			<column name="uri" type="VARCHAR(255)" />
+			<column name="uritemplate" type="VARCHAR(255)" />
+		</createTable>
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-6">
+		<createTable tableName="cf_simple_ups_v2">
+			<column name="id" type="integer">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="cf_simple_ups_v2_pkey" />
+			</column>
+			<column name="name" type="VARCHAR(250)">
+				<constraints nullable="false" />
+			</column>
+			<column name="version" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="deploymentstate" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="logicalmodelid" type="VARCHAR(255)" />
+			<column name="monitoringstate" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="technicalid" type="VARCHAR(255)" />
+			<column name="servicename" type="VARCHAR(255)" />
+			<column name="serviceurl" type="VARCHAR(255)" />
+		</createTable>
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-7">
+		<createTable tableName="cf_subscription_v2">
+			<column name="id" type="integer">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="cf_subscription_v2_pkey" />
+			</column>
+			<column name="name" type="VARCHAR(250)">
+				<constraints nullable="false" />
+			</column>
+			<column name="version" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="deploymentstate" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="logicalmodelid" type="VARCHAR(255)" />
+			<column name="monitoringstate" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="technicalid" type="VARCHAR(255)" />
+			<column name="description" type="VARCHAR(255)" />
+			<column name="technicaldeployment_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-8">
+		<createTable tableName="cf_subscription_v2_cf_app_v2">
+			<column name="cf_subscription_v2_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="apps_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-9">
+		<createTable tableName="dbaas_subscription_v2">
+			<column name="id" type="integer">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="dbaas_subscription_v2_pkey" />
+			</column>
+			<column name="name" type="VARCHAR(250)">
+				<constraints nullable="false" />
+			</column>
+			<column name="version" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="deploymentstate" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="logicalmodelid" type="VARCHAR(255)" />
+			<column name="monitoringstate" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="technicalid" type="VARCHAR(255)" />
+			<column name="description" type="VARCHAR(255)" />
+			<column name="technicaldeployment_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="databaseuuid" type="VARCHAR(255)" />
+			<column name="dbname" type="VARCHAR(255)" />
+			<column name="hostname" type="VARCHAR(255)" />
+			<column name="port" type="integer" />
+			<column name="dbownername" type="VARCHAR(255)" />
+			<column name="dbownerpwd" type="VARCHAR(255)" />
+			<column name="dbaasversion" type="VARCHAR(255)" />
+			<column name="sqlscript_artifactid" type="VARCHAR(255)" />
+			<column name="sqlscript_classifier" type="VARCHAR(255)" />
+			<column name="sqlscript_extension" type="VARCHAR(255)" />
+			<column name="sqlscript_groupid" type="VARCHAR(255)" />
+			<column name="sqlscript_version" type="VARCHAR(255)" />
+			<column name="sqldialect" type="integer" />
+			<column name="valueinmb" type="FLOAT4">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		<modifySql dbms="postgresql">
+			<replace replace="WITH" with="WITHOUT" />
+		</modifySql>
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-10">
+		<addPrimaryKey columnNames="cf_app_v2_id, boundservices_id"
+			constraintName="cf_app_v2_cf_ups_v2_pkey" tableName="cf_app_v2_cf_ups_v2" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-11">
+		<addPrimaryKey columnNames="cf_subscription_v2_id, apps_id"
+			constraintName="cf_subscription_v2_cf_app_v2_pkey" tableName="cf_subscription_v2_cf_app_v2" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-12">
+		<dropForeignKeyConstraint baseTableName="cf_app_cf_route"
+			baseTableSchemaName="public" constraintName="fkef44ce27e8f216cc" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-13">
+		<dropForeignKeyConstraint baseTableName="cf_app_cf_route"
+			baseTableSchemaName="public" constraintName="fkef44ce274b12ec4f" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-14">
+		<dropForeignKeyConstraint baseTableName="cf_subscription"
+			baseTableSchemaName="public" constraintName="fka569bd1311ae09d668269b79" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-15">
+		<dropForeignKeyConstraint baseTableName="cf_subscription_cf_app"
+			baseTableSchemaName="public" constraintName="fkc87e83abb229cd7f" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-16">
+		<dropForeignKeyConstraint baseTableName="cf_subscription_cf_app"
+			baseTableSchemaName="public" constraintName="fkc87e83ab43e94428" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-17">
+		<dropForeignKeyConstraint baseTableName="cf_subscription_cf_service"
+			baseTableSchemaName="public" constraintName="fk3e9df33f43e94428" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-18">
+		<dropForeignKeyConstraint baseTableName="cf_subscription_cf_service"
+			baseTableSchemaName="public" constraintName="fk3e9df33fcb5561a7" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-19">
+		<addUniqueConstraint columnNames="name"
+			constraintName="cf_app_v2_name_key" deferrable="false" disabled="false"
+			initiallyDeferred="false" tableName="cf_app_v2" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-20">
+		<addUniqueConstraint columnNames="routes_id"
+			constraintName="cf_app_v2_cf_route_v2_routes_id_key" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="cf_app_v2_cf_route_v2" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-21">
+		<addUniqueConstraint columnNames="boundservices_id"
+			constraintName="cf_app_v2_cf_ups_v2_boundservices_id_key" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="cf_app_v2_cf_ups_v2" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-22">
+		<addUniqueConstraint columnNames="name"
+			constraintName="cf_dbaas_ups_v2_name_key" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="cf_dbaas_ups_v2" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-23">
+		<addUniqueConstraint columnNames="name"
+			constraintName="cf_route_v2_name_key" deferrable="false" disabled="false"
+			initiallyDeferred="false" tableName="cf_route_v2" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-24">
+		<addUniqueConstraint columnNames="name"
+			constraintName="cf_simple_ups_v2_name_key" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="cf_simple_ups_v2" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-25">
+		<addUniqueConstraint columnNames="name"
+			constraintName="cf_subscription_v2_name_key" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="cf_subscription_v2" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-26">
+		<addUniqueConstraint columnNames="apps_id"
+			constraintName="cf_subscription_v2_cf_app_v2_apps_id_key" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="cf_subscription_v2_cf_app_v2" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-27">
+		<addUniqueConstraint columnNames="name"
+			constraintName="dbaas_subscription_v2_name_key" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="dbaas_subscription_v2" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-28">
+		<dropUniqueConstraint constraintName="cf_app_name_key"
+			tableName="cf_app" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-29">
+		<dropUniqueConstraint constraintName="cf_app_cf_route_routes_id_key"
+			tableName="cf_app_cf_route" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-30">
+		<dropUniqueConstraint constraintName="cf_route_name_key"
+			tableName="cf_route" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-31">
+		<dropUniqueConstraint constraintName="cf_service_name_key"
+			tableName="cf_service" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-32">
+		<dropUniqueConstraint constraintName="cf_subscription_name_key"
+			tableName="cf_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-33">
+		<dropUniqueConstraint constraintName="cf_subscription_cf_app_apps_id_key"
+			tableName="cf_subscription_cf_app" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-34">
+		<dropUniqueConstraint constraintName="cf_subscription_cf_service_services_id_key"
+			tableName="cf_subscription_cf_service" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-35">
+		<addForeignKeyConstraint baseColumnNames="cf_app_v2_id"
+			baseTableName="cf_app_v2_cf_route_v2" baseTableSchemaName="public"
+			constraintName="fk31f81305385a3474" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="cf_app_v2"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-36">
+		<addForeignKeyConstraint baseColumnNames="routes_id"
+			baseTableName="cf_app_v2_cf_route_v2" baseTableSchemaName="public"
+			constraintName="fk31f81305e78d59c8" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="cf_route_v2"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-37">
+		<addForeignKeyConstraint baseColumnNames="cf_app_v2_id"
+			baseTableName="cf_app_v2_cf_ups_v2" baseTableSchemaName="public"
+			constraintName="fkb32cf276385a3474" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="cf_app_v2"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-38">
+		<addForeignKeyConstraint baseColumnNames="dbaassubscription_id"
+			baseTableName="cf_dbaas_ups_v2" baseTableSchemaName="public"
+			constraintName="fkc8e93e099280a2e3" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="dbaas_subscription_v2"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-39">
+		<addForeignKeyConstraint baseColumnNames="technicaldeployment_id"
+			baseTableName="cf_subscription_v2" baseTableSchemaName="public"
+			constraintName="fka569bd1311ae09d624c7f522" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="technical_deployment"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-40">
+		<addForeignKeyConstraint baseColumnNames="apps_id"
+			baseTableName="cf_subscription_v2_cf_app_v2" baseTableSchemaName="public"
+			constraintName="fkaf1de219a7234538" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="cf_app_v2"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-41">
+		<addForeignKeyConstraint baseColumnNames="cf_subscription_v2_id"
+			baseTableName="cf_subscription_v2_cf_app_v2" baseTableSchemaName="public"
+			constraintName="fkaf1de21981d1229" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="cf_subscription_v2"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-42">
+		<addForeignKeyConstraint baseColumnNames="technicaldeployment_id"
+			baseTableName="dbaas_subscription_v2" baseTableSchemaName="public"
+			constraintName="fka569bd1311ae09d6fce1c3b4" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="technical_deployment"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-43">
+		<dropTable tableName="cf_app" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-44">
+		<dropTable tableName="cf_app_cf_route" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-45">
+		<dropTable tableName="cf_route" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-46">
+		<dropTable tableName="cf_service" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-47">
+		<dropTable tableName="cf_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-48">
+		<dropTable tableName="cf_subscription_cf_app" />
+	</changeSet>
+	<changeSet author="paas" id="1411026792350-49">
+		<dropTable tableName="cf_subscription_cf_service" />
+	</changeSet>
+
+	<!-- execution_node is renamed to jee_processing -->
+	<changeSet author="paas" id="1412178153893-1">
+		<createTable tableName="cf_java_processing">
+			<column name="id" type="integer">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="cf_java_processing_pkey" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-2">
+		<createTable tableName="jee_processing">
+			<column name="id" type="integer">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="jee_processing_pkey" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-3">
+		<createTable tableName="processing_node">
+			<column name="iconurl" type="VARCHAR(255)" />
+			<column name="memorykbperactivesessionhint" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="minmemorymbhint" type="integer">
+				<constraints nullable="false" />
+			</column>
+			<column name="optionalsoftwarereference" type="boolean">
+				<constraints nullable="false" />
+			</column>
+			<column name="artifactid" type="VARCHAR(255)" />
+			<column name="classifier" type="VARCHAR(255)" />
+			<column name="extension" type="VARCHAR(255)" />
+			<column name="groupid" type="VARCHAR(255)" />
+			<column name="mvn_version" type="VARCHAR(255)" />
+			<column name="id" type="integer">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="processing_node_pkey" />
+			</column>
+			<column name="logicaldeployment_id" type="integer">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-4">
+		<renameColumn tableName="execution_node_service_association"
+			oldColumnName="logicalexecutionnode_id" newColumnName="processingnode_id" />
+	</changeSet>
+	<changeSet author="paas" id="1412173830843-195">
+		<sql>
+			INSERT INTO
+			processing_node(iconurl,memorykbperactivesessionhint,minmemorymbhint,artifactid,classifier,extension,groupid,mvn_version,id,logicaldeployment_id,optionalsoftwarereference)
+			SELECT iconurl, memorykbperactivesessionhint, minmemorymbhint,
+			artifactid, classifier, extension, groupid, mvn_version, id,
+			logicaldeployment_id, optionalsoftwarereference
+			FROM execution_node
+		</sql>
+	</changeSet>
+	<changeSet author="paas" id="1412173830843-196">
+		<sql>INSERT INTO jee_processing(id)
+			SELECT id
+			FROM processing_node
+		</sql>
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-5">
+		<dropForeignKeyConstraint baseTableName="db_vm_execnode"
+			baseTableSchemaName="public" constraintName="fk8456845a69d2b9fb" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-6">
+		<dropForeignKeyConstraint baseTableName="execution_node"
+			baseTableSchemaName="public" constraintName="fk28205ee93256c99d" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-7">
+		<dropForeignKeyConstraint baseTableName="execution_node"
+			baseTableSchemaName="public" constraintName="fk28205ee9b589004b" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-8">
+		<dropForeignKeyConstraint baseTableName="execution_node_service_association"
+			baseTableSchemaName="public" constraintName="fk117b47613873cd49" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-9">
+		<dropForeignKeyConstraint baseTableName="ext_relational_service"
+			baseTableSchemaName="public" constraintName="fk7cb4947be54e734f" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-10">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_1wr2iml93s0oaqi5f05i42gvv" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="abstract_user" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-11">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_do3gp8gftqseyqxm9pwj3e0f8" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="ajp_protocol_service" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-12">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_antao986gf28ggqrgvl963gn5" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="application_ear" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-13">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_swcssq8buc6gsxwlc523mluiy" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="application_server" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-14">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_7upd1fgrpyqwsppkippi9ntva" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="aws_iaas_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-15">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_ap9l8krb8do176seu8jwk0q95" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="aws_image_factory_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-16">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_119du1joj4k4tddjc6aty1st9" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="broker_server" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-17">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_7ynkgv0mrcmbi602w7uxaw176" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="cf_app_v2" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-18">
+		<addUniqueConstraint columnNames="routes_id"
+			constraintName="uk_5nahti068svbkarpx8qsrp8cl" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="cf_app_v2_cf_route_v2" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-19">
+		<addUniqueConstraint columnNames="boundservices_id"
+			constraintName="uk_lysad08fj8cacti0fqqjj7kk2" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="cf_app_v2_cf_ups_v2" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-20">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_48vjx5ki2usphmpkieyr6q1u6" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="cf_dbaas_ups_v2" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-21">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_9n8ekbfmoiny84s7w2p7qvkm5" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="cf_route_v2" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-22">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_m1d1huvag0ydrg78inhpwdc82" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="cf_router_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-23">
+		<addUniqueConstraint columnNames="routedestinations_id"
+			constraintName="uk_2wal7ido1own7grlqmlva0u1e" deferrable="false"
+			disabled="false" initiallyDeferred="false"
+			tableName="cf_router_subscription_load_balancer" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-24">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_7d363j6qoe5jyvgtaa0yd6685" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="cf_simple_ups_v2" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-25">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_srkg7aq7ijcucf6xm9oliyg81" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="cf_subscription_v2" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-26">
+		<addUniqueConstraint columnNames="apps_id"
+			constraintName="uk_tlr47mv6cqjw6n24pkipsu8b4" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="cf_subscription_v2_cf_app_v2" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-27">
+		<addUniqueConstraint columnNames="configroles_id"
+			constraintName="uk_hg3xaakhy5ssxega1hflj3tmr" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="core_application_config_role" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-28">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_9b07v6ovj2dlkui442eha1el0" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="core_item" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-29">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_gohonb01stt9d4g3ysbveujib" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="data_block" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-30">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_qomsfuop2e0wxq6lym40k6tiq" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="data_block_device_pv" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-31">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_1ufwivyuplwajcbxtk2x75nwy" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="data_block_lv_filesystem" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-32">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_jbr9a1dmg2mykdj4swudpq3so" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="data_block_partition" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-33">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_3mw7co57ji1jscqph8vqc96kv" deferrable="false"
+			disabled="false" initiallyDeferred="false"
+			tableName="data_block_partition_physical_volume" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-34">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_53pajgko9dibeesc3sr4i68qs" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="data_block_root_filesystem" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-35">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_oq3dtqq61quq5uq9cjuic0pdk" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="data_block_vg" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-36">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_2ut2ksd1qaf0dymvmt6vkrsxy" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="database_instance" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-37">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_91td0pdh54sh8rr9vwkoxu421" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="database_schema" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-38">
+		<addUniqueConstraint columnNames="databaseschema_id, databaseuser_id"
+			constraintName="uk_ehpkv6wd04ics9ehac5hun1gh" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="database_schema_user_association" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-39">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_trkjrj11p0bjc7ryul5foj1q6" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="database_user" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-40">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_8nl0rcpn5v8m1t0blvk9me1t5" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="db_connector_service" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-41">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_nsvu660xyb2r3kjl0uhu0km0h" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="dbaas_connector_service" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-42">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_nfw12oahddsdjcmbi24rbe19l" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="dbaas_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-43">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_b13cp2sy8tr6g34ib0gnsyby6" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="dbaas_subscription_v2" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-44">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_nnmkeqswlp98ffip5kx1fmxw8" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="deadletterqueue_resource" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-45">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_4fkydpr6r6s87kl0get2hs6qu" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="destination_resource" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-46">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_kp6scnvh6hvh128tkul1hjk7s" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="directory" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-47">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_jp1rqdpclm8xig7jdpxtsicr7" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="dns_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-48">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_qyuqtasdp2qg6w4lku15pdpdk" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="esb_consumer_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-49">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_b930lv6d33x4m0o8v3b6kkdhp" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="esb_provider_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-50">
+		<addUniqueConstraint columnNames="processingnode_id, logicalservice_id"
+			constraintName="uk_swlxlnhy5ydormwvud2mf54jp" deferrable="false"
+			disabled="false" initiallyDeferred="false"
+			tableName="execution_node_service_association" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-51">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_5rrjtecvwh49ehxd7s2sm1lmr" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="filer_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-52">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_emq3budx8obvqrdkv9k24hx3l" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="generic_server_instance" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-53">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_896h3tt1xlkslipdiklxt0xcf" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="guest_custo_agent" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-54">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_kqup1n1kllildalhtfkjn8r3r" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="httpprotocolservice" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-55">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_f4aqtsncta1v2jlb5c7t3gl9w" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="iaas_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-56">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_1judk189p0c5njy0bsgefcl5x" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="image_factory_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-57">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_pn3a0aepo7opyr08x1ew3ce7f" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="jclouds_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-58">
+		<addUniqueConstraint columnNames="storeconnectorservices_id"
+			constraintName="uk_68m14cj25lqju1nwf0rqq4qjf" deferrable="false"
+			disabled="false" initiallyDeferred="false"
+			tableName="jclouds_subscription_store_connector_service" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-59">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_ly6c3o8ukcxwuds732473deql" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="jms_connector_service" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-60">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_lnwmdcdica2yp1mamcqkq35yd" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="jms_service" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-61">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_j7u7jrv6r5ko5mjwrsecopjsi" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="jms_user" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-62">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_7rlouqybwlok2doqcrxju7n7d" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="jvm_property" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-63">
+		<addUniqueConstraint columnNames="jvmproperties_id"
+			constraintName="uk_2qnnpvewjbdx1lx8co8njhqex" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="jvm_server_jvm_property" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-64">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_9xlfrrxpifa16fnnltnf6o9k6" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="load_balancer" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-65">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_o2q7sfn503c9mi8e0da7uxp5e" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="load_balancer_worker" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-66">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_cf0vmj0wkd68axqmyi7vgbro6" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="logging_agent_instance" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-67">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_dxn0suouk10u85xh6vaprjj46" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="logical_model_item" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-68">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_b2uosn1fcsfbhg7adv0ss5an8" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="logical_network" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-69">
+		<addUniqueConstraint columnNames="nics_id"
+			constraintName="uk_skph1aa99m98mxc4er6m9koyo" deferrable="false"
+			disabled="false" initiallyDeferred="false"
+			tableName="logical_network_network_internet_card" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-70">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_4bsdg0kcxih3kol6xr8v08ep3" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="momaas_application_id" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-71">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_3a1ee1ni4nses20lx4hkp19ai" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="momaas_broker" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-72">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_17ghx9vn240qslceapwf4b6fy" deferrable="false"
+			disabled="false" initiallyDeferred="false"
+			tableName="momaas_consumer_message_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-73">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_gl18by3wqwqyb7ym3a3s83mu" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="momaas_flow_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-74">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_5lsaov5wiii6nkf7x1cjjsf6q" deferrable="false"
+			disabled="false" initiallyDeferred="false"
+			tableName="momaas_producer_message_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-75">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_cgvqwkfo7a6ikjibfxc8kiehe" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="momaas_service_version" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-76">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_taola3ll2tr6byrc554e2aevv" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="momaas_sla" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-77">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_10l6iplkn74e4wn1vl3ug9fx" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="monitoring_agent" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-78">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_9wdeb14hpll1nrwm9gysjv3ao" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="monitoring_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-79">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_53y3ner5whocibais4nec21di" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="network" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-80">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_buqskc75sbpmgtq1p0poheo5d" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="network_internet_card" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-81">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_bwsouty2h8qtv63q5vck21d25" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="ntp_server_instance" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-82">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_tl309k88u5v48hm89txaj3o0s" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="platform_port_resource" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-83">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_abit8airughbhgb307vnitalx" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="platform_server" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-84">
+		<addUniqueConstraint columnNames="mounteddatablocks_id"
+			constraintName="uk_q8gqo5t332c4k0pn4lruufcp5" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="platform_server_data_block" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-85">
+		<addUniqueConstraint columnNames="ports_id"
+			constraintName="uk_2yqis45ijyhnver8metr5fsop" deferrable="false"
+			disabled="false" initiallyDeferred="false"
+			tableName="platform_server_platform_port_resource" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-86">
+		<addUniqueConstraint columnNames="ospackages_id"
+			constraintName="uk_82dofbfcv5ao2qs62pefu4l8p" deferrable="false"
+			disabled="false" initiallyDeferred="false"
+			tableName="platform_server_platformserver_os_packages" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-87">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_3d2gj7gd4c00iftgeve7ojm48" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="platform_user" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-88">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_6tynnmu8ge3cmxkm756cain0w" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="platform_user_group" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-89">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_7iqet5w0n3ticgdlbwx90nxe" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="platformserver_os_packages" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-90">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_ixnpfrqyji3sgrj14kv6v2div" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="soapservicesubscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-91">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_cmg3nn7y5bm80m9cmiw7u1t2l" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="store_connector_service" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-92">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_qem5bc7dyla68jendrrgpv4i1" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="technical_deployment" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-93">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_7mm4do6yc183no8yvf5lg8ljb" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="technical_deployment_instance" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-94">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_nawn3s506773n6fycoqjgg22r" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="technical_deployment_template" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-95">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_7i2vtaol8qwtc9fh8rg2hb6y8" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="tmaas_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-96">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_3ahiqcjgyfttuh318i2ks8o3r" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="virtual_ip_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-97">
+		<addUniqueConstraint columnNames="loadbalancerinstances_id"
+			constraintName="uk_pp37hdtlnu6b9bjaljfe10jgp" deferrable="false"
+			disabled="false" initiallyDeferred="false"
+			tableName="virtual_ip_subscription_load_balancer" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-98">
+		<addUniqueConstraint columnNames="name"
+			constraintName="uk_nfsbu3f22l2111mwn5u7s91i7" deferrable="false"
+			disabled="false" initiallyDeferred="false" tableName="webcontextservice" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-99">
+		<dropUniqueConstraint constraintName="abstract_user_name_key"
+			tableName="abstract_user" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-100">
+		<dropUniqueConstraint constraintName="ajp_protocol_service_name_key"
+			tableName="ajp_protocol_service" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-101">
+		<dropUniqueConstraint constraintName="application_ear_name_key"
+			tableName="application_ear" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-102">
+		<dropUniqueConstraint constraintName="application_server_name_key"
+			tableName="application_server" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-103">
+		<dropUniqueConstraint constraintName="aws_iaas_subscription_name_key"
+			tableName="aws_iaas_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-104">
+		<dropUniqueConstraint constraintName="aws_image_factory_subscription_name_key"
+			tableName="aws_image_factory_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-105">
+		<dropUniqueConstraint constraintName="broker_server_name_key"
+			tableName="broker_server" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-106">
+		<dropUniqueConstraint constraintName="cf_app_v2_name_key"
+			tableName="cf_app_v2" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-107">
+		<dropUniqueConstraint constraintName="cf_app_v2_cf_route_v2_routes_id_key"
+			tableName="cf_app_v2_cf_route_v2" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-108">
+		<dropUniqueConstraint constraintName="cf_app_v2_cf_ups_v2_boundservices_id_key"
+			tableName="cf_app_v2_cf_ups_v2" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-109">
+		<dropUniqueConstraint constraintName="cf_dbaas_ups_v2_name_key"
+			tableName="cf_dbaas_ups_v2" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-110">
+		<dropUniqueConstraint constraintName="cf_route_v2_name_key"
+			tableName="cf_route_v2" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-111">
+		<dropUniqueConstraint constraintName="cf_router_subscription_name_key"
+			tableName="cf_router_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-112">
+		<dropUniqueConstraint
+			constraintName="cf_router_subscription_load_balancer_routedestinations_id_key"
+			tableName="cf_router_subscription_load_balancer" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-113">
+		<dropUniqueConstraint constraintName="cf_simple_ups_v2_name_key"
+			tableName="cf_simple_ups_v2" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-114">
+		<dropUniqueConstraint constraintName="cf_subscription_v2_name_key"
+			tableName="cf_subscription_v2" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-115">
+		<dropUniqueConstraint constraintName="cf_subscription_v2_cf_app_v2_apps_id_key"
+			tableName="cf_subscription_v2_cf_app_v2" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-116">
+		<dropUniqueConstraint
+			constraintName="core_application_config_role_configroles_id_key"
+			tableName="core_application_config_role" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-117">
+		<dropUniqueConstraint constraintName="core_item_name_key"
+			tableName="core_item" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-118">
+		<dropUniqueConstraint constraintName="data_block_name_key"
+			tableName="data_block" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-119">
+		<dropUniqueConstraint constraintName="data_block_device_pv_name_key"
+			tableName="data_block_device_pv" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-120">
+		<dropUniqueConstraint constraintName="data_block_lv_filesystem_name_key"
+			tableName="data_block_lv_filesystem" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-121">
+		<dropUniqueConstraint constraintName="data_block_partition_name_key"
+			tableName="data_block_partition" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-122">
+		<dropUniqueConstraint constraintName="data_block_partition_physical_volume_name_key"
+			tableName="data_block_partition_physical_volume" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-123">
+		<dropUniqueConstraint constraintName="data_block_root_filesystem_name_key"
+			tableName="data_block_root_filesystem" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-124">
+		<dropUniqueConstraint constraintName="data_block_vg_name_key"
+			tableName="data_block_vg" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-125">
+		<dropUniqueConstraint constraintName="database_instance_name_key"
+			tableName="database_instance" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-126">
+		<dropUniqueConstraint constraintName="database_schema_name_key"
+			tableName="database_schema" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-127">
+		<dropUniqueConstraint
+			constraintName="database_schema_user_associat_databaseschema_id_databaseuse_key"
+			tableName="database_schema_user_association" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-128">
+		<dropUniqueConstraint constraintName="database_user_name_key"
+			tableName="database_user" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-129">
+		<dropUniqueConstraint constraintName="db_connector_service_name_key"
+			tableName="db_connector_service" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-130">
+		<dropUniqueConstraint constraintName="dbaas_connector_service_name_key"
+			tableName="dbaas_connector_service" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-131">
+		<dropUniqueConstraint constraintName="dbaas_subscription_name_key"
+			tableName="dbaas_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-132">
+		<dropUniqueConstraint constraintName="dbaas_subscription_v2_name_key"
+			tableName="dbaas_subscription_v2" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-133">
+		<dropUniqueConstraint constraintName="deadletterqueue_resource_name_key"
+			tableName="deadletterqueue_resource" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-134">
+		<dropUniqueConstraint constraintName="destination_resource_name_key"
+			tableName="destination_resource" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-135">
+		<dropUniqueConstraint constraintName="directory_name_key"
+			tableName="directory" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-136">
+		<dropUniqueConstraint constraintName="dns_subscription_name_key"
+			tableName="dns_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-137">
+		<dropUniqueConstraint constraintName="esb_consumer_subscription_name_key"
+			tableName="esb_consumer_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-138">
+		<dropUniqueConstraint constraintName="esb_provider_subscription_name_key"
+			tableName="esb_provider_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-139">
+		<dropUniqueConstraint
+			constraintName="execution_node_service_associ_logicalexecutionnode_id_logic_key"
+			tableName="execution_node_service_association" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-140">
+		<dropUniqueConstraint constraintName="filer_subscription_name_key"
+			tableName="filer_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-141">
+		<dropUniqueConstraint constraintName="generic_server_instance_name_key"
+			tableName="generic_server_instance" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-142">
+		<dropUniqueConstraint constraintName="guest_custo_agent_name_key"
+			tableName="guest_custo_agent" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-143">
+		<dropUniqueConstraint constraintName="httpprotocolservice_name_key"
+			tableName="httpprotocolservice" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-144">
+		<dropUniqueConstraint constraintName="iaas_subscription_name_key"
+			tableName="iaas_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-145">
+		<dropUniqueConstraint constraintName="image_factory_subscription_name_key"
+			tableName="image_factory_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-146">
+		<dropUniqueConstraint constraintName="jclouds_subscription_name_key"
+			tableName="jclouds_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-147">
+		<dropUniqueConstraint
+			constraintName="jclouds_subscription_store_connec_storeconnectorservices_id_key"
+			tableName="jclouds_subscription_store_connector_service" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-148">
+		<dropUniqueConstraint constraintName="jms_connector_service_name_key"
+			tableName="jms_connector_service" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-149">
+		<dropUniqueConstraint constraintName="jms_service_name_key"
+			tableName="jms_service" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-150">
+		<dropUniqueConstraint constraintName="jms_user_name_key"
+			tableName="jms_user" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-151">
+		<dropUniqueConstraint constraintName="jvm_property_name_key"
+			tableName="jvm_property" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-152">
+		<dropUniqueConstraint constraintName="jvm_server_jvm_property_jvmproperties_id_key"
+			tableName="jvm_server_jvm_property" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-153">
+		<dropUniqueConstraint constraintName="load_balancer_name_key"
+			tableName="load_balancer" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-154">
+		<dropUniqueConstraint constraintName="load_balancer_worker_name_key"
+			tableName="load_balancer_worker" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-155">
+		<dropUniqueConstraint constraintName="logging_agent_instance_name_key"
+			tableName="logging_agent_instance" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-156">
+		<dropUniqueConstraint constraintName="logical_model_item_name_key"
+			tableName="logical_model_item" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-157">
+		<dropUniqueConstraint constraintName="logical_network_name_key"
+			tableName="logical_network" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-158">
+		<dropUniqueConstraint
+			constraintName="logical_network_network_internet_card_nics_id_key"
+			tableName="logical_network_network_internet_card" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-159">
+		<dropUniqueConstraint constraintName="momaas_application_id_name_key"
+			tableName="momaas_application_id" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-160">
+		<dropUniqueConstraint constraintName="momaas_broker_name_key"
+			tableName="momaas_broker" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-161">
+		<dropUniqueConstraint constraintName="momaas_consumer_message_subscription_name_key"
+			tableName="momaas_consumer_message_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-162">
+		<dropUniqueConstraint constraintName="momaas_flow_subscription_name_key"
+			tableName="momaas_flow_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-163">
+		<dropUniqueConstraint constraintName="momaas_producer_message_subscription_name_key"
+			tableName="momaas_producer_message_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-164">
+		<dropUniqueConstraint constraintName="momaas_service_version_name_key"
+			tableName="momaas_service_version" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-165">
+		<dropUniqueConstraint constraintName="momaas_sla_name_key"
+			tableName="momaas_sla" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-166">
+		<dropUniqueConstraint constraintName="monitoring_agent_name_key"
+			tableName="monitoring_agent" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-167">
+		<dropUniqueConstraint constraintName="monitoring_subscription_name_key"
+			tableName="monitoring_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-168">
+		<dropUniqueConstraint constraintName="network_name_key"
+			tableName="network" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-169">
+		<dropUniqueConstraint constraintName="network_internet_card_name_key"
+			tableName="network_internet_card" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-170">
+		<dropUniqueConstraint constraintName="ntp_server_instance_name_key"
+			tableName="ntp_server_instance" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-171">
+		<dropUniqueConstraint constraintName="platform_port_resource_name_key"
+			tableName="platform_port_resource" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-172">
+		<dropUniqueConstraint constraintName="platform_server_name_key"
+			tableName="platform_server" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-173">
+		<dropUniqueConstraint
+			constraintName="platform_server_data_block_mounteddatablocks_id_key"
+			tableName="platform_server_data_block" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-174">
+		<dropUniqueConstraint
+			constraintName="platform_server_platform_port_resource_ports_id_key"
+			tableName="platform_server_platform_port_resource" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-175">
+		<dropUniqueConstraint
+			constraintName="platform_server_platformserver_os_packages_ospackages_id_key"
+			tableName="platform_server_platformserver_os_packages" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-176">
+		<dropUniqueConstraint constraintName="platform_user_name_key"
+			tableName="platform_user" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-177">
+		<dropUniqueConstraint constraintName="platform_user_group_name_key"
+			tableName="platform_user_group" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-178">
+		<dropUniqueConstraint constraintName="platformserver_os_packages_name_key"
+			tableName="platformserver_os_packages" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-179">
+		<dropUniqueConstraint constraintName="soapservicesubscription_name_key"
+			tableName="soapservicesubscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-180">
+		<dropUniqueConstraint constraintName="store_connector_service_name_key"
+			tableName="store_connector_service" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-181">
+		<dropUniqueConstraint constraintName="technical_deployment_name_key"
+			tableName="technical_deployment" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-182">
+		<dropUniqueConstraint constraintName="technical_deployment_instance_name_key"
+			tableName="technical_deployment_instance" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-183">
+		<dropUniqueConstraint constraintName="technical_deployment_template_name_key"
+			tableName="technical_deployment_template" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-184">
+		<dropUniqueConstraint constraintName="tmaas_subscription_name_key"
+			tableName="tmaas_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-185">
+		<dropUniqueConstraint constraintName="virtual_ip_subscription_name_key"
+			tableName="virtual_ip_subscription" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-186">
+		<dropUniqueConstraint
+			constraintName="virtual_ip_subscription_load_balan_loadbalancerinstances_id_key"
+			tableName="virtual_ip_subscription_load_balancer" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-187">
+		<dropUniqueConstraint constraintName="webcontextservice_name_key"
+			tableName="webcontextservice" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-188">
+		<addForeignKeyConstraint baseColumnNames="id"
+			baseTableName="cf_java_processing" baseTableSchemaName="public"
+			constraintName="fk_3kpgi92sq62cmdhktgqqvyps9" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="processing_node"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-189">
+		<addForeignKeyConstraint baseColumnNames="processingnode_id"
+			baseTableName="execution_node_service_association"
+			baseTableSchemaName="public" constraintName="fk_878k92ey9fmolc8h66984hl4g"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="processing_node"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-190">
+		<addForeignKeyConstraint baseColumnNames="id"
+			baseTableName="jee_processing" baseTableSchemaName="public"
+			constraintName="fk_3moe5whx5q5tdkljs67i02fuh" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="processing_node"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-191">
+		<addForeignKeyConstraint baseColumnNames="id"
+			baseTableName="processing_node" baseTableSchemaName="public"
+			constraintName="fk_cigketcwfuqrhhdn5f5v7wb2y" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="logical_model_item"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-192">
+		<addForeignKeyConstraint baseColumnNames="logicaldeployment_id"
+			baseTableName="processing_node" baseTableSchemaName="public"
+			constraintName="fk_temiwbo8204ywj4fk2xdbukr1" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+			referencedColumnNames="id" referencedTableName="logical_deployment"
+			referencedTableSchemaName="public" referencesUniqueColumn="false" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-194">
+		<dropTable tableName="db_vm_execnode" />
+	</changeSet>
+	<changeSet author="paas" id="1412178153893-197">
+		<dropTable tableName="execution_node" />
+	</changeSet>
+	   <changeSet author="paas" id="1422441168195-1">
+        <addColumn tableName="relational_service">
+            <column name="servicename" type="VARCHAR(255)" defaultValue="">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="paas" id="1422441168195-2">
+        <dropColumn columnName="jndiname" tableName="relational_service"/>
+    </changeSet>
+</databaseChangeLog>

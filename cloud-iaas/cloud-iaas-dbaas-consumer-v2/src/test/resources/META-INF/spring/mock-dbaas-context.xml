@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	<bean id="propertyConfigurer" class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:/com/francetelecom/clara/cloud/commons/testconfigurations/credentials-${datacenter:reference}.properties</value>
+				<value>classpath:/com/francetelecom/clara/cloud/commons/testconfigurations/config-hibernate-test-hsqldb-create-drop.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<import resource="classpath:/com/francetelecom/clara/cloud/commons/jpa/jpa-context.xml" />
+	<import resource="classpath:/com/francetelecom/clara/cloud/commons/testconfigurations/mock-liquibase-context.xml" />
+
+	<!-- recuperation de la Session Factory Hibernate -->
+	<bean id="sessionFactory" factory-bean="entityManagerFactory" factory-method="getSessionFactory" />
+
+	<bean id="datasource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="org.hsqldb.jdbcDriver"></property>
+		<property name="url" value="jdbc:hsqldb:mem:cloud-model" />
+		<property name="username" value="sa" />
+		<property name="password" value="" />
+	</bean>
+
+	<!-- Configuration du gestionnaire de transactions -->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory">
+			<ref bean="entityManagerFactory" />
+		</property>
+	</bean>
+
+	<!-- marquage des transactions par annotations -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- Mock mvnDao access -->
+	<bean id="mvnDao" class="org.mockito.Mockito" factory-method="mock">
+		<constructor-arg value="com.francetelecom.clara.cloud.mvn.consumer.MvnRepoDao" />
+	</bean>
+	<!-- Mock dbaas 1.0 access -->
+	<bean id="dBaasApiRemote" class="org.mockito.Mockito" factory-method="mock">
+		<constructor-arg value="com.orange.clara.cloud.dbaas.wsdl.service.DbaasApiRemote" />
+	</bean>
+
+	<bean id="dbaasConsumer-10-V2" class="com.francetelecom.clara.cloud.activation.plugin.dbaas.infrastructure.DBaasConsumer20Impl">
+		<property name="dbaasStub" ref="dBaasApiRemote"></property>
+		<property name="mvnDao" ref="mvnDao"></property>
+		<property name="dbaasGroupName" value="${test.dbaas10.groupname}" />
+	</bean>
+
+	<!-- We need real implementations between dbaas plugin an hsqldb -->
+	<bean id="modelItemDao" class="com.francetelecom.clara.cloud.dao.impl.ModelItemDaoJpaImpl" />
+
+	<bean id="manageModelItem" class="com.francetelecom.clara.cloud.application.impl.ManageModelItemImpl" />
+
+	<util:map id="dBaasConsumers-V2" map-class="java.util.HashMap">
+		<entry key="DBAAS_10" value-ref="dbaasConsumer-10-V2" />
+	</util:map>
+
+	<bean class="com.francetelecom.clara.cloud.activation.plugin.dbaas.ActivationPluginDBaasUtils">
+		<property name="dBaasConsumers" ref="dBaasConsumers-V2" />
+		<property name="manageModelItem" ref="manageModelItem" />
+	</bean>
+
+	<bean class="com.francetelecom.clara.cloud.activation.plugin.dbaas.TestUtils" />
+
+</beans>

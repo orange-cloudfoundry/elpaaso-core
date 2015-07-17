@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<groupId>com.orange.clara.cloud</groupId>
+		<artifactId>cloud-paas-webapp</artifactId>
+		<version>3.0.0-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>cloud-paas-webapp-crash</artifactId>
+	<packaging>jar</packaging>
+	<name>cloud-paas-webapp-crash</name>
+	<properties>
+		<CRaSH.version>1.3.0</CRaSH.version>
+		<maven.build.timestamp.format>dd/MM/yyyy-HH:mm</maven.build.timestamp.format>
+		<timestamp>${maven.build.timestamp}</timestamp>
+		<project.resources.directory>${project.build.sourceDirectory}/../resources/</project.resources.directory>
+		<crash.commands.directory>${project.resources.directory}/crash/commands/</crash.commands.directory>
+		<crash.paas.commands.directory>${project.resources.directory}/crash/commands/paas/</crash.paas.commands.directory>
+		<!-- may be useless to re-validate @ each build official crash commands : even to do this : use ${crash.commands.directory} instead of ${crash.paas.commands.directory} -->
+		<crash.commands.directoryToCompile>${crash.paas.commands.directory}</crash.commands.directoryToCompile>
+	</properties>
+
+	<dependencies>
+		<!-- CRaSH -->
+		<dependency>
+			<groupId>org.crashub</groupId>
+			<artifactId>crash.shell</artifactId>
+			<version>${CRaSH.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.crashub</groupId>
+			<artifactId>crash.cli</artifactId>
+			<version>${CRaSH.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.crashub</groupId>
+			<artifactId>crash.embed.spring</artifactId>
+			<version>${CRaSH.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.crashub</groupId>
+			<artifactId>crash.connectors.ssh</artifactId>
+			<version>${CRaSH.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>1.8.9</version>
+		</dependency>
+		<!-- extract here to align it with activation frmwork version so present into classloader-filtering file -->
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcprov-jdk15on</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.bouncycastle</groupId>
+			<artifactId>bcpkix-jdk15on</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- ElPaaso -->
+		<dependency>
+			<groupId>com.orange.clara.cloud</groupId>
+			<artifactId>cloud-paas-services</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.orange.clara.cloud</groupId>
+			<artifactId>cloud-paas-services-mocks</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.orange.clara.cloud</groupId>
+			<artifactId>cloud-commons-test-configurations</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.orange.clara.cloud</groupId>
+			<artifactId>cloud-paas-daos-impl</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.orange.clara.cloud</groupId>
+			<artifactId>cloud-mvn-consumer</artifactId>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Logs -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>log4j-over-slf4j</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jul-to-slf4j</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- Servlet -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- Tools -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+
+		<!-- Tests -->
+		<dependency>
+			<groupId>com.orange.clara.cloud</groupId>
+			<artifactId>cloud-commons</artifactId>
+			<version>${project.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<testResources>
+			<testResource>
+				<filtering>true</filtering>
+				<directory>src/test/resources</directory>
+				<includes>
+					<include>**</include>
+				</includes>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</testResource>
+		</testResources>
+
+		<plugins>
+			<plugin>
+				<!-- cleanup crash auto extracted command -->
+				<artifactId>maven-clean-plugin</artifactId>
+
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>${project.build.sourceDirectory}/../resources/crash/commands/base/</directory>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<!-- unpack crsh officials groovy scripts -->
+					<execution>
+						<id>unpack</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.crashub</groupId>
+									<artifactId>crash.shell</artifactId>
+									<version>${CRaSH.version}</version>
+								</artifactItem>
+							</artifactItems>
+							<outputDirectory>${project.build.sourceDirectory}/../resources/</outputDirectory>
+							<includes>crash/commands/base/*.groovy</includes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<!-- compile legacy groovy scripts -->
+					<execution>
+						<id>compile</id>
+						<phase>compile</phase>
+						<configuration>
+							<target>
+								<mkdir dir="${crash.commands.directoryToCompile}" />
+								<taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc">
+									<classpath refid="maven.compile.classpath" />
+								</taskdef>
+								<mkdir dir="${project.build.outputDirectory}" />
+								<groovyc destdir="${project.build.outputDirectory}" srcdir="${crash.commands.directoryToCompile}" listfiles="true">
+									<classpath refid="maven.compile.classpath" />
+								</groovyc>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+					<!-- compile test groovy scripts -->
+					<execution>
+						<id>test-compile</id>
+						<phase>test-compile</phase>
+						<configuration>
+							<target>
+								<mkdir dir="${basedir}/src/test/resources/crash/ref/commands/" />
+								<taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc">
+									<classpath refid="maven.test.classpath" />
+								</taskdef>
+								<mkdir dir="${basedir}/src/test/resources/crash/commands/" />
+								<taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc">
+									<classpath refid="maven.test.classpath" />
+								</taskdef>
+								<mkdir dir="${project.build.testOutputDirectory}" />
+								<groovyc destdir="${project.build.testOutputDirectory}" srcdir="${basedir}/src/test/resources/crash/ref/commands/" listfiles="true">
+									<classpath refid="maven.test.classpath" />
+								</groovyc>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

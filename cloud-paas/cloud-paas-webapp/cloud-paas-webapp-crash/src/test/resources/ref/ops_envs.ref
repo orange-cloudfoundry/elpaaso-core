@@ -1,0 +1,5 @@
+2 environments :
+uid                                  owner               date             label        status                                        comment                                       
+-------------------------------------------------------------------------------------------------------------------------------------------------------                            
+f37e6b6f-cad4-4d4b-8256-1bddbaa12e62 PaasCommandsTest    07/07/2013 11:23 environmentA CREATING 23% : This process is running now... (empty)                                       
+ca3ae8b1-ad01-40a3-a472-89d13364bfb6 PaasCommandsTestBis 07/07/2013 11:32 environmentB CREATED 100%                                  my wuderfull test                             

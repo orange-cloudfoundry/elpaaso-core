@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+<!-- 	<import resource="mvn-consumer-test-no-proxyAsSystemProperties.xml"/>
+ -->
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations" value="classpath:/com/francetelecom/clara/cloud/commons/testconfigurations/credentials-${datacenter:reference}.properties"/>
+    </bean>
+
+	<bean id="mvnDao"
+		class="com.francetelecom.clara.cloud.mvn.consumer.MvnRepoDaoImpl"
+		init-method="init">
+		<property name="mvnConsumerConfigurer" ref="mvnConsumerConfigurer" />
+		<property name="aetherConfigurer" ref="aetherConfigurer" />
+		<property name="mavenDeployer" ref="mavenDeployer" />
+	</bean>
+
+	<bean id="mvnConsumerConfigurer"
+		class="com.francetelecom.clara.cloud.mvn.consumer.MvnConsumerConfigurer"
+		init-method="init">
+		<property name="releaseRepositoryRefreshIntervalInMin"
+			value="${maven.release.repository.refresh.minutes:15}" />
+		<property name="snapshotRepositoryRefreshIntervalInMin"
+			value="${maven.snapshot.repository.refresh.minutes:10}" />
+		<property name="pullRepositoryUrl"
+				  value="${test.maven.pull.repository.url}" />
+		<property name="pushSnapshotRepositoryUrl"
+			value="${test.maven.push.repository.snapshot.url}" />
+		<property name="pushReleaseRepositoryUrl"
+			value="${test.maven.push.repository.release.url}" />
+
+		<!-- <property name="repositoryUrl" value="${build.dir}/test-classes/repo/"/> 
+			<property name="snapshotRepositoryUrl" value="${build.dir}/test-classes/repo/"/> -->
+		<property name="pushSnapshotRepositoryUser" value="${test.maven.push.repository.snapshot.user}" />
+		<property name="pushSnapshotRepositoryPassword" value="${test.maven.push.repository.snapshot.password}" />
+
+		<!-- <property name="releaseRepositoryUrl" value="${build.dir}/test-classes/repo/"/> -->
+		<property name="pushReleaseRepositoryUser" value="${test.maven.push.repository.release.user}" />
+		<property name="pushReleaseRepositoryPassword" value="${test.maven.push.repository.release.password}" />
+		<property name="localM2RepoPath" value="${build.dir}/maven/default-dir/local-repo/" />
+		<property name="localWorkDir" value="${build.dir}/maven/default-dir/workdir/" />
+		<property name="paasRepositoryId" value="paas-maven-repository" />
+		<property name="assemblyTemplateFile"
+			value="classpath:/com/francetelecom/clara/cloud/mvn/consumer/assemblyTemplate.xml" />
+		<property name="assemblyDescriptionFileLocation" value="src/main/assembly/bin.xml" />
+		<property name="deleteLocalRepoOnStartup" value="true"></property>
+	</bean>
+
+	<bean id="mavenSettingsGenerator"
+		class="com.francetelecom.clara.cloud.mvn.consumer.maven.SettingsGenerator">
+		<constructor-arg ref="mvnConsumerConfigurer" />
+	</bean>
+	<bean id="mavenPomGenerator"
+		class="com.francetelecom.clara.cloud.mvn.consumer.maven.PomGenerator">
+		<constructor-arg ref="mvnConsumerConfigurer" />
+	</bean>
+	<bean id="aetherConfigurer"
+		class="com.francetelecom.clara.cloud.mvn.consumer.aether.AetherConfigurer">
+	</bean>
+
+	<bean id="mavenDeployer"
+		class="com.francetelecom.clara.cloud.mvn.consumer.maven.MavenDeployer"
+		init-method="init">
+		<constructor-arg ref="mvnConsumerConfigurer" />
+		<property name="settingsGenerator" ref="mavenSettingsGenerator" />
+		<property name="pomGenerator" ref="mavenPomGenerator" />
+		<property name="aetherConfigurer" ref="aetherConfigurer" />
+	</bean>
+
+</beans>

@@ -1,0 +1,67 @@
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<html xmlns:wicket="http://wicket.apache.org/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://wicket.apache.org/ ">
+    <wicket:panel>
+		<!-- Footer -->
+			<!-- Divider -->
+			<div class="divider_lvl_1a">
+				<hr class="hide" />
+			</div>
+			<!-- /Divider -->
+
+			<!-- Footer left -->
+			<div id="footer_left">
+
+				<!-- Footer Link list -->
+				<ul>
+					<li class="first last">
+                        <a wicket:id="contactUsLink" class="icon_email">
+                            <span wicket:id="contactUsLabel" />
+                        </a>
+                    </li>
+				</ul>
+				<!-- /Footer Link list -->
+                <br />
+                <span wicket:id="version" title="version built on ${timestamp} using OS user=${user.name}"></span>
+
+			</div>
+			<!-- /Footer left -->
+				
+			<!-- Footer right -->
+			<div id="footer_right">
+
+				<!-- Footer Link list -->
+				<ul>
+					<wicket:remove>
+                    <!--li class="first">
+                        <a href="#" wicket:message="alt:portal.design.footer.site.plan,title:portal.design.footer.site.plan.tooltip">
+                            <wicket:message key="portal.design.footer.site.plan" />
+                        </a>
+                    </li-->
+                    </wicket:remove>
+					<li class="last">
+                        <a href="#" target="_blank" wicket:id="helpLink">
+                            <span wicket:id="helpLinkLabel" />
+					    </a>
+                    </li>
+				</ul>
+				<!-- /Footer Link list -->
+
+			</div>
+			<!-- /Footer right -->
+		<!-- /Footer -->
+    </wicket:panel>
+</html>

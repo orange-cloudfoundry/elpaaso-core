@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <import resource="crash-credentials-context.xml"/>
+
+    <!-- services mock -->
+    <bean id="manageApplicationRelease" class="org.mockito.Mockito" factory-method="mock"  >
+        <constructor-arg value="com.francetelecom.clara.cloud.core.service.ManageApplicationRelease" />
+    </bean>
+
+    <bean id="manageApplication" class="org.mockito.Mockito" factory-method="mock"  >
+        <constructor-arg value="com.francetelecom.clara.cloud.core.service.ManageApplication" />
+    </bean>
+
+    <bean id="manageEnvironment" class="org.mockito.Mockito" factory-method="mock"  >
+        <constructor-arg value="com.francetelecom.clara.cloud.environment.ManageEnvironment" />
+    </bean>
+
+    <bean id="managePaasUser" class="org.mockito.Mockito" factory-method="mock"  >
+        <constructor-arg value="com.francetelecom.clara.cloud.core.service.ManagePaasUser" />
+    </bean>
+
+    <bean id="manageLogicalDeployment" class="org.mockito.Mockito" factory-method="mock"  >
+        <constructor-arg value="com.francetelecom.clara.cloud.application.ManageLogicalDeployment" />
+    </bean>
+
+
+    <bean id="opsService" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="com.francetelecom.clara.cloud.service.OpsService" />
+    </bean>
+
+    <!--  maven repo DAO is mocked  -->
+    <bean id="mvnDao" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="com.francetelecom.clara.cloud.mvn.consumer.MvnRepoDao" />
+    </bean>
+
+    <import resource="classpath:META-INF/spring/crash-tool-enabled-context.xml"/>
+</beans>

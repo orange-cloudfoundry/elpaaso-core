@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:activiti="http://activiti.org/bpmn"
+	xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC"
+	xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema"
+	expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+	<process id="polling-consumer" name="polling-consumer" isExecutable="true">
+		<startEvent id="startevent" name="Start" />
+		<endEvent id="endevent" name="End" />
+		<sequenceFlow id="flow11" name="" sourceRef="startevent"
+			targetRef="polling-subprocess" />
+		<sequenceFlow id="flow12" name="" sourceRef="polling-subprocess"
+			targetRef="endevent" />
+		<subProcess id="polling-subprocess" name="Sub Process">
+			<multiInstanceLoopCharacteristics
+				isSequential="true">
+				<loopCardinality>#{maxAttempts}</loopCardinality>
+				<completionCondition>#{taskStatus.isComplete()}</completionCondition>
+			</multiInstanceLoopCharacteristics>
+			<startEvent id="polling-subprocess-startevent" name="start" />
+			<endEvent id="polling-subprocess-endevent" name="end" />
+			<intermediateCatchEvent id="timer">
+				<timerEventDefinition>
+					<timeDuration>#{backOffPeriod}</timeDuration>
+				</timerEventDefinition>
+			</intermediateCatchEvent>
+			<serviceTask id="polling-subprocess-giveCurrentStatus" name="giveCurrentTaskStatus"
+				activiti:expression="#{myBackend.giveCurrentTaskStatus(taskStatus)}"
+				activiti:resultVariableName="taskStatus" />
+			<sequenceFlow id="polling-subprocess-flow13" name=""
+				sourceRef="polling-subprocess-startevent" targetRef="timer" />
+			<sequenceFlow id="polling-subprocess-flow14" name="" sourceRef="timer"
+				targetRef="polling-subprocess-giveCurrentStatus" />
+				<sequenceFlow id="polling-subprocess-flow15" name=""
+				sourceRef="polling-subprocess-giveCurrentStatus" targetRef="polling-subprocess-endevent" />
+		</subProcess>
+	</process>
+</definitions>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd"
+	logicalFilePath = "initial-changeset">
+    <changeSet author="user-test" id="cs-1">
+        <createTable tableName="TABLE_TEST_1">
+            <column name="id" type="integer"/>
+            <column name="text" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="cs-2" author="user-test">
+		<insert tableName="table_test_1">
+		    <column name="id" valueNumeric="1"/>
+    		<column name="text" value="test-data-1"/>
+		</insert>
+    </changeSet>
+</databaseChangeLog>

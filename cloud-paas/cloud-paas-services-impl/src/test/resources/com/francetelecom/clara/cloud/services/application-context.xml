@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:/com/francetelecom/clara/cloud/commons/testconfigurations/credentials-${datacenter:reference}.properties
+				</value>
+				<value>classpath:/com/francetelecom/clara/cloud/commons/testconfigurations/config-hibernate-test-hsqldb-create-drop.properties
+				</value>
+			</list>
+		</property>
+	</bean>
+
+	<import
+		resource="classpath:/com/francetelecom/clara/cloud/commons/jpa/jpa-context.xml" />
+	<import
+		resource="classpath:/com/francetelecom/clara/cloud/commons/testconfigurations/mock-liquibase-context.xml" />
+
+	<!-- maven repo DAO is mocked -->
+	<bean id="mvnDao" class="org.mockito.Mockito" factory-method="mock">
+		<constructor-arg
+			value="com.francetelecom.clara.cloud.mvn.consumer.MvnRepoDao" />
+	</bean>
+
+	<import resource="datasource-context.xml" />
+	<import resource="transaction-context.xml" />
+	<import resource="classpath:/META-INF/spring/cloud-services-context.xml" />
+
+	<!-- beans definis ds d'autres modules -->
+	<import resource="classpath:/META-INF/spring/log-service-splunk-context.xml" />
+
+	<!-- <import resource="classpath:/META-INF/spring/mvn-consumer-context.xml"/> -->
+	<import resource="classpath:/META-INF/spring/paas-projection-context.xml" />
+	<import resource="classpath:/META-INF/spring/paas-constraint-context.xml" />
+	<!-- import resource="classpath:/META-INF/spring/paas-activation-stubbed-context.xml"/ -->
+	<import resource="classpath:/META-INF/spring/cloud-daos-context.xml" />
+
+
+	<bean id="managePaasActivation" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg
+			value="com.francetelecom.clara.cloud.paas.activation.ManagePaasActivation" />
+	</bean>
+
+	<!-- required to configure LogicalModelCatalog -->
+	<!-- this bean is used to fetch sample app properties (e.g. ear maven references) 
+		from paas-samples.properties -->
+	<bean id="sampleAppProperties"
+		class="com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppProperties" />
+
+	<!-- used by LogicalModelLifecyleTest -->
+	<bean id="jeeProbeLogicalModelCatalog"
+		class="com.francetelecom.clara.cloud.logicalmodel.samplecatalog.JeeProbeLogicalModelCatalog" />
+
+</beans>
