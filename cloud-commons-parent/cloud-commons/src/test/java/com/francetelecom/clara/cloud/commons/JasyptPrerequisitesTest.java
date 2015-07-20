@@ -52,7 +52,7 @@ public class JasyptPrerequisitesTest {
     @Test
     public void should_pass_when_passPhraseEnvName_environment_property_is_defined() {
         final Set<String> envKeys = System.getenv().keySet();
-        final Optional<String> firstKeyWithNotNullValue = envKeys.stream().filter(envKey -> System.getenv().get(envKey) != null && System.getenv().get(envKey) != "").findFirst();
+        final Optional<String> firstKeyWithNotNullValue = envKeys.stream().filter(envKey -> System.getenv().get(envKey) != null && !System.getenv().get(envKey).isEmpty()).findFirst();
         new JasyptPrerequisites(firstKeyWithNotNullValue.get(), "nimportequoi");
     }
 
