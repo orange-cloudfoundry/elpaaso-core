@@ -10,25 +10,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.francetelecom.clara.cloud.technicalservice.exception;
+package com.francetelecom.clara.cloud.coremodel.exception;
 
-public class ApplicationNotFoundException extends ObjectNotFoundException {
+import com.francetelecom.clara.cloud.commons.BusinessException;
+
+/**
+ * Not Found exception
+ */
+
+public class DuplicateApplicationReleaseException extends BusinessException {
 
 	private static final long serialVersionUID = -3041264286403948893L;
 
-	public ApplicationNotFoundException() {
+	public DuplicateApplicationReleaseException() {
 		super();
 	}
 
-	public ApplicationNotFoundException(String message) {
+	public DuplicateApplicationReleaseException(String message) {
 		super(message);
 	}
 
-	public ApplicationNotFoundException(String message, Throwable cause) {
+	public DuplicateApplicationReleaseException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public ApplicationNotFoundException(Throwable cause) {
+	public DuplicateApplicationReleaseException(Throwable cause) {
 		super(cause);
 	}
+
 }

@@ -20,7 +20,7 @@ import com.francetelecom.clara.cloud.presentation.common.WicketUtils;
 import com.francetelecom.clara.cloud.presentation.designer.pages.DesignerPage;
 import com.francetelecom.clara.cloud.presentation.tools.BusinessExceptionHandler;
 import com.francetelecom.clara.cloud.presentation.tools.DeleteConfirmationDecorator;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;

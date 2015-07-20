@@ -10,27 +10,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.francetelecom.clara.cloud.technicalservice.exception;
+package com.francetelecom.clara.cloud.coremodel.exception;
 
-import com.francetelecom.clara.cloud.commons.BusinessException;
+import com.francetelecom.clara.cloud.commons.TechnicalException;
 
-public class InvalidTechnicalDeploymentException extends BusinessException {
+/**
+ * Technical data access exception
+ *
+ */
+public class DAOException extends TechnicalException {
 
-	private static final long serialVersionUID = -3041264286403948893L;
+	private static final long serialVersionUID = -4390419002295148544L;
 
-	public InvalidTechnicalDeploymentException() {
+	public DAOException() {
 		super();
 	}
 
-	public InvalidTechnicalDeploymentException(String message) {
+	public DAOException(String message) {
 		super(message);
 	}
 
-	public InvalidTechnicalDeploymentException(String message, Throwable cause) {
+	public DAOException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public InvalidTechnicalDeploymentException(Throwable cause) {
+	public DAOException(Throwable cause) {
 		super(cause);
 	}
 

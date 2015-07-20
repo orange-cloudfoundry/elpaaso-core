@@ -10,27 +10,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.francetelecom.clara.cloud.technicalservice.exception;
+package com.francetelecom.clara.cloud.coremodel.exception;
 
 import com.francetelecom.clara.cloud.commons.BusinessException;
 
-public class ObjectNotFoundException extends BusinessException {
+public class InvalidApplicationException extends BusinessException {
 
 	private static final long serialVersionUID = -3041264286403948893L;
 
-	public ObjectNotFoundException() {
+	public InvalidApplicationException() {
 		super();
 	}
 
-	public ObjectNotFoundException(String message) {
+	public InvalidApplicationException(String message) {
 		super(message);
 	}
 
-	public ObjectNotFoundException(String message, Throwable cause) {
+	public InvalidApplicationException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public ObjectNotFoundException(Throwable cause) {
+	public InvalidApplicationException(Throwable cause) {
 		super(cause);
 	}
 

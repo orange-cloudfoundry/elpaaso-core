@@ -40,6 +40,8 @@
 	<!-- IMPORT DAO CONTEXT -->
 	<jpa:repositories base-package="com.francetelecom.clara.cloud.logicalmodel"/>
 	<jpa:repositories base-package="com.francetelecom.clara.cloud.core.domain"/>
+	<jpa:repositories base-package="com.francetelecom.clara.cloud.coremodel"/>
+
 
 
 	<bean id="applicationReleaseRepository"

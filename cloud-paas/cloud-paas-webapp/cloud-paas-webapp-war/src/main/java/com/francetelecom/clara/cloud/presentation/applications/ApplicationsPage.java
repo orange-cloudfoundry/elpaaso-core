@@ -50,11 +50,11 @@ import com.francetelecom.clara.cloud.presentation.models.FirstApplicationRelease
 import com.francetelecom.clara.cloud.presentation.tools.BreadcrumbsItem;
 import com.francetelecom.clara.cloud.presentation.tools.BusinessExceptionHandler;
 import com.francetelecom.clara.cloud.presentation.tools.WicketSession;
-import com.francetelecom.clara.cloud.technicalservice.exception.DuplicateApplicationException;
-import com.francetelecom.clara.cloud.technicalservice.exception.DuplicateApplicationReleaseException;
-import com.francetelecom.clara.cloud.technicalservice.exception.InvalidReleaseException;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
-import com.francetelecom.clara.cloud.technicalservice.exception.PaasUserNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationException;
+import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationReleaseException;
+import com.francetelecom.clara.cloud.coremodel.exception.InvalidReleaseException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.PaasUserNotFoundException;
 
 /**
  * ApplicationsPage

@@ -20,9 +20,9 @@ import org.apache.wicket.WicketRuntimeException;
 import org.slf4j.LoggerFactory;
 
 import com.francetelecom.clara.cloud.commons.AuthorizationException;
-import com.francetelecom.clara.cloud.technicalservice.exception.InvalidApplicationException;
-import com.francetelecom.clara.cloud.technicalservice.exception.InvalidReleaseException;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.InvalidApplicationException;
+import com.francetelecom.clara.cloud.coremodel.exception.InvalidReleaseException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 
 public class ExceptionViewFactory {
 

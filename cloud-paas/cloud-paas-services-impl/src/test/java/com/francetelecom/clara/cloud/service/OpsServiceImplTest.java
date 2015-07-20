@@ -33,7 +33,7 @@ import com.francetelecom.clara.cloud.core.service.ManageApplication;
 import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
 import com.francetelecom.clara.cloud.coremodel.Environment;
 import com.francetelecom.clara.cloud.environment.ManageEnvironment;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 
 /**
  * OpsServiceImplTest

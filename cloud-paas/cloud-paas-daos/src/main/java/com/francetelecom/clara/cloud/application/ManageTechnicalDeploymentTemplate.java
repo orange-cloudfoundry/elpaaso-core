@@ -15,7 +15,7 @@ package com.francetelecom.clara.cloud.application;
 
 import com.francetelecom.clara.cloud.model.DeploymentProfileEnum;
 import com.francetelecom.clara.cloud.model.TechnicalDeploymentTemplate;
-import com.francetelecom.clara.cloud.technicalservice.exception.NotFoundException;
+import com.francetelecom.clara.cloud.commons.NotFoundException;
 
 /**
  * TDI service facade interface.

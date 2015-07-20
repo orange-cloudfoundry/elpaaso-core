@@ -18,7 +18,7 @@ import com.francetelecom.clara.cloud.model.DeploymentProfileEnum;
 import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.model.TechnicalDeploymentTemplate;
 import com.francetelecom.clara.cloud.model.TechnicalDeploymentTemplateRepository;
-import com.francetelecom.clara.cloud.technicalservice.exception.NotFoundException;
+import com.francetelecom.clara.cloud.commons.NotFoundException;
 import org.fest.assertions.Assertions;
 import org.junit.Before;
 import org.junit.Test;

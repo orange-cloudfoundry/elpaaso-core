@@ -16,7 +16,7 @@ import com.francetelecom.clara.cloud.commons.tasks.TaskStatusEnum;
 import com.francetelecom.clara.cloud.model.DeploymentStateEnum;
 import com.francetelecom.clara.cloud.paas.activation.ManagePaasActivation;
 import com.francetelecom.clara.cloud.paas.activation.TaskStatusActivation;
-import com.francetelecom.clara.cloud.technicalservice.exception.NotFoundException;
+import com.francetelecom.clara.cloud.commons.NotFoundException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

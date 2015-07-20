@@ -26,7 +26,7 @@ import com.francetelecom.clara.cloud.logicalmodel.*;
 import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppProperties;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto.EnvironmentStatusEnum;
-import com.francetelecom.clara.cloud.technicalservice.exception.*;
+import com.francetelecom.clara.cloud.coremodel.exception.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;
 
@@ -288,7 +288,7 @@ public class ScalabilityHelper {
 	 * @param envNumber
 	 *            id used to name env
 	 * @return envOutputName
-	 * @throws com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException
+	 * @throws com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException
 	 */
 	private String environmentFactory(PaasUser author, String appReleaseUid, int envNumber) throws BusinessException {
 		String environmentUid = "noenv";

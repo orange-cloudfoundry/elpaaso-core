@@ -44,7 +44,7 @@ import com.francetelecom.clara.cloud.presentation.resource.CacheActivatedImage;
 import com.francetelecom.clara.cloud.presentation.tools.ApplicationProvider;
 import com.francetelecom.clara.cloud.presentation.tools.BusinessExceptionHandler;
 import com.francetelecom.clara.cloud.presentation.tools.WicketSession;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 
 /**
  * ApplicationsTablePanel

@@ -19,11 +19,10 @@ import com.francetelecom.clara.cloud.commons.BusinessException;
 import com.francetelecom.clara.cloud.commons.InvalidMavenReferenceException;
 import com.francetelecom.clara.cloud.commons.MavenReference;
 import com.francetelecom.clara.cloud.logicalmodel.LogicalDeployment;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalRelationalService;
 import com.francetelecom.clara.cloud.logicalmodel.LogicalSoapService;
 import com.francetelecom.clara.cloud.logicalmodel.ProcessingNode;
-import com.francetelecom.clara.cloud.technicalservice.exception.InvalidReleaseException;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.InvalidReleaseException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 
 /**
  * Logical deployment management service facade interface.

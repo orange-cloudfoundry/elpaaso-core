@@ -17,10 +17,10 @@ import java.util.List;
 
 import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
 import com.francetelecom.clara.cloud.coremodel.MiddlewareProfile;
-import com.francetelecom.clara.cloud.technicalservice.exception.ApplicationNotFoundException;
-import com.francetelecom.clara.cloud.technicalservice.exception.ApplicationReleaseNotFoundException;
-import com.francetelecom.clara.cloud.technicalservice.exception.DuplicateApplicationReleaseException;
-import com.francetelecom.clara.cloud.technicalservice.exception.PaasUserNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ApplicationNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ApplicationReleaseNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationReleaseException;
+import com.francetelecom.clara.cloud.coremodel.exception.PaasUserNotFoundException;
 
 /**
  *  Application release management service facade interface.

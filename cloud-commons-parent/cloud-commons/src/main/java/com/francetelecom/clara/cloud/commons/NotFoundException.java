@@ -10,25 +10,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.francetelecom.clara.cloud.technicalservice.exception;
+package com.francetelecom.clara.cloud.commons;
 
-public class ApplicationReleaseNotFoundException extends ObjectNotFoundException {
+import com.francetelecom.clara.cloud.commons.BusinessException;
 
+/**
+ * Not Found exception
+ * 
+ * @author Clara
+ * 
+ */
+
+public class NotFoundException extends BusinessException {
 	private static final long serialVersionUID = -3041264286403948893L;
+    private Object entityId;
 
-	public ApplicationReleaseNotFoundException() {
+    public NotFoundException() {
 		super();
 	}
 
-	public ApplicationReleaseNotFoundException(String message) {
+	public NotFoundException(String message) {
 		super(message);
 	}
 
-	public ApplicationReleaseNotFoundException(String message, Throwable cause) {
+	public NotFoundException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public ApplicationReleaseNotFoundException(Throwable cause) {
+	public NotFoundException(Throwable cause) {
 		super(cause);
 	}
+
+    public NotFoundException(String message, Object entityId) {
+        super(message);
+        this.entityId = entityId;
+    }
+
+    public Object getEntityId() {
+        return entityId;
+    }
 }

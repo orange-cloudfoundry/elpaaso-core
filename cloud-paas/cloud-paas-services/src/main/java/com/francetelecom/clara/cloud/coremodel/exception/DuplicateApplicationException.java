@@ -10,44 +10,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.francetelecom.clara.cloud.technicalservice.exception;
+package com.francetelecom.clara.cloud.coremodel.exception;
 
 import com.francetelecom.clara.cloud.commons.BusinessException;
-import com.francetelecom.clara.cloud.coremodel.SSOId;
 
 /**
  * Not Found exception
  * 
- * @author Clara
- * 
  */
 
-public class NotFoundException extends BusinessException {
-	private static final long serialVersionUID = -3041264286403948893L;
-    private Object entityId;
+public class DuplicateApplicationException extends BusinessException {
 
-    public NotFoundException() {
+	private static final long serialVersionUID = -3041264286403948893L;
+
+	public DuplicateApplicationException() {
 		super();
 	}
 
-	public NotFoundException(String message) {
+	public DuplicateApplicationException(String message) {
 		super(message);
 	}
 
-	public NotFoundException(String message, Throwable cause) {
+	public DuplicateApplicationException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public NotFoundException(Throwable cause) {
+	public DuplicateApplicationException(Throwable cause) {
 		super(cause);
 	}
 
-    public NotFoundException(String message, Object entityId) {
-        super(message);
-        this.entityId = entityId;
-    }
-
-    public Object getEntityId() {
-        return entityId;
-    }
 }

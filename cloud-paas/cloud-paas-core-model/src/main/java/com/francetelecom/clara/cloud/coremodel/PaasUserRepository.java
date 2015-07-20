@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.francetelecom.clara.cloud.core.domain;
+package com.francetelecom.clara.cloud.coremodel;
 
 import com.francetelecom.clara.cloud.coremodel.PaasUser;
 import com.francetelecom.clara.cloud.coremodel.SSOId;

@@ -37,9 +37,9 @@ import com.francetelecom.clara.cloud.coremodel.Application;
 import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
 import com.francetelecom.clara.cloud.coremodel.PaasUser;
 import com.francetelecom.clara.cloud.coremodel.SSOId;
-import com.francetelecom.clara.cloud.technicalservice.exception.DuplicateApplicationException;
-import com.francetelecom.clara.cloud.technicalservice.exception.InvalidApplicationException;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationException;
+import com.francetelecom.clara.cloud.coremodel.exception.InvalidApplicationException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 
 /**
  * Test Business implementation for Application component

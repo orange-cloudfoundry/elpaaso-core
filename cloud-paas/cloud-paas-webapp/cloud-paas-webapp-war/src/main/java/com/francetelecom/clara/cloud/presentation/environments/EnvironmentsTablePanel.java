@@ -51,8 +51,8 @@ import com.francetelecom.clara.cloud.presentation.tools.BusinessExceptionHandler
 import com.francetelecom.clara.cloud.presentation.tools.EnvironmentDtoProvider;
 import com.francetelecom.clara.cloud.presentation.tools.WicketSession;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
-import com.francetelecom.clara.cloud.technicalservice.exception.ApplicationReleaseNotFoundException;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ApplicationReleaseNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 
 /**
  * EnvironmentsTablePanel Panel which list the environments

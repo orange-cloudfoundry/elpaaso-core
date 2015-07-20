@@ -14,7 +14,7 @@ package com.francetelecom.clara.cloud.core.infrastructure;
 
 import com.francetelecom.clara.cloud.core.domain.ApplicationReleaseRepository;
 import com.francetelecom.clara.cloud.core.domain.ApplicationRepository;
-import com.francetelecom.clara.cloud.core.domain.PaasUserRepository;
+import com.francetelecom.clara.cloud.coremodel.PaasUserRepository;
 import com.francetelecom.clara.cloud.coremodel.Application;
 import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
 import com.francetelecom.clara.cloud.coremodel.PaasUser;

@@ -22,8 +22,8 @@ import com.francetelecom.clara.cloud.services.dto.EnvironmentDetailsDto;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto.EnvironmentTypeEnum;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentOpsDetailsDto;
-import com.francetelecom.clara.cloud.technicalservice.exception.ApplicationReleaseNotFoundException;
-import com.francetelecom.clara.cloud.technicalservice.exception.EnvironmentNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ApplicationReleaseNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.EnvironmentNotFoundException;
 
 /**
  * Application interface to manage environments. Uses DTOs as parameters and returned values.

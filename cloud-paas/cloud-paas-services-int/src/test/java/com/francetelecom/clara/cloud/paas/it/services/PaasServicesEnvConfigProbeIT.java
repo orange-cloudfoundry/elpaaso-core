@@ -21,7 +21,7 @@ import com.francetelecom.clara.cloud.paas.it.services.helper.PaasServicesEnvITHe
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDetailsDto;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
 import com.francetelecom.clara.cloud.services.dto.LinkDto;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;

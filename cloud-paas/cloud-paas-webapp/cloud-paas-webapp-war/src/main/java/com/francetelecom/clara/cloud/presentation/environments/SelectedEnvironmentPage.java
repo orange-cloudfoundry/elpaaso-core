@@ -21,7 +21,7 @@ import com.francetelecom.clara.cloud.presentation.designer.pages.DesignerHelperP
 import com.francetelecom.clara.cloud.presentation.releases.SelectedReleasePage;
 import com.francetelecom.clara.cloud.presentation.tools.BreadcrumbsItem;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDetailsDto;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 
 import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;

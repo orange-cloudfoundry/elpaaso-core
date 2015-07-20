@@ -21,8 +21,8 @@ import org.springframework.stereotype.Service;
 import com.francetelecom.clara.cloud.core.service.ManagePaasUser;
 import com.francetelecom.clara.cloud.coremodel.PaasUser;
 import com.francetelecom.clara.cloud.coremodel.SSOId;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
-import com.francetelecom.clara.cloud.technicalservice.exception.PaasUserNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.PaasUserNotFoundException;
 
 /**
  * Created by IntelliJ IDEA.

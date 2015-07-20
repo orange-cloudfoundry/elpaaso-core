@@ -35,7 +35,7 @@ import com.francetelecom.clara.cloud.presentation.utils.CreateObjectsWithJava;
 import com.francetelecom.clara.cloud.presentation.utils.PaasTestApplication;
 import com.francetelecom.clara.cloud.presentation.utils.PaasTestSession;
 import com.francetelecom.clara.cloud.presentation.utils.PaasWicketTester;
-import com.francetelecom.clara.cloud.technicalservice.exception.ApplicationNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ApplicationNotFoundException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BusinessExceptionHandlerTest {

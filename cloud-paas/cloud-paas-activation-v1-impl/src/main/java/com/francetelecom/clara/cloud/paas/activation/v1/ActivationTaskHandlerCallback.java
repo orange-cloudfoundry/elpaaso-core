@@ -25,7 +25,7 @@ import com.francetelecom.clara.cloud.model.ModelItem;
 import com.francetelecom.clara.cloud.paas.activation.ActivationPlugin;
 import com.francetelecom.clara.cloud.paas.activation.EnvironmentDescriptionHandlerImpl;
 import com.francetelecom.clara.cloud.paas.activation.v1.async.TaskHandlerCallback;
-import com.francetelecom.clara.cloud.technicalservice.exception.NotFoundException;
+import com.francetelecom.clara.cloud.commons.NotFoundException;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.runtime.Execution;
 import org.activiti.engine.runtime.ExecutionQuery;

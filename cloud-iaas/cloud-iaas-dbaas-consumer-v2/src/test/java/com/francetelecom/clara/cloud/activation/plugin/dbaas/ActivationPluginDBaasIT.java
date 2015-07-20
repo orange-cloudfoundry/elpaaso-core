@@ -17,7 +17,7 @@ import com.francetelecom.clara.cloud.model.TechnicalDeploymentInstance;
 import com.francetelecom.clara.cloud.paas.activation.v1.ActivationPluginIT;
 import com.francetelecom.clara.cloud.paas.activation.v1.ActivationPluginTestHelper;
 import com.francetelecom.clara.cloud.paas.activation.v1.ActivationPluginTestHelper.EntityInfo;
-import com.francetelecom.clara.cloud.technicalservice.exception.NotFoundException;
+import com.francetelecom.clara.cloud.commons.NotFoundException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -20,7 +20,7 @@ import com.francetelecom.clara.cloud.dao.TechnicalDeploymentCloner;
 import com.francetelecom.clara.cloud.model.*;
 import com.francetelecom.clara.cloud.paas.activation.ManagePaasActivation;
 import com.francetelecom.clara.cloud.paas.activation.TaskStatusActivation;
-import com.francetelecom.clara.cloud.technicalservice.exception.NotFoundException;
+import com.francetelecom.clara.cloud.commons.NotFoundException;
 import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

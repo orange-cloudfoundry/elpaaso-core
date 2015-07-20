@@ -22,9 +22,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.francetelecom.clara.cloud.coremodel.Application;
 import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
 import com.francetelecom.clara.cloud.coremodel.CoreItem;
-import com.francetelecom.clara.cloud.technicalservice.exception.DuplicateApplicationException;
-import com.francetelecom.clara.cloud.technicalservice.exception.DuplicateApplicationReleaseException;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationException;
+import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationReleaseException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 import com.google.common.base.Predicate;
 
 /**

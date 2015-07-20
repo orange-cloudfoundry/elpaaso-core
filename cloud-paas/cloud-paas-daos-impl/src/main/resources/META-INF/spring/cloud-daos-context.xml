@@ -22,6 +22,7 @@
 
 	<!-- enable spring data jpa repositories -->
 	<jpa:repositories base-package="com.francetelecom.clara.cloud.core.domain" />
+	<jpa:repositories base-package="com.francetelecom.clara.cloud.coremodel" />
 	<jpa:repositories base-package="com.francetelecom.clara.cloud.model"/>
 	<jpa:repositories base-package="com.francetelecom.clara.cloud.logicalmodel"/>
 

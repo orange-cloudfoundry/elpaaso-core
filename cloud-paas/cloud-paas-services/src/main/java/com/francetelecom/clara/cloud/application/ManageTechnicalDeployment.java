@@ -14,7 +14,7 @@ package com.francetelecom.clara.cloud.application;
 
 import com.francetelecom.clara.cloud.commons.TechnicalException;
 import com.francetelecom.clara.cloud.model.TechnicalDeployment;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 
 import java.util.List;
 

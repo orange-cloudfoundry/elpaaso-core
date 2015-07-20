@@ -69,9 +69,9 @@ import com.francetelecom.clara.cloud.presentation.tools.FieldFeedbackDecorator;
 import com.francetelecom.clara.cloud.presentation.tools.WicketSession;
 import com.francetelecom.clara.cloud.services.dto.ConfigOverrideDTO;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
-import com.francetelecom.clara.cloud.technicalservice.exception.ApplicationNotFoundException;
-import com.francetelecom.clara.cloud.technicalservice.exception.InvalidConfigOverrideException;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ApplicationNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.InvalidConfigOverrideException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 
 /**
  * EnvironmentCreatePanel

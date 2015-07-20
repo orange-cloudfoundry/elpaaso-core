@@ -16,7 +16,7 @@ import com.francetelecom.clara.cloud.commons.DateHelper;
 import com.francetelecom.clara.cloud.core.domain.ApplicationReleaseRepository;
 import com.francetelecom.clara.cloud.core.domain.ApplicationRepository;
 import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
-import com.francetelecom.clara.cloud.core.domain.PaasUserRepository;
+import com.francetelecom.clara.cloud.coremodel.PaasUserRepository;
 import com.francetelecom.clara.cloud.coremodel.*;
 import com.francetelecom.clara.cloud.model.*;
 import org.apache.commons.lang3.time.DateUtils;

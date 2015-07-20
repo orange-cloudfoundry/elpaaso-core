@@ -60,11 +60,11 @@ import com.francetelecom.clara.cloud.presentation.utils.PaasTestSession;
 import com.francetelecom.clara.cloud.presentation.utils.PaasWicketTester;
 import com.francetelecom.clara.cloud.presentation.validators.ConfigDuplicateKeysValidator;
 import com.francetelecom.clara.cloud.presentation.validators.ConfigMaxNumberKeysValidator;
-import com.francetelecom.clara.cloud.technicalservice.exception.ApplicationNotFoundException;
-import com.francetelecom.clara.cloud.technicalservice.exception.DuplicateApplicationException;
-import com.francetelecom.clara.cloud.technicalservice.exception.DuplicateApplicationReleaseException;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
-import com.francetelecom.clara.cloud.technicalservice.exception.PaasUserNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ApplicationNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationException;
+import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationReleaseException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.PaasUserNotFoundException;
 
 /**
  * ConfigConstraintsTest

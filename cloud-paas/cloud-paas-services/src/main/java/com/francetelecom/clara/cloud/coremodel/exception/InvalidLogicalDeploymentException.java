@@ -10,32 +10,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.francetelecom.clara.cloud.technicalservice.exception;
+package com.francetelecom.clara.cloud.coremodel.exception;
 
 import com.francetelecom.clara.cloud.commons.BusinessException;
 
-/**
- * Invalid market functional exception
- * 
- * @author Clara
- *
- */public class InvalidApplicationReleaseException extends BusinessException {
+public class InvalidLogicalDeploymentException extends BusinessException {
 
 	private static final long serialVersionUID = -3041264286403948893L;
 
-	public InvalidApplicationReleaseException() {
+	public InvalidLogicalDeploymentException() {
 		super();
 	}
 
-	public InvalidApplicationReleaseException(String message) {
+	public InvalidLogicalDeploymentException(String message) {
 		super(message);
 	}
 
-	public InvalidApplicationReleaseException(String message, Throwable cause) {
+	public InvalidLogicalDeploymentException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public InvalidApplicationReleaseException(Throwable cause) {
+	public InvalidLogicalDeploymentException(Throwable cause) {
 		super(cause);
 	}
 

@@ -19,10 +19,10 @@ import com.francetelecom.clara.cloud.presentation.WicketApplication;
 import com.francetelecom.clara.cloud.presentation.common.Breadcrumbs;
 import com.francetelecom.clara.cloud.presentation.common.NavigationMenuFirstLevel;
 import com.francetelecom.clara.cloud.presentation.common.PageTemplate;
-import com.francetelecom.clara.cloud.technicalservice.exception.DuplicateApplicationException;
-import com.francetelecom.clara.cloud.technicalservice.exception.InvalidApplicationException;
-import com.francetelecom.clara.cloud.technicalservice.exception.InvalidReleaseException;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationException;
+import com.francetelecom.clara.cloud.coremodel.exception.InvalidApplicationException;
+import com.francetelecom.clara.cloud.coremodel.exception.InvalidReleaseException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;

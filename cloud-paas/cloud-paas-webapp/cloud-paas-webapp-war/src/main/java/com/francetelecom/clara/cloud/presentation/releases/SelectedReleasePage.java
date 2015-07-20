@@ -25,7 +25,7 @@ import com.francetelecom.clara.cloud.presentation.designer.pages.DesignerPage;
 import com.francetelecom.clara.cloud.presentation.environments.EnvironmentCreatePanel;
 import com.francetelecom.clara.cloud.presentation.environments.EnvironmentsTablePanel;
 import com.francetelecom.clara.cloud.presentation.tools.BreadcrumbsItem;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 
 import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.ajax.AjaxRequestTarget;

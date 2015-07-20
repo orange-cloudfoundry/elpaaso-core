@@ -41,9 +41,9 @@ import com.francetelecom.clara.cloud.presentation.releases.ReleaseCreatePanel;
 import com.francetelecom.clara.cloud.presentation.releases.ReleasesTablePanel;
 import com.francetelecom.clara.cloud.presentation.tools.BreadcrumbsItem;
 import com.francetelecom.clara.cloud.presentation.tools.BusinessExceptionHandler;
-import com.francetelecom.clara.cloud.technicalservice.exception.ApplicationNotFoundException;
-import com.francetelecom.clara.cloud.technicalservice.exception.DuplicateApplicationException;
-import com.francetelecom.clara.cloud.technicalservice.exception.PaasUserNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ApplicationNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationException;
+import com.francetelecom.clara.cloud.coremodel.exception.PaasUserNotFoundException;
 
 /**
  * Created by IntelliJ IDEA. User: Thomas Escalle - tawe8231 Entity :

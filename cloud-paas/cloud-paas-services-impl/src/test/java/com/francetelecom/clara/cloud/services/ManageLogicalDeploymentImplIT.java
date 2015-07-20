@@ -40,7 +40,7 @@ import com.francetelecom.clara.cloud.coremodel.SSOId;
 import com.francetelecom.clara.cloud.logicalmodel.LogicalDeployment;
 import com.francetelecom.clara.cloud.logicalmodel.LogicalSoapService;
 import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppFactory;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 
 /**
  * ManageLogicalDeploymentImplIT Class which test the
@@ -82,9 +82,9 @@ public class ManageLogicalDeploymentImplIT {
 	 * Test setup consist in creating an Application, then an ApplicationRelease
 	 * and finally an Environment
 	 * 
-	 * @throws com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException
-	 * @throws com.francetelecom.clara.cloud.technicalservice.exception.InvalidApplicationException
-	 * @throws com.francetelecom.clara.cloud.technicalservice.exception.InvalidReleaseException
+	 * @throws com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException
+	 * @throws com.francetelecom.clara.cloud.coremodel.exception.InvalidApplicationException
+	 * @throws com.francetelecom.clara.cloud.coremodel.exception.InvalidReleaseException
 	 * @throws java.net.MalformedURLException
 	 */
 	@Before

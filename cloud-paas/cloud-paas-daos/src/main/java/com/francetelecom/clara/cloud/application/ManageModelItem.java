@@ -14,7 +14,7 @@ package com.francetelecom.clara.cloud.application;
 
 import com.francetelecom.clara.cloud.model.DeploymentStateEnum;
 import com.francetelecom.clara.cloud.model.ModelItem;
-import com.francetelecom.clara.cloud.technicalservice.exception.NotFoundException;
+import com.francetelecom.clara.cloud.commons.NotFoundException;
 
 /**
  * ModelItem service facade interface.

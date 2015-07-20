@@ -30,7 +30,7 @@ import com.francetelecom.clara.cloud.services.dto.EnvironmentDto.EnvironmentStat
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto.EnvironmentTypeEnum;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentOpsDetailsDto;
 import com.francetelecom.clara.cloud.services.dto.LinkDto;
-import com.francetelecom.clara.cloud.technicalservice.exception.*;
+import com.francetelecom.clara.cloud.coremodel.exception.*;
 import com.google.common.base.Predicate;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;

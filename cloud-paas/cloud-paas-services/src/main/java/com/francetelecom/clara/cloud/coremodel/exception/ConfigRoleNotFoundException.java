@@ -10,28 +10,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.francetelecom.clara.cloud.technicalservice.exception;
+package com.francetelecom.clara.cloud.coremodel.exception;
 
-import com.francetelecom.clara.cloud.commons.BusinessException;
-
-public class InvalidLogicalDeploymentException extends BusinessException {
+public class ConfigRoleNotFoundException extends ObjectNotFoundException {
 
 	private static final long serialVersionUID = -3041264286403948893L;
 
-	public InvalidLogicalDeploymentException() {
+	public ConfigRoleNotFoundException() {
 		super();
 	}
 
-	public InvalidLogicalDeploymentException(String message) {
+	public ConfigRoleNotFoundException(String message) {
 		super(message);
 	}
 
-	public InvalidLogicalDeploymentException(String message, Throwable cause) {
+	public ConfigRoleNotFoundException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public InvalidLogicalDeploymentException(Throwable cause) {
+	public ConfigRoleNotFoundException(Throwable cause) {
 		super(cause);
 	}
-
 }

@@ -55,10 +55,10 @@ import com.francetelecom.clara.cloud.logicalmodel.LogicalWebGUIService;
 import com.francetelecom.clara.cloud.logicalmodel.ProcessingNode;
 import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.PetcliniccLogicalModelCatalog;
 import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppProperties;
-import com.francetelecom.clara.cloud.technicalservice.exception.DuplicateApplicationException;
-import com.francetelecom.clara.cloud.technicalservice.exception.DuplicateApplicationReleaseException;
-import com.francetelecom.clara.cloud.technicalservice.exception.InvalidReleaseException;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationException;
+import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationReleaseException;
+import com.francetelecom.clara.cloud.coremodel.exception.InvalidReleaseException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 
 /**
  * Test Business implementation for Application component

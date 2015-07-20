@@ -61,7 +61,7 @@ import com.francetelecom.clara.cloud.presentation.releases.ReleasesPage;
 import com.francetelecom.clara.cloud.presentation.releases.SelectedReleasePage;
 import com.francetelecom.clara.cloud.presentation.tools.BreadcrumbsItem;
 import com.francetelecom.clara.cloud.presentation.tools.BusinessExceptionHandler;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 
 @MountPath("/architecture/appUid/${appUid}/releaseUid/${releaseUid}")
 @AuthorizeInstantiation({"ROLE_USER","ROLE_ADMIN"})

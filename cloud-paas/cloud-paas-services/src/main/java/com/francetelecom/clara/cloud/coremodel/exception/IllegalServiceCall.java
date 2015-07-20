@@ -10,33 +10,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.francetelecom.clara.cloud.technicalservice.exception;
+package com.francetelecom.clara.cloud.coremodel.exception;
 
-import com.francetelecom.clara.cloud.commons.BusinessException;
+import com.francetelecom.clara.cloud.commons.TechnicalException;
 
-/**
- * Not Found exception
- * 
- */
+public class IllegalServiceCall extends TechnicalException {
 
-public class DuplicateApplicationException extends BusinessException {
-
-	private static final long serialVersionUID = -3041264286403948893L;
-
-	public DuplicateApplicationException() {
+	public IllegalServiceCall() {
 		super();
 	}
 
-	public DuplicateApplicationException(String message) {
+	public IllegalServiceCall(String message) {
 		super(message);
 	}
 
-	public DuplicateApplicationException(String message, Throwable cause) {
+	public IllegalServiceCall(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public DuplicateApplicationException(Throwable cause) {
+	public IllegalServiceCall(Throwable cause) {
 		super(cause);
 	}
-
 }

@@ -33,7 +33,7 @@ import com.francetelecom.clara.cloud.coremodel.Application;
 import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
 import com.francetelecom.clara.cloud.presentation.designer.pages.DesignerHelperPage;
 import com.francetelecom.clara.cloud.presentation.designer.panels.DesignerArchitectureMatrixPanel;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 
 /**
  * User: wwnl9733

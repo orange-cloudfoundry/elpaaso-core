@@ -17,7 +17,7 @@ import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
 import com.francetelecom.clara.cloud.coremodel.MiddlewareProfile;
 import com.francetelecom.clara.cloud.coremodel.SSOId;
 import com.francetelecom.clara.cloud.providersoap.mapping.SoapMapper;
-import com.francetelecom.clara.cloud.technicalservice.exception.*;
+import com.francetelecom.clara.cloud.coremodel.exception.*;
 import com.orange.clara.cloud.providersoap.administration.v4.model.CreateApplicationCommand;
 import com.orange.clara.cloud.providersoap.administration.v4.model.CreateReleaseCommand;
 import com.orange.clara.cloud.providersoap.administration.v4.service.ApplicationNotFoundErrorFault;

@@ -48,7 +48,7 @@ import com.francetelecom.clara.cloud.coremodel.PaasUser;
 import com.francetelecom.clara.cloud.coremodel.SSOId;
 import com.francetelecom.clara.cloud.presentation.login.UnauthorizedAccess;
 import com.francetelecom.clara.cloud.scalability.helper.PaasStats;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 import org.springframework.util.Assert;
 
 /**

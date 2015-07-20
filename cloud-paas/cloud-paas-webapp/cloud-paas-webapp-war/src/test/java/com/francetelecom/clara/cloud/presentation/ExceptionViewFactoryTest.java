@@ -22,16 +22,9 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.francetelecom.clara.cloud.commons.AuthorizationException;
-import com.francetelecom.clara.cloud.presentation.AuthorizationExceptionPage;
-import com.francetelecom.clara.cloud.presentation.ExceptionViewFactory;
-import com.francetelecom.clara.cloud.presentation.InvalidApplicationExceptionPage;
-import com.francetelecom.clara.cloud.presentation.InvalidReleaseExceptionPage;
-import com.francetelecom.clara.cloud.presentation.ObjectNotFoundExceptionPage;
-import com.francetelecom.clara.cloud.presentation.UnknownExceptionPage;
-import com.francetelecom.clara.cloud.presentation.WebPageFactory;
-import com.francetelecom.clara.cloud.technicalservice.exception.InvalidApplicationException;
-import com.francetelecom.clara.cloud.technicalservice.exception.InvalidReleaseException;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.InvalidApplicationException;
+import com.francetelecom.clara.cloud.coremodel.exception.InvalidReleaseException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ExceptionViewFactoryTest {

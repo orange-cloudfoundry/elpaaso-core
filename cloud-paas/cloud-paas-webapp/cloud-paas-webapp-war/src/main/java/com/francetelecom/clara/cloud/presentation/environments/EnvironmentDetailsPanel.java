@@ -38,7 +38,7 @@ import org.slf4j.LoggerFactory;
 import com.francetelecom.clara.cloud.presentation.designer.panels.DesignerArchitectureMatrixPanel;
 import com.francetelecom.clara.cloud.presentation.tools.FieldFeedbackDecorator;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDetailsDto;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 
 /**
  * Created by IntelliJ IDEA.

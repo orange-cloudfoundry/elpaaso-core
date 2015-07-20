@@ -26,7 +26,7 @@ import com.francetelecom.clara.cloud.commons.ValidatorUtil;
 import com.francetelecom.clara.cloud.core.domain.ApplicationReleaseRepository;
 import com.francetelecom.clara.cloud.coremodel.ConfigRoleRepository;
 import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
-import com.francetelecom.clara.cloud.core.domain.PaasUserRepository;
+import com.francetelecom.clara.cloud.coremodel.PaasUserRepository;
 import com.francetelecom.clara.cloud.core.service.SecurityUtils;
 import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
 import com.francetelecom.clara.cloud.coremodel.ConfigRole;
@@ -40,9 +40,9 @@ import com.francetelecom.clara.cloud.model.TechnicalDeploymentInstance;
 import com.francetelecom.clara.cloud.model.TechnicalDeploymentTemplate;
 import com.francetelecom.clara.cloud.paas.projection.ProjectionService;
 import com.francetelecom.clara.cloud.paas.projection.UnsupportedProjectionException;
-import com.francetelecom.clara.cloud.technicalservice.exception.ApplicationReleaseNotFoundException;
-import com.francetelecom.clara.cloud.technicalservice.exception.NotFoundException;
-import com.francetelecom.clara.cloud.technicalservice.exception.PaasUserNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ApplicationReleaseNotFoundException;
+import com.francetelecom.clara.cloud.commons.NotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.PaasUserNotFoundException;
 
 /**
  * Utils to manages environment. We need this class to solve transaction lifecycle

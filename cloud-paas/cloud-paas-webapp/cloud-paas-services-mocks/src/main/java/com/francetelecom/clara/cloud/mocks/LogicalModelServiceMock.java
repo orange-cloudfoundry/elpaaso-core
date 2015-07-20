@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.springframework.stereotype.Service;
 
 import com.francetelecom.clara.cloud.logicalmodel.LogicalModelItem;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 
 /**
  * Created by IntelliJ IDEA.

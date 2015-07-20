@@ -32,11 +32,10 @@ import com.francetelecom.clara.cloud.dao.LogicalDeploymentCloner;
 import com.francetelecom.clara.cloud.logicalmodel.LogicalConfigService;
 import com.francetelecom.clara.cloud.logicalmodel.LogicalConfigServiceUtils;
 import com.francetelecom.clara.cloud.logicalmodel.LogicalDeployment;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalRelationalService;
 import com.francetelecom.clara.cloud.logicalmodel.LogicalSoapService;
 import com.francetelecom.clara.cloud.logicalmodel.ProcessingNode;
-import com.francetelecom.clara.cloud.technicalservice.exception.InvalidReleaseException;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.InvalidReleaseException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 
 /**
  * Mock impl of LogicalDeployment using in plain JVM references as persistence

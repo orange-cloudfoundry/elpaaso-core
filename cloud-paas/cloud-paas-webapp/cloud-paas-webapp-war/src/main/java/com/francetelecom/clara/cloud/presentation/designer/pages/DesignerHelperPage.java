@@ -35,7 +35,7 @@ import com.francetelecom.clara.cloud.presentation.environments.EnvironmentWspInf
 import com.francetelecom.clara.cloud.presentation.tools.CodeMirrorTextArea;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDetailsDto;
 import com.francetelecom.clara.cloud.services.dto.LinkDto;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 
 /**
  * DesignerHelperPage

@@ -10,28 +10,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.francetelecom.clara.cloud.technicalservice.exception;
+package com.francetelecom.clara.cloud.coremodel.exception;
 
 import com.francetelecom.clara.cloud.commons.BusinessException;
+import com.francetelecom.clara.cloud.services.dto.ConfigOverrideDTO;
 
-public class InvalidApplicationException extends BusinessException {
+public class InvalidConfigOverrideException extends BusinessException {
+
+    private ConfigOverrideDTO faultyOverride;
 
 	private static final long serialVersionUID = -3041264286403948893L;
 
-	public InvalidApplicationException() {
+	public InvalidConfigOverrideException() {
 		super();
 	}
 
-	public InvalidApplicationException(String message) {
+	public InvalidConfigOverrideException(String message) {
 		super(message);
 	}
 
-	public InvalidApplicationException(String message, Throwable cause) {
+	public InvalidConfigOverrideException(String message, Throwable cause,  ConfigOverrideDTO faultyOverride) {
 		super(message, cause);
-	}
+        this.faultyOverride = faultyOverride;
+    }
 
-	public InvalidApplicationException(Throwable cause) {
+	public InvalidConfigOverrideException(Throwable cause) {
 		super(cause);
 	}
 
+    public ConfigOverrideDTO getFaultyOverride() {
+        return faultyOverride;
+    }
 }

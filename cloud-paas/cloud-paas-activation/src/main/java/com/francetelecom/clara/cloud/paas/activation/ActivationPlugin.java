@@ -19,7 +19,7 @@ import com.francetelecom.clara.cloud.commons.tasks.TaskStatusEnum;
 import com.francetelecom.clara.cloud.commons.xstream.XStreamUtils;
 import com.francetelecom.clara.cloud.coremodel.ActivationContext;
 import com.francetelecom.clara.cloud.model.ModelItem;
-import com.francetelecom.clara.cloud.technicalservice.exception.NotFoundException;
+import com.francetelecom.clara.cloud.commons.NotFoundException;
 import com.thoughtworks.xstream.XStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

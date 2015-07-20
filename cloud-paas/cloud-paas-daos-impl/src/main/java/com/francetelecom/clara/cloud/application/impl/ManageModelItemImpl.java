@@ -23,7 +23,7 @@ import com.francetelecom.clara.cloud.application.ManageModelItem;
 import com.francetelecom.clara.cloud.dao.ModelItemDaoJpa;
 import com.francetelecom.clara.cloud.model.DeploymentStateEnum;
 import com.francetelecom.clara.cloud.model.ModelItem;
-import com.francetelecom.clara.cloud.technicalservice.exception.NotFoundException;
+import com.francetelecom.clara.cloud.commons.NotFoundException;
 
 /**
  * Business implementation for ModelItem management

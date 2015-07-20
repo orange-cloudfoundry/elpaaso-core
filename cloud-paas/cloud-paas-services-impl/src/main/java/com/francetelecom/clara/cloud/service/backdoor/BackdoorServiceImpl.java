@@ -13,12 +13,12 @@
 package com.francetelecom.clara.cloud.service.backdoor;
 
 import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
-import com.francetelecom.clara.cloud.core.domain.PaasUserRepository;
+import com.francetelecom.clara.cloud.coremodel.PaasUserRepository;
 import com.francetelecom.clara.cloud.coremodel.Environment;
 import com.francetelecom.clara.cloud.coremodel.PaasRoleEnum;
 import com.francetelecom.clara.cloud.coremodel.PaasUser;
 import com.francetelecom.clara.cloud.coremodel.SSOId;
-import com.francetelecom.clara.cloud.technicalservice.exception.EnvironmentNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.EnvironmentNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;

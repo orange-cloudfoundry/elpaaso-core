@@ -10,28 +10,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.francetelecom.clara.cloud.technicalservice.exception;
+package com.francetelecom.clara.cloud.coremodel.exception;
 
 import com.francetelecom.clara.cloud.commons.BusinessException;
 
-public class InvalidReleaseException extends BusinessException {
+public class InvalidEnvironmentException extends BusinessException {
 
 	private static final long serialVersionUID = -3041264286403948893L;
 
-	public InvalidReleaseException() {
+	public InvalidEnvironmentException() {
 		super();
 	}
 
-	public InvalidReleaseException(String message) {
+	public InvalidEnvironmentException(String message) {
 		super(message);
 	}
 
-	public InvalidReleaseException(String message, Throwable cause) {
+	public InvalidEnvironmentException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public InvalidReleaseException(Throwable cause) {
+	public InvalidEnvironmentException(Throwable cause) {
 		super(cause);
 	}
-
 }

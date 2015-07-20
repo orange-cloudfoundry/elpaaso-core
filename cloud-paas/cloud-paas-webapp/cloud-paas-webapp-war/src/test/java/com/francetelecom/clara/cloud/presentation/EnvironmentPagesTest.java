@@ -65,10 +65,10 @@ import com.francetelecom.clara.cloud.services.dto.EnvironmentDetailsDto;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
 import com.francetelecom.clara.cloud.services.dto.LinkDto;
 import com.francetelecom.clara.cloud.services.dto.LinkDto.LinkTypeEnum;
-import com.francetelecom.clara.cloud.technicalservice.exception.ApplicationReleaseNotFoundException;
-import com.francetelecom.clara.cloud.technicalservice.exception.EnvironmentNotFoundException;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
-import com.francetelecom.clara.cloud.technicalservice.exception.PaasUserNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ApplicationReleaseNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.EnvironmentNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.PaasUserNotFoundException;
 
 /**
  * Created with IntelliJ IDEA. User: shjn2064 Date: 04/06/12 Time: 14:50

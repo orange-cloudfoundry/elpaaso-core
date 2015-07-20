@@ -10,25 +10,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.francetelecom.clara.cloud.technicalservice.exception;
+package com.francetelecom.clara.cloud.coremodel.exception;
 
-import com.francetelecom.clara.cloud.commons.TechnicalException;
+public class EnvironmentNotFoundException extends ObjectNotFoundException {
 
-public class IllegalServiceCall extends TechnicalException {
+	private static final long serialVersionUID = -3041264286403948893L;
 
-	public IllegalServiceCall() {
+	public EnvironmentNotFoundException() {
 		super();
 	}
 
-	public IllegalServiceCall(String message) {
+	public EnvironmentNotFoundException(String message) {
 		super(message);
 	}
 
-	public IllegalServiceCall(String message, Throwable cause) {
+	public EnvironmentNotFoundException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public IllegalServiceCall(Throwable cause) {
+	public EnvironmentNotFoundException(Throwable cause) {
 		super(cause);
 	}
 }

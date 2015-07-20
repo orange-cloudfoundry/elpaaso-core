@@ -14,33 +14,17 @@ package com.francetelecom.clara.cloud.paas.it.services;
 
 import com.francetelecom.clara.cloud.application.ManageLogicalDeployment;
 import com.francetelecom.clara.cloud.environment.ManageEnvironment;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalDeployment;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalNodeServiceAssociation;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalWebGUIService;
-import com.francetelecom.clara.cloud.logicalmodel.ProcessingNode;
 import com.francetelecom.clara.cloud.paas.it.services.helper.PaasServicesEnvITHelper;
-import com.francetelecom.clara.cloud.services.dto.EnvironmentDetailsDto;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
-import com.francetelecom.clara.cloud.services.dto.LinkDto;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.web.client.RestTemplate;
-
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.util.List;
-import java.util.Map;
 
 @ContextConfiguration(classes= PaasServicesEnvOptionalSoftwareReferenceITContext.class)
 @RunWith(SpringJUnit4ClassRunner.class)

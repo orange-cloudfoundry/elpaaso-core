@@ -17,7 +17,7 @@ import com.francetelecom.clara.cloud.presentation.tools.BlockUIDecorator;
 import com.francetelecom.clara.cloud.presentation.tools.DeleteConfirmationBlockUIDecorator;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto.EnvironmentStatusEnum;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 
 import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxRequestTarget;

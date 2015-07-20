@@ -26,7 +26,7 @@ import com.francetelecom.clara.cloud.coremodel.PaasUser;
 import com.francetelecom.clara.cloud.coremodel.SSOId;
 import com.francetelecom.clara.cloud.model.DeploymentProfileEnum;
 import com.francetelecom.clara.cloud.model.TechnicalDeploymentInstance;
-import com.francetelecom.clara.cloud.technicalservice.exception.EnvironmentNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.EnvironmentNotFoundException;
 
 public class BackdoorServiceImplTest {
 

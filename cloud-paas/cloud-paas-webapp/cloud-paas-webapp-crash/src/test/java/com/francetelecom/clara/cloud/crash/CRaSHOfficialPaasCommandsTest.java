@@ -17,7 +17,7 @@ import com.francetelecom.clara.cloud.service.OpsService;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentOpsDetailsDto;
 import com.francetelecom.clara.cloud.services.dto.LinkDto;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;

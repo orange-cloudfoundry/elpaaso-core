@@ -19,7 +19,7 @@ import com.francetelecom.clara.cloud.model.*;
 import com.francetelecom.clara.cloud.paas.activation.v1.ActivationPluginTestHelper;
 import com.francetelecom.clara.cloud.techmodel.dbaas.DBaasSubscriptionV2;
 import com.francetelecom.clara.cloud.techmodel.dbaas.DBaasVersion;
-import com.francetelecom.clara.cloud.technicalservice.exception.NotFoundException;
+import com.francetelecom.clara.cloud.commons.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;

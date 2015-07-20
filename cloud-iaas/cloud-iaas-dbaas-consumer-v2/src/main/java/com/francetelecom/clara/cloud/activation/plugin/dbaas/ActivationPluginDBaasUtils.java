@@ -25,7 +25,7 @@ import com.francetelecom.clara.cloud.commons.XaasSubscriptionNotFound;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatus;
 import com.francetelecom.clara.cloud.techmodel.dbaas.DbAccessInfo;
 import com.francetelecom.clara.cloud.techmodel.dbaas.DBaasSubscriptionV2;
-import com.francetelecom.clara.cloud.technicalservice.exception.NotFoundException;
+import com.francetelecom.clara.cloud.commons.NotFoundException;
 
 /**
  * ActivationPluginDBaasUtils

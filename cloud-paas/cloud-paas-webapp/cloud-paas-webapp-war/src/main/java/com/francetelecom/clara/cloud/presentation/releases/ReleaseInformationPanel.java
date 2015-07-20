@@ -45,7 +45,7 @@ import com.francetelecom.clara.cloud.presentation.tools.BreadcrumbsItem;
 import com.francetelecom.clara.cloud.presentation.tools.BusinessExceptionHandler;
 import com.francetelecom.clara.cloud.presentation.tools.DeleteConfirmationDecorator;
 import com.francetelecom.clara.cloud.presentation.tools.FieldFeedbackDecorator;
-import com.francetelecom.clara.cloud.technicalservice.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 
 /**
  * Created by IntelliJ IDEA.
