@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.francetelecom.clara.cloud.core.infrastructure;
+package com.francetelecom.clara.cloud.coremodel;
 
 import java.util.Arrays;
 
@@ -22,12 +22,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.francetelecom.clara.cloud.core.domain.ConfigRoleRepository;
+import com.francetelecom.clara.cloud.coremodel.ConfigRoleRepository;
 import com.francetelecom.clara.cloud.coremodel.ConfigRole;
 import com.francetelecom.clara.cloud.coremodel.ConfigValue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/com/francetelecom/clara/cloud/services/application-context.xml" })
+@ContextConfiguration(locations = { "classpath:/com/francetelecom/clara/cloud/coremodel/application-context.xml" })
 public class ConfigRoleRepositoryTest {
 
 	@Autowired

@@ -18,7 +18,7 @@ import com.francetelecom.clara.cloud.commons.MissingDefaultUserException;
 import com.francetelecom.clara.cloud.commons.TechnicalException;
 import com.francetelecom.clara.cloud.core.domain.ApplicationReleaseRepository;
 import com.francetelecom.clara.cloud.core.domain.ApplicationRepository;
-import com.francetelecom.clara.cloud.core.domain.ConfigRoleRepository;
+import com.francetelecom.clara.cloud.coremodel.ConfigRoleRepository;
 import com.francetelecom.clara.cloud.core.domain.PaasUserRepository;
 import com.francetelecom.clara.cloud.coremodel.Application;
 import com.francetelecom.clara.cloud.coremodel.PaasUser;

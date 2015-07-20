@@ -69,7 +69,7 @@
 	<bean id="configRoleRepository" class="org.mockito.Mockito"
 		factory-method="mock">
 		<constructor-arg
-			value="com.francetelecom.clara.cloud.core.domain.ConfigRoleRepository" />
+			value="com.francetelecom.clara.cloud.coremodel.ConfigRoleRepository" />
 	</bean>
 
 	<bean id="logicalDeploymentCloner" class="org.mockito.Mockito"

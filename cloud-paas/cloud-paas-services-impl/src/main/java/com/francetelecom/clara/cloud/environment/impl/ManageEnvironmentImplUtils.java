@@ -24,7 +24,7 @@ import com.francetelecom.clara.cloud.commons.BusinessException;
 import com.francetelecom.clara.cloud.commons.TechnicalException;
 import com.francetelecom.clara.cloud.commons.ValidatorUtil;
 import com.francetelecom.clara.cloud.core.domain.ApplicationReleaseRepository;
-import com.francetelecom.clara.cloud.core.domain.ConfigRoleRepository;
+import com.francetelecom.clara.cloud.coremodel.ConfigRoleRepository;
 import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
 import com.francetelecom.clara.cloud.core.domain.PaasUserRepository;
 import com.francetelecom.clara.cloud.core.service.SecurityUtils;

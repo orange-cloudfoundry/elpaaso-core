@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.francetelecom.clara.cloud.core.domain;
+package com.francetelecom.clara.cloud.coremodel;
 
 import java.util.List;
 
@@ -20,10 +20,10 @@ import com.francetelecom.clara.cloud.coremodel.ConfigRole;
 
 public interface ConfigRoleRepository extends JpaRepository<ConfigRole, Integer> {
 
-	public List<ConfigRole> findByApplicationUID(String applicatioUID);
+	List<ConfigRole> findByApplicationUID(String applicationUid);
 
-	public ConfigRole findByUid(String uid);
+	ConfigRole findByUid(String uid);
 
-	public List<ConfigRole> findByUidIn(List<String> uids);
+	List<ConfigRole> findByUidIn(List<String> uids);
 
 }
