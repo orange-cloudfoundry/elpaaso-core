@@ -14,7 +14,7 @@ package com.francetelecom.clara.cloud.core.service;
 
 import com.francetelecom.clara.cloud.commons.ValidatorUtil;
 import com.francetelecom.clara.cloud.core.domain.ApplicationReleaseRepository;
-import com.francetelecom.clara.cloud.core.domain.ApplicationRepository;
+import com.francetelecom.clara.cloud.coremodel.ApplicationRepository;
 import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
 import com.francetelecom.clara.cloud.coremodel.PaasUserRepository;
 import com.francetelecom.clara.cloud.coremodel.*;
@@ -118,6 +118,7 @@ public class ManageApplicationReleaseImpl implements ManageApplicationRelease {
             log.info(message);
             throw new PaasUserNotFoundException(message);
         }
+
         Application application = applicationRepository.findByUid(applicationUID);
         if (application == null) {
             String message = "Application[" + applicationUID + "] does not exist";

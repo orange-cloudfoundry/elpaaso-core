@@ -13,7 +13,7 @@
 package com.francetelecom.clara.cloud.impl;
 
 import com.francetelecom.clara.cloud.core.domain.ApplicationReleaseRepository;
-import com.francetelecom.clara.cloud.core.domain.ApplicationRepository;
+import com.francetelecom.clara.cloud.coremodel.ApplicationRepository;
 import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
 import com.francetelecom.clara.cloud.coremodel.PaasUserRepository;
 import com.francetelecom.clara.cloud.coremodel.*;
@@ -70,7 +70,7 @@ public class EnvironmentRepositoryTest {
 		paasUserRepository.flush();
 		// given application with label aLabel and code aCode exists
 		Application application = new Application("aLabel", "aCode");
-		applicationRepository.persist(application);
+		applicationRepository.save(application);
 		applicationRepository.flush();
 		// given release with version aVersion exists
 		release = new ApplicationRelease(application, "aVersion");
@@ -271,7 +271,7 @@ public class EnvironmentRepositoryTest {
 		joynMembers.add(new SSOId("alice123"));
 		joyn.setAsPrivate();
 		joyn.setMembers(joynMembers);
-		applicationRepository.persist(joyn);
+		applicationRepository.save(joyn);
 		// given releases of application joyn
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
@@ -293,7 +293,7 @@ public class EnvironmentRepositoryTest {
 		myOrangeMembers.add(new SSOId("bob123"));
 		myOrange.setAsPrivate();
 		myOrange.setMembers(myOrangeMembers);
-		applicationRepository.persist(myOrange);
+		applicationRepository.save(myOrange);
 		
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
@@ -307,7 +307,7 @@ public class EnvironmentRepositoryTest {
 
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
-		applicationRepository.persist(elpaaso);
+		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
 		applicationReleaseRepository.persist(elpaaso_1_0);
@@ -351,7 +351,7 @@ public class EnvironmentRepositoryTest {
 		joynMembers.add(new SSOId("alice123"));
 		joyn.setAsPrivate();
 		joyn.setMembers(joynMembers);
-		applicationRepository.persist(joyn);
+		applicationRepository.save(joyn);
 		// given releases of application joyn
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
@@ -373,7 +373,7 @@ public class EnvironmentRepositoryTest {
 		myOrangeMembers.add(new SSOId("bob123"));
 		myOrange.setAsPrivate();
 		myOrange.setMembers(myOrangeMembers);
-		applicationRepository.persist(myOrange);
+		applicationRepository.save(myOrange);
 		
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
@@ -390,7 +390,7 @@ public class EnvironmentRepositoryTest {
 		HashSet<SSOId> elpaasoMembers = new HashSet<>();
 		elpaasoMembers.add(new SSOId("jdalton"));
 		elpaaso.setMembers(elpaasoMembers);
-		applicationRepository.persist(elpaaso);
+		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
 		applicationReleaseRepository.persist(elpaaso_1_0);
@@ -441,7 +441,7 @@ public class EnvironmentRepositoryTest {
 		joynMembers.add(new SSOId("alice123"));
 		joyn.setAsPrivate();
 		joyn.setMembers(joynMembers);
-		applicationRepository.persist(joyn);
+		applicationRepository.save(joyn);
 		// given releases of application joyn
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
@@ -464,7 +464,7 @@ public class EnvironmentRepositoryTest {
 		myOrange.setAsPrivate();
 		myOrange.setMembers(myOrangeMembers);
 
-		applicationRepository.persist(myOrange);
+		applicationRepository.save(myOrange);
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
@@ -477,7 +477,7 @@ public class EnvironmentRepositoryTest {
 
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
-		applicationRepository.persist(elpaaso);
+		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
 		applicationReleaseRepository.persist(elpaaso_1_0);
@@ -514,7 +514,7 @@ public class EnvironmentRepositoryTest {
 		joynMembers.add(new SSOId("alice123"));
 		joyn.setAsPrivate();
 		joyn.setMembers(joynMembers);
-		applicationRepository.persist(joyn);
+		applicationRepository.save(joyn);
 		// given releases of application joyn
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
@@ -537,7 +537,7 @@ public class EnvironmentRepositoryTest {
 		myOrange.setAsPrivate();
 		myOrange.setMembers(myOrangeMembers);
 
-		applicationRepository.persist(myOrange);
+		applicationRepository.save(myOrange);
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
@@ -550,7 +550,7 @@ public class EnvironmentRepositoryTest {
 
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
-		applicationRepository.persist(elpaaso);
+		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
 		applicationReleaseRepository.persist(elpaaso_1_0);
@@ -587,7 +587,7 @@ public class EnvironmentRepositoryTest {
 		joynMembers.add(new SSOId("alice123"));
 		joyn.setAsPrivate();
 		joyn.setMembers(joynMembers);
-		applicationRepository.persist(joyn);
+		applicationRepository.save(joyn);
 		// given releases of application joyn
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
@@ -610,7 +610,7 @@ public class EnvironmentRepositoryTest {
 		myOrange.setAsPrivate();
 		myOrange.setMembers(myOrangeMembers);
 
-		applicationRepository.persist(myOrange);
+		applicationRepository.save(myOrange);
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
@@ -623,7 +623,7 @@ public class EnvironmentRepositoryTest {
 
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
-		applicationRepository.persist(elpaaso);
+		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
 		applicationReleaseRepository.persist(elpaaso_1_0);
@@ -665,7 +665,7 @@ public class EnvironmentRepositoryTest {
 		joynMembers.add(new SSOId("alice123"));
 		joyn.setAsPrivate();
 		joyn.setMembers(joynMembers);
-		applicationRepository.persist(joyn);
+		applicationRepository.save(joyn);
 		// given releases of application joyn
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
@@ -688,7 +688,7 @@ public class EnvironmentRepositoryTest {
 		myOrange.setAsPrivate();
 		myOrange.setMembers(myOrangeMembers);
 
-		applicationRepository.persist(myOrange);
+		applicationRepository.save(myOrange);
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
@@ -704,7 +704,7 @@ public class EnvironmentRepositoryTest {
 		HashSet<SSOId> elpaasoMembers = new HashSet<>();
 		elpaasoMembers.add(new SSOId("jdalton"));
 		elpaaso.setMembers(elpaasoMembers);
-		applicationRepository.persist(elpaaso);
+		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
 		applicationReleaseRepository.persist(elpaaso_1_0);
@@ -761,7 +761,7 @@ public class EnvironmentRepositoryTest {
 		joynMembers.add(new SSOId("alice123"));
 		joyn.setAsPrivate();
 		joyn.setMembers(joynMembers);
-		applicationRepository.persist(joyn);
+		applicationRepository.save(joyn);
 		// given releases of application joyn
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
@@ -784,7 +784,7 @@ public class EnvironmentRepositoryTest {
 		myOrange.setAsPrivate();
 		myOrange.setMembers(myOrangeMembers);
 
-		applicationRepository.persist(myOrange);
+		applicationRepository.save(myOrange);
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
@@ -800,7 +800,7 @@ public class EnvironmentRepositoryTest {
 		HashSet<SSOId> elpaasoMembers = new HashSet<>();
 		elpaasoMembers.add(new SSOId("jdalton"));
 		elpaaso.setMembers(elpaasoMembers);
-		applicationRepository.persist(elpaaso);
+		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
 		applicationReleaseRepository.persist(elpaaso_1_0);
@@ -846,7 +846,7 @@ public class EnvironmentRepositoryTest {
 		joynMembers.add(new SSOId("alice123"));
 		joyn.setAsPrivate();
 		joyn.setMembers(joynMembers);
-		applicationRepository.persist(joyn);
+		applicationRepository.save(joyn);
 		// given releases of application joyn
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
@@ -868,7 +868,7 @@ public class EnvironmentRepositoryTest {
 		myOrangeMembers.add(new SSOId("bob123"));
 		myOrange.setAsPrivate();
 		myOrange.setMembers(myOrangeMembers);
-		applicationRepository.persist(myOrange);
+		applicationRepository.save(myOrange);
 		
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
@@ -885,7 +885,7 @@ public class EnvironmentRepositoryTest {
 		HashSet<SSOId> elpaasoMembers = new HashSet<>();
 		elpaasoMembers.add(new SSOId("jdalton"));
 		elpaaso.setMembers(elpaasoMembers);
-		applicationRepository.persist(elpaaso);
+		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
 		applicationReleaseRepository.persist(elpaaso_1_0);

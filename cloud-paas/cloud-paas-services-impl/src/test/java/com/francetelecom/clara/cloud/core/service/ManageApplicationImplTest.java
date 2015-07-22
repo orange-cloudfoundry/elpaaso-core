@@ -18,15 +18,11 @@ import com.francetelecom.clara.cloud.commons.MissingDefaultUserException;
 import com.francetelecom.clara.cloud.commons.NotFoundException;
 import com.francetelecom.clara.cloud.commons.TechnicalException;
 import com.francetelecom.clara.cloud.core.domain.ApplicationReleaseRepository;
-import com.francetelecom.clara.cloud.core.domain.ApplicationRepository;
-import com.francetelecom.clara.cloud.coremodel.ConfigRoleRepository;
-import com.francetelecom.clara.cloud.coremodel.PaasUserRepository;
-import com.francetelecom.clara.cloud.coremodel.Application;
-import com.francetelecom.clara.cloud.coremodel.PaasUser;
-import com.francetelecom.clara.cloud.coremodel.SSOId;
+import com.francetelecom.clara.cloud.coremodel.ApplicationRepository;
+import com.francetelecom.clara.cloud.coremodel.*;
+import com.francetelecom.clara.cloud.coremodel.exception.*;
 import com.francetelecom.clara.cloud.services.dto.ApplicationDTO;
 import com.francetelecom.clara.cloud.services.dto.ConfigOverrideDTO;
-import com.francetelecom.clara.cloud.coremodel.exception.*;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Assert;
@@ -34,11 +30,19 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.*;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.domain.Specifications;
 
 import java.util.*;
 
+import static com.francetelecom.clara.cloud.coremodel.ApplicationSpecifications.*;
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
+import static org.springframework.data.jpa.domain.Specifications.where;
 
 /**
  * Test Business implementation for Application component
@@ -70,7 +74,7 @@ public class ManageApplicationImplTest {
 	@Test
 	public void shouldCount2Applications() {
 		// Given 2 applications exist
-		Mockito.when(applicationRepository.count()).thenReturn(new Long(2));
+		Mockito.when(applicationRepository.count(any(Specification.class))).thenReturn(new Long(2));
 		// when I count all applications
 		Long count = manageApplication.countApplications();
 		// then I should get 2 applications
@@ -82,7 +86,7 @@ public class ManageApplicationImplTest {
 		// given bob is authenticated
 		TestHelper.loginAsAdmin();
 		// Given bob is a member of private application joyn
-		Mockito.when(applicationRepository.countByMember(new SSOId("bob123"))).thenReturn(new Long(1));
+		Mockito.when(applicationRepository.count(any(Specifications.class))).thenReturn(new Long(1));
 
 		// when bob count applications
 		long count = manageApplication.countMyApplications();
@@ -97,7 +101,7 @@ public class ManageApplicationImplTest {
 		// given alice is authenticated
 		TestHelper.loginAsUser();
 		// Given alice is a member of private application joyn
-		Mockito.when(applicationRepository.countByMember(new SSOId("alice123"))).thenReturn(new Long(1));
+		Mockito.when(applicationRepository.count(any(Specifications.class))).thenReturn(new Long(1));
 
 		// when Alice count applications
 		long count = manageApplication.countMyApplications();
@@ -114,13 +118,13 @@ public class ManageApplicationImplTest {
 		// Given user "Joe Dalton"
 		doReturn(JOE_DALTON).when(paasUserRepository).findBySsoId(new SSOId("jdalton"));
 		// given no application with label aLabel exists
-		Mockito.when(applicationRepository.findByLabel("aLabel")).thenReturn(null);
+		Mockito.when(applicationRepository.findOne(any(Specifications.class))).thenReturn(null);
 		// given no application with code aCode exists
-		Mockito.when(applicationRepository.findByLabel("aCode")).thenReturn(null);
+		Mockito.when(applicationRepository.findOne(any(Specifications.class))).thenReturn(null);
 		// when I create an application with label aLabel and code aCode
 		manageApplication.createPublicApplication("aCode", "aLabel", null, null, new SSOId("jdalton"));
 		// then application should be persisted
-		Mockito.verify(applicationRepository).persist(Matchers.isA(Application.class));
+		Mockito.verify(applicationRepository).save(Matchers.isA(Application.class));
 	}
 
 	@Test(expected = DuplicateApplicationException.class)
@@ -130,7 +134,7 @@ public class ManageApplicationImplTest {
 		// Given user "Joe Dalton"
 		doReturn(JOE_DALTON).when(paasUserRepository).findBySsoId(new SSOId("jdalton"));
 		// given application with label aLabel exists
-		Mockito.when(applicationRepository.findByLabel("aLabel")).thenReturn(new Application("aLabel", "aCode"));
+		Mockito.when(applicationRepository.findOne(any(Specifications.class))).thenReturn(new Application("aLabel", "aCode"));
 		// when I create an application with label aLabel and code aCode
 		manageApplication.createPublicApplication("aCode", "aLabel", null, null, new SSOId("jdalton"));
 		// then it should fail
@@ -142,7 +146,7 @@ public class ManageApplicationImplTest {
 		TestHelper.loginAsAdmin();
 		doReturn(JOE_DALTON).when(paasUserRepository).findBySsoId(new SSOId("jdalton"));
 		// given application with code aCode exists
-		Mockito.when(applicationRepository.findByCode("aCode")).thenReturn(new Application("aLabel", "aCode"));
+		Mockito.when(applicationRepository.findOne(any(Specifications.class))).thenReturn(new Application("aLabel", "aCode"));
 		// when I create an application with label aLabel and code aCode
 		manageApplication.createPublicApplication("aCode", "aLabel", null, null, new SSOId("jdalton"));
 	}
@@ -303,7 +307,7 @@ public class ManageApplicationImplTest {
 	public void shouldFindApplicationByExistingLabel() throws ApplicationNotFoundException {
 		// given application with label aLabel and code aCode exists
 		Application application = new Application("aLabel", "aCode");
-		Mockito.when(applicationRepository.findByLabel(application.getLabel())).thenReturn(application);
+		Mockito.when(applicationRepository.findOne(any(Specifications.class))).thenReturn(application);
 		// when I find application with label aLabel
 		ApplicationDTO result = manageApplication.findApplicationByLabel(application.getLabel());
 		// then I should get application with uid
@@ -317,7 +321,7 @@ public class ManageApplicationImplTest {
 	@Test(expected = ApplicationNotFoundException.class)
 	public void shouldFailToFindApplicationByUnkownLabel() throws ApplicationNotFoundException {
 		// given no application with label unknown exists
-		Mockito.when(applicationRepository.findByLabel("unkown")).thenReturn(null);
+		Mockito.when(applicationRepository.findOne(any(Specifications.class))).thenReturn(null);
 		// when I find application with label unknown
 		manageApplication.findApplicationByLabel("unkown");
 		// then It should fail
@@ -335,7 +339,7 @@ public class ManageApplicationImplTest {
 		application.setCode("anotherCode");
 		manageApplication.updateApplication(application);
 		// application should be updated
-		Mockito.verify(applicationRepository).merge(application);
+		Mockito.verify(applicationRepository).save(application);
 	}
 
 	@Test(expected = PaasUserNotFoundException.class)
@@ -354,7 +358,7 @@ public class ManageApplicationImplTest {
 		application.setMembers(members);
 		manageApplication.updateApplication(application);
 		// application should be updated
-		Mockito.verify(applicationRepository).merge(application);
+		Mockito.verify(applicationRepository).save(application);
 	}
 
 	@Test(expected = ApplicationNotFoundException.class)
@@ -380,7 +384,7 @@ public class ManageApplicationImplTest {
 		Application application = new Application("aLabel", "aCode");
 		Mockito.when(applicationRepository.findByUid(application.getUID())).thenReturn(new Application("aLabel", "aCode"));
 		// given application with code anotherCode exists
-		Mockito.when(applicationRepository.findByCode("anotherCode")).thenReturn(new Application("anotherLabel", "anotherCode"));
+		Mockito.when(applicationRepository.findOne(any(Specifications.class))).thenReturn(new Application("anotherLabel", "anotherCode"));
 		// when I update application
 		application.setLabel("aLabel");
 		application.setCode("anotherCode");
@@ -397,7 +401,7 @@ public class ManageApplicationImplTest {
 		Application application = new Application("aLabel", "aCode");
 		Mockito.when(applicationRepository.findByUid(application.getUID())).thenReturn(new Application("aLabel", "aCode"));
 		// given application with label anotherLabel exists
-		Mockito.when(applicationRepository.findByLabel("anotherLabel")).thenReturn(new Application("anotherLabel", "anotherCode"));
+		Mockito.when(applicationRepository.findOne(any(Specifications.class))).thenReturn(new Application("anotherLabel", "anotherCode"));
 		// when I update application
 		application.setLabel("anotherLabel");
 		application.setCode("aCode");
@@ -447,7 +451,7 @@ public class ManageApplicationImplTest {
 
 		// Then the persisted application should be private
 		ArgumentCaptor<Application> captor = ArgumentCaptor.forClass(Application.class);
-		verify(applicationRepository).persist(captor.capture());
+		verify(applicationRepository).save(captor.capture());
 		Application app = captor.getValue();
 
 		assertEquals("isPublic", false, app.isPublic());
@@ -466,7 +470,7 @@ public class ManageApplicationImplTest {
 
 		// Then the persisted application should have "Joe Dalton" as member
 		ArgumentCaptor<Application> captor = ArgumentCaptor.forClass(Application.class);
-		verify(applicationRepository).persist(captor.capture());
+		verify(applicationRepository).save(captor.capture());
 		Application app = captor.getValue();
 
 		assertTrue("user that creates the application should be a member", app.listMembers().contains(new SSOId("jdalton")));
@@ -512,7 +516,7 @@ public class ManageApplicationImplTest {
 		List<Application> result = new ArrayList<Application>();
 		result.add(joyn);
 		result.add(elPaaso);
-		Mockito.when(applicationRepository.findAllPublicOrPrivateByMember(new SSOId("alice123"))).thenReturn(result);
+		Mockito.when(applicationRepository.findAll(any(Specifications.class))).thenReturn(result);
 
 		// when Alice find all applications
 		Collection<Application> applications = manageApplication.findAccessibleApplications();
@@ -550,11 +554,10 @@ public class ManageApplicationImplTest {
 		result.add(joyn);
 		result.add(myOrange);
 		Mockito.when(
-				applicationRepository.findAllByMember(Mockito.eq(new SSOId("alice123")), Mockito.eq(0), Mockito.eq(10), Mockito.eq("code"),
-						Mockito.eq("ASC"))).thenReturn(result);
+				applicationRepository.findAll(any(Specification.class), any(Sort.class))).thenReturn(result);
 
 		// when Alice find all applications
-		Collection<Application> applications = manageApplication.findMyApplications(0, 10, "code", "ASC");
+		Collection<Application> applications = manageApplication.findMyApplications();
 		// then Alice should get 2 applications
 		Assert.assertEquals(2, applications.size());
 		// then Alice should get application joyn
@@ -588,11 +591,10 @@ public class ManageApplicationImplTest {
 		result.add(joyn);
 		result.add(myOrange);
 		Mockito.when(
-				applicationRepository.findAllByMember(Mockito.eq(new SSOId("bob123")), Mockito.eq(0), Mockito.eq(10), Mockito.eq("code"),
-						Mockito.eq("ASC"))).thenReturn(result);
+				applicationRepository.findAll(any(Specification.class), any(Sort.class))).thenReturn(result);
 
 		// when Alice find all applications
-		Collection<Application> applications = manageApplication.findMyApplications(0, 10, "code", "ASC");
+		Collection<Application> applications = manageApplication.findMyApplications();
 		// then Alice should get 2 applications
 		Assert.assertEquals(2, applications.size());
 		// then Alice should get application joyn
@@ -625,7 +627,7 @@ public class ManageApplicationImplTest {
 		List<Application> result = new ArrayList<Application>();
 		result.add(joyn);
 		result.add(myOrange);
-		Mockito.when(applicationRepository.findAll(Mockito.anyInt(), Mockito.anyInt(), Mockito.eq("label"), Mockito.eq("ASC"))).thenReturn(result);
+		Mockito.when(applicationRepository.findAll(any(Specification.class), any(Sort.class))).thenReturn(result);
 
 		// when Alice find all applications
 		Collection<Application> applications = manageApplication.findMyApplications();
@@ -664,10 +666,10 @@ public class ManageApplicationImplTest {
 		result.add(joyn);
 		result.add(myOrange);
 		result.add(elPaaso);
-		Mockito.when(applicationRepository.findAll(Mockito.eq(0), Mockito.eq(10), Mockito.eq("code"), Mockito.eq("ASC"))).thenReturn(result);
+		Mockito.when(applicationRepository.findAll(any(Specification.class), any(Sort.class))).thenReturn(result);
 
 		// when Alice find all applications
-		Collection<Application> applications = manageApplication.findApplications(0, 10, "code", "ASC");
+		Collection<Application> applications = manageApplication.findApplications();
 		// then Alice should see all applications
 		Assert.assertEquals(3, applications.size());
 		// then Alice should get application joyn
@@ -700,7 +702,7 @@ public class ManageApplicationImplTest {
 		List<Application> result = new ArrayList<Application>();
 		result.add(joyn);
 		result.add(elPaaso);
-		Mockito.when(applicationRepository.findAll()).thenReturn(result);
+		Mockito.when(applicationRepository.findAll(any(Specification.class),any(Sort.class))).thenReturn(result);
 
 		// when Bob find all applications
 		Collection<Application> applications = manageApplication.findAccessibleApplications();
@@ -732,10 +734,10 @@ public class ManageApplicationImplTest {
 		List<Application> result = new ArrayList<Application>();
 		result.add(joyn);
 		result.add(elPaaso);
-		Mockito.when(applicationRepository.findAll(Mockito.eq(0), Mockito.eq(10), Mockito.eq("code"), Mockito.eq("ASC"))).thenReturn(result);
+		Mockito.when(applicationRepository.findAll(any(Specification.class), any(Sort.class))).thenReturn(result);
 
 		// when Bob find all applications
-		Collection<Application> applications = manageApplication.findApplications(0, 10, "code", "ASC");
+		Collection<Application> applications = manageApplication.findApplications();
 		// then bob should get 2 applications
 		Assert.assertEquals(2, applications.size());
 		// then bob should get application joyn

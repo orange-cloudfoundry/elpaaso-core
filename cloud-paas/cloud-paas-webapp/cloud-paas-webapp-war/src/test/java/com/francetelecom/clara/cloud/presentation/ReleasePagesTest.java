@@ -59,7 +59,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 
 import java.util.ArrayList;
@@ -558,8 +557,7 @@ public class ReleasePagesTest {
         // Prepare mocks for app provider
         List<Application> appList = new ArrayList<Application>();
         appList.add(createApplicationMock());
-        when(manageApplication.findApplications(anyInt(), anyInt(), anyString(), anyString())).thenReturn(appList);
-        when(manageApplication.findMyApplications(anyInt(), anyInt(), anyString(), anyString())).thenReturn(appList);
+        when(manageApplication.findMyApplications()).thenReturn(appList);
         when(manageApplication.countApplications()).thenReturn(Long.valueOf("1"));
         when(manageApplication.countMyApplications()).thenReturn(Long.valueOf("1"));
         when(manageApplication.findApplicationByUID(anyString())).thenReturn(createApplicationMock());

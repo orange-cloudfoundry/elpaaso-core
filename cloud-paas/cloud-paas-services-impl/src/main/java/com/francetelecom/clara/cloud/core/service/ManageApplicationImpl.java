@@ -16,19 +16,14 @@ import com.francetelecom.clara.cloud.commons.AuthorizationException;
 import com.francetelecom.clara.cloud.commons.TechnicalException;
 import com.francetelecom.clara.cloud.commons.ValidatorUtil;
 import com.francetelecom.clara.cloud.core.domain.ApplicationReleaseRepository;
-import com.francetelecom.clara.cloud.core.domain.ApplicationRepository;
-import com.francetelecom.clara.cloud.coremodel.ConfigRoleRepository;
-import com.francetelecom.clara.cloud.coremodel.PaasUserRepository;
-import com.francetelecom.clara.cloud.coremodel.Application;
-import com.francetelecom.clara.cloud.coremodel.ConfigRole;
-import com.francetelecom.clara.cloud.coremodel.ConfigValue;
-import com.francetelecom.clara.cloud.coremodel.SSOId;
+import com.francetelecom.clara.cloud.coremodel.*;
 import com.francetelecom.clara.cloud.services.dto.ApplicationDTO;
 import com.francetelecom.clara.cloud.services.dto.ConfigOverrideDTO;
 import com.francetelecom.clara.cloud.coremodel.exception.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +34,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static com.francetelecom.clara.cloud.coremodel.ApplicationSpecifications.*;
+import static org.springframework.data.jpa.domain.Specifications.*;
 
 /**
  * Business implementation for Application management.
@@ -62,30 +60,9 @@ public class ManageApplicationImpl implements ManageApplication {
 	@Autowired(required = true)
 	private ConfigRoleRepository configRoleRepository;
 
-	public void setApplicationRepository(ApplicationRepository repository) {
-		this.applicationRepository = repository;
-	}
-
-	public void setApplicationReleaseRepository(ApplicationReleaseRepository repository) {
-		this.applicationReleaseRepository = repository;
-	}
-
-	public void setPaasUserRepository(PaasUserRepository repository) {
-		this.paasUserRepository = repository;
-	}
-
-	public void setConfigRoleRepository(ConfigRoleRepository configRoleRepository) {
-		this.configRoleRepository = configRoleRepository;
-	}
-
 	@Override
 	public List<Application> findApplications() {
-		return findApplications(0, Integer.MAX_VALUE, "label", "ASC");
-	}
-
-	@Override
-	public List<Application> findApplications(int first, int count, String sortProperty, String sortType) {
-		List<Application> applications = applicationRepository.findAll(first, count, sortProperty, sortType);		
+		List<Application> applications = applicationRepository.findAll(isActive(), new Sort(Sort.Direction.ASC,"label"));
 		for (Application application : applications) {
 			application.setEditable(hasWritePermissionFor(application));
 		}
@@ -95,9 +72,9 @@ public class ManageApplicationImpl implements ManageApplication {
 	@Override
 	public List<Application> findAccessibleApplications() {
 		if (SecurityUtils.currentUserIsAdmin()) {
-			return applicationRepository.findAll();
+			return findApplications();
 		} else {
-			List<Application> applications = applicationRepository.findAllPublicOrPrivateByMember(SecurityUtils.currentUser());
+			List<Application> applications = applicationRepository.findAll(where(isActive()).and(isPublicOrHasForMember(SecurityUtils.currentUser())));
 			for (Application application : applications) {
 				application.setEditable(hasWritePermissionFor(application));
 			}
@@ -107,26 +84,17 @@ public class ManageApplicationImpl implements ManageApplication {
 
 	@Override
 	public List<Application> findMyApplications() {
-		if (SecurityUtils.currentUserIsAdmin()) {
-			return findApplications();
-		} else {
-			return findMyApplications(0, Integer.MAX_VALUE, "label", "ASC");
-		}
-	}
-
-	@Override
-	public List<Application> findMyApplications(int first, int count, String sortProperty, String sortType) {
-		return applicationRepository.findAllByMember(SecurityUtils.currentUser(), first, count, sortProperty, sortType);
+			return applicationRepository.findAll(where(isActive()).and(hasForMember(SecurityUtils.currentUser())), new Sort(Sort.Direction.ASC, "label"));
 	}
 
 	@Override
 	public long countApplications() {
-		return applicationRepository.count();
+		return applicationRepository.count(isActive());
 	}
 
 	@Override
 	public ApplicationDTO findApplicationByLabel(String label) throws ApplicationNotFoundException {
-		Application application = applicationRepository.findByLabel(label);
+		Application application = applicationRepository.findOne(hasLabel(label));
 		if (application == null) {
 			String message = "Application with label[" + label + "] does not exist.";
 			log.info(message);
@@ -139,11 +107,11 @@ public class ManageApplicationImpl implements ManageApplication {
 
 	@Override
 	public boolean isApplicationLabelUnique(String label) {
-		return applicationRepository.findByLabel(label) == null;
+		return applicationRepository.findOne(where(isActive()).and(hasLabel(label))) == null;
 	}
 
 	private boolean isApplicationCodeUnique(String code) {
-		return applicationRepository.findByCode(code) == null;
+		return applicationRepository.findOne(where(isActive()).and(hasCode(code))) == null;
 	}
 
 	private boolean applicationHasNoActiveApplicationReleases(String applicationUID) {
@@ -158,7 +126,7 @@ public class ManageApplicationImpl implements ManageApplication {
 		Application application = createApplication(code, label, description, applicationRegistryUrl, members);
 		application.setAsPublic();
 
-		applicationRepository.persist(application);
+		applicationRepository.save(application);
 
 		return application.getUID();
 	}
@@ -206,7 +174,7 @@ public class ManageApplicationImpl implements ManageApplication {
 		Application application = createApplication(code, label, description, applicationRegistryUrl, members);
 		application.setAsPrivate();
 
-		applicationRepository.persist(application);
+		applicationRepository.save(application);
 		return application.getUID();
 	}
 
@@ -299,7 +267,7 @@ public class ManageApplicationImpl implements ManageApplication {
 			throw new DuplicateApplicationException(message);
 		}
 
-		return applicationRepository.merge(application);
+		return applicationRepository.save(application);
 	}
 
 	private void assertHasPermissionFor(Application application) throws AuthorizationException {
@@ -321,25 +289,25 @@ public class ManageApplicationImpl implements ManageApplication {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-	public int purgeOldRemovedApplications() {
+	public void purgeOldRemovedApplications() {
 		log.info("*** purge old application");
 		// find removed applications
-		List<Application> toPurgeApplications = applicationRepository.findRemovedApplicationWithoutRelease();
+		List<Application> toPurgeApplications = applicationRepository.findAll(isRemoved());
 		// hard remove them
-		return applicationRepository.purgeApplications(toPurgeApplications);
+		applicationRepository.delete(toPurgeApplications);
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-	public int deleteAndPurgeApplication(String uid) throws ApplicationNotFoundException {
+	public void purgeApplication(String uid) throws ApplicationNotFoundException {
 		deleteApplication(uid);
-		Application application = applicationRepository.findByUid(uid, true);
-		return applicationRepository.purgeApplication(application);
+		Application application = applicationRepository.findByUid(uid);
+		applicationRepository.delete(application);
 	}
 
 	@Override
 	public long countMyApplications() {
-		return applicationRepository.countByMember(SecurityUtils.currentUser());
+		return applicationRepository.count(where(isActive()).and(hasForMember(SecurityUtils.currentUser())));
 	}
 
 	@Override

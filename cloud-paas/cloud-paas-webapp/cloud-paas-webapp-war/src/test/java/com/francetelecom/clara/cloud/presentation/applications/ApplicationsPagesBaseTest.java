@@ -22,7 +22,6 @@ import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.when;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -141,8 +140,8 @@ public abstract class ApplicationsPagesBaseTest {
     
     protected void prepareMocksForPublicApp() throws Exception {
         // Prepare mocks for app provider
-        when(manageApplication.findApplications(anyInt(), anyInt(), anyString(), anyString())).thenReturn(Arrays.asList(createPublicApplicationMock()));
-        when(manageApplication.findMyApplications(anyInt(), anyInt(), anyString(), anyString())).thenReturn(Arrays.asList(createPublicApplicationMock()));
+        when(manageApplication.findApplications()).thenReturn(Arrays.asList(createPublicApplicationMock()));
+        when(manageApplication.findMyApplications()).thenReturn(Arrays.asList(createPublicApplicationMock()));
         when(manageApplication.countApplications()).thenReturn(Long.valueOf("1"));
         when(manageApplication.countMyApplications()).thenReturn(Long.valueOf("1"));
         when(manageApplication.findApplicationByUID(anyString())).thenReturn(createPublicApplicationMock());
@@ -150,8 +149,8 @@ public abstract class ApplicationsPagesBaseTest {
     
     protected void prepareMocksForPrivateApp() throws Exception {
         // Prepare mocks for app provider : private app is not listed by default
-        when(manageApplication.findApplications(anyInt(), anyInt(), anyString(), anyString())).thenReturn(Arrays.asList(createPrivateApplicationMock()));
-        when(manageApplication.findMyApplications(anyInt(), anyInt(), anyString(), anyString())).thenReturn(Arrays.asList(createPrivateApplicationMock()));
+        when(manageApplication.findApplications()).thenReturn(Arrays.asList(createPrivateApplicationMock()));
+        when(manageApplication.findMyApplications()).thenReturn(Arrays.asList(createPrivateApplicationMock()));
         when(manageApplication.countApplications()).thenReturn(Long.valueOf("1"));
         when(manageApplication.countMyApplications()).thenReturn(Long.valueOf("1"));
         when(manageApplication.findApplicationByUID(anyString())).thenReturn(createPrivateApplicationMock());

@@ -206,9 +206,9 @@ public class ApplicationsTablePanel extends Panel {
     private void getApplicationsFromDB() {
     	applicationsList = new ArrayList<Application>();
     	if (viewAllCheckBox.getModelObject()) {
-    		applicationsList = parentPage.getManageApplication().findApplications(0, 1000, "label", "ASC");
+    		applicationsList = parentPage.getManageApplication().findApplications();
         } else {
-        	applicationsList = parentPage.getManageApplication().findMyApplications(0, 1000, "label", "ASC");
+        	applicationsList = parentPage.getManageApplication().findMyApplications();
         }
     	
     }

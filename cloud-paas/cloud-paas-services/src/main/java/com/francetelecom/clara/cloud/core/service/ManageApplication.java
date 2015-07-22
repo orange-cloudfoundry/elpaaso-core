@@ -26,6 +26,7 @@ import com.francetelecom.clara.cloud.coremodel.exception.ConfigRoleNotFoundExcep
 import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationException;
 import com.francetelecom.clara.cloud.coremodel.exception.InvalidConfigOverrideException;
 import com.francetelecom.clara.cloud.coremodel.exception.PaasUserNotFoundException;
+import org.springframework.data.domain.Sort;
 
 /**
  * Application management service facade interface.
@@ -40,21 +41,6 @@ public interface ManageApplication {
 	List<Application> findApplications();
 
 	/**
-	 * Find active applications.
-	 * 
-	 * @param first
-	 *            first index
-	 * @param count
-	 *            maximum number of returned Application
-	 * @param sortProperty
-	 *            field used for the sort
-	 * @param sortType
-	 *            ASC or DESC
-	 * @return Applications
-	 */
-	List<Application> findApplications(int first, int count, String sortProperty, String sortType);
-
-	/**
 	 * Find active and editable or public applications
 	 * 
 	 * @return Applications
@@ -67,21 +53,6 @@ public interface ManageApplication {
 	 * @return Applications
 	 */
 	List<Application> findMyApplications();
-
-	/**
-	 * Find active and editable applications
-	 * 
-	 * @param first
-	 *            first index
-	 * @param count
-	 *            maximum number of returned Application
-	 * @param sortProperty
-	 *            field used for the sort
-	 * @param sortType
-	 *            ASC or DESC
-	 * @return Applications
-	 */
-	List<Application> findMyApplications(int first, int count, String sortProperty, String sortType);
 
 	/**
 	 * Create an application.
@@ -216,9 +187,9 @@ public interface ManageApplication {
 	 * 
 	 * @return number of hard deleted applications
 	 */
-	int purgeOldRemovedApplications();
+	void purgeOldRemovedApplications();
 
-	int deleteAndPurgeApplication(String uid) throws ApplicationNotFoundException;
+	void purgeApplication(String uid) throws ApplicationNotFoundException;
 
     /**
      * Creates a new config role to permanently save enviroment specific configuration that override the default

@@ -10,10 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.francetelecom.clara.cloud.core.infrastructure;
-
-import java.util.Collection;
-import java.util.HashSet;
+package com.francetelecom.clara.cloud.coremodel;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -24,13 +21,15 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.francetelecom.clara.cloud.core.domain.ApplicationRepository;
-import com.francetelecom.clara.cloud.coremodel.Application;
-import com.francetelecom.clara.cloud.coremodel.SSOId;
+import java.util.Collection;
+import java.util.HashSet;
+
+import static com.francetelecom.clara.cloud.coremodel.ApplicationSpecifications.*;
+import static org.springframework.data.jpa.domain.Specifications.where;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/com/francetelecom/clara/cloud/services/application-context.xml" })
-public class ApplicationDaoJpaImplTest {
+@ContextConfiguration(locations = { "classpath:/com/francetelecom/clara/cloud/coremodel/application-context.xml" })
+public class ApplicationRepositoryTest {
 
 	@Autowired
 	private ApplicationRepository applicationRepository;
@@ -47,9 +46,9 @@ public class ApplicationDaoJpaImplTest {
 		// test setup
 		Application toBePersited = new Application("application-test-1", "code1");
 		// test run
-		applicationRepository.persist(toBePersited);
+		applicationRepository.save(toBePersited);
 		// assertions
-		Assert.assertNotNull("entity does not exist", applicationRepository.find(toBePersited.getId()));
+		Assert.assertNotNull("entity does not exist", applicationRepository.findOne(toBePersited.getId()));
 		applicationRepository.flush();
 	}
 
@@ -64,9 +63,9 @@ public class ApplicationDaoJpaImplTest {
 		application.setAsPrivate();
 		application.setMembers(members);
 		// test run
-		applicationRepository.persist(application);
+		applicationRepository.save(application);
 		// assertions
-		Assert.assertNotNull("entity does not exist", applicationRepository.find(application.getId()));
+		Assert.assertNotNull("entity does not exist", applicationRepository.findOne(application.getId()));
 		applicationRepository.flush();
 	}
 
@@ -75,12 +74,12 @@ public class ApplicationDaoJpaImplTest {
 	public void shouldRemoveApplication() {
 		// test setup
 		Application toBePersited = new Application("application-test-1", "code1");
-		applicationRepository.persist(toBePersited);
-		Assert.assertNotNull("entity does not exist", applicationRepository.find(toBePersited.getId()));
+		applicationRepository.save(toBePersited);
+		Assert.assertNotNull("entity does not exist", applicationRepository.findOne(toBePersited.getId()));
 		// test run
-		applicationRepository.remove(toBePersited);
+		applicationRepository.delete(toBePersited);
 		// assertions
-		Assert.assertNull("entity should not exist", applicationRepository.find(toBePersited.getId()));
+		Assert.assertNull("entity should not exist", applicationRepository.findOne(toBePersited.getId()));
 		applicationRepository.flush();
 	}
 
@@ -90,12 +89,12 @@ public class ApplicationDaoJpaImplTest {
 		// given an removed application with label aLabel and code aCode
 		Application application1 = new Application("aLabel", "aCode");
 		application1.markAsRemoved();
-		applicationRepository.persist(application1);
+		applicationRepository.save(application1);
 		// given an application with label aLabel and code aCode
 		Application application2 = new Application("aLabel", "aCode");
-		applicationRepository.persist(application2);
+		applicationRepository.save(application2);
 		// when I find application with label aLabel
-		Application result = applicationRepository.findByLabel("aLabel");
+		Application result = applicationRepository.findOne(where(isActive()).and(hasLabel("aLabel")));
 		// then I should get application with label aLabel and code aCode
 		Assert.assertEquals(application2, result);
 	}
@@ -104,7 +103,7 @@ public class ApplicationDaoJpaImplTest {
 	@Transactional
 	public void shouldFailToFindApplicationByUnknownLabel() {
 		// when I find application with label unknown
-		Application result = applicationRepository.findByLabel("unknown");
+		Application result = applicationRepository.findOne(hasCode("unknown"));
 		// then I should get no application
 		Assert.assertNull(result);
 	}
@@ -115,12 +114,12 @@ public class ApplicationDaoJpaImplTest {
 		// given an removed application with label aLabel and code aCode
 		Application application1 = new Application("aLabel", "aCode");
 		application1.markAsRemoved();
-		applicationRepository.persist(application1);
+		applicationRepository.save(application1);
 		// given an existing application with label aLabel and code aCode
 		Application application2 = new Application("aLabel", "aCode");
-		applicationRepository.persist(application2);
+		applicationRepository.save(application2);
 		// when I find application with code aCode
-		Application result = applicationRepository.findByCode("aCode");
+		Application result = applicationRepository.findOne(where(isActive()).and(hasCode("aCode")));
 		// then I should get application with label aLabel and code aCode
 		Assert.assertEquals(application2, result);
 	}
@@ -129,7 +128,7 @@ public class ApplicationDaoJpaImplTest {
 	@Transactional
 	public void shouldFailToFindApplicationByUnknownCode() {
 		// when I find application with label unknown
-		Application result = applicationRepository.findByCode("unknown");
+		Application result = applicationRepository.findOne(hasCode("unknown"));
 		// then I should get no application
 		Assert.assertNull(result);
 	}
@@ -139,7 +138,7 @@ public class ApplicationDaoJpaImplTest {
 	public void shouldFindApplicationByUID() {
 		// given an existing application with label aLabel and code aCode
 		Application application = new Application("alabel", "aCode");
-		applicationRepository.persist(application);
+		applicationRepository.save(application);
 		applicationRepository.flush();
 		// when I find this application by its uid
 		Application result = applicationRepository.findByUid(application.getUID());
@@ -168,11 +167,11 @@ public class ApplicationDaoJpaImplTest {
 		// given an existing application with label anotherLabel and code
 		// anotherCode
 		Application application3 = new Application("anotherLabel", "anotherCode");
-		applicationRepository.persist(application1);
-		applicationRepository.persist(application2);
-		applicationRepository.persist(application3);
+		applicationRepository.save(application1);
+		applicationRepository.save(application2);
+		applicationRepository.save(application3);
 		// when I find all active applications
-		Collection<Application> result = applicationRepository.findAll();
+		Collection<Application> result = applicationRepository.findAll(isActive());
 		// then I should get 2 applications
 		Assert.assertEquals("there should be 2 entities", 2, result.size());
 		applicationRepository.flush();
@@ -190,11 +189,11 @@ public class ApplicationDaoJpaImplTest {
 		// given an existing application with label anotherLabel and code
 		// anotherCode
 		Application application3 = new Application("anotherLabel", "anotherCode");
-		applicationRepository.persist(application1);
-		applicationRepository.persist(application2);
-		applicationRepository.persist(application3);
+		applicationRepository.save(application1);
+		applicationRepository.save(application2);
+		applicationRepository.save(application3);
 		// when I find all active applications
-		long result = applicationRepository.count();
+		long result = applicationRepository.count(isActive());
 		// then I should get 2 applications
 		Assert.assertEquals("there should be 2 entities", 2, result);
 		applicationRepository.flush();
@@ -210,22 +209,22 @@ public class ApplicationDaoJpaImplTest {
 		joynMembers.add(new SSOId("alice123"));
 		joyn.setAsPrivate();
 		joyn.setMembers(joynMembers);
-		applicationRepository.persist(joyn);
+		applicationRepository.save(joyn);
 		// given myOrange private application
 		Application myOrange = new Application("myOrange", "myOrange");
 		HashSet<SSOId> myOrangeMembers = new HashSet<>();
 		myOrangeMembers.add(new SSOId("bob123"));
 		myOrange.setAsPrivate();
 		myOrange.setMembers(myOrangeMembers);
-		applicationRepository.persist(myOrange);
+		applicationRepository.save(myOrange);
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
-		applicationRepository.persist(elpaaso);
+		applicationRepository.save(elpaaso);
 		// assertions
 		// when I count all active applications
-		Assert.assertEquals("there should be 0 entities", 0, applicationRepository.countByMember(new SSOId("jdalton")));
-		Assert.assertEquals("there should be 1 entities", 1, applicationRepository.countByMember(new SSOId("alice123")));
-		Assert.assertEquals("there should be 2 entities", 2, applicationRepository.countByMember(new SSOId("bob123")));
+		Assert.assertEquals("there should be 0 entities", 0, applicationRepository.count(where(isActive()).and(hasForMember(new SSOId("jdalton")))));
+		Assert.assertEquals("there should be 1 entities", 1, applicationRepository.count(where(isActive()).and(hasForMember(new SSOId("alice123")))));
+		Assert.assertEquals("there should be 2 entities", 2, applicationRepository.count(where(isActive()).and(hasForMember(new SSOId("bob123")))));
 
 	}
 
@@ -239,22 +238,22 @@ public class ApplicationDaoJpaImplTest {
 		joynMembers.add(new SSOId("alice123"));
 		joyn.setAsPrivate();
 		joyn.setMembers(joynMembers);
-		applicationRepository.persist(joyn);
+		applicationRepository.save(joyn);
 		// given myOrange private application
 		Application myOrange = new Application("myOrange", "myOrange");
 		HashSet<SSOId> myOrangeMembers = new HashSet<>();
 		myOrangeMembers.add(new SSOId("bob123"));
 		myOrange.setAsPrivate();
 		myOrange.setMembers(myOrangeMembers);
-		applicationRepository.persist(myOrange);
+		applicationRepository.save(myOrange);
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
-		applicationRepository.persist(elpaaso);
+		applicationRepository.save(elpaaso);
 		// assertions
 		// when I find all active applications
-		Assert.assertEquals("there should be 1 entities", 1, applicationRepository.findAllPublicOrPrivateByMember(new SSOId("jdalton")).size());
-		Assert.assertEquals("there should be 2 entities", 2, applicationRepository.findAllPublicOrPrivateByMember(new SSOId("alice123")).size());
-		Assert.assertEquals("there should be 3 entities", 3, applicationRepository.findAllPublicOrPrivateByMember(new SSOId("bob123")).size());
+		Assert.assertEquals("there should be 1 entities", 1, applicationRepository.count(where(isActive()).and(isPublicOrHasForMember(new SSOId("jdalton")))));
+		Assert.assertEquals("there should be 2 entities", 2, applicationRepository.count(where(isActive()).and(isPublicOrHasForMember(new SSOId("alice123")))));
+		Assert.assertEquals("there should be 3 entities", 3, applicationRepository.count(where(isActive()).and(isPublicOrHasForMember(new SSOId("bob123")))));
 	}
 
 	@Test
@@ -267,21 +266,21 @@ public class ApplicationDaoJpaImplTest {
 		joynMembers.add(new SSOId("alice123"));
 		joyn.setAsPrivate();
 		joyn.setMembers(joynMembers);
-		applicationRepository.persist(joyn);
+		applicationRepository.save(joyn);
 		// given myOrange application
 		Application myOrange = new Application("myOrange", "myOrange");
 		HashSet<SSOId> myOrangeMembers = new HashSet<>();
 		myOrangeMembers.add(new SSOId("bob123"));
 		myOrange.setAsPrivate();
 		myOrange.setMembers(myOrangeMembers);
-		applicationRepository.persist(myOrange);
+		applicationRepository.save(myOrange);
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
-		applicationRepository.persist(elpaaso);
+		applicationRepository.save(elpaaso);
 		// assertions
 		// when I find all active applications
-		Assert.assertEquals("there should be 0 entities", 0, applicationRepository.findAllByMember(new SSOId("jdalton"), 0, 10, "code", "ASC").size());
-		Assert.assertEquals("there should be 1 entities", 1, applicationRepository.findAllByMember(new SSOId("alice123"), 0, 10, "code", "ASC").size());
-		Assert.assertEquals("there should be 2 entities", 2, applicationRepository.findAllByMember(new SSOId("bob123"), 0, 10, "code", "ASC").size());
+		Assert.assertEquals("there should be 0 entities", 0, applicationRepository.count(where(isActive()).and(hasForMember(new SSOId("jdalton")))));
+		Assert.assertEquals("there should be 1 entities", 1, applicationRepository.count(where(isActive()).and(hasForMember(new SSOId("alice123")))));
+		Assert.assertEquals("there should be 2 entities", 2, applicationRepository.count(where(isActive()).and(hasForMember(new SSOId("bob123")))));
 	}
 }

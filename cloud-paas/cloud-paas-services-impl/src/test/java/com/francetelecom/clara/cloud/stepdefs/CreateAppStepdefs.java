@@ -604,10 +604,10 @@ public class CreateAppStepdefs {
 
         switch (list_application_filter) {
             case ALL_APPLICATIONS:
-                foundApplications = manageApplication.findApplications(0, Integer.MAX_VALUE, "label", "ASC");
+                foundApplications = manageApplication.findApplications();
                 break;
             case DEFAULT:
-                foundApplications = manageApplication.findMyApplications(0, Integer.MAX_VALUE, "label", "ASC");
+                foundApplications = manageApplication.findMyApplications();
                 break;
             default:
                 Assert.fail("Unexpected filter: " + list_application_filter);

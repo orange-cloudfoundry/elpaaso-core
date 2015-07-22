@@ -57,26 +57,11 @@ public class ManageApplicationMock extends CoreItemServiceMock<Application> impl
 	}
 
 	@Override
-	public List<Application> findApplications(int first, int count, String sortProperty, String sortType) {
-		return find(first, count);
-	}
-
-	@Override
 	public List<Application> findMyApplications() {
 		return find(new Predicate<Application>() {
 			@Override
 			public boolean apply(Application app) {
 				return app.hasForMember(currentUser()) || currentUserIsAdmin();
-			}
-		});
-	}
-
-	@Override
-	public List<Application> findMyApplications(int first, int count, String sortProperty, String sortType) {
-		return find(first, count, new Predicate<Application>() {
-			@Override
-			public boolean apply(Application app) {
-				return app.hasForMember(currentUser());
 			}
 		});
 	}
@@ -201,13 +186,12 @@ public class ManageApplicationMock extends CoreItemServiceMock<Application> impl
 	}
 
 	@Override
-	public int purgeOldRemovedApplications() {
-		return 0;
+	public void purgeOldRemovedApplications() {
+
 	}
 
 	@Override
-	public int deleteAndPurgeApplication(String uid) throws ApplicationNotFoundException {
-		return 0;
+	public void purgeApplication(String uid) throws ApplicationNotFoundException {
 	}
 
 	@Override

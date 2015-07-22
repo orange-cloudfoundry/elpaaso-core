@@ -13,7 +13,7 @@
 package com.francetelecom.clara.cloud.core.infrastructure;
 
 import com.francetelecom.clara.cloud.core.domain.ApplicationReleaseRepository;
-import com.francetelecom.clara.cloud.core.domain.ApplicationRepository;
+import com.francetelecom.clara.cloud.coremodel.ApplicationRepository;
 import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
 import com.francetelecom.clara.cloud.coremodel.PaasUserRepository;
 import com.francetelecom.clara.cloud.coremodel.*;
@@ -67,7 +67,7 @@ public class ApplicationReleaseDaoJpaImplPurgeTest {
     public void setup() throws Exception {
         Assert.assertNotNull(applicationReleaseRepository);
         application = new Application("aLabel", "aCode");
-        applicationRepository.persist(application);
+        applicationRepository.save(application);
         applicationRepository.flush();
         // given bob is a paas user
         manager = new PaasUser("bob", "Dylan", new SSOId("bob123"), "bob@orange.com");

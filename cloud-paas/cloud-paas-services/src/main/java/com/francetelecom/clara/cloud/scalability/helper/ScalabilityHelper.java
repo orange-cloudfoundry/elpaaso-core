@@ -118,7 +118,7 @@ public class ScalabilityHelper {
                         logger.info("purge release '{}'", ar.getUID());
                         manageApplicationRelease.deleteAndPurgeApplicationRelease(ar.getUID());
 					}
-					manageApplication.deleteAndPurgeApplication(app.getUID());
+					manageApplication.purgeApplication(app.getUID());
 				} catch (ObjectNotFoundException onfe) {
 					logger.warn(onfe.getMessage());
 				}

@@ -47,9 +47,6 @@
 	<bean id="applicationReleaseRepository"
 		class="com.francetelecom.clara.cloud.core.infrastructure.ApplicationReleaseDaoJpaImpl" />
 
-	<bean id="applicationRepository"
-		class="com.francetelecom.clara.cloud.core.infrastructure.ApplicationDaoJpaImpl" />
-
 	<bean id="technicalDeploymentTemplateRepository" class="org.mockito.Mockito"
 		factory-method="mock">
 		<constructor-arg

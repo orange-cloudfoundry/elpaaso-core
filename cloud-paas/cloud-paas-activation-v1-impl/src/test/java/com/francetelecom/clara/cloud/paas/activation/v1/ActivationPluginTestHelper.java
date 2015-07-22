@@ -19,7 +19,7 @@ import com.francetelecom.clara.cloud.application.ManageTechnicalDeploymentTempla
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatus;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatusEnum;
 import com.francetelecom.clara.cloud.core.domain.ApplicationReleaseRepository;
-import com.francetelecom.clara.cloud.core.domain.ApplicationRepository;
+import com.francetelecom.clara.cloud.coremodel.ApplicationRepository;
 import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
 import com.francetelecom.clara.cloud.coremodel.PaasUserRepository;
 import com.francetelecom.clara.cloud.coremodel.*;
@@ -178,7 +178,7 @@ public abstract class ActivationPluginTestHelper {
         String envLabel = "test env " + this.getClass().getSimpleName();
 
         Application application = new Application("testApp", "1234");
-        applicationRepository.persist(application);
+        applicationRepository.save(application);
 
         paasUserRepository.save(BOB_DYLAN);
 

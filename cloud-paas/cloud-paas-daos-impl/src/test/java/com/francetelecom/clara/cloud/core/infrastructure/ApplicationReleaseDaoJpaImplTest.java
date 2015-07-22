@@ -13,7 +13,7 @@
 package com.francetelecom.clara.cloud.core.infrastructure;
 
 import com.francetelecom.clara.cloud.core.domain.ApplicationReleaseRepository;
-import com.francetelecom.clara.cloud.core.domain.ApplicationRepository;
+import com.francetelecom.clara.cloud.coremodel.ApplicationRepository;
 import com.francetelecom.clara.cloud.coremodel.PaasUserRepository;
 import com.francetelecom.clara.cloud.coremodel.Application;
 import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
@@ -59,7 +59,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 	public void setup() throws Exception {
 		Assert.assertNotNull(applicationReleaseRepository);
 		application = new Application("aLabel", "aCode");
-		applicationRepository.persist(application);
+		applicationRepository.save(application);
 		applicationRepository.flush();
 		// given bob paas user
 		manager = new PaasUser("bob", "Dylan", new SSOId("bob123"), "bob@orange.com");
@@ -82,7 +82,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 	public void shouldFindApplicationReleaseByExistingUID() {
 		// given a persisted application with label myLabel and code myCode
 		Application application = new Application("alabel", "aCode");
-		applicationRepository.persist(application);
+		applicationRepository.save(application);
 		// given a persisted release with version aVersion of application
 		ApplicationRelease release = new ApplicationRelease(application, "aVersion");
 		applicationReleaseRepository.persist(release);
@@ -147,7 +147,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 		joynMembers.add(new SSOId("alice123"));
 		joyn.setAsPrivate();
 		joyn.setMembers(joynMembers);
-		applicationRepository.persist(joyn);
+		applicationRepository.save(joyn);
 		// given releases of application joyn
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
@@ -162,7 +162,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 		myOrangeMembers.add(new SSOId("bob123"));
 		myOrange.setAsPrivate();
 		myOrange.setMembers(myOrangeMembers);
-		applicationRepository.persist(myOrange);
+		applicationRepository.save(myOrange);
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
@@ -171,7 +171,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
-		applicationRepository.persist(elpaaso);
+		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
 		applicationReleaseRepository.persist(elpaaso_1_0);
@@ -199,7 +199,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 		joynMembers.add(new SSOId("alice123"));
 		joyn.setAsPrivate();
 		joyn.setMembers(joynMembers);
-		applicationRepository.persist(joyn);
+		applicationRepository.save(joyn);
 		// given releases of application joyn
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
@@ -215,7 +215,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 		myOrangeMembers.add(new SSOId("bob123"));
 		myOrange.setAsPrivate();
 		myOrange.setMembers(myOrangeMembers);
-		applicationRepository.persist(myOrange);
+		applicationRepository.save(myOrange);
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
@@ -225,7 +225,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
-		applicationRepository.persist(elpaaso);
+		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
 		applicationReleaseRepository.persist(elpaaso_1_0);
@@ -253,7 +253,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 		joynMembers.add(new SSOId("alice123"));
 		joyn.setAsPrivate();
 		joyn.setMembers(joynMembers);
-		applicationRepository.persist(joyn);
+		applicationRepository.save(joyn);
 		// given releases of application joyn
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
@@ -269,7 +269,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 		myOrangeMembers.add(new SSOId("bob123"));
 		myOrange.setAsPrivate();
 		myOrange.setMembers(myOrangeMembers);
-		applicationRepository.persist(myOrange);
+		applicationRepository.save(myOrange);
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
@@ -279,7 +279,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
-		applicationRepository.persist(elpaaso);
+		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
 		applicationReleaseRepository.persist(elpaaso_1_0);
@@ -307,7 +307,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 		joynMembers.add(new SSOId("alice123"));
 		joyn.setAsPrivate();
 		joyn.setMembers(joynMembers);
-		applicationRepository.persist(joyn);
+		applicationRepository.save(joyn);
 		// given releases of application joyn
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
@@ -322,7 +322,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 		myOrangeMembers.add(new SSOId("bob123"));
 		myOrange.setAsPrivate();
 		myOrange.setMembers(myOrangeMembers);
-		applicationRepository.persist(myOrange);
+		applicationRepository.save(myOrange);
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
@@ -331,7 +331,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
-		applicationRepository.persist(elpaaso);
+		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
 		applicationReleaseRepository.persist(elpaaso_1_0);
@@ -352,7 +352,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 		joynMembers.add(new SSOId("alice123"));
 		joyn.setAsPrivate();
 		joyn.setMembers(joynMembers);
-		applicationRepository.persist(joyn);
+		applicationRepository.save(joyn);
 		// given releases of application joyn
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
@@ -367,7 +367,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 		myOrangeMembers.add(new SSOId("bob123"));
 		myOrange.setAsPrivate();
 		myOrange.setMembers(myOrangeMembers);
-		applicationRepository.persist(myOrange);
+		applicationRepository.save(myOrange);
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
@@ -376,7 +376,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
-		applicationRepository.persist(elpaaso);
+		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
 		applicationReleaseRepository.persist(elpaaso_1_0);
@@ -404,7 +404,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 		joynMembers.add(new SSOId("alice123"));
 		joyn.setAsPrivate();
 		joyn.setMembers(joynMembers);
-		applicationRepository.persist(joyn);
+		applicationRepository.save(joyn);
 		// given releases of application joyn
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
@@ -419,7 +419,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 		myOrangeMembers.add(new SSOId("bob123"));
 		myOrange.setAsPrivate();
 		myOrange.setMembers(myOrangeMembers);
-		applicationRepository.persist(myOrange);
+		applicationRepository.save(myOrange);
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
@@ -428,7 +428,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
-		applicationRepository.persist(elpaaso);
+		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
 		applicationReleaseRepository.persist(elpaaso_1_0);
@@ -464,7 +464,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 		joynMembers.add(new SSOId("alice123"));
 		joyn.setAsPrivate();
 		joyn.setMembers(joynMembers);
-		applicationRepository.persist(joyn);
+		applicationRepository.save(joyn);
 		// given releases of application joyn
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
@@ -479,7 +479,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 		myOrangeMembers.add(new SSOId("bob123"));
 		myOrange.setAsPrivate();
 		myOrange.setMembers(myOrangeMembers);
-		applicationRepository.persist(myOrange);
+		applicationRepository.save(myOrange);
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
@@ -488,7 +488,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
-		applicationRepository.persist(elpaaso);
+		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
 		applicationReleaseRepository.persist(elpaaso_1_0);
@@ -513,7 +513,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 		joynMembers.add(new SSOId("alice123"));
 		joyn.setAsPrivate();
 		joyn.setMembers(joynMembers);
-		applicationRepository.persist(joyn);
+		applicationRepository.save(joyn);
 		// given releases of application joyn
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
@@ -528,7 +528,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 		myOrangeMembers.add(new SSOId("bob123"));
 		myOrange.setAsPrivate();
 		myOrange.setMembers(myOrangeMembers);
-		applicationRepository.persist(myOrange);
+		applicationRepository.save(myOrange);
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
@@ -537,7 +537,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
-		applicationRepository.persist(elpaaso);
+		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
 		applicationReleaseRepository.persist(elpaaso_1_0);
@@ -569,7 +569,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 		joynMembers.add(new SSOId("alice123"));
 		joyn.setAsPrivate();
 		joyn.setMembers(joynMembers);
-		applicationRepository.persist(joyn);
+		applicationRepository.save(joyn);
 		// given releases of application joyn
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
@@ -584,7 +584,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 		myOrangeMembers.add(new SSOId("bob123"));
 		myOrange.setAsPrivate();
 		myOrange.setMembers(myOrangeMembers);
-		applicationRepository.persist(myOrange);
+		applicationRepository.save(myOrange);
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
@@ -593,7 +593,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
-		applicationRepository.persist(elpaaso);
+		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
 		applicationReleaseRepository.persist(elpaaso_1_0);
@@ -614,7 +614,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 		joynMembers.add(new SSOId("alice123"));
 		joyn.setAsPrivate();
 		joyn.setMembers(joynMembers);
-		applicationRepository.persist(joyn);
+		applicationRepository.save(joyn);
 		// given releases of application joyn
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
@@ -629,7 +629,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 		myOrangeMembers.add(new SSOId("bob123"));
 		myOrange.setAsPrivate();
 		myOrange.setMembers(myOrangeMembers);
-		applicationRepository.persist(myOrange);
+		applicationRepository.save(myOrange);
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
@@ -638,7 +638,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
-		applicationRepository.persist(elpaaso);
+		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
 		applicationReleaseRepository.persist(elpaaso_1_0);
@@ -662,7 +662,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 		joynMembers.add(new SSOId("alice123"));
 		joyn.setAsPrivate();
 		joyn.setMembers(joynMembers);
-		applicationRepository.persist(joyn);
+		applicationRepository.save(joyn);
 		// given releases of application joyn
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
@@ -677,7 +677,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 		myOrangeMembers.add(new SSOId("bob123"));
 		myOrange.setAsPrivate();
 		myOrange.setMembers(myOrangeMembers);
-		applicationRepository.persist(myOrange);
+		applicationRepository.save(myOrange);
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
@@ -686,7 +686,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
-		applicationRepository.persist(elpaaso);
+		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
 		applicationReleaseRepository.persist(elpaaso_1_0);
@@ -715,7 +715,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 		joynMembers.add(new SSOId("alice123"));
 		joyn.setAsPrivate();
 		joyn.setMembers(joynMembers);
-		applicationRepository.persist(joyn);
+		applicationRepository.save(joyn);
 		// given releases of application joyn
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
@@ -730,7 +730,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 		myOrangeMembers.add(new SSOId("bob123"));
 		myOrange.setAsPrivate();
 		myOrange.setMembers(myOrangeMembers);
-		applicationRepository.persist(myOrange);
+		applicationRepository.save(myOrange);
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
@@ -739,7 +739,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
-		applicationRepository.persist(elpaaso);
+		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
 		applicationReleaseRepository.persist(elpaaso_1_0);
@@ -761,7 +761,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 		toBePersisted1.setVersionControlUrl(new URL("file://url.txt"));
 
 		Application application2 = new Application("application-test-2", "code2");
-		applicationRepository.persist(application2);
+		applicationRepository.save(application2);
 
 		ApplicationRelease toBePersisted3 = new ApplicationRelease(application2, "G1R0C0");
 		toBePersisted1.setVersionControlUrl(new URL("file://url.txt"));
@@ -783,7 +783,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 	public void shouldCount2ApplicationReleasesForApplicationUID() throws MalformedURLException {
 		// given an application with label myLabel and code myCode
 		Application application = new Application("aLabel", "aCode");
-		applicationRepository.persist(application);
+		applicationRepository.save(application);
 		// given a release with version aVersion of application with label
 		// aLabel and code aCode
 		ApplicationRelease release1 = new ApplicationRelease(application, "aVersion");
@@ -804,7 +804,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 	public void testFindApplicationVersion() throws MalformedURLException {
 		// test setup
 		Application application2 = new Application("application-test-2", "code2");
-		applicationRepository.persist(application2);
+		applicationRepository.save(application2);
 		applicationRepository.flush();
 
 		ApplicationRelease toBePersited1 = new ApplicationRelease(application, "G1R0C0");
@@ -831,7 +831,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 	public void shouldFindApplicationReleaseByApplicationAndReleaseVersion() {
 		// given an application with code aCode and label aLabel
 		Application application = new Application("aLabel", "aCode");
-		applicationRepository.persist(application);
+		applicationRepository.save(application);
 		// given a removed release of application with version aVersion
 		ApplicationRelease release1 = new ApplicationRelease(application, "aVersion");
 		release1.markAsRemoved();
@@ -850,7 +850,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 	public void shouldFindNoApplicationReleaseByApplicationAndReleaseVersion() {
 		// given an application with code aCode and label aLabel
 		Application application = new Application("aLabel", "aCode");
-		applicationRepository.persist(application);
+		applicationRepository.save(application);
 		// given a removed release of application with version aVersion
 		ApplicationRelease release = new ApplicationRelease(application, "aVersion");
 		release.markAsRemoved();
@@ -866,7 +866,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 	public void testFindQRSServiceName() throws MalformedURLException {
 		// test setup
 		Application application2 = new Application("application-test-2", "code2");
-		applicationRepository.persist(application2);
+		applicationRepository.save(application2);
 		applicationRepository.flush();
 
 		ApplicationRelease toBePersited1 = new ApplicationRelease(application, "G1R0C0");
@@ -899,7 +899,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 	public void testFindQRSServiceVersion() throws MalformedURLException {
 		// test setup
 		Application application2 = new Application("application-test-2", "code2");
-		applicationRepository.persist(application2);
+		applicationRepository.save(application2);
 		applicationRepository.flush();
 
 		ApplicationRelease toBePersited1 = new ApplicationRelease(application, "G1R0C0");
@@ -933,7 +933,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 	public void testFindApplicationHavingQrs() throws MalformedURLException {
 		// test setup
 		Application application2 = new Application("application-test-2", "code2");
-		applicationRepository.persist(application2);
+		applicationRepository.save(application2);
 		applicationRepository.flush();
 
 		ApplicationRelease toBePersited1 = new ApplicationRelease(application, "G1R0C0");
