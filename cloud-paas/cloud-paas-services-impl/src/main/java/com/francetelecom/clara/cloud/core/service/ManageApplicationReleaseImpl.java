@@ -13,7 +13,6 @@
 package com.francetelecom.clara.cloud.core.service;
 
 import com.francetelecom.clara.cloud.commons.ValidatorUtil;
-import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
 import com.francetelecom.clara.cloud.coremodel.*;
 import com.francetelecom.clara.cloud.coremodel.exception.ApplicationNotFoundException;
 import com.francetelecom.clara.cloud.coremodel.exception.ApplicationReleaseNotFoundException;

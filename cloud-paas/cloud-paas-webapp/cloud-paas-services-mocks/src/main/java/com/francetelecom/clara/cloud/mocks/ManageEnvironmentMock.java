@@ -18,6 +18,7 @@ import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
 import com.francetelecom.clara.cloud.coremodel.Environment;
 import com.francetelecom.clara.cloud.coremodel.EnvironmentStatus;
 import com.francetelecom.clara.cloud.coremodel.PaasUser;
+import com.francetelecom.clara.cloud.coremodel.exception.*;
 import com.francetelecom.clara.cloud.environment.ManageEnvironment;
 import com.francetelecom.clara.cloud.model.DeploymentProfileEnum;
 import com.francetelecom.clara.cloud.model.TechnicalDeployment;
@@ -30,7 +31,6 @@ import com.francetelecom.clara.cloud.services.dto.EnvironmentDto.EnvironmentStat
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto.EnvironmentTypeEnum;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentOpsDetailsDto;
 import com.francetelecom.clara.cloud.services.dto.LinkDto;
-import com.francetelecom.clara.cloud.coremodel.exception.*;
 import com.google.common.base.Predicate;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
@@ -143,7 +143,7 @@ public class ManageEnvironmentMock extends CoreItemServiceMock<Environment> impl
     }
 
     @Override
-    public List<EnvironmentDto> findEnvironments(int first, int count, String sortProperty, String sortType) {
+    public List<EnvironmentDto> findEnvironments() {
         List<EnvironmentDto> dtos = new ArrayList<EnvironmentDto>();
         Collection<Environment> allEnv = findAll();
         for (Environment env : allEnv) {
@@ -169,14 +169,6 @@ public class ManageEnvironmentMock extends CoreItemServiceMock<Environment> impl
         }
 
         return createEnvironmentDtoList(allActiveEnvsForRelease);
-    }
-
-    @Override
-    public List<EnvironmentDto> findEnvironmentsByAppRelease(String releaseUID, int first, int count, String sortProperty, String sortType) {
-        /*
-         * return findAllActiveEnvironmentByAppRelease(applicationReleaseName, first, count);
-		 */
-        throw new UnsupportedOperationException("mock operation should not be called");
     }
 
     @Override
@@ -576,7 +568,7 @@ public class ManageEnvironmentMock extends CoreItemServiceMock<Environment> impl
     }
 
     @Override
-    public List<EnvironmentDto> findMyEnvironments(int first, int count, String sortProperty, String sortType) {
+    public List<EnvironmentDto> findMyEnvironments() {
         return createEnvironmentDtoList(find(new Predicate<Environment>() {
             @Override
             public boolean apply(Environment environment) {

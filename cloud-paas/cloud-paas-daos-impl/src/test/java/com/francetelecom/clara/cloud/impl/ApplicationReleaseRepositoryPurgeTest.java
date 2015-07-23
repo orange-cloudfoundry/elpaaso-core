@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.francetelecom.clara.cloud.core.infrastructure;
+package com.francetelecom.clara.cloud.impl;
 
-import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
 import com.francetelecom.clara.cloud.coremodel.*;
 import com.francetelecom.clara.cloud.model.*;
 import org.junit.Assert;
@@ -35,9 +34,9 @@ import static org.fest.assertions.Assertions.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/com/francetelecom/clara/cloud/services/application-context.xml"})
-public class ApplicationReleaseDaoJpaImplPurgeTest {
+public class ApplicationReleaseRepositoryPurgeTest {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ApplicationReleaseDaoJpaImplPurgeTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ApplicationReleaseRepositoryPurgeTest.class);
 
     @Autowired
     private TechnicalDeploymentTemplateRepository technicalDeploymentTemplateRepository;
@@ -106,9 +105,10 @@ public class ApplicationReleaseDaoJpaImplPurgeTest {
         TechnicalDeploymentTemplate technicalDeploymentTemplate = new TechnicalDeploymentTemplate(technicalDeployment, DeploymentProfileEnum.DEVELOPMENT, "releaseId", MiddlewareProfile.DEFAULT_PROFILE);
         technicalDeploymentTemplateRepository.save(technicalDeploymentTemplate);
         // given tdi exists
+        //TechnicalDeploymentInstance technicalDeploymentInstance = mock(TechnicalDeploymentInstance.class);//
         TechnicalDeploymentInstance technicalDeploymentInstance = new TechnicalDeploymentInstance(technicalDeploymentTemplate, technicalDeployment);
         Environment environment = new Environment(DeploymentProfileEnum.DEVELOPMENT, "intrus", arRemovedWithEnvironment, manager, technicalDeploymentInstance);
-        environmentRepository.persist(environment);
+        environmentRepository.save(environment);
 
         // removed release with removed environment (should not be returned)
         ApplicationRelease arRemovedWithRemovedEnvironment = new ApplicationRelease(application, "G1R0C0");
@@ -126,7 +126,7 @@ public class ApplicationReleaseDaoJpaImplPurgeTest {
         TechnicalDeploymentInstance technicalDeploymentInstanceRm = new TechnicalDeploymentInstance(technicalDeploymentTemplateRm, technicalDeploymentRm);
         Environment environmentRm = new Environment(DeploymentProfileEnum.DEVELOPMENT, "intrus", arRemovedWithRemovedEnvironment, manager, technicalDeploymentInstanceRm);
         environment.setStatus(EnvironmentStatus.REMOVED);
-        environmentRepository.persist(environmentRm);
+        environmentRepository.save(environmentRm);
 
         environmentRepository.flush();
 

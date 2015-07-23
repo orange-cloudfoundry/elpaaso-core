@@ -12,10 +12,10 @@
  */
 package com.francetelecom.clara.cloud.environment.impl;
 
-import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
 import com.francetelecom.clara.cloud.coremodel.Environment;
-import com.francetelecom.clara.cloud.paas.projection.UnsupportedProjectionException;
+import com.francetelecom.clara.cloud.coremodel.EnvironmentRepository;
 import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.paas.projection.UnsupportedProjectionException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,10 +25,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.net.MalformedURLException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -50,14 +50,13 @@ public class ManageEnvironmentImplPurgeTest {
         Environment envA = mock(Environment.class);
         Environment envB = mock(Environment.class);
         List<Environment> olderEnvironments = Arrays.asList(envA, envB);
-        doReturn(olderEnvironments).when(environmentRepository).findRemovedOlderThanNDays(anyInt());
-        doReturn(olderEnvironments.size()).when(environmentRepository).purgeEnvironments(olderEnvironments);
+        doReturn(olderEnvironments).when(environmentRepository).findRemovedOlderThanNDays(any(Date.class));
 
         // WHEN
         List<Environment> oldRemovedEnvironments = manageEnvironment.findOldRemovedEnvironments();
 
         // THEN
-        verify(environmentRepository).findRemovedOlderThanNDays(anyInt());
+        verify(environmentRepository).findRemovedOlderThanNDays(any(Date.class));
         assertThat(oldRemovedEnvironments).contains(envA, envB);
     }
 }

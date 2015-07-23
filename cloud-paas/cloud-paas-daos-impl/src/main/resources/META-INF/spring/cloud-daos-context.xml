@@ -47,10 +47,6 @@
 	<bean id="modelItemDao"
 		class="com.francetelecom.clara.cloud.dao.impl.ModelItemDaoJpaImpl" />
 
-	<!-- projection DAO -->
-	<bean id="environmentRepository"
-		class="com.francetelecom.clara.cloud.core.infrastructure.EnvironmentDaoJpaImpl" />
-
 	<bean id="transactionUtil" class="com.francetelecom.clara.cloud.dao.impl.TransactionUtil" />
 
 	<!-- Technical Deployment Cloner -->

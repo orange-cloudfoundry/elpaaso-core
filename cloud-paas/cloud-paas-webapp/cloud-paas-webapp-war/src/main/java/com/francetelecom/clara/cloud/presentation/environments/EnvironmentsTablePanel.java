@@ -12,10 +12,19 @@
  */
 package com.francetelecom.clara.cloud.presentation.environments;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
+import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
+import com.francetelecom.clara.cloud.coremodel.exception.ApplicationReleaseNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.environment.ManageEnvironment;
+import com.francetelecom.clara.cloud.presentation.common.AjaxFallbackCustomDataTable;
+import com.francetelecom.clara.cloud.presentation.common.PageTemplate;
+import com.francetelecom.clara.cloud.presentation.common.WicketUtils;
+import com.francetelecom.clara.cloud.presentation.resource.CacheActivatedImage;
+import com.francetelecom.clara.cloud.presentation.tools.BusinessExceptionHandler;
+import com.francetelecom.clara.cloud.presentation.tools.EnvironmentDtoProvider;
+import com.francetelecom.clara.cloud.presentation.tools.WicketSession;
+import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.AjaxSelfUpdatingTimerBehavior;
 import org.apache.wicket.ajax.markup.html.form.AjaxCheckBox;
@@ -39,20 +48,9 @@ import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.util.time.Duration;
 import org.slf4j.LoggerFactory;
 
-import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
-import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
-import com.francetelecom.clara.cloud.coremodel.Environment;
-import com.francetelecom.clara.cloud.environment.ManageEnvironment;
-import com.francetelecom.clara.cloud.presentation.common.AjaxFallbackCustomDataTable;
-import com.francetelecom.clara.cloud.presentation.common.PageTemplate;
-import com.francetelecom.clara.cloud.presentation.common.WicketUtils;
-import com.francetelecom.clara.cloud.presentation.resource.CacheActivatedImage;
-import com.francetelecom.clara.cloud.presentation.tools.BusinessExceptionHandler;
-import com.francetelecom.clara.cloud.presentation.tools.EnvironmentDtoProvider;
-import com.francetelecom.clara.cloud.presentation.tools.WicketSession;
-import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
-import com.francetelecom.clara.cloud.coremodel.exception.ApplicationReleaseNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * EnvironmentsTablePanel Panel which list the environments
@@ -141,7 +139,7 @@ public class EnvironmentsTablePanel extends Panel {
 		if (release != null) {
 			try {
 
-				envList = manageEnvironment.findEnvironmentsByAppRelease(release.getUID(), 0, 2000, Environment.CREATION_DATE, "DESC");
+				envList = manageEnvironment.findEnvironmentsByAppRelease(release.getUID());
 
 			} catch (ApplicationReleaseNotFoundException e) {
 				BusinessExceptionHandler handler = new BusinessExceptionHandler(this);
@@ -149,10 +147,10 @@ public class EnvironmentsTablePanel extends Panel {
 			}
 		} else {
 			if (viewAllCheckBox.getModelObject()) {
-				envList = manageEnvironment.findEnvironments(0, 2000, Environment.CREATION_DATE, "DESC");
+				envList = manageEnvironment.findEnvironments();
 			} else {
 
-				envList = manageEnvironment.findMyEnvironments(0, 2000, Environment.CREATION_DATE, "DESC");
+				envList = manageEnvironment.findMyEnvironments();
 			}
 		}
 		

@@ -13,8 +13,8 @@
 package com.francetelecom.clara.cloud.environment.impl;
 
 import com.francetelecom.clara.cloud.commons.BusinessException;
+import com.francetelecom.clara.cloud.commons.DateHelper;
 import com.francetelecom.clara.cloud.commons.TechnicalException;
-import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
 import com.francetelecom.clara.cloud.core.service.SecurityUtils;
 import com.francetelecom.clara.cloud.coremodel.*;
 import com.francetelecom.clara.cloud.coremodel.exception.ApplicationReleaseNotFoundException;
@@ -108,7 +108,7 @@ public class ManageEnvironmentImpl implements ManageEnvironment {
                     + ")");
             start = System.currentTimeMillis();
 
-            Environment justCreatedEnvironment = environmentRepository.findByUID(environmentUID);
+            Environment justCreatedEnvironment = environmentRepository.findByUid(environmentUID);
 
             //
             // Start Activate Here
@@ -133,7 +133,7 @@ public class ManageEnvironmentImpl implements ManageEnvironment {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public EnvironmentDto findEnvironmentByUID(String uid) throws EnvironmentNotFoundException {
-        Environment environment = environmentRepository.findByUID(uid);
+        Environment environment = environmentRepository.findByUid(uid);
         if (environment == null) {
             String message = "Environment with UID[" + uid + "] does not exist.";
             log.info(message);
@@ -157,7 +157,7 @@ public class ManageEnvironmentImpl implements ManageEnvironment {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public EnvironmentDetailsDto findEnvironmentDetails(String uid) throws EnvironmentNotFoundException {
-        Environment environment = environmentRepository.findByUID(uid);
+        Environment environment = environmentRepository.findByUid(uid);
         if (environment == null) {
             String message = "Environment with UID[" + uid + "] does not exist.";
             log.info(message);
@@ -172,7 +172,7 @@ public class ManageEnvironmentImpl implements ManageEnvironment {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public EnvironmentOpsDetailsDto findEnvironmentOpsDetailsByUID(String uid) throws EnvironmentNotFoundException {
-        Environment environment = environmentRepository.findByUID(uid);
+        Environment environment = environmentRepository.findByUid(uid);
         if (environment == null) {
             String message = "Environment with UID[" + uid + "] does not exist.";
             log.info(message);
@@ -186,23 +186,23 @@ public class ManageEnvironmentImpl implements ManageEnvironment {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public List<EnvironmentDto> findEnvironments(int first, int count, String sortProperty, String sortType) {
+    public List<EnvironmentDto> findEnvironments() {
         if (SecurityUtils.currentUserIsAdmin()) {
-            return environmentMapper.toEnvironmentDtoList(environmentRepository.findAllActive(first, count, sortProperty, sortType));
+            return environmentMapper.toEnvironmentDtoList(environmentRepository.findAllActive());
         } else {
-            return environmentMapper.toEnvironmentDtoList(environmentRepository.findAllPublicOrPrivateByMember(SecurityUtils.currentUser(), first, count, sortProperty, sortType));
+            return environmentMapper.toEnvironmentDtoList(environmentRepository.findAllPublicOrPrivateByMember(SecurityUtils.currentUser().getValue()));
         }
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public List<EnvironmentDto> findMyEnvironments(int first, int count, String sortProperty, String sortType) {
-        return environmentMapper.toEnvironmentDtoList(environmentRepository.findAllActiveByApplicationMember(SecurityUtils.currentUser(), first, count, sortProperty, sortType));
+    public List<EnvironmentDto> findMyEnvironments() {
+        return environmentMapper.toEnvironmentDtoList(environmentRepository.findAllActiveByApplicationMember(SecurityUtils.currentUser().getValue()));
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public List<EnvironmentDto> findEnvironmentsByAppRelease(String releaseUID, int first, int count, String sortProperty, String sortType)
+    public List<EnvironmentDto> findEnvironmentsByAppRelease(String releaseUID)
             throws ApplicationReleaseNotFoundException {
         ApplicationRelease applicationRelease = applicationReleaseRepository.findByUID(releaseUID);
         if (applicationRelease == null) {
@@ -210,17 +210,10 @@ public class ManageEnvironmentImpl implements ManageEnvironment {
         }
         // cannot see if not authorized
         if (SecurityUtils.currentUserIsAdmin()) {
-            return environmentMapper.toEnvironmentDtoList(environmentRepository.findAllActiveByApplicationReleaseUid(releaseUID, first, count, sortProperty, sortType));
+            return environmentMapper.toEnvironmentDtoList(environmentRepository.findAllActiveByApplicationReleaseUid(releaseUID));
         } else {
-            return environmentMapper.toEnvironmentDtoList(environmentRepository.findAllPublicOrPrivateByMemberAndByApplicationRelease(releaseUID, SecurityUtils.currentUser(),
-                    first, count, sortProperty, sortType));
+            return environmentMapper.toEnvironmentDtoList(environmentRepository.findAllPublicOrPrivateByMemberAndByApplicationRelease(releaseUID, SecurityUtils.currentUser().getValue()));
         }
-    }
-
-    @Override
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    public List<EnvironmentDto> findEnvironmentsByAppRelease(String releaseUID) throws ApplicationReleaseNotFoundException {
-        return findEnvironmentsByAppRelease(releaseUID, 0, Integer.MAX_VALUE, "label", "ASC");
     }
 
     @Override
@@ -229,7 +222,7 @@ public class ManageEnvironmentImpl implements ManageEnvironment {
         try {
             MDC.put(LOG_KEY_ENVUID, uid);
             log.debug("startEnvironment: uid={}", new Object[]{uid});
-            Environment environment = environmentRepository.findByUID(uid);
+            Environment environment = environmentRepository.findByUid(uid);
             assertHasWritePermissionFor(environment);
             MDC.put(LOG_KEY_ENVNAME, environment.getLabel());
             if (environment.isStopped()) {
@@ -258,7 +251,7 @@ public class ManageEnvironmentImpl implements ManageEnvironment {
         try {
             MDC.put(LOG_KEY_ENVUID, uid);
             log.debug("stopEnvironment: uid={}", new Object[]{uid});
-            Environment environment = environmentRepository.findByUID(uid);
+            Environment environment = environmentRepository.findByUid(uid);
             assertHasWritePermissionFor(environment);
             MDC.put(LOG_KEY_ENVNAME, environment.getLabel());
             if (environment.isRunning()) {
@@ -287,7 +280,7 @@ public class ManageEnvironmentImpl implements ManageEnvironment {
         try {
             MDC.put(LOG_KEY_ENVUID, uid);
             log.debug("deleteEnvironment: uid={}", new Object[]{uid});
-            Environment environment = environmentRepository.findByUID(uid);
+            Environment environment = environmentRepository.findByUid(uid);
             assertHasWritePermissionFor(environment);
             MDC.put(LOG_KEY_ENVNAME, environment.getLabel());
             if (environment.isRemoved() || environment.isRemoving()) {
@@ -304,8 +297,15 @@ public class ManageEnvironmentImpl implements ManageEnvironment {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public void forceStatusForAndEnvironment(String uid, EnvironmentStatus newStatus) throws EnvironmentNotFoundException {
-        environmentRepository.forceRemovedStatusForAndEnvironment(uid, newStatus);
+        Environment environment = environmentRepository.findByUid(uid);
+        if (environment == null) {
+            String message = "Environment with UID[" + uid + "] does not exist.";
+            log.info(message);
+            throw new EnvironmentNotFoundException(message);
+        }
+        environment.updateStatus(newStatus, "", 100);
     }
 
     @Override
@@ -313,13 +313,13 @@ public class ManageEnvironmentImpl implements ManageEnvironment {
     public List<Environment> findOldRemovedEnvironments() {
         log.info("*** find old environment (purgeRetentionDelayInDay={})", purgeRetentionDelayInDay);
         // find removed environment older than N day
-        return environmentRepository.findRemovedOlderThanNDays(purgeRetentionDelayInDay);
+        return environmentRepository.findRemovedOlderThanNDays(DateHelper.getDateDeltaDay(-purgeRetentionDelayInDay));
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public void purgeRemovedEnvironment(String uid) throws EnvironmentNotFoundException {
-        Environment environment = environmentRepository.findByUID(uid);
+        Environment environment = environmentRepository.findByUid(uid);
         if (environment == null) {
             String message = "Environment with UID[" + uid + "] does not exist.";
             log.info(message);
@@ -328,7 +328,7 @@ public class ManageEnvironmentImpl implements ManageEnvironment {
 
         assertHasWritePermissionFor(environment);
 
-        environmentRepository.purgeEnvironment(environment);
+        environmentRepository.delete(environment);
     }
 
     //
@@ -509,7 +509,7 @@ public class ManageEnvironmentImpl implements ManageEnvironment {
             MDC.put(LOG_KEY_ENVUID, environmentDetailsDto.getUid());
             MDC.put(LOG_KEY_ENVNAME, environmentDetailsDto.getLabel());
             log.debug("updateEnvironment: uid={}", new Object[]{environmentDetailsDto.getUid()});
-            Environment environment = environmentRepository.findByUID(environmentDetailsDto.getUid());
+            Environment environment = environmentRepository.findByUid(environmentDetailsDto.getUid());
             assertHasWritePermissionFor(environment);
             environment.setComment(environmentDetailsDto.getComment());
             return environment;
@@ -524,13 +524,13 @@ public class ManageEnvironmentImpl implements ManageEnvironment {
         if (SecurityUtils.currentUserIsAdmin()) {
             return environmentRepository.countActive();
         } else {
-            return environmentRepository.countPublicOrPrivateByMember(SecurityUtils.currentUser());
+            return environmentRepository.countPublicOrPrivateByMember(SecurityUtils.currentUser().getValue());
         }
     }
 
     @Override
     public Long countMyEnvironments() {
-        return environmentRepository.countActiveByApplicationMember(SecurityUtils.currentUser());
+        return environmentRepository.countActiveByApplicationMember(SecurityUtils.currentUser().getValue());
     }
 
     @Override
@@ -543,7 +543,7 @@ public class ManageEnvironmentImpl implements ManageEnvironment {
         if (SecurityUtils.currentUserIsAdmin()) {
             return environmentRepository.countActiveByApplicationReleaseUid(releaseUID);
         } else {
-            return environmentRepository.countAllPublicOrPrivateByMemberAndByApplicationRelease(releaseUID, SecurityUtils.currentUser());
+            return environmentRepository.countAllPublicOrPrivateByMemberAndByApplicationRelease(releaseUID, SecurityUtils.currentUser().getValue());
         }
     }
 

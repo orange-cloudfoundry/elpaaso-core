@@ -13,20 +13,14 @@
 package com.francetelecom.clara.cloud.service.backdoor;
 
 
+import com.francetelecom.clara.cloud.coremodel.*;
+import com.francetelecom.clara.cloud.coremodel.exception.EnvironmentNotFoundException;
+import com.francetelecom.clara.cloud.model.DeploymentProfileEnum;
+import com.francetelecom.clara.cloud.model.TechnicalDeploymentInstance;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
-import com.francetelecom.clara.cloud.coremodel.Application;
-import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
-import com.francetelecom.clara.cloud.coremodel.Environment;
-import com.francetelecom.clara.cloud.coremodel.PaasUser;
-import com.francetelecom.clara.cloud.coremodel.SSOId;
-import com.francetelecom.clara.cloud.model.DeploymentProfileEnum;
-import com.francetelecom.clara.cloud.model.TechnicalDeploymentInstance;
-import com.francetelecom.clara.cloud.coremodel.exception.EnvironmentNotFoundException;
 
 public class BackdoorServiceImplTest {
 
@@ -73,7 +67,7 @@ public class BackdoorServiceImplTest {
 		// given environment with label aLabel of release aVersion exists
 		Environment environment = new Environment(DeploymentProfileEnum.DEVELOPMENT, "aLabel", new ApplicationRelease(new Application("aLabel", "aCode"),
 				"aVersion"), BOB_DYLAN,Mockito.mock(TechnicalDeploymentInstance.class));
-		Mockito.when(environmentRepository.findByUID(environment.getUID())).thenReturn(environment);
+		Mockito.when(environmentRepository.findByUid(environment.getUID())).thenReturn(environment);
 		// when I find environment with label aLabel of release aVersion
 		Environment result = backdoorService.findEnvironmentByUID(environment.getUID());
 		// then I should get environment with label aLabel of release aVersion
@@ -83,7 +77,7 @@ public class BackdoorServiceImplTest {
 	@Test(expected = EnvironmentNotFoundException.class)
 	public void shouldFailToFindEnvironmentByUnknownUID() throws EnvironmentNotFoundException {
 		// given environment with uid unknown does not exist
-		Mockito.when(environmentRepository.findByUID("unknown")).thenReturn(null);
+		Mockito.when(environmentRepository.findByUid("unknown")).thenReturn(null);
 		// when I find environment with uid unknown
 		Environment result = backdoorService.findEnvironmentByUID("unknown");
 		// then It should fail

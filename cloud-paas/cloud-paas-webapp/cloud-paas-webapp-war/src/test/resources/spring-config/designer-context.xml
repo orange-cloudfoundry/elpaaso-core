@@ -54,12 +54,6 @@
 				value="com.francetelecom.clara.cloud.model.TechnicalDeploymentRepository"/>
 	</bean>
 
-	<bean id="environmentRepository" class="org.mockito.Mockito"
-		factory-method="mock">
-		<constructor-arg
-			value="com.francetelecom.clara.cloud.core.infrastructure.EnvironmentDaoJpaImpl" />
-	</bean>
-
 	<bean id="configRoleRepository" class="org.mockito.Mockito"
 		factory-method="mock">
 		<constructor-arg

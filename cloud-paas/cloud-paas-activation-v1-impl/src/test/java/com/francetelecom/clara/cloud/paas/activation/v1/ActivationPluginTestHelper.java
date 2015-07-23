@@ -19,7 +19,6 @@ import com.francetelecom.clara.cloud.application.ManageTechnicalDeploymentTempla
 import com.francetelecom.clara.cloud.commons.NotFoundException;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatus;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatusEnum;
-import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
 import com.francetelecom.clara.cloud.coremodel.*;
 import com.francetelecom.clara.cloud.dao.TechnicalDeploymentCloner;
 import com.francetelecom.clara.cloud.model.*;
@@ -183,7 +182,7 @@ public abstract class ActivationPluginTestHelper {
         applicationReleaseRepository.save(applicationRelease);
 
         Environment environment = new Environment(DeploymentProfileEnum.TEST, envLabel, applicationRelease, BOB_DYLAN, tdi);
-        environmentRepository.persist(environment);
+        environmentRepository.save(environment);
         return tdiId;
     }
 

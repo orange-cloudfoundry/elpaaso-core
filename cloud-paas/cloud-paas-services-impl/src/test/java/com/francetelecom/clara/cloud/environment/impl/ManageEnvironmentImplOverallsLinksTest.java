@@ -15,8 +15,9 @@ package com.francetelecom.clara.cloud.environment.impl;
 import com.francetelecom.clara.cloud.TestHelper;
 import com.francetelecom.clara.cloud.commons.AuthorizationException;
 import com.francetelecom.clara.cloud.commons.MavenReference;
-import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
 import com.francetelecom.clara.cloud.coremodel.*;
+import com.francetelecom.clara.cloud.coremodel.exception.EnvironmentNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 import com.francetelecom.clara.cloud.environment.log.BaseSearchURL;
 import com.francetelecom.clara.cloud.environment.log.LogService;
 import com.francetelecom.clara.cloud.environment.log.LogServiceSplunkImpl;
@@ -29,8 +30,6 @@ import com.francetelecom.clara.cloud.services.dto.LinkDto;
 import com.francetelecom.clara.cloud.techmodel.cf.App;
 import com.francetelecom.clara.cloud.techmodel.cf.Space;
 import com.francetelecom.clara.cloud.techmodel.cf.SpaceName;
-import com.francetelecom.clara.cloud.coremodel.exception.EnvironmentNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -101,8 +100,8 @@ public class ManageEnvironmentImplOverallsLinksTest {
         // configure mocks
         manageEnvironment.setTechnicalDeploymentRepository(technicalDeploymentRepository);
 
-        when(environmentRepository.find(anyInt())).thenReturn(environment);
-        when(environmentRepository.findByUID(Mockito.matches(environment.getUID()))).thenReturn(environment);
+        when(environmentRepository.findOne(anyInt())).thenReturn(environment);
+        when(environmentRepository.findByUid(Mockito.matches(environment.getUID()))).thenReturn(environment);
         manageEnvironment.setEnvironmentRepository(environmentRepository);
 
         when(manageEnvironmentImplUtilsMock.createTDI(anyString(), any(DeploymentProfileEnum.class), anyString(), anyString(), anyListOf(String.class))).thenReturn(generatedEnvUid);
@@ -136,7 +135,7 @@ public class ManageEnvironmentImplOverallsLinksTest {
         Environment justCreatedEnvMock = mock(Environment.class);
         when(justCreatedEnvMock.getTechnicalDeploymentInstance()).thenReturn(envTdiStub);
         when(justCreatedEnvMock.getUID()).thenReturn(generatedEnvUid);
-        when(environmentRepository.findByUID(generatedEnvUid)).thenReturn(justCreatedEnvMock);
+        when(environmentRepository.findByUid(generatedEnvUid)).thenReturn(justCreatedEnvMock);
         return justCreatedEnvMock;
     }
 
@@ -160,7 +159,7 @@ public class ManageEnvironmentImplOverallsLinksTest {
         // Given
         Environment envMock = createEnvDetailedMock();
 
-        Mockito.when(environmentRepository.findByUID(envMock.getUID())).thenReturn(envMock);
+        Mockito.when(environmentRepository.findByUid(envMock.getUID())).thenReturn(envMock);
 
         manageEnvironment.findEnvironmentDetails(envMock.getUID());
     }

@@ -12,7 +12,6 @@
  */
 package com.francetelecom.clara.cloud.impl;
 
-import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
 import com.francetelecom.clara.cloud.coremodel.*;
 import com.francetelecom.clara.cloud.dao.TechnicalDeploymentCloner;
 import com.francetelecom.clara.cloud.model.*;
@@ -100,7 +99,7 @@ public class EnvironmentRepositoryPurgeCascadeTest {
 
         // default environment
         Environment environment = new Environment(DeploymentProfileEnum.PRODUCTION, "default", release, manager, technicalDeploymentInstance);
-        environmentRepository.persist(environment);
+        environmentRepository.save(environment);
 
         // removed environment with service
         // TDT
@@ -124,19 +123,17 @@ public class EnvironmentRepositoryPurgeCascadeTest {
 
         Environment removedEnvironmentWithService = new Environment(DeploymentProfileEnum.PRODUCTION, "removedEnvironmentWithService", release, manager, tdiWithService);
         removedEnvironmentWithService.setStatus(EnvironmentStatus.REMOVED);
-        environmentRepository.persist(removedEnvironmentWithService);
+        environmentRepository.save(removedEnvironmentWithService);
 
         environmentRepository.flush();
-        Validate.notNull(environmentRepository.find(removedEnvironmentWithService.getId()));
+        Validate.notNull(environmentRepository.findOne(removedEnvironmentWithService.getId()));
 
         List<Environment> environmentsToPurge = Arrays.asList(environment, removedEnvironmentWithService);
-        int envCount = environmentsToPurge.size();
 
         // ///////////////////////////////
         // WHEN IS RIGHT HERE
         // ///////////////////////////////
-        LOG.info("purge {} environment(s)", envCount);
-        int nbRemoved = environmentRepository.purgeEnvironments(environmentsToPurge);
+        environmentRepository.delete(environmentsToPurge);
         // ///////////////////////////////
         environmentRepository.flush();
         LOG.info("after remove");
@@ -144,24 +141,20 @@ public class EnvironmentRepositoryPurgeCascadeTest {
         // THEN
 
         // env that should be retrieved by id
-        assertThat(environmentRepository.find(environment.getId())).as("not removed env should should exist").isEqualTo(environment);
+        assertThat(environmentRepository.findOne(environment.getId())).as("not removed env should should exist").isEqualTo(null);
 
         // check one dependent item of removed env
         TechnicalDeploymentTemplate shouldBeKeepedTDT = technicalDeploymentTemplateRepository.findOne(tdtWithService.getId());
         assertThat(shouldBeKeepedTDT).as("purged environment associated TDT should not have been purged").isEqualTo(tdtWithService);
 
         // env that should not be retrieved by id
-        assertThat(environmentRepository.find(removedEnvironmentWithService.getId())).as("removed env with service should not exist").isNull();
+        assertThat(environmentRepository.findOne(removedEnvironmentWithService.getId())).as("removed env with service should not exist").isNull();
 
         // assert database state (using findAll)
         List<Environment> keepedEnvironment = environmentRepository.findAll();
-        LOG.info("after purge env count: {}", keepedEnvironment.size());
-        assertThat(keepedEnvironment).as("not removed env must not be purged").contains(environment);
-        assertThat(keepedEnvironment).as("removed env should have been purged").containsExactly(environment);
+        assertThat(keepedEnvironment).isEmpty();
 
         // method return
-        assertThat(nbRemoved).as("purge count result is wrong").isEqualTo(1);
-
         TechnicalDeploymentInstance shouldBeRemovedTDI = technicalDeploymentInstanceRepository.findOne(tdiWithService.getId());
         assertThat(shouldBeRemovedTDI).as("purged environment associated TDI should not have been purged").isNull();
 

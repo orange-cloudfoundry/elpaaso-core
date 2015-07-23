@@ -17,7 +17,6 @@ import com.francetelecom.clara.cloud.application.ManageLogicalDeployment;
 import com.francetelecom.clara.cloud.application.impl.DoubleAuthentication;
 import com.francetelecom.clara.cloud.commons.AuthorizationException;
 import com.francetelecom.clara.cloud.commons.MissingDefaultUserException;
-import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
 import com.francetelecom.clara.cloud.core.service.ManageApplication;
 import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
 import com.francetelecom.clara.cloud.core.service.ManagePaasUser;
@@ -233,16 +232,16 @@ public class CreateAppStepdefs {
         Authentication previousAuth = SecurityContextHolder.getContext().getAuthentication();
         TestHelper.loginAsAdmin();
 
-        Collection<EnvironmentDto> envs = manageEnvironment.findEnvironments(0, Integer.MAX_VALUE, "label", "ASC");
+        Collection<EnvironmentDto> envs = manageEnvironment.findEnvironments();
         for (EnvironmentDto environmentDto : envs) {
             if (environmentDto.getReleaseUID().equals(releaseId)) {
                 environmentID = environmentDto.getUid();
 
                 // Update environment state to RUNNING instead of CREATING as activation is mocked
                 // This allows to later start/stop/delete the environment
-                Environment env = environmentRepository.findByUID(environmentID);
-                environmentRepository.updateEnvironmentStateByTDI(env.getTechnicalDeploymentInstance().getId(), EnvironmentStatus.RUNNING, "", 0);
-
+                Environment environment = environmentRepository.findByUid(environmentID);
+                environment.updateStatus(EnvironmentStatus.RUNNING, "", 0);
+                environmentRepository.save(environment);
                 SecurityContextHolder.getContext().setAuthentication(previousAuth);
                 return;
             }
@@ -650,10 +649,10 @@ public class CreateAppStepdefs {
 
         switch (list_filter) {
             case ALL_ENVIRONMENTS:
-                foundEnvironments = manageEnvironment.findEnvironments(0, Integer.MAX_VALUE, "creationDate", "ASC");
+                foundEnvironments = manageEnvironment.findEnvironments();
                 break;
             case DEFAULT:
-                foundEnvironments = manageEnvironment.findMyEnvironments(0, Integer.MAX_VALUE, "creationDate", "ASC");
+                foundEnvironments = manageEnvironment.findMyEnvironments();
                 break;
             default:
                 Assert.fail("Unexpected filter: " + list_filter);

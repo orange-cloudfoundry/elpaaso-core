@@ -10,16 +10,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.francetelecom.clara.cloud;
-
-import com.francetelecom.clara.cloud.coremodel.ActivationContext;
-import com.francetelecom.clara.cloud.coremodel.Environment;
+package com.francetelecom.clara.cloud.coremodel;
 
 /**
  * Encapsulates for formatting of environment fields into a description and its parsing back into individual strings
  */
 public interface EnvironmentDescriptionHandler {
 
-    public ActivationContext toActivationContext(Environment env);
+    ActivationContext toActivationContext(Environment env);
 
 }

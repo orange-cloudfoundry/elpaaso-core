@@ -17,7 +17,6 @@ import com.francetelecom.clara.cloud.commons.BusinessException;
 import com.francetelecom.clara.cloud.commons.NotFoundException;
 import com.francetelecom.clara.cloud.commons.TechnicalException;
 import com.francetelecom.clara.cloud.commons.ValidatorUtil;
-import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
 import com.francetelecom.clara.cloud.core.service.SecurityUtils;
 import com.francetelecom.clara.cloud.coremodel.*;
 import com.francetelecom.clara.cloud.coremodel.exception.ApplicationReleaseNotFoundException;
@@ -106,7 +105,7 @@ public class ManageEnvironmentImplUtils {
 		// FIXME: ensure max size of 150 chars on environment name
 		Environment environment = new Environment(profile, label, applicationRelease, owner,tdi);
         ValidatorUtil.validate(environment);
-		environmentRepository.persist(environment);
+		environmentRepository.save(environment);
 
 		return environment.getUID();
 	}

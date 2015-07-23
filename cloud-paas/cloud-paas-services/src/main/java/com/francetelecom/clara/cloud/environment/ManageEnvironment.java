@@ -12,18 +12,18 @@
  */
 package com.francetelecom.clara.cloud.environment;
 
-import java.util.List;
-
 import com.francetelecom.clara.cloud.commons.BusinessException;
 import com.francetelecom.clara.cloud.coremodel.Environment;
 import com.francetelecom.clara.cloud.coremodel.EnvironmentStatus;
+import com.francetelecom.clara.cloud.coremodel.exception.ApplicationReleaseNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.EnvironmentNotFoundException;
 import com.francetelecom.clara.cloud.model.DeploymentProfileEnum;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDetailsDto;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto.EnvironmentTypeEnum;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentOpsDetailsDto;
-import com.francetelecom.clara.cloud.coremodel.exception.ApplicationReleaseNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.EnvironmentNotFoundException;
+
+import java.util.List;
 
 /**
  * Application interface to manage environments. Uses DTOs as parameters and returned values.
@@ -106,26 +106,18 @@ public interface ManageEnvironment {
 	 * 
 	 * @param first
 	 *            index of the first environment
-	 * @param count
-	 *            number of environments to retrieve
-	 * @param sortProperty
-	 *            name of the property used for the sort
-	 * @param sortType
-	 *            ASC or DESC
 	 * @return List of EnvironmentDto
 	 */
-	List<EnvironmentDto> findEnvironments(int first, int count, String sortProperty, String sortType);
+	List<EnvironmentDto> findEnvironments();
 
 	/**
 	 * Find environments of application the connected user is a member of, starting at a specified index, order by specific field
 	 * 
 	 * @param firstIndex
 	 *            index of the first application release to retrieve (included)
-	 * @param count
-	 *            number of application releases to retrieve
 	 * @return a List of ApplicationRelease
 	 */
-	public List<EnvironmentDto> findMyEnvironments(int first, int count, String sortProperty, String sortType);
+	public List<EnvironmentDto> findMyEnvironments();
 	
 	/**
 	 * Counts all environments
@@ -140,24 +132,6 @@ public interface ManageEnvironment {
 	 * @return total number of environments
 	 */
 	public Long countMyEnvironments();
-
-	/**
-	 * Retrieves some active (i.e. not REMOVED) environments for a specific application release, starting at providing index order by sortProperty
-	 * 
-	 * @param releaseUID
-	 *            name of the application release
-	 * @param first
-	 *            index of the first environment
-	 * @param count
-	 *            number of environments to retrieve
-	 * @param sortProperty
-	 *            name of the property used for the sort
-	 * @param sortType
-	 *            ASC or DESC
-	 * @return List of EnvironmentDto
-	 * @throws ApplicationReleaseNotFoundException 
-	 */
-	public List<EnvironmentDto> findEnvironmentsByAppRelease(String releaseUID, int first, int count, String sortProperty, String sortType) throws ApplicationReleaseNotFoundException;
 
 	/**
 	 * Start environment. Note: currently {@link #createEnvironment(String, DeploymentProfileEnum, String, String)} performs the start.

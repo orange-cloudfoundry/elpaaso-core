@@ -14,7 +14,8 @@ package com.francetelecom.clara.cloud.paas.activation;
 
 import com.francetelecom.clara.cloud.application.ManageTechnicalDeploymentInstance;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatusEnum;
-import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
+import com.francetelecom.clara.cloud.coremodel.Environment;
+import com.francetelecom.clara.cloud.coremodel.EnvironmentRepository;
 import com.francetelecom.clara.cloud.coremodel.EnvironmentStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -211,9 +212,11 @@ public class ManagePaasActivationStubbedImplForTestsWicket implements ManagePaas
 					Thread.sleep(2000);
 					statusConfiguration.setPercent(100);
 					statusConfiguration.setTaskStatus(TaskStatusEnum.FINISHED_OK);
-					
-					environmentRepository.updateEnvironmentStateByTDI(tdiId, EnvironmentStatus.REMOVED, "", 100);
-						
+
+					final Environment environment = environmentRepository.findByTechnicalDeploymentInstanceId(tdiId);
+					environment.updateStatus(EnvironmentStatus.REMOVED, "", 100);
+					environmentRepository.save(environment);
+
 				} catch (Throwable e) {
 					statusDelete.setEndTime(System.currentTimeMillis());
 					statusDelete.setTaskStatus(TaskStatusEnum.FINISHED_FAILED);

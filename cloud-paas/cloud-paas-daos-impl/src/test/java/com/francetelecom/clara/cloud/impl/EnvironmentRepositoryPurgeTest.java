@@ -13,7 +13,6 @@
 package com.francetelecom.clara.cloud.impl;
 
 import com.francetelecom.clara.cloud.commons.DateHelper;
-import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
 import com.francetelecom.clara.cloud.coremodel.*;
 import com.francetelecom.clara.cloud.model.*;
 import org.apache.commons.lang3.time.DateUtils;
@@ -106,7 +105,7 @@ public class EnvironmentRepositoryPurgeTest {
 
         // default environment
 		Environment environment = new Environment(DeploymentProfileEnum.PRODUCTION, "default", release, bob,technicalDeploymentInstance);
-        environmentRepository.persist(environment);
+        environmentRepository.save(environment);
         LOG.info("test env {}", environment);
 
         // default old environment
@@ -114,7 +113,7 @@ public class EnvironmentRepositoryPurgeTest {
         Environment environmentOld = new Environment(DeploymentProfileEnum.PRODUCTION, "old", release, bob,technicalDeploymentInstance);
         Assume.assumeTrue(environmentOld.getCreationDate().equals(jMinusFiveDayAndOneSecond));
         DateHelper.resetNow();
-        environmentRepository.persist(environmentOld);
+        environmentRepository.save(environmentOld);
         LOG.info("test env {}", environmentOld);
 
         // given default removed environment
@@ -122,7 +121,7 @@ public class EnvironmentRepositoryPurgeTest {
         Environment removed = new Environment(DeploymentProfileEnum.PRODUCTION, "defaultRemoved", release, bob,technicalDeploymentInstance);
         removed.setStatus(EnvironmentStatus.REMOVED);
         DateHelper.resetNow();
-        environmentRepository.persist(removed);
+        environmentRepository.save(removed);
         LOG.info("test env {}", removed);
 
         // given older removed environment A (j-6)
@@ -131,7 +130,7 @@ public class EnvironmentRepositoryPurgeTest {
         oldRemovedA.setStatus(EnvironmentStatus.REMOVED);
         DateHelper.resetNow();
         Assume.assumeTrue(oldRemovedA.getDeletionDate().equals(jMinusFiveDayAndOneSecond));
-        environmentRepository.persist(oldRemovedA);
+        environmentRepository.save(oldRemovedA);
         LOG.info("test env {}", oldRemovedA);
 
         // given older removed environment B  (j-8)
@@ -140,11 +139,11 @@ public class EnvironmentRepositoryPurgeTest {
         oldRemovedB.setStatus(EnvironmentStatus.REMOVED);
         DateHelper.resetNow();
         Assume.assumeTrue(oldRemovedB.getDeletionDate().equals(jMinusHeight));
-        environmentRepository.persist(oldRemovedB);
+        environmentRepository.save(oldRemovedB);
         LOG.info("test env {}", oldRemovedA);
 
         // WHEN
-        List<Environment> results = environmentRepository.findRemovedOlderThanNDays(fiveDay);
+        List<Environment> results = environmentRepository.findRemovedOlderThanNDays(DateHelper.getDateDeltaDay(-fiveDay));
 
         // THEN
         assertThat(results).containsExactly(oldRemovedA, oldRemovedB);
@@ -170,11 +169,11 @@ public class EnvironmentRepositoryPurgeTest {
         oldEnv.setStatus(EnvironmentStatus.REMOVED);
         DateHelper.resetNow();
         Assume.assumeTrue(oldEnv.getDeletionDate().equals(removedDate));
-        environmentRepository.persist(oldEnv);
+        environmentRepository.save(oldEnv);
         LOG.info("test env {}", oldEnv);
 
         // WHEN
-        List<Environment> results = environmentRepository.findRemovedOlderThanNDays(retentionDelayIsFiveDay);
+        List<Environment> results = environmentRepository.findRemovedOlderThanNDays(DateHelper.getDateDeltaDay(-retentionDelayIsFiveDay));
 
         // THEN
         assertThat(results).isEmpty();
@@ -187,37 +186,34 @@ public class EnvironmentRepositoryPurgeTest {
 
     	// default environment
 		Environment environment = new Environment(DeploymentProfileEnum.PRODUCTION, "default", release, bob,technicalDeploymentInstance);
-        environmentRepository.persist(environment);
+        environmentRepository.save(environment);
 
         // removed environment
         Environment removedEnvironment = new Environment(DeploymentProfileEnum.PRODUCTION, "removedEnvironment", release, bob,technicalDeploymentInstance);
         removedEnvironment.setStatus(EnvironmentStatus.REMOVED);
-        environmentRepository.persist(removedEnvironment);
+        environmentRepository.save(removedEnvironment);
 
         List <Environment> environmentsToPurge = Arrays.asList(environment, removedEnvironment);
         int envCount = environmentsToPurge.size();
 
         // WHEN
         LOG.info("purge {} environment(s)", envCount);
-        int nbRemoved = environmentRepository.purgeEnvironments(environmentsToPurge);
+       environmentRepository.delete(environmentsToPurge);
 
         // THEN
 
         // env that should be retrieved by id
-        assertThat(environmentRepository.find(environment.getId()))
-                .as("not removed env should should exist").isEqualTo(environment);
+        assertThat(environmentRepository.findOne(environment.getId()))
+                .as("not removed env should should exist").isEqualTo(null);
         // env that should not be retrieved by id
-        assertThat(environmentRepository.find(removedEnvironment.getId()))
+        assertThat(environmentRepository.findOne(removedEnvironment.getId()))
                 .as("removed env should not exist").isNull();
 
         // assert database state (using findAll)
         List<Environment> keepedEnvironment = environmentRepository.findAll();
         LOG.info("after purge env count: {}", keepedEnvironment.size());
-        assertThat(keepedEnvironment).as("not removed env must not be purged").contains(environment);
-        assertThat(keepedEnvironment).as("removed env should have been purged").containsExactly(environment);
-
+        assertThat(keepedEnvironment).isEmpty();
         // method return
-        assertThat(nbRemoved).as("purge count result is wrong").isEqualTo(1);
 
         environmentRepository.flush();
     }

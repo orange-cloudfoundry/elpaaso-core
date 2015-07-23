@@ -12,7 +12,6 @@
  */
 package crash.commands.paas
 
-import com.francetelecom.clara.cloud.coremodel.Environment
 import com.francetelecom.clara.cloud.crash.PaaSCRaSHCommand
 import com.francetelecom.clara.cloud.service.OpsService
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto
@@ -51,7 +50,7 @@ class ops extends PaaSCRaSHCommand {
     @Usage("list environments command")
     @Command
     public void envs() {
-        def List<EnvironmentDto> envs = getManageEnvironment().findEnvironments(0, 30, Environment.CREATION_DATE, "DESC");
+        def List<EnvironmentDto> envs = getManageEnvironment().findEnvironments();
         if (envs.size() == 0) {
             out << "no environment\n";
             return;

@@ -16,7 +16,6 @@ import com.francetelecom.clara.cloud.TestHelper;
 import com.francetelecom.clara.cloud.commons.AuthorizationException;
 import com.francetelecom.clara.cloud.commons.BusinessException;
 import com.francetelecom.clara.cloud.commons.TechnicalException;
-import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
 import com.francetelecom.clara.cloud.coremodel.*;
 import com.francetelecom.clara.cloud.coremodel.exception.ApplicationNotFoundException;
 import com.francetelecom.clara.cloud.coremodel.exception.ApplicationReleaseNotFoundException;

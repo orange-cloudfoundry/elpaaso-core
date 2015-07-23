@@ -12,12 +12,12 @@
  */
 package com.francetelecom.clara.cloud.crash;
 
+import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 import com.francetelecom.clara.cloud.environment.ManageEnvironment;
 import com.francetelecom.clara.cloud.service.OpsService;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentOpsDetailsDto;
 import com.francetelecom.clara.cloud.services.dto.LinkDto;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -26,11 +26,11 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
@@ -79,7 +79,7 @@ public class CRaSHOfficialPaasCommandsTest extends AbstractSpringTestCase {
         EnvironmentDto envA = createEnvMock("environmentA");
         EnvironmentDto envB = createEnvMockCreated("environmentB");
         List<EnvironmentDto> envs = Arrays.asList(envA, envB);
-        doReturn(envs).when(manageEnvironment).findEnvironments(anyInt(), anyInt(), anyString(), anyString());
+        doReturn(envs).when(manageEnvironment).findEnvironments();
 
         // WHEN/THEN
         verboseAssertCommandOkFromReference(command, "ops_envs.ref");

@@ -12,17 +12,17 @@
  */
 package com.francetelecom.clara.cloud.paas.activation;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import com.francetelecom.clara.cloud.commons.tasks.TaskStatusEnum;
+import com.francetelecom.clara.cloud.coremodel.Environment;
+import com.francetelecom.clara.cloud.coremodel.EnvironmentRepository;
+import com.francetelecom.clara.cloud.coremodel.EnvironmentStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.task.TaskExecutor;
 
-import com.francetelecom.clara.cloud.commons.tasks.TaskStatusEnum;
-import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
-import com.francetelecom.clara.cloud.coremodel.EnvironmentStatus;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Mock Implementation of {@link ManagePaasActivation}
@@ -129,15 +129,19 @@ public class ManagePaasActivationStubbedImpl implements ManagePaasActivation {
                     statusPowerOn.setPercent(100);
                     statusPowerOn.setTaskStatus(TaskStatusEnum.FINISHED_OK);
                     logger.info("activate: power on ok");
-                    environmentRepository.updateEnvironmentStateByTDI(tdiId, EnvironmentStatus.RUNNING, "", 100);
-                    logger.info("activate: environment is now RUNNING");
+					final Environment environment = environmentRepository.findByTechnicalDeploymentInstanceId(tdiId);
+					environment.updateStatus(EnvironmentStatus.RUNNING,"",100);
+					environmentRepository.save(environment);
+					logger.info("activate: environment is now RUNNING");
                 } catch (Throwable e) {
                     logger.info("activate: failed : {}", e);
                     e.printStackTrace();
                     statusActivate.setEndTime(System.currentTimeMillis());
                     statusActivate.setTaskStatus(TaskStatusEnum.FINISHED_FAILED);
                     statusActivate.setErrorMessage(e.getMessage());
-                    environmentRepository.updateEnvironmentStateByTDI(tdiId, EnvironmentStatus.FAILED, e.getMessage(), -1);
+					final Environment environment = environmentRepository.findByTechnicalDeploymentInstanceId(tdiId);
+					environment.updateStatus(EnvironmentStatus.FAILED, e.getMessage(), -1);
+					environmentRepository.save(environment);
                 }
 
                 // Commit transaction if ok
@@ -248,7 +252,9 @@ public class ManagePaasActivationStubbedImpl implements ManagePaasActivation {
                     statusConfiguration.setPercent(100);
 					statusConfiguration.setTaskStatus(TaskStatusEnum.FINISHED_OK);
                     logger.info("delete: status config ok");
-                    environmentRepository.updateEnvironmentStateByTDI(tdiId, EnvironmentStatus.REMOVED, null, 100);
+					final Environment environment = environmentRepository.findByTechnicalDeploymentInstanceId(tdiId);
+					environment.updateStatus(EnvironmentStatus.REMOVED, "", 100);
+					environmentRepository.save(environment);
                     logger.info("delete: update env ok");
 				} catch (Throwable e) {
                     logger.info("delete: failed :{}", e.getMessage());
@@ -256,7 +262,9 @@ public class ManagePaasActivationStubbedImpl implements ManagePaasActivation {
 					statusDelete.setEndTime(System.currentTimeMillis());
 					statusDelete.setTaskStatus(TaskStatusEnum.FINISHED_FAILED);
 					statusDelete.setErrorMessage(e.getMessage());
-                    environmentRepository.updateEnvironmentStateByTDI(tdiId, EnvironmentStatus.FAILED, null, 100);
+					final Environment environment = environmentRepository.findByTechnicalDeploymentInstanceId(tdiId);
+					environment.updateStatus(EnvironmentStatus.FAILED, e.getMessage(), 100);
+					environmentRepository.save(environment);
 				}
 
 				// Commit transaction if ok

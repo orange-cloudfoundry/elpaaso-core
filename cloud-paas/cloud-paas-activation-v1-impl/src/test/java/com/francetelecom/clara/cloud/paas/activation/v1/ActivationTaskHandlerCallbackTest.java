@@ -14,7 +14,7 @@ package com.francetelecom.clara.cloud.paas.activation.v1;
 
 import com.francetelecom.clara.cloud.application.ManageModelItem;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatusEnum;
-import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
+import com.francetelecom.clara.cloud.coremodel.EnvironmentRepository;
 import com.francetelecom.clara.cloud.paas.activation.ActivationStepEnum;
 import com.francetelecom.clara.cloud.techmodel.dbaas.DBaasSubscriptionV2;
 import org.activiti.engine.ProcessEngine;

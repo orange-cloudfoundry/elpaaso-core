@@ -13,17 +13,17 @@
 package com.francetelecom.clara.cloud.paas.activation.v1;
 
 import com.francetelecom.clara.cloud.application.ManageTechnicalDeploymentInstance;
+import com.francetelecom.clara.cloud.commons.NotFoundException;
 import com.francetelecom.clara.cloud.commons.TechnicalException;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatus;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatusEnum;
-import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
 import com.francetelecom.clara.cloud.coremodel.Environment;
+import com.francetelecom.clara.cloud.coremodel.EnvironmentRepository;
 import com.francetelecom.clara.cloud.coremodel.EnvironmentStatus;
 import com.francetelecom.clara.cloud.model.TechnicalDeploymentInstance;
 import com.francetelecom.clara.cloud.model.XaasSubscription;
 import com.francetelecom.clara.cloud.paas.activation.ActivationStepEnum;
 import com.francetelecom.clara.cloud.paas.activation.ManagePaasActivation;
-import com.francetelecom.clara.cloud.commons.NotFoundException;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.bpmn.model.Process;
 import org.activiti.engine.ProcessEngine;
@@ -107,7 +107,7 @@ public class ManagePaasActivationActivitiUtilsImpl {
         status.setEndTime(System.currentTimeMillis());
         status.setErrorMessage(endUserErrorMessage);
 
-        final Environment environment = environmentRepository.findByTDIId(tdiId);
+        final Environment environment = environmentRepository.findByTechnicalDeploymentInstanceId(tdiId);
         environment.updateStatus(EnvironmentStatus.FAILED, endUserErrorMessage, -1);
     }
 

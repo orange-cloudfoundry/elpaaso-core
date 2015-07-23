@@ -10,11 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.francetelecom.clara.cloud.paas.activation;
-
-import com.francetelecom.clara.cloud.EnvironmentDescriptionHandler;
-import com.francetelecom.clara.cloud.coremodel.ActivationContext;
-import com.francetelecom.clara.cloud.coremodel.Environment;
+package com.francetelecom.clara.cloud.coremodel;
 
 /**
 *

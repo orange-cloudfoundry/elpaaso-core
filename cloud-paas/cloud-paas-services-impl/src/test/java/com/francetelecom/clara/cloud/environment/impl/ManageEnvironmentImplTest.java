@@ -15,7 +15,6 @@ package com.francetelecom.clara.cloud.environment.impl;
 import com.francetelecom.clara.cloud.TestHelper;
 import com.francetelecom.clara.cloud.commons.AuthorizationException;
 import com.francetelecom.clara.cloud.commons.BusinessException;
-import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
 import com.francetelecom.clara.cloud.coremodel.*;
 import com.francetelecom.clara.cloud.coremodel.exception.ApplicationReleaseNotFoundException;
 import com.francetelecom.clara.cloud.coremodel.exception.EnvironmentNotFoundException;
@@ -94,8 +93,8 @@ public class ManageEnvironmentImplTest {
 
         manageEnvironment.setTechnicalDeploymentRepository(technicalDeploymentRepository);
 
-        when(environnementRepository.find(Mockito.anyInt())).thenReturn(environment);
-        when(environnementRepository.findByUID(Mockito.matches(environment.getUID()))).thenReturn(environment);
+        when(environnementRepository.findOne(Mockito.anyInt())).thenReturn(environment);
+        when(environnementRepository.findByUid(Mockito.matches(environment.getUID()))).thenReturn(environment);
         manageEnvironment.setEnvironmentRepository(environnementRepository);
 
         when(manageEnvironmentImplUtilsMock.createTDI(anyString(), any(DeploymentProfileEnum.class), anyString(), anyString(), anyListOf(String.class))).thenReturn(
@@ -132,7 +131,7 @@ public class ManageEnvironmentImplTest {
     @Test(expected = EnvironmentNotFoundException.class)
     public void fail_to_find_unknown_environment() throws EnvironmentNotFoundException {
         TestHelper.loginAsAdmin();
-        Mockito.when(environnementRepository.findByUID(environment.getUID())).thenReturn(null);
+        Mockito.when(environnementRepository.findByUid(environment.getUID())).thenReturn(null);
         manageEnvironment.findEnvironmentByUID(environment.getUID());
     }
 
@@ -146,7 +145,7 @@ public class ManageEnvironmentImplTest {
     @Test
     public void non_admin_user_should_see_details_of_environment_of_public_application_he_is_not_a_member_of() throws EnvironmentNotFoundException {
         TestHelper.loginAsUser();
-        Mockito.when(environnementRepository.findByUID(environment.getUID())).thenReturn(environment);
+        Mockito.when(environnementRepository.findByUid(environment.getUID())).thenReturn(environment);
         manageEnvironment.findEnvironmentByUID(environment.getUID());
     }
 
@@ -154,7 +153,7 @@ public class ManageEnvironmentImplTest {
     @Ignore
     public void non_admin_user_fails_to_see_details_of_environment_of_private_application_he_is_not_a_member_of() throws EnvironmentNotFoundException {
         TestHelper.loginAsUser();
-        Mockito.when(environnementRepository.findByUID(environment.getUID())).thenReturn(environment);
+        Mockito.when(environnementRepository.findByUid(environment.getUID())).thenReturn(environment);
         manageEnvironment.findEnvironmentByUID(environment.getUID());
     }
 
@@ -162,7 +161,7 @@ public class ManageEnvironmentImplTest {
     @Ignore
     public void non_admin_user_should_see_ops_details_of_environment_of_public_application_he_is_not_a_member_of() throws EnvironmentNotFoundException {
         TestHelper.loginAsUser();
-        Mockito.when(environnementRepository.findByUID(environment.getUID())).thenReturn(environment);
+        Mockito.when(environnementRepository.findByUid(environment.getUID())).thenReturn(environment);
         manageEnvironment.findEnvironmentOpsDetailsByUID(environment.getUID());
     }
 
@@ -170,7 +169,7 @@ public class ManageEnvironmentImplTest {
     @Ignore
     public void non_admin_user_fails_to_see_ops_details_of_environment_of_private_application_he_is_not_a_member_of() throws EnvironmentNotFoundException {
         TestHelper.loginAsUser();
-        Mockito.when(environnementRepository.findByUID(environment.getUID())).thenReturn(environment);
+        Mockito.when(environnementRepository.findByUid(environment.getUID())).thenReturn(environment);
         manageEnvironment.findEnvironmentOpsDetailsByUID(environment.getUID());
     }
 
@@ -203,7 +202,7 @@ public class ManageEnvironmentImplTest {
         Environment justCreatedEnvMock = mock(Environment.class);
         when(justCreatedEnvMock.getTechnicalDeploymentInstance()).thenReturn(envTdiStub);
         when(justCreatedEnvMock.getUID()).thenReturn(generatedEnvUid);
-        when(environnementRepository.findByUID(generatedEnvUid)).thenReturn(justCreatedEnvMock);
+        when(environnementRepository.findByUid(generatedEnvUid)).thenReturn(justCreatedEnvMock);
         return justCreatedEnvMock;
     }
 
@@ -283,18 +282,18 @@ public class ManageEnvironmentImplTest {
     public void admin_users_see_all_environments() {
         TestHelper.loginAsAdmin();
 
-        manageEnvironment.findEnvironments(0, 10, "label", "ASC");
+        manageEnvironment.findEnvironments();
 
-        Mockito.verify(environnementRepository).findAllActive(0, 10, "label", "ASC");
+        Mockito.verify(environnementRepository).findAllActive();
     }
 
     @Test
     public void admin_users_see_all_environments_of_a_given_release() throws ApplicationReleaseNotFoundException {
         TestHelper.loginAsAdmin();
 
-        manageEnvironment.findEnvironmentsByAppRelease(release.getUID(), 0, 10, "label", "ASC");
+        manageEnvironment.findEnvironmentsByAppRelease(release.getUID());
 
-        Mockito.verify(environnementRepository).findAllActiveByApplicationReleaseUid(release.getUID(), 0, 10, "label", "ASC");
+        Mockito.verify(environnementRepository).findAllActiveByApplicationReleaseUid(release.getUID());
     }
 
     @Test
@@ -302,9 +301,9 @@ public class ManageEnvironmentImplTest {
         // given Bob is authenticated
         TestHelper.loginAsUser();
 
-        manageEnvironment.findEnvironments(0, 10, "label", "ASC");
+        manageEnvironment.findEnvironments();
 
-        Mockito.verify(environnementRepository).findAllPublicOrPrivateByMember(TestHelper.USER_WITH_USER_ROLE_SSOID, 0, 10, "label", "ASC");
+        Mockito.verify(environnementRepository).findAllPublicOrPrivateByMember(TestHelper.USER_WITH_USER_ROLE_SSOID.getValue());
     }
 
     @Test
@@ -312,19 +311,18 @@ public class ManageEnvironmentImplTest {
 
         TestHelper.loginAsUser();
 
-        manageEnvironment.findEnvironmentsByAppRelease(release.getUID(), 0, 10, "label", "ASC");
+        manageEnvironment.findEnvironmentsByAppRelease(release.getUID());
 
-        Mockito.verify(environnementRepository).findAllPublicOrPrivateByMemberAndByApplicationRelease(release.getUID(), TestHelper.USER_WITH_USER_ROLE_SSOID,
-                0, 10, "label", "ASC");
+        Mockito.verify(environnementRepository).findAllPublicOrPrivateByMemberAndByApplicationRelease(release.getUID(), TestHelper.USER_WITH_USER_ROLE_SSOID.getValue());
     }
 
     @Test
     public void admin_users_see_its_environments() {
         TestHelper.loginAsAdmin();
 
-        manageEnvironment.findMyEnvironments(0, 10, "label", "ASC");
+        manageEnvironment.findMyEnvironments();
 
-        Mockito.verify(environnementRepository).findAllActiveByApplicationMember(TestHelper.USER_WITH_ADMIN_ROLE_SSOID, 0, 10, "label", "ASC");
+        Mockito.verify(environnementRepository).findAllActiveByApplicationMember(TestHelper.USER_WITH_ADMIN_ROLE_SSOID.getValue());
     }
 
     @Test
@@ -332,9 +330,9 @@ public class ManageEnvironmentImplTest {
         // given Bob is authenticated
         TestHelper.loginAsUser();
 
-        manageEnvironment.findMyEnvironments(0, 10, "label", "ASC");
+        manageEnvironment.findMyEnvironments();
 
-        Mockito.verify(environnementRepository).findAllActiveByApplicationMember(TestHelper.USER_WITH_USER_ROLE_SSOID, 0, 10, "label", "ASC");
+        Mockito.verify(environnementRepository).findAllActiveByApplicationMember(TestHelper.USER_WITH_USER_ROLE_SSOID.getValue());
     }
 
     @Test
@@ -353,7 +351,7 @@ public class ManageEnvironmentImplTest {
 
         manageEnvironment.countEnvironments();
 
-        Mockito.verify(environnementRepository).countPublicOrPrivateByMember(TestHelper.USER_WITH_USER_ROLE_SSOID);
+        Mockito.verify(environnementRepository).countPublicOrPrivateByMember(TestHelper.USER_WITH_USER_ROLE_SSOID.getValue());
     }
 
     @Test
@@ -362,7 +360,7 @@ public class ManageEnvironmentImplTest {
 
         manageEnvironment.countMyEnvironments();
 
-        Mockito.verify(environnementRepository).countActiveByApplicationMember(TestHelper.USER_WITH_ADMIN_ROLE_SSOID);
+        Mockito.verify(environnementRepository).countActiveByApplicationMember(TestHelper.USER_WITH_ADMIN_ROLE_SSOID.getValue());
     }
 
     @Test
@@ -371,7 +369,7 @@ public class ManageEnvironmentImplTest {
 
         manageEnvironment.countMyEnvironments();
 
-        Mockito.verify(environnementRepository).countActiveByApplicationMember(TestHelper.USER_WITH_USER_ROLE_SSOID);
+        Mockito.verify(environnementRepository).countActiveByApplicationMember(TestHelper.USER_WITH_USER_ROLE_SSOID.getValue());
     }
 
     @Test
@@ -391,7 +389,7 @@ public class ManageEnvironmentImplTest {
 
         manageEnvironment.countEnvironmentsByApplicationRelease("uid");
 
-        Mockito.verify(environnementRepository).countAllPublicOrPrivateByMemberAndByApplicationRelease("uid", TestHelper.USER_WITH_USER_ROLE_SSOID);
+        Mockito.verify(environnementRepository).countAllPublicOrPrivateByMemberAndByApplicationRelease("uid", TestHelper.USER_WITH_USER_ROLE_SSOID.getValue());
     }
 
 }
