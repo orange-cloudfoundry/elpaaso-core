@@ -12,15 +12,15 @@
  */
 package com.francetelecom.clara.cloud.core.service;
 
-import java.net.URL;
-import java.util.List;
-
 import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
 import com.francetelecom.clara.cloud.coremodel.MiddlewareProfile;
 import com.francetelecom.clara.cloud.coremodel.exception.ApplicationNotFoundException;
 import com.francetelecom.clara.cloud.coremodel.exception.ApplicationReleaseNotFoundException;
 import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationReleaseException;
 import com.francetelecom.clara.cloud.coremodel.exception.PaasUserNotFoundException;
+
+import java.net.URL;
+import java.util.List;
 
 /**
  *  Application release management service facade interface.
@@ -160,37 +160,6 @@ public interface ManageApplicationRelease {
 	 */
 	public List<ApplicationRelease> findApplicationReleases(int firstIndex, int count);
 
-	
-	/**
-	 * Find all releases of private application the connected user is a member of, starting at a specified index
-	 * 
-	 * @param firstIndex
-	 *            index of the first application release to retrieve (included)
-	 * @param count
-	 *            number of application releases to retrieve
-	 * @return a List of ApplicationRelease
-	 */
-	public List<ApplicationRelease> findMyApplicationReleases(int firstIndex, int count);
-
-	/**
-	 * Retrieves a number of application releases, for a specified application,
-	 * starting at a specified index
-	 * 
-	 * @param applicationUID
-	 *            UID of the application
-	 * @param firstIndex
-	 *            index of the first application release to retrieve (included)
-	 * @param count
-	 *            number of application releases to retrieve
-	 * @param sortProperty
-	 *            field used for the sort
-	 * @param sortType
-	 *            ASC or DESC
-	 * @return a List of ApplicationRelease
-	 */
-	public List<ApplicationRelease> findApplicationReleasesByAppUID(String applicationUID, int firstIndex, int count);
-
-	
 	/**
 	 * @return releases count of public and private application the connected user is a member of
 	 */

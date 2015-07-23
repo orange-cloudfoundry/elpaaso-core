@@ -15,11 +15,10 @@ package com.francetelecom.clara.cloud.core.service;
 import com.francetelecom.clara.cloud.commons.AuthorizationException;
 import com.francetelecom.clara.cloud.commons.TechnicalException;
 import com.francetelecom.clara.cloud.commons.ValidatorUtil;
-import com.francetelecom.clara.cloud.core.domain.ApplicationReleaseRepository;
 import com.francetelecom.clara.cloud.coremodel.*;
+import com.francetelecom.clara.cloud.coremodel.exception.*;
 import com.francetelecom.clara.cloud.services.dto.ApplicationDTO;
 import com.francetelecom.clara.cloud.services.dto.ConfigOverrideDTO;
-import com.francetelecom.clara.cloud.coremodel.exception.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +35,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.francetelecom.clara.cloud.coremodel.ApplicationSpecifications.*;
-import static org.springframework.data.jpa.domain.Specifications.*;
+import static org.springframework.data.jpa.domain.Specifications.where;
 
 /**
  * Business implementation for Application management.

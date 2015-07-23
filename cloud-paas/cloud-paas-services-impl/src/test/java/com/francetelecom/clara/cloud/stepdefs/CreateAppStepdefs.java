@@ -22,6 +22,8 @@ import com.francetelecom.clara.cloud.core.service.ManageApplication;
 import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
 import com.francetelecom.clara.cloud.core.service.ManagePaasUser;
 import com.francetelecom.clara.cloud.coremodel.*;
+import com.francetelecom.clara.cloud.coremodel.exception.ApplicationNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.PaasUserNotFoundException;
 import com.francetelecom.clara.cloud.environment.ManageEnvironment;
 import com.francetelecom.clara.cloud.logicalmodel.LogicalDeployment;
 import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppFactory;
@@ -29,8 +31,6 @@ import com.francetelecom.clara.cloud.mvn.consumer.MvnRepoDao;
 import com.francetelecom.clara.cloud.mvn.consumer.MvnRepoDaoTestUtils;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto.EnvironmentTypeEnum;
-import com.francetelecom.clara.cloud.coremodel.exception.ApplicationNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.PaasUserNotFoundException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -496,7 +496,7 @@ public class CreateAppStepdefs {
     @Then("^I (.*) list the releases$")
     public void then_I_can_list_the_releases_or_not(AccessRightsEnum can_list) throws Throwable {
         Application requestedApp = manageApplication.findApplicationByUID(applicationId);
-        int releaseListSize = manageApplicationRelease.findApplicationReleasesByAppUID(requestedApp.getUID(), 0, Integer.MAX_VALUE).size();
+        int releaseListSize = manageApplicationRelease.findApplicationReleasesByAppUID(requestedApp.getUID()).size();
         switch (can_list) {
             case CAN:
                 assertThat(releaseListSize).as("Release list size of application " + requestedApp.getLabel()).isPositive();
@@ -629,7 +629,7 @@ public class CreateAppStepdefs {
                 foundReleases = manageApplicationRelease.findApplicationReleases(0, Integer.MAX_VALUE);
                 break;
             case DEFAULT:
-                foundReleases = manageApplicationRelease.findMyApplicationReleases(0, Integer.MAX_VALUE);
+                foundReleases = manageApplicationRelease.findMyApplicationReleases();
                 break;
             default:
                 Assert.fail("Unexpected filter: " + list_filter);

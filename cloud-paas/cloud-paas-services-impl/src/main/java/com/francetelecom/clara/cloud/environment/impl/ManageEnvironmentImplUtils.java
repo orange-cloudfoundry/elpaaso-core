@@ -12,27 +12,16 @@
  */
 package com.francetelecom.clara.cloud.environment.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.francetelecom.clara.cloud.application.ManageTechnicalDeploymentTemplate;
 import com.francetelecom.clara.cloud.commons.BusinessException;
+import com.francetelecom.clara.cloud.commons.NotFoundException;
 import com.francetelecom.clara.cloud.commons.TechnicalException;
 import com.francetelecom.clara.cloud.commons.ValidatorUtil;
-import com.francetelecom.clara.cloud.core.domain.ApplicationReleaseRepository;
-import com.francetelecom.clara.cloud.coremodel.ConfigRoleRepository;
 import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
-import com.francetelecom.clara.cloud.coremodel.PaasUserRepository;
 import com.francetelecom.clara.cloud.core.service.SecurityUtils;
-import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
-import com.francetelecom.clara.cloud.coremodel.ConfigRole;
-import com.francetelecom.clara.cloud.coremodel.Environment;
-import com.francetelecom.clara.cloud.coremodel.PaasUser;
-import com.francetelecom.clara.cloud.coremodel.SSOId;
+import com.francetelecom.clara.cloud.coremodel.*;
+import com.francetelecom.clara.cloud.coremodel.exception.ApplicationReleaseNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.PaasUserNotFoundException;
 import com.francetelecom.clara.cloud.dao.TechnicalDeploymentCloner;
 import com.francetelecom.clara.cloud.model.DeploymentProfileEnum;
 import com.francetelecom.clara.cloud.model.TechnicalDeployment;
@@ -40,9 +29,12 @@ import com.francetelecom.clara.cloud.model.TechnicalDeploymentInstance;
 import com.francetelecom.clara.cloud.model.TechnicalDeploymentTemplate;
 import com.francetelecom.clara.cloud.paas.projection.ProjectionService;
 import com.francetelecom.clara.cloud.paas.projection.UnsupportedProjectionException;
-import com.francetelecom.clara.cloud.coremodel.exception.ApplicationReleaseNotFoundException;
-import com.francetelecom.clara.cloud.commons.NotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.PaasUserNotFoundException;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Utils to manages environment. We need this class to solve transaction lifecycle

@@ -12,9 +12,17 @@
  */
 package com.francetelecom.clara.cloud.presentation.releases;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
+import com.francetelecom.clara.cloud.coremodel.Application;
+import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
+import com.francetelecom.clara.cloud.coremodel.exception.ApplicationNotFoundException;
+import com.francetelecom.clara.cloud.presentation.common.AjaxFallbackCustomDataTable;
+import com.francetelecom.clara.cloud.presentation.common.PageTemplate;
+import com.francetelecom.clara.cloud.presentation.common.WicketUtils;
+import com.francetelecom.clara.cloud.presentation.resource.CacheActivatedImage;
+import com.francetelecom.clara.cloud.presentation.tools.BusinessExceptionHandler;
+import com.francetelecom.clara.cloud.presentation.tools.ReleaseProvider;
+import com.francetelecom.clara.cloud.presentation.tools.WicketSession;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.AjaxSelfUpdatingTimerBehavior;
 import org.apache.wicket.ajax.markup.html.form.AjaxCheckBox;
@@ -24,11 +32,7 @@ import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColu
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
 import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.form.CheckBox;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.SimpleFormComponentLabel;
-import org.apache.wicket.markup.html.form.SubmitLink;
-import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.form.*;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
@@ -38,15 +42,8 @@ import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.util.time.Duration;
 import org.slf4j.LoggerFactory;
 
-import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
-import com.francetelecom.clara.cloud.coremodel.Application;
-import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
-import com.francetelecom.clara.cloud.presentation.common.AjaxFallbackCustomDataTable;
-import com.francetelecom.clara.cloud.presentation.common.PageTemplate;
-import com.francetelecom.clara.cloud.presentation.common.WicketUtils;
-import com.francetelecom.clara.cloud.presentation.resource.CacheActivatedImage;
-import com.francetelecom.clara.cloud.presentation.tools.ReleaseProvider;
-import com.francetelecom.clara.cloud.presentation.tools.WicketSession;
+import java.util.ArrayList;
+import java.util.List;
 
  /**
  * ReleasesTablePanel
@@ -137,12 +134,17 @@ public class ReleasesTablePanel extends Panel {
     private void getApplicationReleasesFromDB() {
     	releasesList = new ArrayList<ApplicationRelease>();    	
 		if (app != null) {
-			releasesList = manageApplicationRelease.findApplicationReleasesByAppUID(app.getUID(), 0, 1000);
+            try{
+			releasesList = manageApplicationRelease.findApplicationReleasesByAppUID(app.getUID());
+            } catch (ApplicationNotFoundException e) {
+                BusinessExceptionHandler handler = new BusinessExceptionHandler(this);
+                handler.error(e);
+            }
 		} else {
 			if (viewAllCheckBox.getModelObject()) {
 				releasesList = manageApplicationRelease.findApplicationReleases(0, 1000);
 			} else {
-				releasesList = manageApplicationRelease.findMyApplicationReleases(0, 1000);
+				releasesList = manageApplicationRelease.findMyApplicationReleases();
 			}
 		}				    	
     }

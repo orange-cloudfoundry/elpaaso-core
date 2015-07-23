@@ -12,10 +12,7 @@
  */
 package com.francetelecom.clara.cloud.core.infrastructure;
 
-import com.francetelecom.clara.cloud.core.domain.ApplicationReleaseRepository;
-import com.francetelecom.clara.cloud.coremodel.ApplicationRepository;
 import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
-import com.francetelecom.clara.cloud.coremodel.PaasUserRepository;
 import com.francetelecom.clara.cloud.coremodel.*;
 import com.francetelecom.clara.cloud.model.*;
 import org.junit.Assert;
@@ -83,7 +80,7 @@ public class ApplicationReleaseDaoJpaImplPurgeTest {
         ApplicationRelease arNotRemoved = new ApplicationRelease(application, "G1R0C0");
         arNotRemoved.setVersionControlUrl(new URL("file://url.txt"));
         arNotRemoved.setDescription("arNotRemoved");
-        applicationReleaseRepository.persist(arNotRemoved);
+        applicationReleaseRepository.save(arNotRemoved);
         Assume.assumeFalse(arNotRemoved.isRemoved());
 
         // removed release without environment (should be returned)
@@ -91,7 +88,7 @@ public class ApplicationReleaseDaoJpaImplPurgeTest {
         arRemovedWithoutEnvironment.setVersionControlUrl(new URL("file://url.txt"));
         arRemovedWithoutEnvironment.setDescription("arRemovedWithoutEnvironment");
         arRemovedWithoutEnvironment.markAsRemoved();
-        applicationReleaseRepository.persist(arRemovedWithoutEnvironment);
+        applicationReleaseRepository.save(arRemovedWithoutEnvironment);
         Assume.assumeTrue(arRemovedWithoutEnvironment.isRemoved());
 
         applicationReleaseRepository.flush();
@@ -100,7 +97,7 @@ public class ApplicationReleaseDaoJpaImplPurgeTest {
         ApplicationRelease arRemovedWithEnvironment = new ApplicationRelease(application, "G1R0C0");
         arRemovedWithEnvironment.setVersionControlUrl(new URL("file://url.txt"));
         arRemovedWithEnvironment.markAsRemoved();
-        applicationReleaseRepository.persist(arRemovedWithEnvironment);
+        applicationReleaseRepository.save(arRemovedWithEnvironment);
         Assume.assumeTrue(arRemovedWithEnvironment.isRemoved());
 
         // given td exists
@@ -117,7 +114,7 @@ public class ApplicationReleaseDaoJpaImplPurgeTest {
         ApplicationRelease arRemovedWithRemovedEnvironment = new ApplicationRelease(application, "G1R0C0");
         arRemovedWithRemovedEnvironment.setVersionControlUrl(new URL("file://url.txt"));
         arRemovedWithRemovedEnvironment.markAsRemoved();
-        applicationReleaseRepository.persist(arRemovedWithRemovedEnvironment);
+        applicationReleaseRepository.save(arRemovedWithRemovedEnvironment);
         Assume.assumeTrue(arRemovedWithRemovedEnvironment.isRemoved());
 
         // given td exists

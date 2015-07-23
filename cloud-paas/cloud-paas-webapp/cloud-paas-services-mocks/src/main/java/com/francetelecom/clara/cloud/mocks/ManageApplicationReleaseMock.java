@@ -12,27 +12,20 @@
  */
 package com.francetelecom.clara.cloud.mocks;
 
-import static com.francetelecom.clara.cloud.mocks.SecurityUtils.currentUser;
-import static com.francetelecom.clara.cloud.mocks.SecurityUtils.currentUserIsAdmin;
+import com.francetelecom.clara.cloud.commons.BusinessException;
+import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
+import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
+import com.francetelecom.clara.cloud.coremodel.MiddlewareProfile;
+import com.francetelecom.clara.cloud.coremodel.exception.*;
+import com.google.common.base.Predicate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.francetelecom.clara.cloud.commons.BusinessException;
-import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
-import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
-import com.francetelecom.clara.cloud.coremodel.MiddlewareProfile;
-import com.francetelecom.clara.cloud.coremodel.exception.ApplicationNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.ApplicationReleaseNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationException;
-import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationReleaseException;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.PaasUserNotFoundException;
-import com.google.common.base.Predicate;
+import static com.francetelecom.clara.cloud.mocks.SecurityUtils.currentUser;
 
 /**
  * Created by IntelliJ IDEA. User: lzxv3002 Date: 09/06/11 Time: 14:58 To change
@@ -133,16 +126,6 @@ public class ManageApplicationReleaseMock extends CoreItemServiceMock<Applicatio
 	}
 
 	@Override
-	public List<ApplicationRelease> findMyApplicationReleases() {
-		return find(new Predicate<ApplicationRelease>() {
-			@Override
-			public boolean apply(ApplicationRelease release) {
-				return release.getApplication().hasForMember(currentUser()) || currentUserIsAdmin();
-			}
-		});
-	}
-
-	@Override
 	public List<ApplicationRelease> findApplicationReleasesByAppUID(final String applicationUid) throws ApplicationNotFoundException {
 		return find(new Predicate<ApplicationRelease>() {
 			@Override
@@ -158,8 +141,8 @@ public class ManageApplicationReleaseMock extends CoreItemServiceMock<Applicatio
 	}
 
 	@Override
-	public List<ApplicationRelease> findMyApplicationReleases(int firstIndex, int count) {
-		return find(firstIndex, count, new Predicate<ApplicationRelease>() {
+	public List<ApplicationRelease> findMyApplicationReleases() {
+		return find(new Predicate<ApplicationRelease>() {
 			@Override
 			public boolean apply(ApplicationRelease release) {
 				return release.getApplication().hasForMember(currentUser());
@@ -193,16 +176,6 @@ public class ManageApplicationReleaseMock extends CoreItemServiceMock<Applicatio
 
 	public void setManageApplication(ManageApplicationMock manageApplication) {
 		this.manageApplication = manageApplication;
-	}
-
-	@Override
-	public List<ApplicationRelease> findApplicationReleasesByAppUID(final String applicationUID, int firstIndex, int count) {
-		return find(firstIndex, count, new Predicate<ApplicationRelease>() {
-			@Override
-			public boolean apply(ApplicationRelease release) {
-				return applicationUID.equals(release.getApplication().getUID()) && release.getApplication().isEditable();
-			}
-		});
 	}
 
 	@Override

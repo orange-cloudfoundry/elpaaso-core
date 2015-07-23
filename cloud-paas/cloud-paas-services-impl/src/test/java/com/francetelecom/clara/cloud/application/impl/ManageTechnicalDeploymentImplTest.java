@@ -13,10 +13,9 @@
 package com.francetelecom.clara.cloud.application.impl;
 
 import com.francetelecom.clara.cloud.commons.TechnicalException;
-import com.francetelecom.clara.cloud.core.domain.ApplicationReleaseRepository;
 import com.francetelecom.clara.cloud.coremodel.*;
-import com.francetelecom.clara.cloud.model.*;
 import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.model.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -93,7 +92,7 @@ public class ManageTechnicalDeploymentImplTest {
         Application applicationMock = new Application("Application-test-1", "code1");
         ApplicationRelease applicationReleaseMock = new ApplicationRelease(applicationMock, "release");
 
-        Mockito.when(applicationReleaseRepository.find(0)).thenReturn(applicationReleaseMock);
+        Mockito.when(applicationReleaseRepository.findOne(0)).thenReturn(applicationReleaseMock);
 
         // environment setup
         TechnicalDeployment tdDev = new TechnicalDeployment("td-dev");

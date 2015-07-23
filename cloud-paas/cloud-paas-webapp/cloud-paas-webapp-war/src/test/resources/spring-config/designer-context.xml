@@ -42,11 +42,6 @@
 	<jpa:repositories base-package="com.francetelecom.clara.cloud.core.domain"/>
 	<jpa:repositories base-package="com.francetelecom.clara.cloud.coremodel"/>
 
-
-
-	<bean id="applicationReleaseRepository"
-		class="com.francetelecom.clara.cloud.core.infrastructure.ApplicationReleaseDaoJpaImpl" />
-
 	<bean id="technicalDeploymentTemplateRepository" class="org.mockito.Mockito"
 		factory-method="mock">
 		<constructor-arg

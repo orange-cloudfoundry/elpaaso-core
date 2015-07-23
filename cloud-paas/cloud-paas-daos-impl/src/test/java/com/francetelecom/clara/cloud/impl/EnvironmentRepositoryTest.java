@@ -12,10 +12,7 @@
  */
 package com.francetelecom.clara.cloud.impl;
 
-import com.francetelecom.clara.cloud.core.domain.ApplicationReleaseRepository;
-import com.francetelecom.clara.cloud.coremodel.ApplicationRepository;
 import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
-import com.francetelecom.clara.cloud.coremodel.PaasUserRepository;
 import com.francetelecom.clara.cloud.coremodel.*;
 import com.francetelecom.clara.cloud.model.*;
 import org.junit.Assert;
@@ -74,7 +71,7 @@ public class EnvironmentRepositoryTest {
 		applicationRepository.flush();
 		// given release with version aVersion exists
 		release = new ApplicationRelease(application, "aVersion");
-		applicationReleaseRepository.persist(release);
+		applicationReleaseRepository.save(release);
 		applicationReleaseRepository.flush();
 
 		// given td exists
@@ -276,9 +273,9 @@ public class EnvironmentRepositoryTest {
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
 		ApplicationRelease joyn_3_0 = new ApplicationRelease(joyn, "3.0");
-		applicationReleaseRepository.persist(joyn_1_0);
-		applicationReleaseRepository.persist(joyn_2_0);
-		applicationReleaseRepository.persist(joyn_3_0);
+		applicationReleaseRepository.save(joyn_1_0);
+		applicationReleaseRepository.save(joyn_2_0);
+		applicationReleaseRepository.save(joyn_3_0);
 
 		Environment joyn_1_0_env_1 = new Environment(DeploymentProfileEnum.DEVELOPMENT, "anotherLabel", joyn_1_0, manager,
 				technicalDeploymentInstance);
@@ -298,8 +295,8 @@ public class EnvironmentRepositoryTest {
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
-		applicationReleaseRepository.persist(myOrange_1_0);
-		applicationReleaseRepository.persist(myOrange_2_0);
+		applicationReleaseRepository.save(myOrange_1_0);
+		applicationReleaseRepository.save(myOrange_2_0);
 
 		Environment myOrange_1_0_env_1 = new Environment(DeploymentProfileEnum.DEVELOPMENT, "anotherLabel", myOrange_1_0, manager,
 				technicalDeploymentInstance);
@@ -310,7 +307,7 @@ public class EnvironmentRepositoryTest {
 		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
-		applicationReleaseRepository.persist(elpaaso_1_0);
+		applicationReleaseRepository.save(elpaaso_1_0);
 
 		Environment elpaaso_1_0_env_1 = new Environment(DeploymentProfileEnum.DEVELOPMENT, "anotherLabel", elpaaso_1_0, manager,
 				technicalDeploymentInstance);
@@ -356,9 +353,9 @@ public class EnvironmentRepositoryTest {
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
 		ApplicationRelease joyn_3_0 = new ApplicationRelease(joyn, "3.0");
-		applicationReleaseRepository.persist(joyn_1_0);
-		applicationReleaseRepository.persist(joyn_2_0);
-		applicationReleaseRepository.persist(joyn_3_0);
+		applicationReleaseRepository.save(joyn_1_0);
+		applicationReleaseRepository.save(joyn_2_0);
+		applicationReleaseRepository.save(joyn_3_0);
 
 		Environment joyn_1_0_env_1 = new Environment(DeploymentProfileEnum.DEVELOPMENT, "anotherLabel", joyn_1_0, manager,
 				technicalDeploymentInstance);
@@ -378,8 +375,8 @@ public class EnvironmentRepositoryTest {
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
-		applicationReleaseRepository.persist(myOrange_1_0);
-		applicationReleaseRepository.persist(myOrange_2_0);
+		applicationReleaseRepository.save(myOrange_1_0);
+		applicationReleaseRepository.save(myOrange_2_0);
 
 		Environment myOrange_1_0_env_1 = new Environment(DeploymentProfileEnum.DEVELOPMENT, "anotherLabel", myOrange_1_0, manager,
 				technicalDeploymentInstance);
@@ -393,7 +390,7 @@ public class EnvironmentRepositoryTest {
 		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
-		applicationReleaseRepository.persist(elpaaso_1_0);
+		applicationReleaseRepository.save(elpaaso_1_0);
 
 		Environment elpaaso_1_0_env_1 = new Environment(DeploymentProfileEnum.DEVELOPMENT, "anotherLabel", elpaaso_1_0, manager,
 				technicalDeploymentInstance);
@@ -446,9 +443,9 @@ public class EnvironmentRepositoryTest {
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
 		ApplicationRelease joyn_3_0 = new ApplicationRelease(joyn, "3.0");
-		applicationReleaseRepository.persist(joyn_1_0);
-		applicationReleaseRepository.persist(joyn_2_0);
-		applicationReleaseRepository.persist(joyn_3_0);
+		applicationReleaseRepository.save(joyn_1_0);
+		applicationReleaseRepository.save(joyn_2_0);
+		applicationReleaseRepository.save(joyn_3_0);
 
 		Environment joyn_1_0_env_1 = new Environment(DeploymentProfileEnum.DEVELOPMENT, "anotherLabel", joyn_1_0, manager,
 				technicalDeploymentInstance);
@@ -468,8 +465,8 @@ public class EnvironmentRepositoryTest {
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
-		applicationReleaseRepository.persist(myOrange_1_0);
-		applicationReleaseRepository.persist(myOrange_2_0);
+		applicationReleaseRepository.save(myOrange_1_0);
+		applicationReleaseRepository.save(myOrange_2_0);
 
 		Environment myOrange_1_0_env_1 = new Environment(DeploymentProfileEnum.DEVELOPMENT, "anotherLabel", myOrange_1_0, manager,
 				technicalDeploymentInstance);
@@ -480,7 +477,7 @@ public class EnvironmentRepositoryTest {
 		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
-		applicationReleaseRepository.persist(elpaaso_1_0);
+		applicationReleaseRepository.save(elpaaso_1_0);
 
 		Environment elpaaso_1_0_env_1 = new Environment(DeploymentProfileEnum.DEVELOPMENT, "anotherLabel", elpaaso_1_0, manager,
 				technicalDeploymentInstance);
@@ -519,9 +516,9 @@ public class EnvironmentRepositoryTest {
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
 		ApplicationRelease joyn_3_0 = new ApplicationRelease(joyn, "3.0");
-		applicationReleaseRepository.persist(joyn_1_0);
-		applicationReleaseRepository.persist(joyn_2_0);
-		applicationReleaseRepository.persist(joyn_3_0);
+		applicationReleaseRepository.save(joyn_1_0);
+		applicationReleaseRepository.save(joyn_2_0);
+		applicationReleaseRepository.save(joyn_3_0);
 
 		Environment joyn_1_0_env_1 = new Environment(DeploymentProfileEnum.DEVELOPMENT, "anotherLabel", joyn_1_0, manager,
 				technicalDeploymentInstance);
@@ -541,8 +538,8 @@ public class EnvironmentRepositoryTest {
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
-		applicationReleaseRepository.persist(myOrange_1_0);
-		applicationReleaseRepository.persist(myOrange_2_0);
+		applicationReleaseRepository.save(myOrange_1_0);
+		applicationReleaseRepository.save(myOrange_2_0);
 
 		Environment myOrange_1_0_env_1 = new Environment(DeploymentProfileEnum.DEVELOPMENT, "anotherLabel", myOrange_1_0, manager,
 				technicalDeploymentInstance);
@@ -553,7 +550,7 @@ public class EnvironmentRepositoryTest {
 		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
-		applicationReleaseRepository.persist(elpaaso_1_0);
+		applicationReleaseRepository.save(elpaaso_1_0);
 
 		Environment elpaaso_1_0_env_1 = new Environment(DeploymentProfileEnum.DEVELOPMENT, "anotherLabel", elpaaso_1_0, manager,
 				technicalDeploymentInstance);
@@ -592,9 +589,9 @@ public class EnvironmentRepositoryTest {
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
 		ApplicationRelease joyn_3_0 = new ApplicationRelease(joyn, "3.0");
-		applicationReleaseRepository.persist(joyn_1_0);
-		applicationReleaseRepository.persist(joyn_2_0);
-		applicationReleaseRepository.persist(joyn_3_0);
+		applicationReleaseRepository.save(joyn_1_0);
+		applicationReleaseRepository.save(joyn_2_0);
+		applicationReleaseRepository.save(joyn_3_0);
 
 		Environment joyn_1_0_env_1 = new Environment(DeploymentProfileEnum.DEVELOPMENT, "anotherLabel", joyn_1_0, manager,
 				technicalDeploymentInstance);
@@ -614,8 +611,8 @@ public class EnvironmentRepositoryTest {
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
-		applicationReleaseRepository.persist(myOrange_1_0);
-		applicationReleaseRepository.persist(myOrange_2_0);
+		applicationReleaseRepository.save(myOrange_1_0);
+		applicationReleaseRepository.save(myOrange_2_0);
 
 		Environment myOrange_1_0_env_1 = new Environment(DeploymentProfileEnum.DEVELOPMENT, "anotherLabel", myOrange_1_0, manager,
 				technicalDeploymentInstance);
@@ -626,7 +623,7 @@ public class EnvironmentRepositoryTest {
 		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
-		applicationReleaseRepository.persist(elpaaso_1_0);
+		applicationReleaseRepository.save(elpaaso_1_0);
 
 		Environment elpaaso_1_0_env_1 = new Environment(DeploymentProfileEnum.DEVELOPMENT, "anotherLabel", elpaaso_1_0, manager,
 				technicalDeploymentInstance);
@@ -670,9 +667,9 @@ public class EnvironmentRepositoryTest {
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
 		ApplicationRelease joyn_3_0 = new ApplicationRelease(joyn, "3.0");
-		applicationReleaseRepository.persist(joyn_1_0);
-		applicationReleaseRepository.persist(joyn_2_0);
-		applicationReleaseRepository.persist(joyn_3_0);
+		applicationReleaseRepository.save(joyn_1_0);
+		applicationReleaseRepository.save(joyn_2_0);
+		applicationReleaseRepository.save(joyn_3_0);
 
 		Environment joyn_1_0_env_1 = new Environment(DeploymentProfileEnum.DEVELOPMENT, "anotherLabel", joyn_1_0, manager,
 				technicalDeploymentInstance);
@@ -692,8 +689,8 @@ public class EnvironmentRepositoryTest {
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
-		applicationReleaseRepository.persist(myOrange_1_0);
-		applicationReleaseRepository.persist(myOrange_2_0);
+		applicationReleaseRepository.save(myOrange_1_0);
+		applicationReleaseRepository.save(myOrange_2_0);
 
 		Environment myOrange_1_0_env_1 = new Environment(DeploymentProfileEnum.DEVELOPMENT, "anotherLabel", myOrange_1_0, manager,
 				technicalDeploymentInstance);
@@ -707,7 +704,7 @@ public class EnvironmentRepositoryTest {
 		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
-		applicationReleaseRepository.persist(elpaaso_1_0);
+		applicationReleaseRepository.save(elpaaso_1_0);
 
 		Environment elpaaso_1_0_env_1 = new Environment(DeploymentProfileEnum.DEVELOPMENT, "anotherLabel", elpaaso_1_0, manager,
 				technicalDeploymentInstance);
@@ -766,9 +763,9 @@ public class EnvironmentRepositoryTest {
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
 		ApplicationRelease joyn_3_0 = new ApplicationRelease(joyn, "3.0");
-		applicationReleaseRepository.persist(joyn_1_0);
-		applicationReleaseRepository.persist(joyn_2_0);
-		applicationReleaseRepository.persist(joyn_3_0);
+		applicationReleaseRepository.save(joyn_1_0);
+		applicationReleaseRepository.save(joyn_2_0);
+		applicationReleaseRepository.save(joyn_3_0);
 
 		Environment joyn_1_0_env_1 = new Environment(DeploymentProfileEnum.DEVELOPMENT, "anotherLabel", joyn_1_0, manager,
 				technicalDeploymentInstance);
@@ -788,8 +785,8 @@ public class EnvironmentRepositoryTest {
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
-		applicationReleaseRepository.persist(myOrange_1_0);
-		applicationReleaseRepository.persist(myOrange_2_0);
+		applicationReleaseRepository.save(myOrange_1_0);
+		applicationReleaseRepository.save(myOrange_2_0);
 
 		Environment myOrange_1_0_env_1 = new Environment(DeploymentProfileEnum.DEVELOPMENT, "anotherLabel", myOrange_1_0, manager,
 				technicalDeploymentInstance);
@@ -803,7 +800,7 @@ public class EnvironmentRepositoryTest {
 		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
-		applicationReleaseRepository.persist(elpaaso_1_0);
+		applicationReleaseRepository.save(elpaaso_1_0);
 
 		Environment elpaaso_1_0_env_1 = new Environment(DeploymentProfileEnum.DEVELOPMENT, "anotherLabel", elpaaso_1_0, manager,
 				technicalDeploymentInstance);
@@ -851,9 +848,9 @@ public class EnvironmentRepositoryTest {
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
 		ApplicationRelease joyn_3_0 = new ApplicationRelease(joyn, "3.0");
-		applicationReleaseRepository.persist(joyn_1_0);
-		applicationReleaseRepository.persist(joyn_2_0);
-		applicationReleaseRepository.persist(joyn_3_0);
+		applicationReleaseRepository.save(joyn_1_0);
+		applicationReleaseRepository.save(joyn_2_0);
+		applicationReleaseRepository.save(joyn_3_0);
 	
 		Environment joyn_1_0_env_1 = new Environment(DeploymentProfileEnum.DEVELOPMENT, "anotherLabel", joyn_1_0, manager,
 				technicalDeploymentInstance);
@@ -873,8 +870,8 @@ public class EnvironmentRepositoryTest {
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
-		applicationReleaseRepository.persist(myOrange_1_0);
-		applicationReleaseRepository.persist(myOrange_2_0);
+		applicationReleaseRepository.save(myOrange_1_0);
+		applicationReleaseRepository.save(myOrange_2_0);
 	
 		Environment myOrange_1_0_env_1 = new Environment(DeploymentProfileEnum.DEVELOPMENT, "anotherLabel", myOrange_1_0, manager,
 				technicalDeploymentInstance);
@@ -888,7 +885,7 @@ public class EnvironmentRepositoryTest {
 		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
-		applicationReleaseRepository.persist(elpaaso_1_0);
+		applicationReleaseRepository.save(elpaaso_1_0);
 	
 		Environment elpaaso_1_0_env_1 = new Environment(DeploymentProfileEnum.DEVELOPMENT, "anotherLabel", elpaaso_1_0, manager,
 				technicalDeploymentInstance);

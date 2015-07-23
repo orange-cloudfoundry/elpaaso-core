@@ -10,15 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.francetelecom.clara.cloud.core.infrastructure;
+package com.francetelecom.clara.cloud.coremodel;
 
-import com.francetelecom.clara.cloud.core.domain.ApplicationReleaseRepository;
-import com.francetelecom.clara.cloud.coremodel.ApplicationRepository;
-import com.francetelecom.clara.cloud.coremodel.PaasUserRepository;
-import com.francetelecom.clara.cloud.coremodel.Application;
-import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
-import com.francetelecom.clara.cloud.coremodel.PaasUser;
-import com.francetelecom.clara.cloud.coremodel.SSOId;
 import com.francetelecom.clara.cloud.logicalmodel.LogicalQueueReceiveService;
 import org.junit.Assert;
 import org.junit.Before;
@@ -35,8 +28,8 @@ import java.util.HashSet;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/com/francetelecom/clara/cloud/services/application-context.xml" })
-public class ApplicationReleaseDaoJpaImplTest {
+@ContextConfiguration(locations = { "classpath:/com/francetelecom/clara/cloud/coremodel/application-context.xml" })
+public class ApplicationReleaseRepositoryTest {
 
 	private PaasUser manager;
 
@@ -85,7 +78,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 		applicationRepository.save(application);
 		// given a persisted release with version aVersion of application
 		ApplicationRelease release = new ApplicationRelease(application, "aVersion");
-		applicationReleaseRepository.persist(release);
+		applicationReleaseRepository.save(release);
 		applicationRepository.flush();
 		// when I want to find this release by its uid
 		ApplicationRelease entity = applicationReleaseRepository.findByUID(release.getUID());
@@ -99,9 +92,9 @@ public class ApplicationReleaseDaoJpaImplTest {
 		ApplicationRelease toBePersited = new ApplicationRelease(application, "aVersion");
 		toBePersited.setVersionControlUrl(new URL("file://url.txt"));
 		// test run
-		applicationReleaseRepository.persist(toBePersited);
+		applicationReleaseRepository.save(toBePersited);
 		// assertions
-		Assert.assertNotNull("entity does not exist", applicationReleaseRepository.find(toBePersited.getId()));
+		Assert.assertNotNull("entity does not exist", applicationReleaseRepository.findOne(toBePersited.getId()));
 		applicationReleaseRepository.flush();
 	}
 
@@ -112,13 +105,13 @@ public class ApplicationReleaseDaoJpaImplTest {
 		ApplicationRelease applicationRelease = new ApplicationRelease(application, "G1R0C0");
 		applicationRelease.setVersionControlUrl(new URL("file://url.txt"));
 
-		applicationReleaseRepository.persist(applicationRelease);
+		applicationReleaseRepository.save(applicationRelease);
 		applicationReleaseRepository.flush();
-		Assert.assertNotNull("entity does not exist", applicationReleaseRepository.find(applicationRelease.getId()));
+		Assert.assertNotNull("entity does not exist", applicationReleaseRepository.findOne(applicationRelease.getId()));
 		// test run
-		applicationReleaseRepository.remove(applicationRelease);
+		applicationReleaseRepository.delete(applicationRelease);
 		// assertions
-		Assert.assertNull("entity should not exist", applicationReleaseRepository.find(applicationRelease.getId()));
+		Assert.assertNull("entity should not exist", applicationReleaseRepository.findOne(applicationRelease.getId()));
 	}
 
 	@Test
@@ -128,9 +121,9 @@ public class ApplicationReleaseDaoJpaImplTest {
 		ApplicationRelease toBePersited = new ApplicationRelease(application, "G1R0C0");
 		toBePersited.setVersionControlUrl(new URL("file://url.txt"));
 
-		applicationReleaseRepository.persist(toBePersited);
+		applicationReleaseRepository.save(toBePersited);
 		// test run
-		ApplicationRelease entity = applicationReleaseRepository.find(toBePersited.getId());
+		ApplicationRelease entity = applicationReleaseRepository.findOne(toBePersited.getId());
 		// assertions
 		Assert.assertNotNull("entity does not exist", entity);
 		Assert.assertEquals("G1R0C0", entity.getReleaseVersion());
@@ -152,9 +145,9 @@ public class ApplicationReleaseDaoJpaImplTest {
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
 		ApplicationRelease joyn_3_0 = new ApplicationRelease(joyn, "3.0");
-		applicationReleaseRepository.persist(joyn_1_0);
-		applicationReleaseRepository.persist(joyn_2_0);
-		applicationReleaseRepository.persist(joyn_3_0);
+		applicationReleaseRepository.save(joyn_1_0);
+		applicationReleaseRepository.save(joyn_2_0);
+		applicationReleaseRepository.save(joyn_3_0);
 
 		// given myOrange application
 		Application myOrange = new Application("myOrange", "myOrange");
@@ -166,19 +159,19 @@ public class ApplicationReleaseDaoJpaImplTest {
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
-		applicationReleaseRepository.persist(myOrange_1_0);
-		applicationReleaseRepository.persist(myOrange_2_0);
+		applicationReleaseRepository.save(myOrange_1_0);
+		applicationReleaseRepository.save(myOrange_2_0);
 
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
 		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
-		applicationReleaseRepository.persist(elpaaso_1_0);
+		applicationReleaseRepository.save(elpaaso_1_0);
 
 		applicationReleaseRepository.flush();
 
-		List<ApplicationRelease> releases = applicationReleaseRepository.findAll(0, Integer.MAX_VALUE);
+		List<ApplicationRelease> releases = applicationReleaseRepository.findAll();
 		Assert.assertNotNull("entities should not be null", releases);
 		Assert.assertEquals("there should be 6 releases", 6, releases.size());
 		Assert.assertTrue("entities should contain joyn_1_0", releases.contains(joyn_1_0));
@@ -206,9 +199,9 @@ public class ApplicationReleaseDaoJpaImplTest {
 		ApplicationRelease joyn_3_0 = new ApplicationRelease(joyn, "3.0");
 		joyn_1_0.markAsRemoved();
 		joyn_2_0.markAsRemoved();
-		applicationReleaseRepository.persist(joyn_1_0);
-		applicationReleaseRepository.persist(joyn_2_0);
-		applicationReleaseRepository.persist(joyn_3_0);
+		applicationReleaseRepository.save(joyn_1_0);
+		applicationReleaseRepository.save(joyn_2_0);
+		applicationReleaseRepository.save(joyn_3_0);
 		// given myOrange application
 		Application myOrange = new Application("myOrange", "myOrange");
 		HashSet<SSOId> myOrangeMembers = new HashSet<>();
@@ -220,19 +213,19 @@ public class ApplicationReleaseDaoJpaImplTest {
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
 		myOrange_1_0.markAsRemoved();
-		applicationReleaseRepository.persist(myOrange_1_0);
-		applicationReleaseRepository.persist(myOrange_2_0);
+		applicationReleaseRepository.save(myOrange_1_0);
+		applicationReleaseRepository.save(myOrange_2_0);
 
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
 		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
-		applicationReleaseRepository.persist(elpaaso_1_0);
+		applicationReleaseRepository.save(elpaaso_1_0);
 
 		applicationReleaseRepository.flush();
 
-		List<ApplicationRelease> releases = applicationReleaseRepository.findAll(0, Integer.MAX_VALUE);
+		List<ApplicationRelease> releases = applicationReleaseRepository.findAll();
 		Assert.assertNotNull("entities should not be null", releases);
 		Assert.assertEquals("there should be 3 releases", 3, releases.size());
 		Assert.assertFalse("entities should not contain joyn_1_0", releases.contains(joyn_1_0));
@@ -260,9 +253,9 @@ public class ApplicationReleaseDaoJpaImplTest {
 		ApplicationRelease joyn_3_0 = new ApplicationRelease(joyn, "3.0");
 		joyn_1_0.markAsRemoved();
 		joyn_2_0.markAsRemoved();
-		applicationReleaseRepository.persist(joyn_1_0);
-		applicationReleaseRepository.persist(joyn_2_0);
-		applicationReleaseRepository.persist(joyn_3_0);
+		applicationReleaseRepository.save(joyn_1_0);
+		applicationReleaseRepository.save(joyn_2_0);
+		applicationReleaseRepository.save(joyn_3_0);
 		// given myOrange application
 		Application myOrange = new Application("myOrange", "myOrange");
 		HashSet<SSOId> myOrangeMembers = new HashSet<>();
@@ -274,15 +267,15 @@ public class ApplicationReleaseDaoJpaImplTest {
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
 		myOrange_1_0.markAsRemoved();
-		applicationReleaseRepository.persist(myOrange_1_0);
-		applicationReleaseRepository.persist(myOrange_2_0);
+		applicationReleaseRepository.save(myOrange_1_0);
+		applicationReleaseRepository.save(myOrange_2_0);
 
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
 		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
-		applicationReleaseRepository.persist(elpaaso_1_0);
+		applicationReleaseRepository.save(elpaaso_1_0);
 
 		applicationReleaseRepository.flush();
 
@@ -312,9 +305,9 @@ public class ApplicationReleaseDaoJpaImplTest {
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
 		ApplicationRelease joyn_3_0 = new ApplicationRelease(joyn, "3.0");
-		applicationReleaseRepository.persist(joyn_1_0);
-		applicationReleaseRepository.persist(joyn_2_0);
-		applicationReleaseRepository.persist(joyn_3_0);
+		applicationReleaseRepository.save(joyn_1_0);
+		applicationReleaseRepository.save(joyn_2_0);
+		applicationReleaseRepository.save(joyn_3_0);
 
 		// given myOrange application
 		Application myOrange = new Application("myOrange", "myOrange");
@@ -326,15 +319,15 @@ public class ApplicationReleaseDaoJpaImplTest {
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
-		applicationReleaseRepository.persist(myOrange_1_0);
-		applicationReleaseRepository.persist(myOrange_2_0);
+		applicationReleaseRepository.save(myOrange_1_0);
+		applicationReleaseRepository.save(myOrange_2_0);
 
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
 		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
-		applicationReleaseRepository.persist(elpaaso_1_0);
+		applicationReleaseRepository.save(elpaaso_1_0);
 
 		applicationReleaseRepository.flush();
 
@@ -357,9 +350,9 @@ public class ApplicationReleaseDaoJpaImplTest {
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
 		ApplicationRelease joyn_3_0 = new ApplicationRelease(joyn, "3.0");
-		applicationReleaseRepository.persist(joyn_1_0);
-		applicationReleaseRepository.persist(joyn_2_0);
-		applicationReleaseRepository.persist(joyn_3_0);
+		applicationReleaseRepository.save(joyn_1_0);
+		applicationReleaseRepository.save(joyn_2_0);
+		applicationReleaseRepository.save(joyn_3_0);
 
 		// given myOrange application
 		Application myOrange = new Application("myOrange", "myOrange");
@@ -371,19 +364,19 @@ public class ApplicationReleaseDaoJpaImplTest {
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
-		applicationReleaseRepository.persist(myOrange_1_0);
-		applicationReleaseRepository.persist(myOrange_2_0);
+		applicationReleaseRepository.save(myOrange_1_0);
+		applicationReleaseRepository.save(myOrange_2_0);
 
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
 		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
-		applicationReleaseRepository.persist(elpaaso_1_0);
+		applicationReleaseRepository.save(elpaaso_1_0);
 
 		applicationReleaseRepository.flush();
 
-		List<ApplicationRelease> releases = applicationReleaseRepository.findAllPublicOrPrivateByMember(new SSOId("alice123"), 0, Integer.MAX_VALUE);
+		List<ApplicationRelease> releases = applicationReleaseRepository.findAllPublicOrPrivateByMember("alice123");
 		Assert.assertNotNull("entities should not be null", releases);
 		Assert.assertEquals("there should be 4 releases", 4, releases.size());
 		Assert.assertTrue("entities should contain joyn_1_0", releases.contains(joyn_1_0));
@@ -409,9 +402,9 @@ public class ApplicationReleaseDaoJpaImplTest {
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
 		ApplicationRelease joyn_3_0 = new ApplicationRelease(joyn, "3.0");
-		applicationReleaseRepository.persist(joyn_1_0);
-		applicationReleaseRepository.persist(joyn_2_0);
-		applicationReleaseRepository.persist(joyn_3_0);
+		applicationReleaseRepository.save(joyn_1_0);
+		applicationReleaseRepository.save(joyn_2_0);
+		applicationReleaseRepository.save(joyn_3_0);
 
 		// given myOrange application
 		Application myOrange = new Application("myOrange", "myOrange");
@@ -423,20 +416,20 @@ public class ApplicationReleaseDaoJpaImplTest {
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
-		applicationReleaseRepository.persist(myOrange_1_0);
-		applicationReleaseRepository.persist(myOrange_2_0);
+		applicationReleaseRepository.save(myOrange_1_0);
+		applicationReleaseRepository.save(myOrange_2_0);
 
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
 		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
-		applicationReleaseRepository.persist(elpaaso_1_0);
+		applicationReleaseRepository.save(elpaaso_1_0);
 
 		applicationReleaseRepository.flush();
 
-		List<ApplicationRelease> releases = applicationReleaseRepository.findPublicOrPrivateByMemberAndByAppUID(new SSOId("alice123"), joyn.getUID(),
-				0, Integer.MAX_VALUE);
+		List<ApplicationRelease> releases = applicationReleaseRepository.findPublicOrPrivateByMemberAndByAppUID("alice123", joyn.getUID()
+		);
 		Assert.assertNotNull("entities should not be null", releases);
 		Assert.assertEquals("there should be 3 releases", 3, releases.size());
 		Assert.assertTrue("entities should contain joyn_1_0", releases.contains(joyn_1_0));
@@ -444,12 +437,12 @@ public class ApplicationReleaseDaoJpaImplTest {
 		Assert.assertTrue("entities should contain joyn_3_0", releases.contains(joyn_3_0));
 
 		releases = applicationReleaseRepository
-				.findPublicOrPrivateByMemberAndByAppUID(new SSOId("alice123"), myOrange.getUID(), 0, Integer.MAX_VALUE);
+				.findPublicOrPrivateByMemberAndByAppUID("alice123", myOrange.getUID());
 		Assert.assertEquals("there should be NO releases", 0, releases.size());
 		Assert.assertFalse("entities should not contain myOrange_1_0", releases.contains(myOrange_1_0));
 		Assert.assertFalse("entities should not contain myOrange_2_0", releases.contains(myOrange_2_0));
 
-		releases = applicationReleaseRepository.findPublicOrPrivateByMemberAndByAppUID(new SSOId("alice123"), elpaaso.getUID(), 0, Integer.MAX_VALUE);
+		releases = applicationReleaseRepository.findPublicOrPrivateByMemberAndByAppUID("alice123", elpaaso.getUID());
 		Assert.assertEquals("there should be 1 release", 1, releases.size());
 		Assert.assertTrue("entities should contain elpaaso_1_0", releases.contains(elpaaso_1_0));
 	}
@@ -469,9 +462,9 @@ public class ApplicationReleaseDaoJpaImplTest {
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
 		ApplicationRelease joyn_3_0 = new ApplicationRelease(joyn, "3.0");
-		applicationReleaseRepository.persist(joyn_1_0);
-		applicationReleaseRepository.persist(joyn_2_0);
-		applicationReleaseRepository.persist(joyn_3_0);
+		applicationReleaseRepository.save(joyn_1_0);
+		applicationReleaseRepository.save(joyn_2_0);
+		applicationReleaseRepository.save(joyn_3_0);
 
 		// given myOrange application
 		Application myOrange = new Application("myOrange", "myOrange");
@@ -483,24 +476,24 @@ public class ApplicationReleaseDaoJpaImplTest {
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
-		applicationReleaseRepository.persist(myOrange_1_0);
-		applicationReleaseRepository.persist(myOrange_2_0);
+		applicationReleaseRepository.save(myOrange_1_0);
+		applicationReleaseRepository.save(myOrange_2_0);
 
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
 		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
-		applicationReleaseRepository.persist(elpaaso_1_0);
+		applicationReleaseRepository.save(elpaaso_1_0);
 
 		applicationReleaseRepository.flush();
 
 		Assert.assertEquals("there should be 3 releases", 3,
-				applicationReleaseRepository.countPublicOrPrivateByMemberAndByAppUID(new SSOId("alice123"), joyn.getUID()));
+				applicationReleaseRepository.countPublicOrPrivateByMemberAndByAppUID("alice123", joyn.getUID()));
 		Assert.assertEquals("there should be 3 releases", 0,
-				applicationReleaseRepository.countPublicOrPrivateByMemberAndByAppUID(new SSOId("alice123"), myOrange.getUID()));
+				applicationReleaseRepository.countPublicOrPrivateByMemberAndByAppUID("alice123", myOrange.getUID()));
 		Assert.assertEquals("there should be 3 releases", 1,
-				applicationReleaseRepository.countPublicOrPrivateByMemberAndByAppUID(new SSOId("alice123"), elpaaso.getUID()));
+				applicationReleaseRepository.countPublicOrPrivateByMemberAndByAppUID("alice123", elpaaso.getUID()));
 	}
 
 	@Test
@@ -518,9 +511,9 @@ public class ApplicationReleaseDaoJpaImplTest {
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
 		ApplicationRelease joyn_3_0 = new ApplicationRelease(joyn, "3.0");
-		applicationReleaseRepository.persist(joyn_1_0);
-		applicationReleaseRepository.persist(joyn_2_0);
-		applicationReleaseRepository.persist(joyn_3_0);
+		applicationReleaseRepository.save(joyn_1_0);
+		applicationReleaseRepository.save(joyn_2_0);
+		applicationReleaseRepository.save(joyn_3_0);
 
 		// given myOrange application
 		Application myOrange = new Application("myOrange", "myOrange");
@@ -532,22 +525,22 @@ public class ApplicationReleaseDaoJpaImplTest {
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
-		applicationReleaseRepository.persist(myOrange_1_0);
-		applicationReleaseRepository.persist(myOrange_2_0);
+		applicationReleaseRepository.save(myOrange_1_0);
+		applicationReleaseRepository.save(myOrange_2_0);
 
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
 		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
-		applicationReleaseRepository.persist(elpaaso_1_0);
+		applicationReleaseRepository.save(elpaaso_1_0);
 
 		joyn_1_0.markAsRemoved();
 		myOrange_1_0.markAsRemoved();
 		elpaaso_1_0.markAsRemoved();
 		applicationReleaseRepository.flush();
 
-		List<ApplicationRelease> releases = applicationReleaseRepository.findAllPublicOrPrivateByMember(new SSOId("alice123"), 0, Integer.MAX_VALUE);
+		List<ApplicationRelease> releases = applicationReleaseRepository.findAllPublicOrPrivateByMember("alice123");
 
 		Assert.assertNotNull("entities should not be null", releases);
 		Assert.assertEquals("there should be 2 releases", 2, releases.size());
@@ -574,9 +567,9 @@ public class ApplicationReleaseDaoJpaImplTest {
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
 		ApplicationRelease joyn_3_0 = new ApplicationRelease(joyn, "3.0");
-		applicationReleaseRepository.persist(joyn_1_0);
-		applicationReleaseRepository.persist(joyn_2_0);
-		applicationReleaseRepository.persist(joyn_3_0);
+		applicationReleaseRepository.save(joyn_1_0);
+		applicationReleaseRepository.save(joyn_2_0);
+		applicationReleaseRepository.save(joyn_3_0);
 
 		// given myOrange application
 		Application myOrange = new Application("myOrange", "myOrange");
@@ -588,19 +581,19 @@ public class ApplicationReleaseDaoJpaImplTest {
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
-		applicationReleaseRepository.persist(myOrange_1_0);
-		applicationReleaseRepository.persist(myOrange_2_0);
+		applicationReleaseRepository.save(myOrange_1_0);
+		applicationReleaseRepository.save(myOrange_2_0);
 
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
 		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
-		applicationReleaseRepository.persist(elpaaso_1_0);
+		applicationReleaseRepository.save(elpaaso_1_0);
 
 		applicationReleaseRepository.flush();
 
-		Assert.assertEquals("there should be 4 releases", 4, applicationReleaseRepository.countPublicOrPrivateByMember(new SSOId("alice123")));
+		Assert.assertEquals("there should be 4 releases", 4, applicationReleaseRepository.countPublicOrPrivateByMember("alice123"));
 
 	}
 
@@ -619,9 +612,9 @@ public class ApplicationReleaseDaoJpaImplTest {
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
 		ApplicationRelease joyn_3_0 = new ApplicationRelease(joyn, "3.0");
-		applicationReleaseRepository.persist(joyn_1_0);
-		applicationReleaseRepository.persist(joyn_2_0);
-		applicationReleaseRepository.persist(joyn_3_0);
+		applicationReleaseRepository.save(joyn_1_0);
+		applicationReleaseRepository.save(joyn_2_0);
+		applicationReleaseRepository.save(joyn_3_0);
 
 		// given myOrange application
 		Application myOrange = new Application("myOrange", "myOrange");
@@ -633,22 +626,22 @@ public class ApplicationReleaseDaoJpaImplTest {
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
-		applicationReleaseRepository.persist(myOrange_1_0);
-		applicationReleaseRepository.persist(myOrange_2_0);
+		applicationReleaseRepository.save(myOrange_1_0);
+		applicationReleaseRepository.save(myOrange_2_0);
 
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
 		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
-		applicationReleaseRepository.persist(elpaaso_1_0);
+		applicationReleaseRepository.save(elpaaso_1_0);
 
 		joyn_1_0.markAsRemoved();
 		myOrange_1_0.markAsRemoved();
 		elpaaso_1_0.markAsRemoved();
 		applicationReleaseRepository.flush();
 
-		Assert.assertEquals("there should be 2 releases", 2, applicationReleaseRepository.countPublicOrPrivateByMember(new SSOId("alice123")));
+		Assert.assertEquals("there should be 2 releases", 2, applicationReleaseRepository.countPublicOrPrivateByMember("alice123"));
 
 	}
 
@@ -667,9 +660,9 @@ public class ApplicationReleaseDaoJpaImplTest {
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
 		ApplicationRelease joyn_3_0 = new ApplicationRelease(joyn, "3.0");
-		applicationReleaseRepository.persist(joyn_1_0);
-		applicationReleaseRepository.persist(joyn_2_0);
-		applicationReleaseRepository.persist(joyn_3_0);
+		applicationReleaseRepository.save(joyn_1_0);
+		applicationReleaseRepository.save(joyn_2_0);
+		applicationReleaseRepository.save(joyn_3_0);
 
 		// given myOrange application
 		Application myOrange = new Application("myOrange", "myOrange");
@@ -681,19 +674,19 @@ public class ApplicationReleaseDaoJpaImplTest {
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
-		applicationReleaseRepository.persist(myOrange_1_0);
-		applicationReleaseRepository.persist(myOrange_2_0);
+		applicationReleaseRepository.save(myOrange_1_0);
+		applicationReleaseRepository.save(myOrange_2_0);
 
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
 		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
-		applicationReleaseRepository.persist(elpaaso_1_0);
+		applicationReleaseRepository.save(elpaaso_1_0);
 
 		applicationReleaseRepository.flush();
 
-		List<ApplicationRelease> releases = (List<ApplicationRelease>) applicationReleaseRepository.findAllByApplicationMember(new SSOId("bob123"), 0, Integer.MAX_VALUE);
+		List<ApplicationRelease> releases = (List<ApplicationRelease>) applicationReleaseRepository.findAllByApplicationMember("bob123");
 		Assert.assertNotNull("entities should not be null", releases);
 		Assert.assertEquals("there should be 5 releases", 5, releases.size());
 		Assert.assertTrue("entities should contain joyn_1_0", releases.contains(joyn_1_0));
@@ -720,9 +713,9 @@ public class ApplicationReleaseDaoJpaImplTest {
 		ApplicationRelease joyn_1_0 = new ApplicationRelease(joyn, "1.0");
 		ApplicationRelease joyn_2_0 = new ApplicationRelease(joyn, "2.0");
 		ApplicationRelease joyn_3_0 = new ApplicationRelease(joyn, "3.0");
-		applicationReleaseRepository.persist(joyn_1_0);
-		applicationReleaseRepository.persist(joyn_2_0);
-		applicationReleaseRepository.persist(joyn_3_0);
+		applicationReleaseRepository.save(joyn_1_0);
+		applicationReleaseRepository.save(joyn_2_0);
+		applicationReleaseRepository.save(joyn_3_0);
 
 		// given myOrange application
 		Application myOrange = new Application("myOrange", "myOrange");
@@ -734,20 +727,20 @@ public class ApplicationReleaseDaoJpaImplTest {
 		// given releases of application myOrange
 		ApplicationRelease myOrange_1_0 = new ApplicationRelease(myOrange, "1.0");
 		ApplicationRelease myOrange_2_0 = new ApplicationRelease(myOrange, "2.0");
-		applicationReleaseRepository.persist(myOrange_1_0);
-		applicationReleaseRepository.persist(myOrange_2_0);
+		applicationReleaseRepository.save(myOrange_1_0);
+		applicationReleaseRepository.save(myOrange_2_0);
 
 		// given elpaaso public application
 		Application elpaaso = new Application("elpaaso", "elpaaso");
 		applicationRepository.save(elpaaso);
 		// given releases of application elpaaso
 		ApplicationRelease elpaaso_1_0 = new ApplicationRelease(elpaaso, "1.0");
-		applicationReleaseRepository.persist(elpaaso_1_0);
+		applicationReleaseRepository.save(elpaaso_1_0);
 
 		applicationReleaseRepository.flush();
 
-		applicationReleaseRepository.countByApplicationMember(new SSOId("bob123"));
-		Assert.assertEquals("there should be 5 releases", 5, applicationReleaseRepository.countByApplicationMember(new SSOId("bob123")));
+		applicationReleaseRepository.countByApplicationMember("bob123");
+		Assert.assertEquals("there should be 5 releases", 5, applicationReleaseRepository.countByApplicationMember("bob123"));
 
 	}
 
@@ -766,12 +759,12 @@ public class ApplicationReleaseDaoJpaImplTest {
 		ApplicationRelease toBePersisted3 = new ApplicationRelease(application2, "G1R0C0");
 		toBePersisted1.setVersionControlUrl(new URL("file://url.txt"));
 
-		applicationReleaseRepository.persist(toBePersisted1);
-		applicationReleaseRepository.persist(toBePersisted2);
-		applicationReleaseRepository.persist(toBePersisted3);
+		applicationReleaseRepository.save(toBePersisted1);
+		applicationReleaseRepository.save(toBePersisted2);
+		applicationReleaseRepository.save(toBePersisted3);
 
 		List<ApplicationRelease> entities = (List<ApplicationRelease>) applicationReleaseRepository.findApplicationReleasesByAppUID(
-				application.getUID(), 0, 3);
+				application.getUID());
 		Assert.assertNotNull("entities should not be null", entities);
 		Assert.assertEquals("there should be 2 entities", 2, entities.size());
 		Assert.assertFalse("entities should not contain the third release", entities.contains(toBePersisted3));
@@ -787,11 +780,11 @@ public class ApplicationReleaseDaoJpaImplTest {
 		// given a release with version aVersion of application with label
 		// aLabel and code aCode
 		ApplicationRelease release1 = new ApplicationRelease(application, "aVersion");
-		applicationReleaseRepository.persist(release1);
+		applicationReleaseRepository.save(release1);
 		// given a release with version anotherVersion of application with label
 		// aLabel and code aCode
 		ApplicationRelease release2 = new ApplicationRelease(application, "anotherVersion");
-		applicationReleaseRepository.persist(release2);
+		applicationReleaseRepository.save(release2);
 		// when I count application releases of application with label aLabel
 		// and code aCode
 		// then I should get 2
@@ -814,9 +807,9 @@ public class ApplicationReleaseDaoJpaImplTest {
 		ApplicationRelease toBePersited3 = new ApplicationRelease(application2, "G1R0C0");
 		toBePersited3.setVersionControlUrl(new URL("file://url.txt"));
 
-		applicationReleaseRepository.persist(toBePersited1);
-		applicationReleaseRepository.persist(toBePersited2);
-		applicationReleaseRepository.persist(toBePersited3);
+		applicationReleaseRepository.save(toBePersited1);
+		applicationReleaseRepository.save(toBePersited2);
+		applicationReleaseRepository.save(toBePersited3);
 
 		// test run
 		List<String> versions = applicationReleaseRepository.findApplicationVersion(application.getUID());
@@ -835,10 +828,10 @@ public class ApplicationReleaseDaoJpaImplTest {
 		// given a removed release of application with version aVersion
 		ApplicationRelease release1 = new ApplicationRelease(application, "aVersion");
 		release1.markAsRemoved();
-		applicationReleaseRepository.persist(release1);
+		applicationReleaseRepository.save(release1);
 		// given a release of application with version aVersion
 		ApplicationRelease release2 = new ApplicationRelease(application, "aVersion");
-		applicationReleaseRepository.persist(release2);
+		applicationReleaseRepository.save(release2);
 		// when I find release of that application with version aVersion
 		ApplicationRelease result = applicationReleaseRepository.findByApplicationUIDAndReleaseVersion(application.getUID(), "aVersion");
 		// then I should get release with version a Version
@@ -854,7 +847,7 @@ public class ApplicationReleaseDaoJpaImplTest {
 		// given a removed release of application with version aVersion
 		ApplicationRelease release = new ApplicationRelease(application, "aVersion");
 		release.markAsRemoved();
-		applicationReleaseRepository.persist(release);
+		applicationReleaseRepository.save(release);
 		// when I find release of that application with version aVersion
 		ApplicationRelease result = applicationReleaseRepository.findByApplicationUIDAndReleaseVersion(application.getUID(), "aVersion");
 		// then I should get no release
@@ -880,9 +873,9 @@ public class ApplicationReleaseDaoJpaImplTest {
 		ApplicationRelease toBePersited3 = new ApplicationRelease(application2, "G1R0C0");
 		toBePersited3.setVersionControlUrl(new URL("file://url.txt"));
 
-		applicationReleaseRepository.persist(toBePersited1);
-		applicationReleaseRepository.persist(toBePersited2);
-		applicationReleaseRepository.persist(toBePersited3);
+		applicationReleaseRepository.save(toBePersited1);
+		applicationReleaseRepository.save(toBePersited2);
+		applicationReleaseRepository.save(toBePersited3);
 
 		// test run
 		List<String> services = applicationReleaseRepository.findQRSServiceName(application.getUID(), "G2R0C0");
@@ -913,9 +906,9 @@ public class ApplicationReleaseDaoJpaImplTest {
 		ApplicationRelease toBePersited3 = new ApplicationRelease(application2, "G1R0C0");
 		toBePersited3.setVersionControlUrl(new URL("file://url.txt"));
 
-		applicationReleaseRepository.persist(toBePersited1);
-		applicationReleaseRepository.persist(toBePersited2);
-		applicationReleaseRepository.persist(toBePersited3);
+		applicationReleaseRepository.save(toBePersited1);
+		applicationReleaseRepository.save(toBePersited2);
+		applicationReleaseRepository.save(toBePersited3);
 
 		// test run
 		List<String> serviceVersions = applicationReleaseRepository.findQRSServiceVersion(application.getUID(), "G2R0C0", "getClient");
@@ -948,9 +941,9 @@ public class ApplicationReleaseDaoJpaImplTest {
 
 		toBePersited3.setVersionControlUrl(new URL("file://url.txt"));
 
-		applicationReleaseRepository.persist(toBePersited1);
-		applicationReleaseRepository.persist(toBePersited2);
-		applicationReleaseRepository.persist(toBePersited3);
+		applicationReleaseRepository.save(toBePersited1);
+		applicationReleaseRepository.save(toBePersited2);
+		applicationReleaseRepository.save(toBePersited3);
 
 		// test run
 		List<String> applicationNames = applicationReleaseRepository.findApplicationHavingQrs();

@@ -41,7 +41,6 @@ import com.francetelecom.clara.cloud.presentation.utils.PaasTestApplication;
 import com.francetelecom.clara.cloud.presentation.utils.PaasTestSession;
 import com.francetelecom.clara.cloud.presentation.utils.PaasWicketTester;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto.EnvironmentTypeEnum;
-
 import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -570,9 +569,9 @@ public class ReleasePagesTest {
         // Prepare mocks for release provider
         List<ApplicationRelease> releaseList = new ArrayList<ApplicationRelease>();
         releaseList.add(createReleaseMock());
-        when(manageApplicationRelease.findApplicationReleasesByAppUID(anyString(), anyInt(), anyInt())).thenReturn(releaseList);
+        when(manageApplicationRelease.findApplicationReleasesByAppUID(anyString())).thenReturn(releaseList);
         when(manageApplicationRelease.findApplicationReleaseByUID(anyString())).thenReturn(createReleaseMock());
-        when(manageApplicationRelease.findMyApplicationReleases(anyInt(), anyInt())).thenReturn(releaseList);
+        when(manageApplicationRelease.findMyApplicationReleases()).thenReturn(releaseList);
         when(manageApplicationRelease.findApplicationReleases(anyInt(), anyInt())).thenReturn(releaseList);
         when(manageApplicationRelease.countApplicationReleases()).thenReturn(Long.valueOf("1"));
         when(manageApplicationRelease.countApplicationReleasesByAppUID(anyString())).thenReturn(Long.valueOf("1"));

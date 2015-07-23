@@ -12,10 +12,7 @@
  */
 package com.francetelecom.clara.cloud.impl;
 
-import com.francetelecom.clara.cloud.core.domain.ApplicationReleaseRepository;
-import com.francetelecom.clara.cloud.coremodel.ApplicationRepository;
 import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
-import com.francetelecom.clara.cloud.coremodel.PaasUserRepository;
 import com.francetelecom.clara.cloud.coremodel.*;
 import com.francetelecom.clara.cloud.dao.TechnicalDeploymentCloner;
 import com.francetelecom.clara.cloud.model.*;
@@ -83,7 +80,7 @@ public class EnvironmentRepositoryPurgeCascadeTest {
         applicationRepository.flush();
         // given release with version aVersion exists
         release = new ApplicationRelease(application, "aVersion");
-        applicationReleaseRepository.persist(release);
+        applicationReleaseRepository.save(release);
         applicationReleaseRepository.flush();
 
         // given td exists

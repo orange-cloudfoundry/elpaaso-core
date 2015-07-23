@@ -17,8 +17,6 @@ import com.francetelecom.clara.cloud.commons.AuthorizationException;
 import com.francetelecom.clara.cloud.commons.MissingDefaultUserException;
 import com.francetelecom.clara.cloud.commons.NotFoundException;
 import com.francetelecom.clara.cloud.commons.TechnicalException;
-import com.francetelecom.clara.cloud.core.domain.ApplicationReleaseRepository;
-import com.francetelecom.clara.cloud.coremodel.ApplicationRepository;
 import com.francetelecom.clara.cloud.coremodel.*;
 import com.francetelecom.clara.cloud.coremodel.exception.*;
 import com.francetelecom.clara.cloud.services.dto.ApplicationDTO;
@@ -30,19 +28,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.*;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 
 import java.util.*;
 
-import static com.francetelecom.clara.cloud.coremodel.ApplicationSpecifications.*;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.data.jpa.domain.Specifications.where;
 
 /**
  * Test Business implementation for Application component

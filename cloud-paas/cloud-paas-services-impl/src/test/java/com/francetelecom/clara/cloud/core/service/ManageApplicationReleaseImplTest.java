@@ -16,20 +16,17 @@ import com.francetelecom.clara.cloud.TestHelper;
 import com.francetelecom.clara.cloud.commons.AuthorizationException;
 import com.francetelecom.clara.cloud.commons.BusinessException;
 import com.francetelecom.clara.cloud.commons.TechnicalException;
-import com.francetelecom.clara.cloud.core.domain.ApplicationReleaseRepository;
-import com.francetelecom.clara.cloud.coremodel.ApplicationRepository;
 import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
-import com.francetelecom.clara.cloud.coremodel.PaasUserRepository;
 import com.francetelecom.clara.cloud.coremodel.*;
+import com.francetelecom.clara.cloud.coremodel.exception.ApplicationNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.ApplicationReleaseNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationReleaseException;
+import com.francetelecom.clara.cloud.coremodel.exception.PaasUserNotFoundException;
 import com.francetelecom.clara.cloud.model.DeploymentProfileEnum;
 import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.model.TechnicalDeploymentTemplate;
 import com.francetelecom.clara.cloud.model.TechnicalDeploymentTemplateRepository;
 import com.francetelecom.clara.cloud.paas.projection.ProjectionService;
-import com.francetelecom.clara.cloud.coremodel.exception.ApplicationNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.ApplicationReleaseNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationReleaseException;
-import com.francetelecom.clara.cloud.coremodel.exception.PaasUserNotFoundException;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -474,7 +471,7 @@ public class ManageApplicationReleaseImplTest {
 
         manageApplicationRelease.findApplicationReleases(0, 10);
 
-        Mockito.verify(applicationReleaseRepository).findAll(0, 10);
+        Mockito.verify(applicationReleaseRepository).findAll();
     }
 
     @Test
@@ -482,9 +479,9 @@ public class ManageApplicationReleaseImplTest {
         TestHelper.loginAsAdmin();
 
         Mockito.when(applicationRepository.findByUid("appUID")).thenReturn(new Application("aLabel", "aCode"));
-        manageApplicationRelease.findApplicationReleasesByAppUID("appUID", 0, 10);
+        manageApplicationRelease.findApplicationReleasesByAppUID("appUID");
 
-        Mockito.verify(applicationReleaseRepository).findApplicationReleasesByAppUID("appUID", 0, 10);
+        Mockito.verify(applicationReleaseRepository).findApplicationReleasesByAppUID("appUID");
     }
 
     @Test
@@ -492,9 +489,9 @@ public class ManageApplicationReleaseImplTest {
         TestHelper.loginAsUser();
 
         Mockito.when(applicationRepository.findByUid("appUID")).thenReturn(new Application("aLabel", "aCode"));
-        manageApplicationRelease.findApplicationReleasesByAppUID("appUID", 0, 10);
+        manageApplicationRelease.findApplicationReleasesByAppUID("appUID");
 
-        Mockito.verify(applicationReleaseRepository).findPublicOrPrivateByMemberAndByAppUID(TestHelper.USER_WITH_USER_ROLE_SSOID, "appUID", 0, 10);
+        Mockito.verify(applicationReleaseRepository).findPublicOrPrivateByMemberAndByAppUID(TestHelper.USER_WITH_USER_ROLE_SSOID.getValue(), "appUID");
     }
 
     @Test
@@ -514,7 +511,7 @@ public class ManageApplicationReleaseImplTest {
 
         manageApplicationRelease.findApplicationReleases(0, 10);
 
-        Mockito.verify(applicationReleaseRepository).findAllPublicOrPrivateByMember(TestHelper.USER_WITH_USER_ROLE_SSOID, 0, 10);
+        Mockito.verify(applicationReleaseRepository).findAllPublicOrPrivateByMember(TestHelper.USER_WITH_USER_ROLE_SSOID.getValue());
     }
 
     @Test
@@ -523,25 +520,25 @@ public class ManageApplicationReleaseImplTest {
 
         manageApplicationRelease.countApplicationReleases();
 
-        Mockito.verify(applicationReleaseRepository).countPublicOrPrivateByMember(TestHelper.USER_WITH_USER_ROLE_SSOID);
+        Mockito.verify(applicationReleaseRepository).countPublicOrPrivateByMember(TestHelper.USER_WITH_USER_ROLE_SSOID.getValue());
     }
 
     @Test
     public void admin_users_see_releases_of_private_applications_they_are_member_of() {
         TestHelper.loginAsAdmin();
 
-        manageApplicationRelease.findMyApplicationReleases(0, 10);
+        manageApplicationRelease.findMyApplicationReleases();
 
-        Mockito.verify(applicationReleaseRepository).findAllByApplicationMember(TestHelper.USER_WITH_ADMIN_ROLE_SSOID, 0, 10);
+        Mockito.verify(applicationReleaseRepository).findAllByApplicationMember(TestHelper.USER_WITH_ADMIN_ROLE_SSOID.getValue());
     }
 
     @Test
-    public void admin_users_see_all_releases_as_his_own() {
+    public void admin_users_see_see_private_releases_as_his_own() {
         TestHelper.loginAsAdmin();
 
         manageApplicationRelease.findMyApplicationReleases();
 
-        Mockito.verify(applicationReleaseRepository).findAll();
+        Mockito.verify(applicationReleaseRepository).findAllByApplicationMember(TestHelper.USER_WITH_ADMIN_ROLE_SSOID.getValue());
     }
 
     @Test
@@ -550,7 +547,7 @@ public class ManageApplicationReleaseImplTest {
 
         manageApplicationRelease.findMyApplicationReleases();
 
-        Mockito.verify(applicationReleaseRepository).findAllByApplicationMember(TestHelper.USER_WITH_USER_ROLE_SSOID, 0, Integer.MAX_VALUE);
+        Mockito.verify(applicationReleaseRepository).findAllByApplicationMember(TestHelper.USER_WITH_USER_ROLE_SSOID.getValue());
     }
 
     @Test
@@ -559,16 +556,16 @@ public class ManageApplicationReleaseImplTest {
 
         manageApplicationRelease.countMyApplicationReleases();
 
-        Mockito.verify(applicationReleaseRepository).countByApplicationMember(TestHelper.USER_WITH_ADMIN_ROLE_SSOID);
+        Mockito.verify(applicationReleaseRepository).countByApplicationMember(TestHelper.USER_WITH_ADMIN_ROLE_SSOID.getValue());
     }
 
     @Test
     public void non_admin_users_see_releases_of_private_applications_they_are_member_of() {
         TestHelper.loginAsUser();
 
-        manageApplicationRelease.findMyApplicationReleases(0, 10);
+        manageApplicationRelease.findMyApplicationReleases();
 
-        Mockito.verify(applicationReleaseRepository).findAllByApplicationMember(TestHelper.USER_WITH_USER_ROLE_SSOID, 0, 10);
+        Mockito.verify(applicationReleaseRepository).findAllByApplicationMember(TestHelper.USER_WITH_USER_ROLE_SSOID.getValue());
     }
 
     @Test
@@ -577,7 +574,7 @@ public class ManageApplicationReleaseImplTest {
 
         manageApplicationRelease.countMyApplicationReleases();
 
-        Mockito.verify(applicationReleaseRepository).countByApplicationMember(TestHelper.USER_WITH_USER_ROLE_SSOID);
+        Mockito.verify(applicationReleaseRepository).countByApplicationMember(TestHelper.USER_WITH_USER_ROLE_SSOID.getValue());
     }
 
     @Test
@@ -614,7 +611,7 @@ public class ManageApplicationReleaseImplTest {
         release.setReleaseVersion("anotherVersion");
         manageApplicationRelease.updateApplicationRelease(release);
         // then release should be updated
-        Mockito.verify(applicationReleaseRepository).merge(release);
+        Mockito.verify(applicationReleaseRepository).save(release);
     }
 
     @Test(expected = ApplicationReleaseNotFoundException.class)
@@ -686,7 +683,7 @@ public class ManageApplicationReleaseImplTest {
         // aSsoId and version aVersion
         manageApplicationRelease.createApplicationRelease("aUID", "aSsoId", "aVersion");
         // then application should be persisted
-        Mockito.verify(applicationReleaseRepository).persist(Mockito.isA(ApplicationRelease.class));
+        Mockito.verify(applicationReleaseRepository).save(Mockito.isA(ApplicationRelease.class));
     }
 
     @Test(expected = TechnicalException.class)
@@ -752,7 +749,7 @@ public class ManageApplicationReleaseImplTest {
         // given application with uid aUID exists
         Mockito.when(applicationRepository.findByUid("aUID")).thenReturn(new Application("aLabel", "aCode"));
         // given application with uid aUID has 3 releases
-        Mockito.when(applicationReleaseRepository.countPublicOrPrivateByMemberAndByAppUID(TestHelper.USER_WITH_USER_ROLE_SSOID, "aUID")).thenReturn(new Long(3));
+        Mockito.when(applicationReleaseRepository.countPublicOrPrivateByMemberAndByAppUID(TestHelper.USER_WITH_USER_ROLE_SSOID.getValue(), "aUID")).thenReturn(new Long(3));
         // when I count releases for application uid unknown
         // then I should get 3
         Assert.assertEquals("I should get 3 releases", 3, manageApplicationRelease.countApplicationReleasesByAppUID("aUID"));
@@ -797,8 +794,8 @@ public class ManageApplicationReleaseImplTest {
 
         // THEN
         verify(applicationReleaseRepository).findRemovedReleasesWithoutEnvironment();
-        verify(applicationReleaseRepository).remove(arA);
-        verify(applicationReleaseRepository).remove(arB);
+        verify(applicationReleaseRepository).delete(arA);
+        verify(applicationReleaseRepository).delete(arB);
         verify(deploymentTemplateRepository).delete(templateA);
         verify(deploymentTemplateRepository).delete(templateB);
 
@@ -814,8 +811,8 @@ public class ManageApplicationReleaseImplTest {
 
         // THEN
         verify(applicationReleaseRepository).findRemovedReleasesWithoutEnvironment();
-        verify(applicationReleaseRepository, Mockito.never()).remove(Mockito.any(ApplicationRelease.class));
-        verify(applicationReleaseRepository, Mockito.never()).remove(Mockito.any(ApplicationRelease.class));
+        verify(applicationReleaseRepository, Mockito.never()).delete(Mockito.any(ApplicationRelease.class));
+        verify(applicationReleaseRepository, Mockito.never()).delete(Mockito.any(ApplicationRelease.class));
         verify(deploymentTemplateRepository, Mockito.never()).delete(Mockito.any(Iterable.class));
         verify(deploymentTemplateRepository, Mockito.never()).delete(Mockito.any(Iterable.class));
 
@@ -840,8 +837,8 @@ public class ManageApplicationReleaseImplTest {
 
         // THEN
         verify(applicationReleaseRepository).findRemovedReleasesWithoutEnvironment();
-        verify(applicationReleaseRepository).remove(arA);
-        verify(applicationReleaseRepository).remove(arB);
+        verify(applicationReleaseRepository).delete(arA);
+        verify(applicationReleaseRepository).delete(arB);
         verify(deploymentTemplateRepository, Mockito.never()).delete(Mockito.any(Iterable.class));
         verify(deploymentTemplateRepository, Mockito.never()).delete(Mockito.any(Iterable.class));
 

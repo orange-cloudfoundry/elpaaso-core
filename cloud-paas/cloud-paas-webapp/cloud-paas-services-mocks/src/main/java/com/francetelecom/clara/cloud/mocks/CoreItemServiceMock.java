@@ -12,13 +12,6 @@
  */
 package com.francetelecom.clara.cloud.mocks;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import com.francetelecom.clara.cloud.coremodel.Application;
 import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
 import com.francetelecom.clara.cloud.coremodel.CoreItem;
@@ -26,6 +19,9 @@ import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationExc
 import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationReleaseException;
 import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 import com.google.common.base.Predicate;
+
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by IntelliJ IDEA. User: lzxv3002 Date: 08/06/11 Time: 14:37 Generic
@@ -55,17 +51,6 @@ public class CoreItemServiceMock<T extends CoreItem> {
 
 	protected List<T> find(int first, int count) {
 		List<T> entitiesList = new ArrayList<T>(entities.values());
-		return new ArrayList<T>(entitiesList.subList(first, count));
-	}
-
-	protected List<T> find(int first, int count, Predicate<T> predicate) {
-		List<T> entitiesList = new ArrayList<T>(entities.values());
-		Iterator<T> entitiesIterator = entitiesList.iterator();
-		while (entitiesIterator.hasNext()) {
-			if (! predicate.apply(entitiesIterator.next())) {
-				entitiesIterator.remove();
-			};
-		}
 		return new ArrayList<T>(entitiesList.subList(first, count));
 	}
 

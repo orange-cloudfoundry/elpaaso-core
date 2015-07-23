@@ -16,19 +16,16 @@ import com.francetelecom.clara.cloud.application.ManageModelItem;
 import com.francetelecom.clara.cloud.application.ManageTechnicalDeploymentCrud;
 import com.francetelecom.clara.cloud.application.ManageTechnicalDeploymentInstance;
 import com.francetelecom.clara.cloud.application.ManageTechnicalDeploymentTemplate;
+import com.francetelecom.clara.cloud.commons.NotFoundException;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatus;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatusEnum;
-import com.francetelecom.clara.cloud.core.domain.ApplicationReleaseRepository;
-import com.francetelecom.clara.cloud.coremodel.ApplicationRepository;
 import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
-import com.francetelecom.clara.cloud.coremodel.PaasUserRepository;
 import com.francetelecom.clara.cloud.coremodel.*;
 import com.francetelecom.clara.cloud.dao.TechnicalDeploymentCloner;
 import com.francetelecom.clara.cloud.model.*;
 import com.francetelecom.clara.cloud.model.validators.ModelItemGenericValidationUtils;
 import com.francetelecom.clara.cloud.paas.activation.ActivationPlugin;
 import com.francetelecom.clara.cloud.paas.activation.ActivationStepEnum;
-import com.francetelecom.clara.cloud.commons.NotFoundException;
 import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -183,7 +180,7 @@ public abstract class ActivationPluginTestHelper {
         paasUserRepository.save(BOB_DYLAN);
 
         ApplicationRelease applicationRelease = new ApplicationRelease(application, "GOROCO");
-        applicationReleaseRepository.persist(applicationRelease);
+        applicationReleaseRepository.save(applicationRelease);
 
         Environment environment = new Environment(DeploymentProfileEnum.TEST, envLabel, applicationRelease, BOB_DYLAN, tdi);
         environmentRepository.persist(environment);

@@ -53,10 +53,6 @@
 
 	<bean id="transactionUtil" class="com.francetelecom.clara.cloud.dao.impl.TransactionUtil" />
 
-	<!-- applicationRelease repository -->
-	<bean id="applicationReleaseRepository"
-		class="com.francetelecom.clara.cloud.core.infrastructure.ApplicationReleaseDaoJpaImpl" />
-
 	<!-- Technical Deployment Cloner -->
 	<bean id="technicalDeploymentCloner"
 		class="com.francetelecom.clara.cloud.dao.impl.TechnicalDeploymentClonerImpl">

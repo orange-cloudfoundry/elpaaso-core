@@ -13,18 +13,15 @@
 package com.francetelecom.clara.cloud.core.service;
 
 import com.francetelecom.clara.cloud.commons.ValidatorUtil;
-import com.francetelecom.clara.cloud.core.domain.ApplicationReleaseRepository;
-import com.francetelecom.clara.cloud.coremodel.ApplicationRepository;
 import com.francetelecom.clara.cloud.core.domain.EnvironmentRepository;
-import com.francetelecom.clara.cloud.coremodel.PaasUserRepository;
 import com.francetelecom.clara.cloud.coremodel.*;
-import com.francetelecom.clara.cloud.model.TechnicalDeploymentTemplate;
-import com.francetelecom.clara.cloud.model.TechnicalDeploymentTemplateRepository;
-import com.francetelecom.clara.cloud.paas.projection.ProjectionService;
 import com.francetelecom.clara.cloud.coremodel.exception.ApplicationNotFoundException;
 import com.francetelecom.clara.cloud.coremodel.exception.ApplicationReleaseNotFoundException;
 import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationReleaseException;
 import com.francetelecom.clara.cloud.coremodel.exception.PaasUserNotFoundException;
+import com.francetelecom.clara.cloud.model.TechnicalDeploymentTemplate;
+import com.francetelecom.clara.cloud.model.TechnicalDeploymentTemplateRepository;
+import com.francetelecom.clara.cloud.paas.projection.ProjectionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,25 +65,16 @@ public class ManageApplicationReleaseImpl implements ManageApplicationRelease {
     @Override
     public List<ApplicationRelease> findApplicationReleases(int firstIndex, int count) {
         if (SecurityUtils.currentUserIsAdmin()) {
-            return applicationReleaseRepository.findAll(firstIndex, count);
+            return applicationReleaseRepository.findAll();
         } else {
-            return applicationReleaseRepository.findAllPublicOrPrivateByMember(SecurityUtils.currentUser(), firstIndex, count);
+            return applicationReleaseRepository.findAllPublicOrPrivateByMember(SecurityUtils.currentUser().getValue());
         }
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public List<ApplicationRelease> findMyApplicationReleases() {
-        if (SecurityUtils.currentUserIsAdmin()) {
-            return applicationReleaseRepository.findAll();
-        } else {
-            return findMyApplicationReleases(0, Integer.MAX_VALUE);
-        }
-    }
-
-    @Override
-    public List<ApplicationRelease> findMyApplicationReleases(int firstIndex, int count) {
-        return (List<ApplicationRelease>) applicationReleaseRepository.findAllByApplicationMember(SecurityUtils.currentUser(), firstIndex, count);
+            return (List<ApplicationRelease>) applicationReleaseRepository.findAllByApplicationMember(SecurityUtils.currentUser().getValue());
     }
 
     @Override
@@ -98,7 +86,11 @@ public class ManageApplicationReleaseImpl implements ManageApplicationRelease {
             log.info(message);
             throw new ApplicationNotFoundException(message);
         }
-        return (List<ApplicationRelease>) applicationReleaseRepository.findApplicationReleasesByAppUID(applicationUid);
+        if (SecurityUtils.currentUserIsAdmin()) {
+            return applicationReleaseRepository.findApplicationReleasesByAppUID(applicationUid);
+        } else {
+            return applicationReleaseRepository.findPublicOrPrivateByMemberAndByAppUID(SecurityUtils.currentUser().getValue(), applicationUid);
+        }
     }
 
     @Override
@@ -152,7 +144,7 @@ public class ManageApplicationReleaseImpl implements ManageApplicationRelease {
         // Validate model
         ValidatorUtil.validate(applicationRelease);
 
-        applicationReleaseRepository.persist(applicationRelease);
+        applicationReleaseRepository.save(applicationRelease);
 
         return applicationRelease.getUID();
     }
@@ -205,7 +197,7 @@ public class ManageApplicationReleaseImpl implements ManageApplicationRelease {
         if (toPurgeReleases != null) {
             for (ApplicationRelease release : toPurgeReleases) {
                 deleteTechnicalDeploymentTemplates(release.getUID());
-                applicationReleaseRepository.remove(release);
+                applicationReleaseRepository.delete(release);
             }
         }
     }
@@ -221,9 +213,9 @@ public class ManageApplicationReleaseImpl implements ManageApplicationRelease {
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public void deleteAndPurgeApplicationRelease(String uid) throws ApplicationReleaseNotFoundException {
         deleteApplicationRelease(uid);
-        ApplicationRelease applicationRelease = applicationReleaseRepository.findByUID(uid, true);
+        ApplicationRelease applicationRelease = applicationReleaseRepository.findByUID(uid);
         deleteTechnicalDeploymentTemplates(applicationRelease.getUID());
-        applicationReleaseRepository.remove(applicationRelease);
+        applicationReleaseRepository.delete(applicationRelease);
     }
 
     @Override
@@ -267,7 +259,7 @@ public class ManageApplicationReleaseImpl implements ManageApplicationRelease {
         // cannot remove if not authorized
         assertHasWritePermissionFor(applicationRelease);
 
-        return applicationReleaseRepository.merge(applicationRelease);
+        return applicationReleaseRepository.save(applicationRelease);
     }
 
     @Override
@@ -275,13 +267,13 @@ public class ManageApplicationReleaseImpl implements ManageApplicationRelease {
         if (SecurityUtils.currentUserIsAdmin()) {
             return applicationReleaseRepository.countApplicationReleases();
         } else {
-            return applicationReleaseRepository.countPublicOrPrivateByMember(SecurityUtils.currentUser());
+            return applicationReleaseRepository.countPublicOrPrivateByMember(SecurityUtils.currentUser().getValue());
         }
     }
 
     @Override
     public long countMyApplicationReleases() {
-        return applicationReleaseRepository.countByApplicationMember(SecurityUtils.currentUser());
+        return applicationReleaseRepository.countByApplicationMember(SecurityUtils.currentUser().getValue());
     }
 
     @Override
@@ -295,7 +287,7 @@ public class ManageApplicationReleaseImpl implements ManageApplicationRelease {
         if (SecurityUtils.currentUserIsAdmin()) {
             return applicationReleaseRepository.countApplicationReleasesByApplicationUID(applicationUID);
         } else {
-            return applicationReleaseRepository.countPublicOrPrivateByMemberAndByAppUID(SecurityUtils.currentUser(), applicationUID);
+            return applicationReleaseRepository.countPublicOrPrivateByMemberAndByAppUID(SecurityUtils.currentUser().getValue(), applicationUID);
         }
     }
 
@@ -314,15 +306,6 @@ public class ManageApplicationReleaseImpl implements ManageApplicationRelease {
     @Override
     public boolean isReleaseVersionUniqueForApplication(String applicationUID, String version) {
         return applicationReleaseRepository.findByApplicationUIDAndReleaseVersion(applicationUID, version) == null;
-    }
-
-    @Override
-    public List<ApplicationRelease> findApplicationReleasesByAppUID(String applicationUID, int firstIndex, int count) {
-        if (SecurityUtils.currentUserIsAdmin()) {
-            return (List<ApplicationRelease>) applicationReleaseRepository.findApplicationReleasesByAppUID(applicationUID, firstIndex, count);
-        } else {
-            return (List<ApplicationRelease>) applicationReleaseRepository.findPublicOrPrivateByMemberAndByAppUID(SecurityUtils.currentUser(), applicationUID, firstIndex, count);
-        }
     }
 
     public void setEnvironmentRepository(EnvironmentRepository repository) {
