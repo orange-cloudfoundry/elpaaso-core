@@ -28,7 +28,6 @@
 
   <modules>
   	<module>cloud-paas-test-database</module>
-	<module>cloud-paas-test-dep</module>
   </modules>
   
 </project>
