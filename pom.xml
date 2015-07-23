@@ -47,7 +47,7 @@
 
     <repositories>
         <repository>
-            <id>bintray</id>
+            <id>jcenter</id>
             <name>JCenter-Bintray</name>
             <url>http://jcenter.bintray.com</url>
             <releases>
