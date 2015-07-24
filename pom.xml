@@ -79,8 +79,6 @@
         <!-- unit tests are skipped when skipTests = true or skipUTs=true -->
         <!-- see surefire configuration for further details -->
         <skipUTs>${skipTests}</skipUTs>
-        <skipITs>true</skipITs>
-        <skipATs>true</skipATs>
         <!-- version of PaaS sample apps; used in several modules (e.g. logical-model,
             paas-services-int, cloud-mvn-consumer) -->
         <wsdl.administration.version>5.0-SNAPSHOT</wsdl.administration.version>
@@ -1189,7 +1187,9 @@ java.lang.NoClassDefFoundError: org/apache/commons/logging/LogFactory  -->
                     <artifactId>license-maven-plugin</artifactId>
                     <version>2.11</version>
                     <configuration>
-                        <header>https://raw.githubusercontent.com/Orange-OpenSource/elpaaso/master/src/license/apache-2-custom-header.txt</header>
+                        <header>
+                            https://raw.githubusercontent.com/Orange-OpenSource/elpaaso/master/src/license/apache-2-custom-header.txt
+                        </header>
                         <properties>
                             <owner>Orange</owner>
                         </properties>
@@ -1277,7 +1277,7 @@ java.lang.NoClassDefFoundError: org/apache/commons/logging/LogFactory  -->
             </properties>
             <dependencies>
                 <dependency>
-                    <groupId>com.francetelecom.clara.cloud</groupId>
+                    <groupId>com.orange.clara.cloud</groupId>
                     <artifactId>elpaaso-credentials</artifactId>
                     <version>1.0-SNAPSHOT</version>
                     <scope>test</scope>
@@ -1346,6 +1346,36 @@ java.lang.NoClassDefFoundError: org/apache/commons/logging/LogFactory  -->
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <profile>
+            <id>runITs</id>
+            <properties>
+                <skipITs>false</skipITs>
+            </properties>
+        </profile>
+        <profile>
+            <id>skipITs</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <skipITs>true</skipITs>
+            </properties>
+        </profile>
+        <profile>
+            <id>runATs</id>
+            <properties>
+                <skipATs>false</skipATs>
+            </properties>
+        </profile>
+        <profile>
+            <id>skipATs</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <skipIAs>true</skipIAs>
+            </properties>
         </profile>
     </profiles>
 
