@@ -1,0 +1,2 @@
+# Allows src\test\resources\apps\... to contains war test file
+!*.war

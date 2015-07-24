@@ -1,0 +1,2 @@
+# Allows src\test\resources\repo\... to contains jar file to emulate maven repo
+!*.jar
