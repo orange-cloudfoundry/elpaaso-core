@@ -12,8 +12,8 @@
 				  value="classpath:/com/francetelecom/clara/cloud/commons/testconfigurations/credentials-${datacenter:reference}.properties"/>
 	</bean>
 
-	<bean id="paasSamplesVersion" class="java.lang.String">
-		<constructor-arg value="${paasSamplesVersion}" />
+	<bean id="systemTestAppsVersion" class="java.lang.String">
+		<constructor-arg value="${systemTestAppsVersion}" />
 	</bean>
 
 	<bean id="elpaasoVersion" class="java.lang.String">

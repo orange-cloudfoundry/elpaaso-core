@@ -13,12 +13,12 @@
     </bean>
     <!-- <groupId>com.orange.clara.cloud</groupId>
             <artifactId>paas-probe-jee</artifactId>
-            <version>${paasSamplesVersion}</version> -->
+            <version>${systemTestAppsVersion}</version> -->
 
     <bean class="com.francetelecom.clara.cloud.commons.MavenReference" id="jeeProbeMavenReference">
         <constructor-arg name="groupId" value="com.orange.clara.cloud.samples" />
         <constructor-arg name="artifactId" value="paas-probe-jee-ear" />
-        <constructor-arg name="version" value="${paasSamplesVersion}" />
+        <constructor-arg name="version" value="${systemTestAppsVersion}" />
         <constructor-arg name="extension" value="ear" />
     </bean>
     <bean id="fileFetcherUtil" class="com.francetelecom.clara.cloud.activation.plugin.cf.infrastructure.FileFetcherUtil" />

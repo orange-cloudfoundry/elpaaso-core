@@ -47,8 +47,8 @@ public class MvnRepoDaoImplUsingWrongProxyIT {
 	private MvnRepoDaoImpl mvnRepoDao;
 
 	@Autowired
-	@Qualifier("paasSamplesVersion")
-	private String paasSamplesVersion;
+	@Qualifier("systemTestAppsVersion")
+	private String systemTestAppsVersion;
 
 	@BeforeClass
 	public static void setup() throws MalformedURLException {
@@ -64,7 +64,7 @@ public class MvnRepoDaoImplUsingWrongProxyIT {
 	@Test
 	public void testGetFileFromRemoteRepositoryUsingProxy_ValidMavenRef() {
 		assertTrue("Should use a proxy for pull repo", mvnRepoDao.isUsingProxyForPullRepo());
-		MvnRepoDaoImplIT.assertValidMavenRef(mvnRepoDao, paasSamplesVersion);
+		MvnRepoDaoImplIT.assertValidMavenRef(mvnRepoDao, systemTestAppsVersion);
 	}
 
 }

@@ -70,6 +70,7 @@
         </repository>
     </repositories>
     <properties>
+        <systemTestAppsVersion>1.0-SNAPSHOT</systemTestAppsVersion>
         <!-- == Project env == -->
         <project.build.java.version>1.8</project.build.java.version>
         <!--<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> -->

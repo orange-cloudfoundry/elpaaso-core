@@ -48,8 +48,8 @@ public class MvnRepoDaoImplIT
 	private MvnRepoDao mvnRepoDao;
 
 	@Autowired
-	@Qualifier("paasSamplesVersion")
-	private String paasSamplesVersion;
+	@Qualifier("systemTestAppsVersion")
+	private String systemTestAppsVersion;
 
 	@BeforeClass
 	public static void setup() throws MalformedURLException {
@@ -99,8 +99,8 @@ public class MvnRepoDaoImplIT
 	}
 
 
-	static void assertValidMavenRef(MvnRepoDao mvnRepoDao, String paasSamplesVersion) {
-		MavenReference mavenReference = new MavenReference("com.orange.clara.cloud.samples", "petclinic-sql-postgres", paasSamplesVersion, "sql");
+	static void assertValidMavenRef(MvnRepoDao mvnRepoDao, String systemTestAppsVersion) {
+		MavenReference mavenReference = new MavenReference("com.orange.clara.cloud.samples", "petclinic-sql-postgres", systemTestAppsVersion, "sql");
         File f = mvnRepoDao.getFileFromLocalRepository(mavenReference);
         logger.info("testGeFile - mavenRef:" + mavenReference + " file:" + f);
         assertNotNull(f);
@@ -108,7 +108,7 @@ public class MvnRepoDaoImplIT
 
 	@Test
 	public void should_get_petclinic_sql_using_paas_sample_version_from_local_repository() {
-        assertValidMavenRef(mvnRepoDao, paasSamplesVersion);
+        assertValidMavenRef(mvnRepoDao, systemTestAppsVersion);
 	}
 
 	@Test(expected = MavenReferenceResolutionException.class)

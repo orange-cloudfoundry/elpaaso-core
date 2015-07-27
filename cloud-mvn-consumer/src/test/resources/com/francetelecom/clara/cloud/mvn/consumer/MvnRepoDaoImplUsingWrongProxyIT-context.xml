@@ -5,8 +5,8 @@
     <import resource="mvn-consumer-test-wrongProxyAsSystemProperties.xml"/>
     <import resource="mvn-consumer-test-context.xml"/>
 
-    <bean id="paasSamplesVersion" class="java.lang.String" >
-        <constructor-arg value="${paasSamplesVersion}"/>
+    <bean id="systemTestAppsVersion" class="java.lang.String" >
+        <constructor-arg value="${systemTestAppsVersion}"/>
     </bean>
  
  	<bean id="mvnConsumerConfigurer"

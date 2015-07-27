@@ -53,8 +53,8 @@ public class MvnRepoDaoImplResolveUrlIT {
 	private MvnRepoDao mvnRepoDao;
 
 	@Autowired
-	@Qualifier("paasSamplesVersion")
-	private String paasSamplesVersion;
+	@Qualifier("systemTestAppsVersion")
+	private String systemTestAppsVersion;
 
 	@Autowired
 	@Qualifier("elpaasoVersion")
@@ -130,7 +130,7 @@ public class MvnRepoDaoImplResolveUrlIT {
 		 * <artifactId>petclinic-springoo-sql-postgres</artifactId>
 		 * <version>1.0.5</version> <type>sql</type> </dependency>
 		 */
-		MavenReference mvnBefore = new MavenReference("com.orange.clara.cloud.samples", "petclinic-springoo-sql-postgres", paasSamplesVersion, "sql");
+		MavenReference mvnBefore = new MavenReference("com.orange.clara.cloud.samples", "petclinic-springoo-sql-postgres", systemTestAppsVersion, "sql");
 
 		assertResolveUrlIsValid(mvnBefore);
 	}
@@ -166,7 +166,7 @@ public class MvnRepoDaoImplResolveUrlIT {
 		 * <artifactId>petclinic-sql-postgres</artifactId>
 		 * <version>1.0.0</version> <type>sql</type> </dependency>
 		 */
-		testResolveUrl(new MavenReference("com.orange.clara.cloud.samples", "petclinic-sql-postgres", paasSamplesVersion, "sql"));
+		testResolveUrl(new MavenReference("com.orange.clara.cloud.samples", "petclinic-sql-postgres", systemTestAppsVersion, "sql"));
 	}
 
 	private void assertResolveUrlIsValid(MavenReference mvnBefore) {
