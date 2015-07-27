@@ -226,12 +226,6 @@ public class MvnRepoDaoImplResolveUrlIT {
 
 	@Test
 	public void should_resolve_war_artifact_for_elpaaso_latest_Snapshot() {
-		/*
-		 * <dependency> <groupId>com.orange.clara.cloud.samples</groupId>
-		 * <artifactId>cloud-paas-webapp-ear</artifactId>
-		 * <version>LATEST</version> <type>ear</type> </dependency>
-		 */
-
 		MavenReference ear = new MavenReference("com.orange.clara.cloud", "cloud-paas-webapp-war", "LATEST", "war");
 		assertNotNull(ear);
 		MavenReference resolvedUrl = mvnRepoDao.resolveUrl(ear);

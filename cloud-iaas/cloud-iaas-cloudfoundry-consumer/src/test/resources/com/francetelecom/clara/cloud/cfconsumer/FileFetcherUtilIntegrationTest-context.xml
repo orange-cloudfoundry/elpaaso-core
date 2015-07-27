@@ -16,7 +16,7 @@
             <version>${systemTestAppsVersion}</version> -->
 
     <bean class="com.francetelecom.clara.cloud.commons.MavenReference" id="jeeProbeMavenReference">
-        <constructor-arg name="groupId" value="com.orange.clara.cloud.samples" />
+        <constructor-arg name="groupId" value="com.orange.clara.cloud.probes" />
         <constructor-arg name="artifactId" value="paas-probe-jee-ear" />
         <constructor-arg name="version" value="${systemTestAppsVersion}" />
         <constructor-arg name="extension" value="ear" />
