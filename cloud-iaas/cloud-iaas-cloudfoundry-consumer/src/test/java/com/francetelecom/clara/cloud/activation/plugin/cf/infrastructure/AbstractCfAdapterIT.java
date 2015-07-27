@@ -21,6 +21,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
+import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppProperties;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.methods.HttpGet;
@@ -87,8 +88,7 @@ public abstract class AbstractCfAdapterIT {
 	private MvnRepoDao mvnRepoDao;
 
 	@Autowired
-	@Qualifier("jeeProbeMavenReference")
-	private MavenReference jeeProbeMavenReference;
+	private SampleAppProperties sampleAppProperties;
 
 	@Autowired
 	@Qualifier("datacenter")
@@ -175,6 +175,7 @@ public abstract class AbstractCfAdapterIT {
 
 	@Test
 	public void provisions_starts_stops_deletes_jeeprobe_ear() throws IOException {
+		MavenReference jeeProbeMavenReference = sampleAppProperties.getMavenReference("jeeprobe","ear");
 		MavenReference jeeProbeEarRef = mvnRepoDao.resolveUrl(jeeProbeMavenReference);
 
 		String testRequestPath = "/jeeprobe/"; // JeeProbe EAR specified a

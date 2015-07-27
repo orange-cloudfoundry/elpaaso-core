@@ -13,6 +13,8 @@
 		</property>
 	</bean>
 
+	<bean id="sampleAppProperties" class="com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppProperties"/>
+
 	<bean class="com.francetelecom.clara.cloud.commons.MavenReference"
 		id="jeeProbeMavenReference">
 		<constructor-arg name="groupId" value="com.orange.clara.cloud.probes" />
