@@ -80,6 +80,8 @@
         <!-- unit tests are skipped when skipTests = true or skipUTs=true -->
         <!-- see surefire configuration for further details -->
         <skipUTs>${skipTests}</skipUTs>
+        <skipITs>true</skipITs>
+        <skipATs>true</skipATs>
         <!-- version of PaaS sample apps; used in several modules (e.g. logical-model,
             paas-services-int, cloud-mvn-consumer) -->
         <wsdl.administration.version>5.0-SNAPSHOT</wsdl.administration.version>
@@ -1273,6 +1275,11 @@ java.lang.NoClassDefFoundError: org/apache/commons/logging/LogFactory  -->
     <profiles>
         <profile>
             <id>jenkins-orange</id>
+            <activation>
+                <property>
+                    <name>EBU_NET_DESK</name>
+                </property>
+            </activation>
             <properties>
                 <datacenter>hudson</datacenter>
             </properties>
@@ -1356,9 +1363,6 @@ java.lang.NoClassDefFoundError: org/apache/commons/logging/LogFactory  -->
         </profile>
         <profile>
             <id>skipITs</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <properties>
                 <skipITs>true</skipITs>
             </properties>
@@ -1371,9 +1375,6 @@ java.lang.NoClassDefFoundError: org/apache/commons/logging/LogFactory  -->
         </profile>
         <profile>
             <id>skipATs</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <properties>
                 <skipATs>true</skipATs>
             </properties>
