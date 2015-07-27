@@ -64,5 +64,8 @@
 	<!-- marquage des transactions par annotations -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
-	<import resource="classpath:/META-INF/spring/cloud-daos-context.xml" />
+	<import resource="classpath:/META-INF/spring/logical-model-repository-context.xml"/>
+	<import resource="classpath:/META-INF/spring/technical-model-repository-context.xml"/>
+	<import resource="classpath:/META-INF/spring/core-model-repository-context.xml"/>
+
 </beans>

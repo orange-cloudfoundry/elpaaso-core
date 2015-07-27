@@ -12,9 +12,12 @@
  */
 package com.francetelecom.clara.cloud.application.impl;
 
-import static org.fest.assertions.Assertions.assertThat;
-
-import com.francetelecom.clara.cloud.logicalmodel.*;
+import com.francetelecom.clara.cloud.deployment.logical.service.LogicalDeploymentImportExport;
+import com.francetelecom.clara.cloud.logicalmodel.CFJavaProcessing;
+import com.francetelecom.clara.cloud.logicalmodel.LogicalDeployment;
+import com.francetelecom.clara.cloud.logicalmodel.LogicalService;
+import com.francetelecom.clara.cloud.logicalmodel.ProcessingNode;
+import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppFactory;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,9 +26,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppFactory;
-
 import java.util.List;
+
+import static org.fest.assertions.Assertions.assertThat;
 
 /**
  */

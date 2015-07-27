@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
-
-    <jpa:repositories base-package="com.francetelecom.clara.cloud.coremodel"/>
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
     <bean id="propertyConfigurer" class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
         <property name="locations">
@@ -19,5 +17,8 @@
     <import resource="classpath:/com/francetelecom/clara/cloud/commons/jpa/jpa-context.xml"/>
     <import resource="classpath:/com/francetelecom/clara/cloud/commons/testconfigurations/mock-liquibase-context.xml"/>
     <import resource="transaction-context.xml"/>
+    <import resource="classpath:/META-INF/spring/core-model-repository-context.xml"/>
+    <import resource="classpath:/META-INF/spring/technical-model-repository-context.xml"/>
+
 
 </beans>

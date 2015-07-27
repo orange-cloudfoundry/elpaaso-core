@@ -13,8 +13,8 @@
 package com.francetelecom.clara.cloud.service.backdoor;
 
 
+import com.francetelecom.clara.cloud.core.service.exception.EnvironmentNotFoundException;
 import com.francetelecom.clara.cloud.coremodel.*;
-import com.francetelecom.clara.cloud.coremodel.exception.EnvironmentNotFoundException;
 import com.francetelecom.clara.cloud.model.DeploymentProfileEnum;
 import com.francetelecom.clara.cloud.model.TechnicalDeploymentInstance;
 import org.junit.Assert;

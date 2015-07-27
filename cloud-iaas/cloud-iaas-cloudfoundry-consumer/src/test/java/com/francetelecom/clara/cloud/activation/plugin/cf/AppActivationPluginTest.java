@@ -13,14 +13,13 @@
 package com.francetelecom.clara.cloud.activation.plugin.cf;
 
 import com.francetelecom.clara.cloud.activation.plugin.cf.domain.AppActivationService;
-import com.francetelecom.clara.cloud.application.ManageModelItem;
 import com.francetelecom.clara.cloud.commons.MavenReference;
 import com.francetelecom.clara.cloud.commons.TechnicalException;
 import com.francetelecom.clara.cloud.commons.tasks.Failure;
 import com.francetelecom.clara.cloud.commons.tasks.Success;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatus;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatusEnum;
-import com.francetelecom.clara.cloud.dao.ModelItemDaoJpa;
+import com.francetelecom.clara.cloud.model.ModelItemRepository;
 import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.mvn.consumer.MvnRepoDao;
 import com.francetelecom.clara.cloud.paas.activation.ActivationStepEnum;
@@ -53,7 +52,7 @@ public class AppActivationPluginTest {
 	@Mock
 	MvnRepoDao mvnRepoDao;
 	@Mock
-	ManageModelItem manageModelItem;
+	ModelItemRepository modelItemRepository;
 
 	App joyn;
 	
@@ -69,7 +68,7 @@ public class AppActivationPluginTest {
 
 	@Before
 	public void setUp() {
-        plugin = new AppActivationPlugin(appActivationService, manageModelItem, mvnRepoDao, appRepository);
+        plugin = new AppActivationPlugin(appActivationService, modelItemRepository, mvnRepoDao, appRepository);
 
 		TechnicalDeployment td = new TechnicalDeployment("depl");
 
@@ -88,7 +87,7 @@ public class AppActivationPluginTest {
 	@Test
 	public void accepts_only_cf_subs() {
 		assertThat(plugin.accept(App.class, ActivationStepEnum.ACTIVATE)).isTrue();
-		assertThat(plugin.accept(ModelItemDaoJpa.class, ActivationStepEnum.ACTIVATE)).isFalse();
+		assertThat(plugin.accept(ModelItemRepository.class, ActivationStepEnum.ACTIVATE)).isFalse();
 	}
 
 	@Test

@@ -254,10 +254,6 @@ public class Environment extends CoreItem {
 		return uniqueLabel;
 	}
 
-	public boolean isOwner(String ssoId) {
-		return getPaasUser().getSsoId().getValue().equals(ssoId);
-	}
-
 	/**
 	 * This generate the log used by splunk (ie. to construct splunk dashboard)
 	 * 
@@ -316,4 +312,8 @@ public class Environment extends CoreItem {
 			setStatusPercent(percent);
 		}
 	}
+
+	public ActivationContext getActivationContext() {
+        return new ActivationContext(getUID(), getLabel());
+    }
 }

@@ -12,30 +12,25 @@
  */
 package com.francetelecom.clara.cloud.mocks;
 
+import com.francetelecom.clara.cloud.commons.BusinessException;
+import com.francetelecom.clara.cloud.commons.InvalidMavenReferenceException;
+import com.francetelecom.clara.cloud.commons.InvalidMavenReferenceException.ErrorType;
+import com.francetelecom.clara.cloud.commons.MavenReference;
+import com.francetelecom.clara.cloud.core.service.exception.InvalidReleaseException;
+import com.francetelecom.clara.cloud.core.service.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.Application;
+import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
+import com.francetelecom.clara.cloud.deployment.logical.service.LogicalDeploymentCloner;
+import com.francetelecom.clara.cloud.deployment.logical.service.ManageLogicalDeployment;
+import com.francetelecom.clara.cloud.logicalmodel.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.francetelecom.clara.cloud.application.ManageLogicalDeployment;
-import com.francetelecom.clara.cloud.commons.BusinessException;
-import com.francetelecom.clara.cloud.commons.InvalidMavenReferenceException;
-import com.francetelecom.clara.cloud.commons.InvalidMavenReferenceException.ErrorType;
-import com.francetelecom.clara.cloud.commons.MavenReference;
-import com.francetelecom.clara.cloud.coremodel.Application;
-import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
-import com.francetelecom.clara.cloud.dao.LogicalDeploymentCloner;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalConfigService;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalConfigServiceUtils;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalDeployment;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalSoapService;
-import com.francetelecom.clara.cloud.logicalmodel.ProcessingNode;
-import com.francetelecom.clara.cloud.coremodel.exception.InvalidReleaseException;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 
 /**
  * Mock impl of LogicalDeployment using in plain JVM references as persistence

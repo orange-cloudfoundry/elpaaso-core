@@ -12,7 +12,6 @@
  */
 package com.francetelecom.clara.cloud.paas.activation;
 
-import com.francetelecom.clara.cloud.application.ManageTechnicalDeploymentInstance;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatusEnum;
 import com.francetelecom.clara.cloud.coremodel.Environment;
 import com.francetelecom.clara.cloud.coremodel.EnvironmentRepository;
@@ -38,10 +37,7 @@ public class ManagePaasActivationStubbedImplForTestsWicket implements ManagePaas
 	 */
 	private TaskExecutor springTaskCoreExecutor;
 
-    @Autowired
-    private ManageTechnicalDeploymentInstance manageTechnicalDeploymentInstance;
-
-    @Autowired
+	@Autowired
 	private EnvironmentRepository environmentRepository;
 	
 	private Map<Long, TaskStatusActivation> taskStatus = new HashMap<Long, TaskStatusActivation>();

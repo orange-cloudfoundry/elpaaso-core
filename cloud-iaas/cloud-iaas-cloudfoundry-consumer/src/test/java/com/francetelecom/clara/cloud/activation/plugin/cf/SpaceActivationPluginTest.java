@@ -13,8 +13,8 @@
 package com.francetelecom.clara.cloud.activation.plugin.cf;
 
 import com.francetelecom.clara.cloud.activation.plugin.cf.domain.SpaceActivationService;
-import com.francetelecom.clara.cloud.application.ManageModelItem;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatus;
+import com.francetelecom.clara.cloud.model.ModelItemRepository;
 import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.techmodel.cf.Space;
 import com.francetelecom.clara.cloud.techmodel.cf.SpaceName;
@@ -32,13 +32,13 @@ public class SpaceActivationPluginTest {
     @Mock
     SpaceActivationService spaceActivationService;
     @Mock
-    ManageModelItem manageModelItem;
+    ModelItemRepository modelItemRepository;
     @Mock
     SpaceRepository spaceRepository;
 
     @Test
     public void fail_to_activate_space_if_space_does_not_exist() throws Exception {
-        final SpaceActivationPlugin spaceActivationPlugin = new SpaceActivationPlugin(spaceActivationService, manageModelItem, spaceRepository);
+        final SpaceActivationPlugin spaceActivationPlugin = new SpaceActivationPlugin(spaceActivationService, modelItemRepository, spaceRepository);
 
         final TaskStatus status = spaceActivationPlugin.activate(99, Space.class, new ActivationTestContext());
 
@@ -49,7 +49,7 @@ public class SpaceActivationPluginTest {
 
     @Test
     public void fail_to_delete_space_if_space_does_not_exist() throws Exception {
-        final SpaceActivationPlugin spaceActivationPlugin = new SpaceActivationPlugin(spaceActivationService, manageModelItem, spaceRepository);
+        final SpaceActivationPlugin spaceActivationPlugin = new SpaceActivationPlugin(spaceActivationService, modelItemRepository, spaceRepository);
 
         final TaskStatus status = spaceActivationPlugin.delete(99, Space.class);
 
@@ -63,7 +63,7 @@ public class SpaceActivationPluginTest {
         Space space = new Space(td);
         Mockito.when(spaceRepository.findOne(1)).thenReturn(space);
 
-        final SpaceActivationPlugin spaceActivationPlugin = new SpaceActivationPlugin(spaceActivationService, manageModelItem, spaceRepository);
+        final SpaceActivationPlugin spaceActivationPlugin = new SpaceActivationPlugin(spaceActivationService, modelItemRepository, spaceRepository);
         final TaskStatus status = spaceActivationPlugin.delete(1, Space.class);
 
         Assertions.assertThat(status.hasSucceed()).isEqualTo(true);
@@ -78,7 +78,7 @@ public class SpaceActivationPluginTest {
         Mockito.when(spaceRepository.findOne(1)).thenReturn(space);
         Mockito.when(spaceActivationService.activate(Mockito.anyString())).thenReturn(new SpaceName("test"));
 
-        final SpaceActivationPlugin spaceActivationPlugin = new SpaceActivationPlugin(spaceActivationService, manageModelItem, spaceRepository);
+        final SpaceActivationPlugin spaceActivationPlugin = new SpaceActivationPlugin(spaceActivationService, modelItemRepository, spaceRepository);
         final TaskStatus status = spaceActivationPlugin.activate(1, Space.class, new ActivationTestContext());
 
         Assertions.assertThat(status.hasSucceed()).isEqualTo(true);
@@ -94,7 +94,7 @@ public class SpaceActivationPluginTest {
         //and has been activated
         space.activate(new SpaceName("test"));
 
-        final SpaceActivationPlugin spaceActivationPlugin = new SpaceActivationPlugin(spaceActivationService, manageModelItem, spaceRepository);
+        final SpaceActivationPlugin spaceActivationPlugin = new SpaceActivationPlugin(spaceActivationService, modelItemRepository, spaceRepository);
         final TaskStatus status = spaceActivationPlugin.delete(1, Space.class);
 
         Assertions.assertThat(status.hasSucceed()).isEqualTo(true);

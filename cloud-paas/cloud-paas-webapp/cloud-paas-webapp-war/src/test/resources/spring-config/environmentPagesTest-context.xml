@@ -28,7 +28,7 @@
     </bean>
 
     <bean id="manageEnvironment" class="org.mockito.Mockito" factory-method="mock"  >
-        <constructor-arg value="com.francetelecom.clara.cloud.environment.ManageEnvironment" />
+        <constructor-arg value="com.francetelecom.clara.cloud.core.service.ManageEnvironment" />
     </bean>
 
     <bean id="managePaasUser" class="org.mockito.Mockito" factory-method="mock"  >
@@ -36,7 +36,7 @@
     </bean>
 
     <bean id="manageLogicalDeployment" class="org.mockito.Mockito" factory-method="mock"  >
-        <constructor-arg value="com.francetelecom.clara.cloud.application.ManageLogicalDeployment" />
+        <constructor-arg value="com.francetelecom.clara.cloud.deployment.logical.service.ManageLogicalDeployment" />
     </bean>
 
     <bean id="delegatingDesignerServices" class="org.mockito.Mockito" factory-method="mock"  >

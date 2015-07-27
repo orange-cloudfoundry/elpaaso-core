@@ -12,24 +12,19 @@
  */
 package com.francetelecom.clara.cloud;
 
-import java.util.concurrent.Callable;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.PropertyException;
-
+import com.francetelecom.clara.cloud.commons.ValidatorUtil;
+import com.francetelecom.clara.cloud.commons.xstream.XStreamUtils;
+import com.francetelecom.clara.cloud.logicalmodel.LogicalDeployment;
+import com.thoughtworks.xstream.XStream;
 import org.apache.commons.io.output.NullWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.francetelecom.clara.cloud.commons.ValidatorUtil;
-import com.francetelecom.clara.cloud.commons.xstream.XStreamUtils;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalDeployment;
-import com.thoughtworks.xstream.XStream;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 /**
  * Utility to add persistence to tests that don't have some. This is designed so be instanciated by Junit tests that already have a persistence context declared
@@ -48,22 +43,6 @@ public class PersistenceTestUtil {
 	@Transactional
 	public void executeWithinTransaction(Runnable runnable) {
 		runnable.run();
-	}
-
-	/**
-	 * Executes the given Calleable on the current thread within a new Transational context, and returns the computed result
-	 */
-	@Transactional
-	public <T> T executeWithinTransaction(Callable<T> calleable) throws Exception {
-		return calleable.call();
-	}
-
-	@Transactional
-	public void persistObjects(Object... objects) {
-		for (Object object : objects) {
-			persistObject(object, true);
-		}
-		em.flush();
 	}
 
 	@Transactional
@@ -122,10 +101,6 @@ public class PersistenceTestUtil {
 			// dump to equivalent of /dev/null
 			xStream.toXML(entity, NullWriter.NULL_WRITER);
 		}
-	}
-
-	public static void dumpTechDeploymentTemplateToStdoutAsXml(Object object) throws JAXBException, PropertyException {
-		forceEagerFetching(object);
 	}
 
 	/**

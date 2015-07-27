@@ -12,14 +12,16 @@
  */
 package com.francetelecom.clara.cloud.paas.activation.v1;
 
-import com.francetelecom.clara.cloud.application.ManageModelItem;
 import com.francetelecom.clara.cloud.commons.NotFoundException;
 import com.francetelecom.clara.cloud.commons.TechnicalException;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatus;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatusEnum;
-import com.francetelecom.clara.cloud.coremodel.*;
+import com.francetelecom.clara.cloud.coremodel.Environment;
+import com.francetelecom.clara.cloud.coremodel.EnvironmentRepository;
+import com.francetelecom.clara.cloud.coremodel.EnvironmentStatus;
 import com.francetelecom.clara.cloud.model.DeploymentStateEnum;
 import com.francetelecom.clara.cloud.model.ModelItem;
+import com.francetelecom.clara.cloud.model.ModelItemRepository;
 import com.francetelecom.clara.cloud.paas.activation.ActivationPlugin;
 import com.francetelecom.clara.cloud.paas.activation.v1.async.TaskHandlerCallback;
 import org.activiti.engine.ProcessEngine;
@@ -28,6 +30,7 @@ import org.activiti.engine.runtime.ExecutionQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -42,12 +45,16 @@ public class ActivationTaskHandlerCallback implements TaskHandlerCallback<Activa
 
     private static Logger logger = LoggerFactory.getLogger(ActivationTaskHandlerCallback.class.getName());
 
+    @Autowired
     private ProcessEngine processEngine;
 
+    @Autowired
     private ActivationPluginStrategy pluginStrategy;
 
-    private ManageModelItem manageModelItem;
+    @Autowired
+    private ModelItemRepository modelItemRepository;
 
+    @Autowired
     private EnvironmentRepository environmentRepository;
 
     /**
@@ -151,9 +158,8 @@ public class ActivationTaskHandlerCallback implements TaskHandlerCallback<Activa
                             taskStatus = plugin.init(request.getEntityId(), request.getEntityClass());
                             break;
                         case ACTIVATE:
-                            EnvironmentDescriptionHandler environmentDescriptionHandler = new EnvironmentDescriptionHandlerImpl();
                             taskStatus = plugin.activate(request.getEntityId(), request.getEntityClass(),
-                                    environmentDescriptionHandler.toActivationContext(env));
+                                    env.getActivationContext());
                             break;
                         case FIRSTSTART:
                             taskStatus = plugin.firststart(request.getEntityId(), request.getEntityClass());
@@ -201,10 +207,31 @@ public class ActivationTaskHandlerCallback implements TaskHandlerCallback<Activa
                 percent = (startedTasks.size() - 1) * 100 / request.getTaskCount();
             }
             final Environment environment = environmentRepository.findByTechnicalDeploymentInstanceId(request.getTdiId());
-            environment.updateStatus( EnvironmentStatus.FAILED, status.getTitle(),  percent);
+            environment.updateStatus(getEnvironmentStatus(request), status.getTitle(), percent);
             environmentRepository.save(environment);
         }
         return status;
+    }
+
+    private EnvironmentStatus getEnvironmentStatus(ActivationTask request) {
+        EnvironmentStatus newStatus;
+        switch (request.getActivationStep()) {
+            case ACTIVATE:
+            case FIRSTSTART:
+            case START:
+                newStatus = EnvironmentStatus.STARTING;
+                break;
+            case STOP:
+                newStatus = EnvironmentStatus.STOPPING;
+                break;
+            case DELETE:
+                newStatus = EnvironmentStatus.REMOVING;
+                break;
+            default:
+                newStatus = EnvironmentStatus.UNKNOWN;
+                logger.error("Unknown activation step : " + request.getActivationStep().getName());
+        }
+        return newStatus;
     }
 
     /**
@@ -389,45 +416,48 @@ public class ActivationTaskHandlerCallback implements TaskHandlerCallback<Activa
 
     private void onTaskCompleteHandleFinishedOk(TaskStatusActivitiTask status) throws NotFoundException {
         // Update entity state if there was a treatment
-        ActivationPlugin plugin = pluginStrategy.getPlugin(status.getActivationTask().getEntityClass(), status.getActivationTask().getActivationStep());
+        final Class<? extends ModelItem> entityClass = status.getActivationTask().getEntityClass();
+        ActivationPlugin plugin = pluginStrategy.getPlugin(entityClass, status.getActivationTask().getActivationStep());
+        final int entityId = status.getActivationTask().getEntityId();
+        final ModelItem modelItem = modelItemRepository.find(entityId, entityClass);
+        if (modelItem == null) throw new NotFoundException("Failed to find modelItem of class <" + entityClass + "> with id<" + entityId + ">");
         if (plugin != null) {
             switch (status.getActivationTask().getActivationStep()) {
                 case INIT:
-                    manageModelItem.setDeploymentState(status.getActivationTask().getEntityId(), status.getActivationTask().getEntityClass(),
-                            DeploymentStateEnum.CHECKED);
+                    modelItem.setDeploymentState(DeploymentStateEnum.CHECKED);
                     break;
                 case ACTIVATE:
-                    manageModelItem.setDeploymentState(status.getActivationTask().getEntityId(), status.getActivationTask().getEntityClass(),
-                            DeploymentStateEnum.CREATED);
+                    modelItem.setDeploymentState(DeploymentStateEnum.CREATED);
                     break;
                 case FIRSTSTART:
                 case START:
-                    manageModelItem.setDeploymentState(status.getActivationTask().getEntityId(), status.getActivationTask().getEntityClass(),
-                            DeploymentStateEnum.STARTED);
+                    modelItem.setDeploymentState(DeploymentStateEnum.STARTED);
                     break;
                 case STOP:
-                    manageModelItem.setDeploymentState(status.getActivationTask().getEntityId(), status.getActivationTask().getEntityClass(),
-                            DeploymentStateEnum.STOPPED);
+                    modelItem.setDeploymentState(DeploymentStateEnum.STOPPED);
                     break;
                 case DELETE:
-                    manageModelItem.setDeploymentState(status.getActivationTask().getEntityId(), status.getActivationTask().getEntityClass(),
-                            DeploymentStateEnum.REMOVED);
+                    modelItem.setDeploymentState(DeploymentStateEnum.REMOVED);
                     break;
                 default:
                     throw new TechnicalException("Unkwown ActivationStep: " + status.getActivationTask().getActivationStep().getName());
             }
         }
+        modelItemRepository.merge(modelItem);
         // Signal activiti that the task is complete successfully
         processEngine.getRuntimeService().setVariableLocal(status.getExecutionId(), "errCode", "0");
         processEngine.getRuntimeService().signal(status.getExecutionId());
         logger.debug("+ Signal OK sent to task " + status.getActivationTask().getActivitiTaskId() + " finished status=" + status.getTaskStatus() + " ("
-                + status.getActivationTask().getEntityClass().getSimpleName() + "#" + status.getActivationTask().getEntityId() + ")");
+                + entityClass.getSimpleName() + "#" + entityId + ")");
     }
 
     private void onTaskCompleteHandleFinishedNotOk(TaskStatusActivitiTask status) throws NotFoundException {
         // Update entity state
         ActivationTask activationTask = status.getActivationTask();
-        manageModelItem.setDeploymentState(activationTask.getEntityId(), activationTask.getEntityClass(), DeploymentStateEnum.UNKNOWN);
+        final ModelItem modelItem = modelItemRepository.find(activationTask.getEntityId(), activationTask.getEntityClass());
+        if (modelItem == null) throw new NotFoundException("Failed to find modelItem of class <" + activationTask.getEntityClass() + "> with id<" + activationTask.getEntityId() + ">");
+        modelItem.setDeploymentState(DeploymentStateEnum.UNKNOWN);
+        modelItemRepository.merge(modelItem);
 
         String errorCode = "1";
         int entityId = activationTask.getEntityId();
@@ -489,42 +519,6 @@ public class ActivationTaskHandlerCallback implements TaskHandlerCallback<Activa
 
     protected ExecutionQuery createActivitiRuntimeQuery() {
         return processEngine.getRuntimeService().createExecutionQuery();
-    }
-
-    /**
-     * IOC
-     *
-     * @param processEngine
-     */
-    public void setProcessEngine(ProcessEngine processEngine) {
-        this.processEngine = processEngine;
-    }
-
-    /**
-     * IOC
-     *
-     * @param pluginStrategy
-     */
-    public void setPluginStrategy(ActivationPluginStrategy pluginStrategy) {
-        this.pluginStrategy = pluginStrategy;
-    }
-
-    /**
-     * IOC
-     *
-     * @param manageModelItem
-     */
-    public void setManageModelItem(ManageModelItem manageModelItem) {
-        this.manageModelItem = manageModelItem;
-    }
-
-    /**
-     * IOC
-     *
-     * @param environmentRepository
-     */
-    public void setEnvironmentRepository(EnvironmentRepository environmentRepository) {
-        this.environmentRepository = environmentRepository;
     }
 
 }

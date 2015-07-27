@@ -12,17 +12,15 @@
  */
 package com.francetelecom.clara.cloud.activation.plugin.dbaas;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
-import org.springframework.transaction.annotation.Transactional;
-
-import com.francetelecom.clara.cloud.activation.plugin.dbaas.DBaasConsumer;
 import com.francetelecom.clara.cloud.commons.TechnicalException;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatus;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatusEnum;
 import com.francetelecom.clara.cloud.model.DeploymentStateEnum;
 import com.francetelecom.clara.cloud.techmodel.dbaas.DBaasSubscriptionV2;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 public class TestUtils {
 
@@ -70,16 +68,6 @@ public class TestUtils {
 			persistObject(object, true);
 		}
 		em.flush();
-	}
-
-	@Transactional
-	public void persistObject(Object object) {
-		persistObject(object, false);
-	}
-
-	@Transactional
-	public void mergeObject(Object o) {
-		em.merge(o);
 	}
 
 	private void persistObject(Object object, boolean skipFlush) {

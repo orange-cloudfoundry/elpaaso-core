@@ -13,14 +13,13 @@
 package com.francetelecom.clara.cloud.presentation.environments;
 
 import com.francetelecom.clara.cloud.core.service.ManageApplication;
-import com.francetelecom.clara.cloud.environment.ManageEnvironment;
+import com.francetelecom.clara.cloud.core.service.ManageEnvironment;
 import com.francetelecom.clara.cloud.logicalmodel.LogicalConfigService;
 import com.francetelecom.clara.cloud.presentation.HomePage;
 import com.francetelecom.clara.cloud.presentation.common.Breadcrumbs;
 import com.francetelecom.clara.cloud.presentation.common.NavigationMenuFirstLevel;
 import com.francetelecom.clara.cloud.presentation.designer.pages.DesignerHelperPage;
 import com.francetelecom.clara.cloud.presentation.tools.BreadcrumbsItem;
-
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;

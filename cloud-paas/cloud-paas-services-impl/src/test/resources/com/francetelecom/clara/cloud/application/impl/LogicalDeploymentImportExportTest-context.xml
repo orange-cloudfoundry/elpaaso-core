@@ -16,11 +16,11 @@
     <import resource="classpath:/META-INF/spring/sampleCatalog-context.xml" />
 
     <bean id="logicalDeploymentCloner"
-          class="com.francetelecom.clara.cloud.dao.impl.LogicalDeploymentClonerImpl">
+          class="com.francetelecom.clara.cloud.deployment.logical.service.LogicalDeploymentClonerImpl">
     </bean>
 
     <bean id="logicalDeploymentImportExport"
-          class="com.francetelecom.clara.cloud.application.impl.LogicalDeploymentImportExport">
+          class="com.francetelecom.clara.cloud.deployment.logical.service.LogicalDeploymentImportExport">
         <property name="logicalDeploymentCloner" ref="logicalDeploymentCloner"/>
     </bean>
 </beans>

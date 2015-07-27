@@ -12,21 +12,12 @@
  */
 package com.francetelecom.clara.cloud.presentation;
 
-import org.apache.wicket.spring.test.ApplicationContextMock;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import com.francetelecom.clara.cloud.application.ManageLogicalDeployment;
 import com.francetelecom.clara.cloud.core.service.ManageApplication;
 import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
+import com.francetelecom.clara.cloud.core.service.ManageEnvironment;
 import com.francetelecom.clara.cloud.core.service.ManagePaasUser;
 import com.francetelecom.clara.cloud.coremodel.PaasRoleEnum;
-import com.francetelecom.clara.cloud.environment.ManageEnvironment;
+import com.francetelecom.clara.cloud.deployment.logical.service.ManageLogicalDeployment;
 import com.francetelecom.clara.cloud.presentation.applications.ApplicationsPage;
 import com.francetelecom.clara.cloud.presentation.designer.support.DelegatingDesignerServices;
 import com.francetelecom.clara.cloud.presentation.designer.support.LogicalServicesHelper;
@@ -35,12 +26,15 @@ import com.francetelecom.clara.cloud.presentation.models.ContactUsBean;
 import com.francetelecom.clara.cloud.presentation.models.HypericBean;
 import com.francetelecom.clara.cloud.presentation.models.SplunkBean;
 import com.francetelecom.clara.cloud.presentation.releases.ReleasesPage;
-import com.francetelecom.clara.cloud.presentation.utils.AuthenticationUtil;
-import com.francetelecom.clara.cloud.presentation.utils.CreateObjectsWithJava;
-import com.francetelecom.clara.cloud.presentation.utils.PaasTestApplication;
-import com.francetelecom.clara.cloud.presentation.utils.PaasTestSession;
-import com.francetelecom.clara.cloud.presentation.utils.PaasWicketTester;
-import com.francetelecom.clara.cloud.presentation.utils.PageRendersTest;
+import com.francetelecom.clara.cloud.presentation.utils.*;
+import org.apache.wicket.spring.test.ApplicationContextMock;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Created by IntelliJ IDEA.

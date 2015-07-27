@@ -13,9 +13,9 @@
 package com.francetelecom.clara.cloud.presentation.releases;
 
 import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
+import com.francetelecom.clara.cloud.core.service.exception.ApplicationNotFoundException;
 import com.francetelecom.clara.cloud.coremodel.Application;
 import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
-import com.francetelecom.clara.cloud.coremodel.exception.ApplicationNotFoundException;
 import com.francetelecom.clara.cloud.presentation.common.AjaxFallbackCustomDataTable;
 import com.francetelecom.clara.cloud.presentation.common.PageTemplate;
 import com.francetelecom.clara.cloud.presentation.common.WicketUtils;

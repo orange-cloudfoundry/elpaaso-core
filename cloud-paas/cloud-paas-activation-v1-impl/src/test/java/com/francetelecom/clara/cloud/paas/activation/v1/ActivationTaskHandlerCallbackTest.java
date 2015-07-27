@@ -12,9 +12,10 @@
  */
 package com.francetelecom.clara.cloud.paas.activation.v1;
 
-import com.francetelecom.clara.cloud.application.ManageModelItem;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatusEnum;
 import com.francetelecom.clara.cloud.coremodel.EnvironmentRepository;
+import com.francetelecom.clara.cloud.model.ModelItemRepository;
+import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.paas.activation.ActivationStepEnum;
 import com.francetelecom.clara.cloud.techmodel.dbaas.DBaasSubscriptionV2;
 import org.activiti.engine.ProcessEngine;
@@ -52,7 +53,7 @@ public class ActivationTaskHandlerCallbackTest {
     private ActivationPluginStrategy pluginStrategyMock;
     @SuppressWarnings("unused")
 	@Mock
-    private ManageModelItem manageModelItemMock;
+    private ModelItemRepository modelItemRepository;
     @SuppressWarnings("unused")
 	@Mock
     private EnvironmentRepository environmentRepositoryMock;
@@ -96,6 +97,7 @@ public class ActivationTaskHandlerCallbackTest {
         currentTask.setTaskStatus(TaskStatusEnum.FINISHED_FAILED);
         currentTask.setErrorMessage(activitiTaskErrorMessage);
 
+        DBaasSubscriptionV2 dBaasSubscriptionV2 = new DBaasSubscriptionV2(new TechnicalDeployment(""));
 
         String executionActivitiId = "124";
         when(executionActiviti.getId())
@@ -104,6 +106,8 @@ public class ActivationTaskHandlerCallbackTest {
             .when(taskHandlerCallback).findExecutionByEndTask(any(ActivationTask.class));
 
         doReturn(activitiRuntimeService).when(processEngineMock).getRuntimeService();
+
+        doReturn(dBaasSubscriptionV2).when(modelItemRepository).find(anyInt(),any());
 
         String calculatedErrorMessage = "stop failed on DBaasSubscriptionV2#1111 (activity1234) : ActivitiTask Error message.";
 

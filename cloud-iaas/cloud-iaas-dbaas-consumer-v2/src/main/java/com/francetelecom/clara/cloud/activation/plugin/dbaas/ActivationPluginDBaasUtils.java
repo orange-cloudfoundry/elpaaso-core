@@ -12,20 +12,20 @@
  */
 package com.francetelecom.clara.cloud.activation.plugin.dbaas;
 
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.francetelecom.clara.cloud.application.ManageModelItem;
+import com.francetelecom.clara.cloud.commons.NotFoundException;
 import com.francetelecom.clara.cloud.commons.TechnicalException;
 import com.francetelecom.clara.cloud.commons.XaasSubscriptionNotFound;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatus;
-import com.francetelecom.clara.cloud.techmodel.dbaas.DbAccessInfo;
+import com.francetelecom.clara.cloud.model.ModelItemRepository;
 import com.francetelecom.clara.cloud.techmodel.dbaas.DBaasSubscriptionV2;
-import com.francetelecom.clara.cloud.commons.NotFoundException;
+import com.francetelecom.clara.cloud.techmodel.dbaas.DbAccessInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Map;
 
 /**
  * ActivationPluginDBaasUtils
@@ -42,7 +42,8 @@ public class ActivationPluginDBaasUtils {
 
 	private Map<String, DBaasConsumer> dBaasConsumers;
 
-	private ManageModelItem manageModelItem;
+	@Autowired
+	private ModelItemRepository modelItemRepository;
 
 	@Transactional
 	public TaskStatus createDatabase(int dbaasSubscriptionId, String envDescription) {
@@ -59,7 +60,9 @@ public class ActivationPluginDBaasUtils {
 
 	private DBaasSubscriptionV2 getDbaasSubscription(int dbaasSubscriptionId) {
 		try {
-			return (DBaasSubscriptionV2) manageModelItem.findModelItem(dbaasSubscriptionId, DBaasSubscriptionV2.class);
+			final DBaasSubscriptionV2 dBaasSubscriptionV2 = modelItemRepository.find(dbaasSubscriptionId, DBaasSubscriptionV2.class);
+			if (dBaasSubscriptionV2 == null) throw new NotFoundException("dbaasSubscription <"+dbaasSubscriptionId+"> not found");
+			return (DBaasSubscriptionV2) dBaasSubscriptionV2;
 		} catch (NotFoundException e) {
 			throw new XaasSubscriptionNotFound(dbaasSubscriptionId, e);
 		}
@@ -71,16 +74,6 @@ public class ActivationPluginDBaasUtils {
 		DBaasSubscriptionV2 dbaas = getDbaasSubscription(dbaasSubscriptionId);
 		DBaasConsumer dBaasConsumer = getDBaasConsumer(dbaas);
 		dBaasConsumer.launchPopulationScript(dbaas);
-	}
-
-	/**
-	 * IOC
-	 * 
-	 * @param manageModelItem
-	 *            model item
-	 */
-	public void setManageModelItem(ManageModelItem manageModelItem) {
-		this.manageModelItem = manageModelItem;
 	}
 
 	/**

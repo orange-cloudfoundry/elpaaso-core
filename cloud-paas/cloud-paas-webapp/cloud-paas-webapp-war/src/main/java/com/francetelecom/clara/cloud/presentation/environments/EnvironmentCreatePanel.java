@@ -12,15 +12,28 @@
  */
 package com.francetelecom.clara.cloud.presentation.environments;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.validation.constraints.NotNull;
-
+import com.francetelecom.clara.cloud.commons.BusinessException;
+import com.francetelecom.clara.cloud.core.service.ManageApplication;
+import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
+import com.francetelecom.clara.cloud.core.service.ManageEnvironment;
+import com.francetelecom.clara.cloud.core.service.exception.ApplicationNotFoundException;
+import com.francetelecom.clara.cloud.core.service.exception.InvalidConfigOverrideException;
+import com.francetelecom.clara.cloud.core.service.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
+import com.francetelecom.clara.cloud.coremodel.PaasUser;
+import com.francetelecom.clara.cloud.logicalmodel.InvalidConfigServiceException;
+import com.francetelecom.clara.cloud.logicalmodel.LogicalConfigService;
+import com.francetelecom.clara.cloud.logicalmodel.LogicalConfigServiceUtils;
+import com.francetelecom.clara.cloud.logicalmodel.LogicalConfigServiceUtils.ConfigEntry;
+import com.francetelecom.clara.cloud.logicalmodel.LogicalConfigServiceUtils.StructuredLogicalConfigServiceContent;
+import com.francetelecom.clara.cloud.presentation.common.WicketUtils;
+import com.francetelecom.clara.cloud.presentation.designer.pages.DesignerHelperPage;
+import com.francetelecom.clara.cloud.presentation.designer.panels.DesignerArchitectureMatrixPanel;
+import com.francetelecom.clara.cloud.presentation.releases.SelectedReleasePage;
+import com.francetelecom.clara.cloud.presentation.resource.CacheActivatedImage;
+import com.francetelecom.clara.cloud.presentation.tools.*;
+import com.francetelecom.clara.cloud.services.dto.ConfigOverrideDTO;
+import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
 import org.apache.wicket.Component;
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -46,32 +59,9 @@ import org.apache.wicket.validation.IValidatable;
 import org.apache.wicket.validation.validator.AbstractValidator;
 import org.slf4j.LoggerFactory;
 
-import com.francetelecom.clara.cloud.commons.BusinessException;
-import com.francetelecom.clara.cloud.core.service.ManageApplication;
-import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
-import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
-import com.francetelecom.clara.cloud.coremodel.PaasUser;
-import com.francetelecom.clara.cloud.environment.ManageEnvironment;
-import com.francetelecom.clara.cloud.logicalmodel.InvalidConfigServiceException;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalConfigService;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalConfigServiceUtils;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalConfigServiceUtils.ConfigEntry;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalConfigServiceUtils.StructuredLogicalConfigServiceContent;
-import com.francetelecom.clara.cloud.presentation.common.WicketUtils;
-import com.francetelecom.clara.cloud.presentation.designer.pages.DesignerHelperPage;
-import com.francetelecom.clara.cloud.presentation.designer.panels.DesignerArchitectureMatrixPanel;
-import com.francetelecom.clara.cloud.presentation.releases.SelectedReleasePage;
-import com.francetelecom.clara.cloud.presentation.resource.CacheActivatedImage;
-import com.francetelecom.clara.cloud.presentation.tools.BlockUIDecorator;
-import com.francetelecom.clara.cloud.presentation.tools.BusinessExceptionHandler;
-import com.francetelecom.clara.cloud.presentation.tools.CompoundChoiceRenderer;
-import com.francetelecom.clara.cloud.presentation.tools.FieldFeedbackDecorator;
-import com.francetelecom.clara.cloud.presentation.tools.WicketSession;
-import com.francetelecom.clara.cloud.services.dto.ConfigOverrideDTO;
-import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
-import com.francetelecom.clara.cloud.coremodel.exception.ApplicationNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.InvalidConfigOverrideException;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * EnvironmentCreatePanel

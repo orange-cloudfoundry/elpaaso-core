@@ -14,12 +14,12 @@ package com.francetelecom.clara.cloud.mocks;
 
 import com.francetelecom.clara.cloud.commons.BusinessException;
 import com.francetelecom.clara.cloud.commons.TechnicalException;
+import com.francetelecom.clara.cloud.core.service.ManageEnvironment;
+import com.francetelecom.clara.cloud.core.service.exception.*;
 import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
 import com.francetelecom.clara.cloud.coremodel.Environment;
 import com.francetelecom.clara.cloud.coremodel.EnvironmentStatus;
 import com.francetelecom.clara.cloud.coremodel.PaasUser;
-import com.francetelecom.clara.cloud.coremodel.exception.*;
-import com.francetelecom.clara.cloud.environment.ManageEnvironment;
 import com.francetelecom.clara.cloud.model.DeploymentProfileEnum;
 import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.model.TechnicalDeploymentInstance;

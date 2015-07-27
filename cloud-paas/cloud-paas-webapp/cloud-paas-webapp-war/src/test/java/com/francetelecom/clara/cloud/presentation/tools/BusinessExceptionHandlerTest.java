@@ -12,6 +12,18 @@
  */
 package com.francetelecom.clara.cloud.presentation.tools;
 
+import com.francetelecom.clara.cloud.commons.InvalidMavenReferenceException;
+import com.francetelecom.clara.cloud.commons.InvalidMavenReferenceException.ErrorType;
+import com.francetelecom.clara.cloud.commons.MavenReference;
+import com.francetelecom.clara.cloud.core.service.ManagePaasUser;
+import com.francetelecom.clara.cloud.core.service.exception.ApplicationNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.PaasRoleEnum;
+import com.francetelecom.clara.cloud.logicalmodel.InvalidConfigServiceException;
+import com.francetelecom.clara.cloud.logicalmodel.LogicalModelNotConsistentException;
+import com.francetelecom.clara.cloud.presentation.utils.CreateObjectsWithJava;
+import com.francetelecom.clara.cloud.presentation.utils.PaasTestApplication;
+import com.francetelecom.clara.cloud.presentation.utils.PaasTestSession;
+import com.francetelecom.clara.cloud.presentation.utils.PaasWicketTester;
 import org.apache.wicket.Component;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
@@ -23,19 +35,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.security.authentication.AuthenticationManager;
-
-import com.francetelecom.clara.cloud.commons.InvalidMavenReferenceException;
-import com.francetelecom.clara.cloud.commons.InvalidMavenReferenceException.ErrorType;
-import com.francetelecom.clara.cloud.commons.MavenReference;
-import com.francetelecom.clara.cloud.core.service.ManagePaasUser;
-import com.francetelecom.clara.cloud.coremodel.PaasRoleEnum;
-import com.francetelecom.clara.cloud.logicalmodel.InvalidConfigServiceException;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalModelNotConsistentException;
-import com.francetelecom.clara.cloud.presentation.utils.CreateObjectsWithJava;
-import com.francetelecom.clara.cloud.presentation.utils.PaasTestApplication;
-import com.francetelecom.clara.cloud.presentation.utils.PaasTestSession;
-import com.francetelecom.clara.cloud.presentation.utils.PaasWicketTester;
-import com.francetelecom.clara.cloud.coremodel.exception.ApplicationNotFoundException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BusinessExceptionHandlerTest {

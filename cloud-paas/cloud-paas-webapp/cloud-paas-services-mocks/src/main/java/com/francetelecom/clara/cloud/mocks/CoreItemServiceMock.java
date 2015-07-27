@@ -12,12 +12,12 @@
  */
 package com.francetelecom.clara.cloud.mocks;
 
+import com.francetelecom.clara.cloud.core.service.exception.DuplicateApplicationException;
+import com.francetelecom.clara.cloud.core.service.exception.DuplicateApplicationReleaseException;
+import com.francetelecom.clara.cloud.core.service.exception.ObjectNotFoundException;
 import com.francetelecom.clara.cloud.coremodel.Application;
 import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
 import com.francetelecom.clara.cloud.coremodel.CoreItem;
-import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationException;
-import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationReleaseException;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 import com.google.common.base.Predicate;
 
 import java.util.*;

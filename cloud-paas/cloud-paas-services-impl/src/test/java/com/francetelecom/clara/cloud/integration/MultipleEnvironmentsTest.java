@@ -12,19 +12,17 @@
  */
 package com.francetelecom.clara.cloud.integration;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.when;
-
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import com.francetelecom.clara.cloud.TestHelper;
+import com.francetelecom.clara.cloud.commons.BusinessException;
+import com.francetelecom.clara.cloud.commons.MavenReference;
+import com.francetelecom.clara.cloud.core.service.ManageEnvironment;
+import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
+import com.francetelecom.clara.cloud.mvn.consumer.MvnRepoDao;
+import com.francetelecom.clara.cloud.scalability.ManageScalability;
+import com.francetelecom.clara.cloud.services.dto.EnvironmentDetailsDto;
+import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
+import com.francetelecom.clara.cloud.services.dto.LinkDto;
+import com.francetelecom.clara.cloud.services.dto.LinkDto.LinkTypeEnum;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,17 +36,18 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.francetelecom.clara.cloud.TestHelper;
-import com.francetelecom.clara.cloud.commons.BusinessException;
-import com.francetelecom.clara.cloud.commons.MavenReference;
-import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
-import com.francetelecom.clara.cloud.environment.ManageEnvironment;
-import com.francetelecom.clara.cloud.mvn.consumer.MvnRepoDao;
-import com.francetelecom.clara.cloud.scalability.ManageScalability;
-import com.francetelecom.clara.cloud.services.dto.EnvironmentDetailsDto;
-import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
-import com.francetelecom.clara.cloud.services.dto.LinkDto;
-import com.francetelecom.clara.cloud.services.dto.LinkDto.LinkTypeEnum;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.when;
 
 /**
  * Verify some assertions when several environments are created for the same release

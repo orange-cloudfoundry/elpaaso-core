@@ -36,11 +36,6 @@
 
 		<dependency>
 			<groupId>com.orange.clara.cloud</groupId>
-			<artifactId>cloud-paas-daos-impl</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.orange.clara.cloud</groupId>
 			<artifactId>cloud-technical-model</artifactId>
 		</dependency>
 

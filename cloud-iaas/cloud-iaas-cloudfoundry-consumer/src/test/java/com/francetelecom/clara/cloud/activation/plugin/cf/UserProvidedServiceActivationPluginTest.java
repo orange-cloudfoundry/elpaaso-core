@@ -14,8 +14,8 @@ package com.francetelecom.clara.cloud.activation.plugin.cf;
 
 import com.francetelecom.clara.cloud.activation.plugin.cf.domain.CFServiceActivationService;
 import com.francetelecom.clara.cloud.activation.plugin.cf.domain.ServiceActivationStatus;
-import com.francetelecom.clara.cloud.application.ManageModelItem;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatus;
+import com.francetelecom.clara.cloud.model.ModelItemRepository;
 import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.techmodel.cf.Space;
 import com.francetelecom.clara.cloud.techmodel.cf.UserProvidedServiceRepository;
@@ -34,7 +34,7 @@ public class UserProvidedServiceActivationPluginTest {
     @Mock
     CFServiceActivationService cfServiceActivationService;
     @Mock
-    ManageModelItem manageModelItem;
+    ModelItemRepository modelItemRepository;
     @Mock
     UserProvidedServiceRepository userProvidedServiceRepository;
 
@@ -42,7 +42,7 @@ public class UserProvidedServiceActivationPluginTest {
     public void fail_to_activate_ups_if_ups_does_not_exist() throws Exception {
         //given service does not exist
 
-        final UserProvidedServiceActivationPlugin userProvidedServiceActivationPlugin = new UserProvidedServiceActivationPlugin(cfServiceActivationService, manageModelItem, userProvidedServiceRepository);
+        final UserProvidedServiceActivationPlugin userProvidedServiceActivationPlugin = new UserProvidedServiceActivationPlugin(cfServiceActivationService, modelItemRepository, userProvidedServiceRepository);
         final TaskStatus status = userProvidedServiceActivationPlugin.activate(99, AbstractUserProvidedService.class, new ActivationTestContext());
 
         Assertions.assertThat(status.hasFailed()).isEqualTo(true);
@@ -53,7 +53,7 @@ public class UserProvidedServiceActivationPluginTest {
     public void fail_to_delete_ups_if_ups_does_not_exist() throws Exception {
         //given service does not exist
 
-        final UserProvidedServiceActivationPlugin userProvidedServiceActivationPlugin = new UserProvidedServiceActivationPlugin(cfServiceActivationService, manageModelItem, userProvidedServiceRepository);
+        final UserProvidedServiceActivationPlugin userProvidedServiceActivationPlugin = new UserProvidedServiceActivationPlugin(cfServiceActivationService, modelItemRepository, userProvidedServiceRepository);
         final TaskStatus status = userProvidedServiceActivationPlugin.delete(99, AbstractUserProvidedService.class);
 
         Assertions.assertThat(status.hasFailed()).isEqualTo(true);
@@ -70,7 +70,7 @@ public class UserProvidedServiceActivationPluginTest {
         Mockito.when(cfServiceActivationService.activate(service)).thenReturn(ServiceActivationStatus.ofService("postgres-joyndb", space.getSpaceName().getValue()).hasSucceeded());
 
 
-        final UserProvidedServiceActivationPlugin userProvidedServiceActivationPlugin = new UserProvidedServiceActivationPlugin(cfServiceActivationService, manageModelItem, userProvidedServiceRepository);
+        final UserProvidedServiceActivationPlugin userProvidedServiceActivationPlugin = new UserProvidedServiceActivationPlugin(cfServiceActivationService, modelItemRepository, userProvidedServiceRepository);
         final TaskStatus status = userProvidedServiceActivationPlugin.activate(1, AbstractUserProvidedService.class, new ActivationTestContext());
 
         Assertions.assertThat(status.hasSucceed()).isEqualTo(true);
@@ -88,7 +88,7 @@ public class UserProvidedServiceActivationPluginTest {
         //and has been activated
         service.activate();
 
-        final UserProvidedServiceActivationPlugin userProvidedServiceActivationPlugin = new UserProvidedServiceActivationPlugin(cfServiceActivationService, manageModelItem, userProvidedServiceRepository);
+        final UserProvidedServiceActivationPlugin userProvidedServiceActivationPlugin = new UserProvidedServiceActivationPlugin(cfServiceActivationService, modelItemRepository, userProvidedServiceRepository);
         final TaskStatus status = userProvidedServiceActivationPlugin.delete(1, AbstractUserProvidedService.class);
 
         Assertions.assertThat(status.hasSucceed()).isEqualTo(true);

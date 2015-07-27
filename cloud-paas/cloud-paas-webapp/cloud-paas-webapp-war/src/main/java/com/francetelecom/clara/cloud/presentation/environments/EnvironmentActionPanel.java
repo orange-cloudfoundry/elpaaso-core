@@ -12,13 +12,12 @@
  */
 package com.francetelecom.clara.cloud.presentation.environments;
 
+import com.francetelecom.clara.cloud.core.service.exception.ObjectNotFoundException;
 import com.francetelecom.clara.cloud.presentation.releases.SelectedReleasePage;
 import com.francetelecom.clara.cloud.presentation.tools.BlockUIDecorator;
 import com.francetelecom.clara.cloud.presentation.tools.DeleteConfirmationBlockUIDecorator;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto.EnvironmentStatusEnum;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
-
 import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;

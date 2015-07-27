@@ -20,9 +20,6 @@
 	<import
 		resource="classpath:/com/francetelecom/clara/cloud/commons/testconfigurations/mock-liquibase-context.xml" />
 
-	<bean name="ManagePaasActivationActivitiImplMockTestUtils"
-		class="com.francetelecom.clara.cloud.paas.activation.v1.ManagePaasActivationActivitiImplMockTestUtils" />
-
 	<!-- mock IaaS and PostConfiguration -->
 	<import resource="mock-taskexecutor-context.xml" />
 
@@ -39,13 +36,15 @@
 						<bean
 							class="com.francetelecom.clara.cloud.paas.activation.v1.ActivationPluginMockUtils" />
 					</property>
-					<property name="manageModelItem" ref="manageModelItem" />
 				</bean>
 			</list>
 		</property>
 	</bean>
 
-	<import resource="classpath:/META-INF/spring/cloud-daos-context.xml" />
+	<import resource="classpath:/META-INF/spring/logical-model-repository-context.xml"/>
+	<import resource="classpath:/META-INF/spring/technical-model-repository-context.xml"/>
+	<import resource="classpath:/META-INF/spring/core-model-repository-context.xml"/>
+
 	<import
 		resource="classpath:/META-INF/spring/paas-activation-activiti-context.xml" />
 	<import resource="datasource-context.xml" />

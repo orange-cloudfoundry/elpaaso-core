@@ -12,19 +12,9 @@
  */
 package com.francetelecom.clara.cloud.presentation.designer.pages;
 
-import java.util.List;
-
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.event.Broadcast;
-import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
-import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.request.mapper.parameter.PageParameters;
-import org.apache.wicket.spring.injection.annot.SpringBean;
-import org.slf4j.LoggerFactory;
-
-import com.francetelecom.clara.cloud.application.ManageLogicalDeployment;
 import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
+import com.francetelecom.clara.cloud.core.service.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.deployment.logical.service.ManageLogicalDeployment;
 import com.francetelecom.clara.cloud.logicalmodel.LogicalDeployment;
 import com.francetelecom.clara.cloud.logicalmodel.LogicalModelItem;
 import com.francetelecom.clara.cloud.logicalmodel.LogicalSoapService;
@@ -35,7 +25,16 @@ import com.francetelecom.clara.cloud.presentation.environments.EnvironmentWspInf
 import com.francetelecom.clara.cloud.presentation.tools.CodeMirrorTextArea;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDetailsDto;
 import com.francetelecom.clara.cloud.services.dto.LinkDto;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.event.Broadcast;
+import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /**
  * DesignerHelperPage

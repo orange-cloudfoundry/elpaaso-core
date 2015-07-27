@@ -13,8 +13,8 @@
 package com.francetelecom.clara.cloud.activation.plugin.cf;
 
 import com.francetelecom.clara.cloud.activation.plugin.cf.domain.RouteActivationService;
-import com.francetelecom.clara.cloud.application.ManageModelItem;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatus;
+import com.francetelecom.clara.cloud.model.ModelItemRepository;
 import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.techmodel.cf.Route;
 import com.francetelecom.clara.cloud.techmodel.cf.RouteRepository;
@@ -33,14 +33,14 @@ public class RouteActivationPluginTest {
     @Mock
     RouteActivationService routeActivationService;
     @Mock
-    ManageModelItem manageModelItem;
+    ModelItemRepository modelItemRepository;
     @Mock
     RouteRepository routeRepository;
 
     @Test
     public void fail_to_activate_route_if_route_does_not_exist() throws Exception {
 
-        final RouteActivationPlugin routeActivationPlugin = new RouteActivationPlugin(routeActivationService, manageModelItem, routeRepository);
+        final RouteActivationPlugin routeActivationPlugin = new RouteActivationPlugin(routeActivationService, modelItemRepository, routeRepository);
         final TaskStatus status = routeActivationPlugin.activate(99, Route.class, new ActivationTestContext());
 
         Assertions.assertThat(status.hasFailed()).isEqualTo(true);
@@ -50,7 +50,7 @@ public class RouteActivationPluginTest {
     @Test
     public void fail_to_delete_route_if_route_does_not_exist() throws Exception {
 
-        final RouteActivationPlugin routeActivationPlugin = new RouteActivationPlugin(routeActivationService, manageModelItem, routeRepository);
+        final RouteActivationPlugin routeActivationPlugin = new RouteActivationPlugin(routeActivationService, modelItemRepository, routeRepository);
         final TaskStatus status = routeActivationPlugin.delete(99, Route.class);
 
         Assertions.assertThat(status.hasFailed()).isEqualTo(true);
@@ -64,7 +64,7 @@ public class RouteActivationPluginTest {
         Route route = new Route(new RouteUri("host1.mysubdomain.cfapps.redacted-domain.org"), "root1", space, td);
         Mockito.when(routeRepository.findOne(1)).thenReturn(route);
 
-        final RouteActivationPlugin routeActivationPlugin = new RouteActivationPlugin(routeActivationService, manageModelItem, routeRepository);
+        final RouteActivationPlugin routeActivationPlugin = new RouteActivationPlugin(routeActivationService, modelItemRepository, routeRepository);
         final TaskStatus status = routeActivationPlugin.delete(1, Route.class);
 
         Assertions.assertThat(status.hasSucceed()).isEqualTo(true);
@@ -78,7 +78,7 @@ public class RouteActivationPluginTest {
         Route route = new Route(new RouteUri("host1.mysubdomain.cfapps.redacted-domain.org"), "root1", space, td);
         Mockito.when(routeRepository.findOne(1)).thenReturn(route);
 
-        final RouteActivationPlugin routeActivationPlugin = new RouteActivationPlugin(routeActivationService, manageModelItem, routeRepository);
+        final RouteActivationPlugin routeActivationPlugin = new RouteActivationPlugin(routeActivationService, modelItemRepository, routeRepository);
         final TaskStatus status = routeActivationPlugin.delete(1, Route.class);
 
         Assertions.assertThat(status.hasSucceed()).isEqualTo(true);
@@ -94,7 +94,7 @@ public class RouteActivationPluginTest {
         Mockito.when(routeActivationService.activate(Mockito.any(Route.class))).thenReturn(new RouteUri("host1.mysubdomain.cfapps.redacted-domain.org"));
 
 
-        final RouteActivationPlugin routeActivationPlugin = new RouteActivationPlugin(routeActivationService, manageModelItem, routeRepository);
+        final RouteActivationPlugin routeActivationPlugin = new RouteActivationPlugin(routeActivationService, modelItemRepository, routeRepository);
         final TaskStatus status = routeActivationPlugin.activate(1, Route.class, new ActivationTestContext());
 
         Assertions.assertThat(status.hasSucceed()).isEqualTo(true);

@@ -14,18 +14,18 @@ package com.francetelecom.clara.cloud.activation.plugin.cf;
 
 import com.francetelecom.clara.cloud.activation.plugin.cf.domain.RouteActivationService;
 import com.francetelecom.clara.cloud.activation.plugin.cf.infrastructure.CfAdapter;
-import com.francetelecom.clara.cloud.application.ManageModelItem;
+import com.francetelecom.clara.cloud.commons.NotFoundException;
 import com.francetelecom.clara.cloud.commons.TechnicalException;
 import com.francetelecom.clara.cloud.commons.tasks.Failure;
 import com.francetelecom.clara.cloud.commons.tasks.Success;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatus;
 import com.francetelecom.clara.cloud.coremodel.ActivationContext;
+import com.francetelecom.clara.cloud.model.ModelItemRepository;
 import com.francetelecom.clara.cloud.paas.activation.ActivationPlugin;
 import com.francetelecom.clara.cloud.paas.activation.ActivationStepEnum;
 import com.francetelecom.clara.cloud.techmodel.cf.Route;
 import com.francetelecom.clara.cloud.techmodel.cf.RouteRepository;
 import com.francetelecom.clara.cloud.techmodel.cf.RouteUri;
-import com.francetelecom.clara.cloud.commons.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,12 +46,12 @@ public class RouteActivationPlugin extends ActivationPlugin<Route> {
 
 
     @Autowired
-    public RouteActivationPlugin(RouteActivationService routeActivationService, ManageModelItem manageModelItem,
+    public RouteActivationPlugin(RouteActivationService routeActivationService, ModelItemRepository modelItemRepository,
                                  RouteRepository routeRepository) {
         super();
         this.routeActivationService = routeActivationService;
         this.routeRepository = routeRepository;
-        this.setManageModelItem(manageModelItem);
+        this.modelItemRepository = modelItemRepository;
     }
 
     @Override

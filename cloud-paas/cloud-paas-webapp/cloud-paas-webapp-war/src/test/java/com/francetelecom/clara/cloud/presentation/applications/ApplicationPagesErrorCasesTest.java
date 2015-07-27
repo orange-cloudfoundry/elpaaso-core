@@ -12,21 +12,20 @@
  */
 package com.francetelecom.clara.cloud.presentation.applications;
 
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.doThrow;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
-
+import com.francetelecom.clara.cloud.core.service.exception.ApplicationNotFoundException;
 import com.francetelecom.clara.cloud.coremodel.PaasRoleEnum;
 import com.francetelecom.clara.cloud.presentation.ObjectNotFoundExceptionPage;
 import com.francetelecom.clara.cloud.presentation.utils.CreateObjectsWithJava;
 import com.francetelecom.clara.cloud.presentation.utils.PaasTestApplication;
 import com.francetelecom.clara.cloud.presentation.utils.PaasTestSession;
 import com.francetelecom.clara.cloud.presentation.utils.PaasWicketTester;
-import com.francetelecom.clara.cloud.coremodel.exception.ApplicationNotFoundException;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
+
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doThrow;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ApplicationPagesErrorCasesTest extends ApplicationsPagesBaseTest {

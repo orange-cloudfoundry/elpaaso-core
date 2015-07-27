@@ -14,14 +14,13 @@ package com.francetelecom.clara.cloud.presentation.releases;
 
 import com.francetelecom.clara.cloud.commons.BusinessException;
 import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
+import com.francetelecom.clara.cloud.core.service.exception.ObjectNotFoundException;
 import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
 import com.francetelecom.clara.cloud.presentation.applications.SelectedAppPage;
 import com.francetelecom.clara.cloud.presentation.common.WicketUtils;
 import com.francetelecom.clara.cloud.presentation.designer.pages.DesignerPage;
 import com.francetelecom.clara.cloud.presentation.tools.BusinessExceptionHandler;
 import com.francetelecom.clara.cloud.presentation.tools.DeleteConfirmationDecorator;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
-
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
 import org.apache.wicket.ajax.markup.html.AjaxLink;

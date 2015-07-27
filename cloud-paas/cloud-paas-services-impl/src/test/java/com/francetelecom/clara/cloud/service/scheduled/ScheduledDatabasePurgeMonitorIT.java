@@ -12,10 +12,8 @@
  */
 package com.francetelecom.clara.cloud.service.scheduled;
 
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.reset;
-
+import com.francetelecom.clara.cloud.core.service.ManageEnvironment;
+import com.francetelecom.clara.cloud.core.service.exception.ObjectNotFoundException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -26,8 +24,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.francetelecom.clara.cloud.environment.ManageEnvironment;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.reset;
 
 /**
  * ScheduledDatabasePurgeMonitorIT IT Test of the database purge monitoring

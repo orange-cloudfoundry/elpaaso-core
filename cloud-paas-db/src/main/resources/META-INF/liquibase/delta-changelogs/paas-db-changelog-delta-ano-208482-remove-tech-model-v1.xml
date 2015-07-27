@@ -979,4 +979,16 @@
     <changeSet author="paas" id="1435929089082-320">
         <dropColumn columnName="value" tableName="organization"/>
     </changeSet>
+    <changeSet author="paas" id="1438072574775-1">
+        <dropForeignKeyConstraint baseTableName="logservice" constraintName="fk_bru0pfh42kors5k3rj0bpcyt2"/>
+    </changeSet>
+    <changeSet author="paas" id="1438072574775-2">
+        <dropForeignKeyConstraint baseTableName="logservice" constraintName="fk_inkc8bl21pwi5hd7rdx5wrf2"/>
+    </changeSet>
+    <changeSet author="paas" id="1438072574775-3">
+        <dropUniqueConstraint constraintName="uk_8sn1ju82e01xgxp995qyk92xp" tableName="logservice"/>
+    </changeSet>
+    <changeSet author="paas" id="1438072574775-4">
+        <dropTable tableName="logservice"/>
+    </changeSet>
 </databaseChangeLog>

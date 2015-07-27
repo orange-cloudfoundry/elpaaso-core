@@ -12,9 +12,23 @@
  */
 package com.francetelecom.clara.cloud.presentation.designer.pages;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.francetelecom.clara.cloud.commons.BusinessException;
+import com.francetelecom.clara.cloud.commons.InvalidMavenReferenceException;
+import com.francetelecom.clara.cloud.commons.MavenReference;
+import com.francetelecom.clara.cloud.core.service.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
+import com.francetelecom.clara.cloud.logicalmodel.*;
+import com.francetelecom.clara.cloud.presentation.HomePage;
+import com.francetelecom.clara.cloud.presentation.applications.SelectedAppPage;
+import com.francetelecom.clara.cloud.presentation.common.Breadcrumbs;
+import com.francetelecom.clara.cloud.presentation.common.NavigationMenuFirstLevel;
+import com.francetelecom.clara.cloud.presentation.common.WicketUtils;
+import com.francetelecom.clara.cloud.presentation.designer.panels.*;
+import com.francetelecom.clara.cloud.presentation.designer.support.LogicalServicesHelper;
+import com.francetelecom.clara.cloud.presentation.releases.ReleasesPage;
+import com.francetelecom.clara.cloud.presentation.releases.SelectedReleasePage;
+import com.francetelecom.clara.cloud.presentation.tools.BreadcrumbsItem;
+import com.francetelecom.clara.cloud.presentation.tools.BusinessExceptionHandler;
 import org.apache.wicket.ajax.AjaxRequestHandler;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
@@ -32,36 +46,8 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.LoggerFactory;
 import org.wicketstuff.annotation.mount.MountPath;
 
-import com.francetelecom.clara.cloud.commons.BusinessException;
-import com.francetelecom.clara.cloud.commons.InvalidMavenReferenceException;
-import com.francetelecom.clara.cloud.commons.MavenReference;
-import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
-import com.francetelecom.clara.cloud.logicalmodel.JeeProcessing;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalDeployment;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalModelItem;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalNodeServiceAssociation;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalRelationalService;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalService;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalServiceAccessTypeEnum;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalSoapService;
-import com.francetelecom.clara.cloud.logicalmodel.ProcessingNode;
-import com.francetelecom.clara.cloud.presentation.HomePage;
-import com.francetelecom.clara.cloud.presentation.applications.SelectedAppPage;
-import com.francetelecom.clara.cloud.presentation.common.Breadcrumbs;
-import com.francetelecom.clara.cloud.presentation.common.NavigationMenuFirstLevel;
-import com.francetelecom.clara.cloud.presentation.common.WicketUtils;
-import com.francetelecom.clara.cloud.presentation.designer.panels.DesignerArchitectureConfigSetPanel;
-import com.francetelecom.clara.cloud.presentation.designer.panels.DesignerArchitectureMatrixPanel;
-import com.francetelecom.clara.cloud.presentation.designer.panels.DesignerArchitectureSummaryPanel;
-import com.francetelecom.clara.cloud.presentation.designer.panels.DesignerServiceDefinitionPanel;
-import com.francetelecom.clara.cloud.presentation.designer.panels.DesignerSteppedButtonsPanel;
-import com.francetelecom.clara.cloud.presentation.designer.panels.DesignerSteppedProcessPanel;
-import com.francetelecom.clara.cloud.presentation.designer.support.LogicalServicesHelper;
-import com.francetelecom.clara.cloud.presentation.releases.ReleasesPage;
-import com.francetelecom.clara.cloud.presentation.releases.SelectedReleasePage;
-import com.francetelecom.clara.cloud.presentation.tools.BreadcrumbsItem;
-import com.francetelecom.clara.cloud.presentation.tools.BusinessExceptionHandler;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 @MountPath("/architecture/appUid/${appUid}/releaseUid/${releaseUid}")
 @AuthorizeInstantiation({"ROLE_USER","ROLE_ADMIN"})

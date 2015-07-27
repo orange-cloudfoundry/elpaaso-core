@@ -12,11 +12,10 @@
  */
 package com.francetelecom.clara.cloud.mocks;
 
-import org.springframework.stereotype.Service;
-
+import com.francetelecom.clara.cloud.core.service.exception.EnvironmentNotFoundException;
 import com.francetelecom.clara.cloud.coremodel.Environment;
 import com.francetelecom.clara.cloud.service.backdoor.BackdoorService;
-import com.francetelecom.clara.cloud.coremodel.exception.EnvironmentNotFoundException;
+import org.springframework.stereotype.Service;
 
 @Service("backdoorService")
 public class BackdoorServiceMocks implements BackdoorService {

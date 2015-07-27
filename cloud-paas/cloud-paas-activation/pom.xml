@@ -31,14 +31,12 @@
 			<artifactId>cloud-commons</artifactId>
 		</dependency>
 		<dependency>
-			<!-- For ActivationPlugin -->
 			<groupId>com.orange.clara.cloud</groupId>
 			<artifactId>cloud-technical-model</artifactId>
 		</dependency>
 		<dependency>
-			<!-- For ActivationPlugin -->
 			<groupId>com.orange.clara.cloud</groupId>
-			<artifactId>cloud-paas-daos</artifactId>
+			<artifactId>cloud-paas-core-model</artifactId>
 		</dependency>
 		<dependency>
 			<!-- For ActivationPlugin -->

@@ -25,24 +25,7 @@
 
 	<bean id="modelItemDao" class="org.mockito.Mockito"
 		factory-method="mock">
-		<constructor-arg value="com.francetelecom.clara.cloud.dao.ModelItemDaoJpa" />
-	</bean>
-	<!-- necessary for superclass's init method -->
-	<bean id="manageModelItem" class="org.mockito.Mockito"
-		factory-method="mock">
-		<constructor-arg
-			value="com.francetelecom.clara.cloud.application.ManageModelItem" />
-	</bean>
-	<bean id="manageTechnicalDeploymentInstance" class="org.mockito.Mockito"
-		factory-method="mock">
-		<constructor-arg
-			value="com.francetelecom.clara.cloud.application.ManageTechnicalDeploymentInstance" />
-	</bean>
-
-	<bean id="transactionUtil" class="org.mockito.Mockito"
-		factory-method="mock">
-		<constructor-arg
-			value="com.francetelecom.clara.cloud.dao.impl.TransactionUtil" />
+		<constructor-arg value="com.francetelecom.clara.cloud.model.ModelItemRepository" />
 	</bean>
 
 	<!-- used to avoid having test execs conflicts -->

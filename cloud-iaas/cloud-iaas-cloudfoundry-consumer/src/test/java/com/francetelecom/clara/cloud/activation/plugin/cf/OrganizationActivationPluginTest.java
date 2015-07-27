@@ -13,8 +13,8 @@
 package com.francetelecom.clara.cloud.activation.plugin.cf;
 
 import com.francetelecom.clara.cloud.activation.plugin.cf.domain.OrganizationActivationService;
-import com.francetelecom.clara.cloud.application.ManageModelItem;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatus;
+import com.francetelecom.clara.cloud.model.ModelItemRepository;
 import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.techmodel.cf.Organization;
 import com.francetelecom.clara.cloud.techmodel.cf.OrganizationRepository;
@@ -31,13 +31,13 @@ public class OrganizationActivationPluginTest {
     @Mock
     OrganizationActivationService organizationActivationService;
     @Mock
-    ManageModelItem manageModelItem;
+    ModelItemRepository modelItemRepository;
     @Mock
     OrganizationRepository organizationRepository;
 
     @Test
     public void fail_to_activate_org_if_organization_does_not_exist() throws Exception {
-        final OrganizationActivationPlugin organizationActivationPlugin = new OrganizationActivationPlugin(organizationActivationService, manageModelItem, organizationRepository);
+        final OrganizationActivationPlugin organizationActivationPlugin = new OrganizationActivationPlugin(organizationActivationService, modelItemRepository, organizationRepository);
 
         final TaskStatus status = organizationActivationPlugin.activate(99, Organization.class, new ActivationTestContext());
 
@@ -54,7 +54,7 @@ public class OrganizationActivationPluginTest {
         Mockito.when(organizationActivationService.activate(Mockito.anyString())).thenReturn("test");
         Mockito.when(organizationActivationService.getCurrentOrganizationName()).thenReturn("aTestOrg");
 
-        final OrganizationActivationPlugin organizationActivationPlugin = new OrganizationActivationPlugin(organizationActivationService, manageModelItem, organizationRepository);
+        final OrganizationActivationPlugin organizationActivationPlugin = new OrganizationActivationPlugin(organizationActivationService, modelItemRepository, organizationRepository);
         final TaskStatus status = organizationActivationPlugin.activate(1, Organization.class, new ActivationTestContext());
 
         Assertions.assertThat(status.hasSucceed()).isEqualTo(true);

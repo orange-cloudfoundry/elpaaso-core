@@ -12,15 +12,15 @@
  */
 package com.francetelecom.clara.cloud.coremodel;
 
-import static org.fest.assertions.Assertions.assertThat;
-
-import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Test;
-
 import com.francetelecom.clara.cloud.model.DeploymentProfileEnum;
 import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.model.TechnicalDeploymentInstance;
 import com.francetelecom.clara.cloud.model.TechnicalDeploymentTemplate;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.fest.assertions.Assertions;
+import org.junit.Test;
+
+import static org.fest.assertions.Assertions.assertThat;
 
 /**
  * Created with IntelliJ IDEA. User: shjn2064 Date: 06/09/12 Time: 11:36 To
@@ -133,4 +133,30 @@ public class EnvironmentTest {
 				+ tdi.getName());
 	}
 
+	@Test
+	public void activation_context_should_contain_env_label() throws Exception {
+
+		TechnicalDeployment td = new TechnicalDeployment("td");
+		TechnicalDeploymentTemplate tdt = new TechnicalDeploymentTemplate(td, DeploymentProfileEnum.DEVELOPMENT, "releaseId", MiddlewareProfile.DEFAULT_PROFILE);
+		ApplicationRelease applicationRelease = new ApplicationRelease(new Application("label", "code"), "version");
+		final Environment environment = new Environment(DeploymentProfileEnum.DEVELOPMENT, "envlabel", applicationRelease, new PaasUser("herve", "Vilard", new SSOId("Vilard"), "vilard@orange.com"), new TechnicalDeploymentInstance(tdt, td));
+
+		final ActivationContext activationContext = environment.getActivationContext();
+
+		Assertions.assertThat(activationContext.getEnvLabel()).isEqualTo("envlabel");
+	}
+
+
+	@Test
+	public void activation_context_should_contain_env_uid() throws Exception {
+
+		TechnicalDeployment td = new TechnicalDeployment("td");
+		TechnicalDeploymentTemplate tdt = new TechnicalDeploymentTemplate(td, DeploymentProfileEnum.DEVELOPMENT, "releaseId", MiddlewareProfile.DEFAULT_PROFILE);
+		ApplicationRelease applicationRelease = new ApplicationRelease(new Application("label", "code"), "version");
+		final Environment environment = new Environment(DeploymentProfileEnum.DEVELOPMENT, "envlabel", applicationRelease, new PaasUser("herve", "Vilard", new SSOId("Vilard"), "vilard@orange.com"), new TechnicalDeploymentInstance(tdt, td));
+
+		final ActivationContext activationContext = environment.getActivationContext();
+
+		Assertions.assertThat(activationContext.getEnvUID()).isEqualTo(environment.getUID());
+	}
 }

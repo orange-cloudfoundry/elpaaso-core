@@ -12,16 +12,11 @@
  */
 package com.francetelecom.clara.cloud.service;
 
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
-import java.util.Arrays;
-import java.util.List;
-
+import com.francetelecom.clara.cloud.core.service.ManageApplication;
+import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
+import com.francetelecom.clara.cloud.core.service.ManageEnvironment;
+import com.francetelecom.clara.cloud.core.service.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.Environment;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,11 +24,11 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.francetelecom.clara.cloud.core.service.ManageApplication;
-import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
-import com.francetelecom.clara.cloud.coremodel.Environment;
-import com.francetelecom.clara.cloud.environment.ManageEnvironment;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.*;
 
 /**
  * OpsServiceImplTest

@@ -12,37 +12,31 @@
  */
 package com.francetelecom.clara.cloud.presentation.tools;
 
-import java.io.Serializable;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
-import javax.validation.ConstraintViolationException;
-
+import com.francetelecom.clara.cloud.commons.BusinessException;
+import com.francetelecom.clara.cloud.commons.TechnicalException;
+import com.francetelecom.clara.cloud.core.service.ManageApplication;
+import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
+import com.francetelecom.clara.cloud.core.service.ManageEnvironment;
+import com.francetelecom.clara.cloud.core.service.exception.DuplicateApplicationReleaseException;
+import com.francetelecom.clara.cloud.core.service.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.Application;
+import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
+import com.francetelecom.clara.cloud.coremodel.PaasUser;
+import com.francetelecom.clara.cloud.deployment.logical.service.ManageLogicalDeployment;
+import com.francetelecom.clara.cloud.logicalmodel.LogicalDeployment;
+import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppFactory;
+import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 
-import com.francetelecom.clara.cloud.application.ManageLogicalDeployment;
-import com.francetelecom.clara.cloud.commons.BusinessException;
-import com.francetelecom.clara.cloud.commons.TechnicalException;
-import com.francetelecom.clara.cloud.core.service.ManageApplication;
-import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
-import com.francetelecom.clara.cloud.coremodel.Application;
-import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
-import com.francetelecom.clara.cloud.coremodel.PaasUser;
-import com.francetelecom.clara.cloud.environment.ManageEnvironment;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalDeployment;
-import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppFactory;
-import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
-import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationReleaseException;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
+import javax.validation.ConstraintViolationException;
+import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA. User: Thomas Escalle - tawe8231 Entity :

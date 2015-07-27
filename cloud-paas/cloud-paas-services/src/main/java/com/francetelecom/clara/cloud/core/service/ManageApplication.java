@@ -12,21 +12,16 @@
  */
 package com.francetelecom.clara.cloud.core.service;
 
-import java.net.URL;
-import java.util.List;
-
 import com.francetelecom.clara.cloud.commons.BusinessException;
+import com.francetelecom.clara.cloud.core.service.exception.*;
 import com.francetelecom.clara.cloud.coremodel.Application;
 import com.francetelecom.clara.cloud.coremodel.ConfigRole;
 import com.francetelecom.clara.cloud.coremodel.SSOId;
 import com.francetelecom.clara.cloud.services.dto.ApplicationDTO;
 import com.francetelecom.clara.cloud.services.dto.ConfigOverrideDTO;
-import com.francetelecom.clara.cloud.coremodel.exception.ApplicationNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.ConfigRoleNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationException;
-import com.francetelecom.clara.cloud.coremodel.exception.InvalidConfigOverrideException;
-import com.francetelecom.clara.cloud.coremodel.exception.PaasUserNotFoundException;
-import org.springframework.data.domain.Sort;
+
+import java.net.URL;
+import java.util.List;
 
 /**
  * Application management service facade interface.

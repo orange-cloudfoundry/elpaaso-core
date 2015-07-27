@@ -12,16 +12,16 @@
  */
 package com.francetelecom.clara.cloud.paas.activation.v1;
 
-import com.francetelecom.clara.cloud.application.ManageTechnicalDeploymentInstance;
+import com.francetelecom.clara.cloud.commons.NotFoundException;
 import com.francetelecom.clara.cloud.commons.TechnicalException;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatus;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatusEnum;
 import com.francetelecom.clara.cloud.model.DeploymentStateEnum;
 import com.francetelecom.clara.cloud.model.TechnicalDeploymentInstance;
+import com.francetelecom.clara.cloud.model.TechnicalDeploymentInstanceRepository;
 import com.francetelecom.clara.cloud.paas.activation.ActivationStepEnum;
 import com.francetelecom.clara.cloud.paas.activation.ManagePaasActivation;
 import com.francetelecom.clara.cloud.paas.activation.TaskStatusActivation;
-import com.francetelecom.clara.cloud.commons.NotFoundException;
 import org.activiti.engine.ActivitiException;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.history.HistoricActivityInstance;
@@ -31,6 +31,7 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.jms.connection.SynchedLocalTransactionFailedException;
 
@@ -43,12 +44,16 @@ public class ManagePaasActivationActivitiImpl implements ManagePaasActivation {
 
 	private Map<Long, TaskStatusActivation> taskStatusMap = new HashMap<Long, TaskStatusActivation>();
 
+	@Autowired
 	private TaskExecutor taskExecutor;
 
-	private ManageTechnicalDeploymentInstance manageTechnicalDeploymentInstance;
+	@Autowired
+	private TechnicalDeploymentInstanceRepository technicalDeploymentInstanceRepository;
 
+	@Autowired
 	private ManagePaasActivationActivitiUtilsImpl managePaasActivationActivitiUtilsImpl;
 
+	@Autowired
 	protected ProcessEngine processEngine;
 
 	@Override
@@ -187,7 +192,10 @@ public class ManagePaasActivationActivitiImpl implements ManagePaasActivation {
 					try {
 						HistoricProcessInstance hpi = processEngine.getHistoryService().createHistoricProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
 						if (hpi != null && hpi.getEndActivityId() != null && "endglobal".equals(hpi.getEndActivityId())) {
-							manageTechnicalDeploymentInstance.setDeploymentState(newStatus.getTechnicalDeploymentInstanceId(), TechnicalDeploymentInstance.class,((TaskStatusActivitiProcess) newStatus).getFinalState());
+							final TechnicalDeploymentInstance technicalDeploymentInstance = technicalDeploymentInstanceRepository.findOne(newStatus.getTechnicalDeploymentInstanceId());
+							if (technicalDeploymentInstance == null) throw (new NotFoundException("Cannot find TDI id=" + newStatus.getTechnicalDeploymentInstanceId()));
+							technicalDeploymentInstance.setDeploymentState(((TaskStatusActivitiProcess) newStatus).getFinalState());
+							technicalDeploymentInstanceRepository.save(technicalDeploymentInstance);
 							newStatus.setEndTime(hpi.getEndTime().getTime());
 							newStatus.setPercent(100);
 							newStatus.setTaskStatus(TaskStatusEnum.FINISHED_OK);
@@ -210,7 +218,11 @@ public class ManagePaasActivationActivitiImpl implements ManagePaasActivation {
 							else {
 								error.append(" hpi=NULL");
 							}
-							manageTechnicalDeploymentInstance.setDeploymentState(newStatus.getTechnicalDeploymentInstanceId(),TechnicalDeploymentInstance.class, DeploymentStateEnum.UNKNOWN);
+							final TechnicalDeploymentInstance technicalDeploymentInstance = technicalDeploymentInstanceRepository.findOne(newStatus.getTechnicalDeploymentInstanceId());
+							if (technicalDeploymentInstance == null) throw (new NotFoundException("Cannot find TDI id=" + newStatus.getTechnicalDeploymentInstanceId()));
+							technicalDeploymentInstance.setDeploymentState(DeploymentStateEnum.UNKNOWN);
+							technicalDeploymentInstanceRepository.save(technicalDeploymentInstance);
+
 							newStatus.setTaskStatus(TaskStatusEnum.FINISHED_FAILED);
 							newStatus.setErrorMessage(error.toString());
 							logger.debug(error.toString() + " - Following is an HistoricDetailQuery:");
@@ -228,18 +240,6 @@ public class ManagePaasActivationActivitiImpl implements ManagePaasActivation {
 					// Process is in progress
 					newStatus.setTaskStatus(TaskStatusEnum.STARTED);
 					try {
-						//logger.debug("------------createExecutionQuery-----------------");
-						//for (Execution exec : processEngine.getRuntimeService().createExecutionQuery().list()) {
-						//	logger.debug("Execution id=" + exec.getId());
-						//}
-						
-						//logger.debug("------------getActiveActivityIds-----------------");
-						//for (String id : processEngine.getRuntimeService().getActiveActivityIds(processInstanceId)) {
-						//	logger.debug("Now id=" + id);
-						//}
-	
-						// Set subtitle
-						//logger.debug("------------createHistoricActivityInstanceQuery-----------------");
 						for (HistoricActivityInstance ai : processEngine.getHistoryService().createHistoricActivityInstanceQuery()
 								.processInstanceId(processInstanceId).orderByHistoricActivityInstanceEndTime().desc().list()) {
 							// logger.debug("Activiti id="+ai.getActivityId()+" type="+ai.getActivityType()+" start="+ai.getStartTime()+" end="+ai.getEndTime());
@@ -261,23 +261,7 @@ public class ManagePaasActivationActivitiImpl implements ManagePaasActivation {
 		return newStatus;
 	}
 
-	public void setManageTechnicalDeploymentInstance(ManageTechnicalDeploymentInstance manageTechnicalDeploymentInstance) {
-		this.manageTechnicalDeploymentInstance = manageTechnicalDeploymentInstance;
-	}
-
-	public void setTaskExecutor(TaskExecutor taskExecutor) {
-		this.taskExecutor = taskExecutor;
-	}
-
-	public void setManagePaasActivationActivitiUtilsImpl(ManagePaasActivationActivitiUtilsImpl managePaasActivationActivitiUtilsImpl) {
-		this.managePaasActivationActivitiUtilsImpl = managePaasActivationActivitiUtilsImpl;
-	}
-
-	public void setProcessEngine(ProcessEngine processEngine) {
-		this.processEngine = processEngine;
-	}
-
-    private class ActivitiRunnableThread implements Runnable {
+	private class ActivitiRunnableThread implements Runnable {
         private final ActivationStepEnum step;
         private int tdiId;
         private Map<String, String> mdcContext;

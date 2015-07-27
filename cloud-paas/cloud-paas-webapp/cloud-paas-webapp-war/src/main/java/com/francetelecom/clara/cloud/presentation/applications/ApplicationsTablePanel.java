@@ -12,9 +12,14 @@
  */
 package com.francetelecom.clara.cloud.presentation.applications;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.francetelecom.clara.cloud.core.service.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.Application;
+import com.francetelecom.clara.cloud.presentation.common.AjaxFallbackCustomDataTable;
+import com.francetelecom.clara.cloud.presentation.common.PageTemplate;
+import com.francetelecom.clara.cloud.presentation.resource.CacheActivatedImage;
+import com.francetelecom.clara.cloud.presentation.tools.ApplicationProvider;
+import com.francetelecom.clara.cloud.presentation.tools.BusinessExceptionHandler;
+import com.francetelecom.clara.cloud.presentation.tools.WicketSession;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.AjaxSelfUpdatingTimerBehavior;
 import org.apache.wicket.ajax.markup.html.form.AjaxCheckBox;
@@ -30,21 +35,11 @@ import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.model.ResourceModel;
-import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.model.*;
 import org.apache.wicket.util.time.Duration;
 
-import com.francetelecom.clara.cloud.coremodel.Application;
-import com.francetelecom.clara.cloud.presentation.common.AjaxFallbackCustomDataTable;
-import com.francetelecom.clara.cloud.presentation.common.PageTemplate;
-import com.francetelecom.clara.cloud.presentation.resource.CacheActivatedImage;
-import com.francetelecom.clara.cloud.presentation.tools.ApplicationProvider;
-import com.francetelecom.clara.cloud.presentation.tools.BusinessExceptionHandler;
-import com.francetelecom.clara.cloud.presentation.tools.WicketSession;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ApplicationsTablePanel

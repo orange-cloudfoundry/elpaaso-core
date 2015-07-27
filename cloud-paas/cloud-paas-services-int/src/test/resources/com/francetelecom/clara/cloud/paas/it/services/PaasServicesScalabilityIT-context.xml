@@ -65,7 +65,9 @@
 	<import resource="transaction-context.xml" />
 	<!-- note: datasources contexts must be imported in each test context to select between hsql and postgresql  -->
 
-	<import resource="classpath:/META-INF/spring/cloud-daos-context.xml"/> 
+	<import resource="classpath:/META-INF/spring/logical-model-repository-context.xml"/>
+	<import resource="classpath:/META-INF/spring/technical-model-repository-context.xml"/>
+	<import resource="classpath:/META-INF/spring/core-model-repository-context.xml"/>
 
 	<!-- JMS server -->
 	<amq:broker useJmx="true" persistent="false">

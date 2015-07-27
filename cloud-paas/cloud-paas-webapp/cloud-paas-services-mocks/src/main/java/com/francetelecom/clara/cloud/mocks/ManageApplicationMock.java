@@ -12,8 +12,18 @@
  */
 package com.francetelecom.clara.cloud.mocks;
 
-import static com.francetelecom.clara.cloud.mocks.SecurityUtils.currentUser;
-import static com.francetelecom.clara.cloud.mocks.SecurityUtils.currentUserIsAdmin;
+import com.francetelecom.clara.cloud.commons.BusinessException;
+import com.francetelecom.clara.cloud.core.service.ManageApplication;
+import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
+import com.francetelecom.clara.cloud.core.service.exception.*;
+import com.francetelecom.clara.cloud.coremodel.Application;
+import com.francetelecom.clara.cloud.coremodel.ConfigRole;
+import com.francetelecom.clara.cloud.coremodel.SSOId;
+import com.francetelecom.clara.cloud.services.dto.ApplicationDTO;
+import com.francetelecom.clara.cloud.services.dto.ConfigOverrideDTO;
+import com.google.common.base.Predicate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -21,25 +31,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.francetelecom.clara.cloud.commons.BusinessException;
-import com.francetelecom.clara.cloud.core.service.ManageApplication;
-import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
-import com.francetelecom.clara.cloud.coremodel.Application;
-import com.francetelecom.clara.cloud.coremodel.ConfigRole;
-import com.francetelecom.clara.cloud.coremodel.SSOId;
-import com.francetelecom.clara.cloud.services.dto.ApplicationDTO;
-import com.francetelecom.clara.cloud.services.dto.ConfigOverrideDTO;
-import com.francetelecom.clara.cloud.coremodel.exception.ApplicationNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.ConfigRoleNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationException;
-import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationReleaseException;
-import com.francetelecom.clara.cloud.coremodel.exception.InvalidConfigOverrideException;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.PaasUserNotFoundException;
-import com.google.common.base.Predicate;
+import static com.francetelecom.clara.cloud.mocks.SecurityUtils.currentUser;
+import static com.francetelecom.clara.cloud.mocks.SecurityUtils.currentUserIsAdmin;
 
 /**
  * Created by IntelliJ IDEA. User: lzxv3002 Date: 07/06/11 Time: 18:06 Mock for

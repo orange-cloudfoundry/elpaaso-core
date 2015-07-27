@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="propertyConfigurer" class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
 		<property name="locations">
@@ -17,7 +17,8 @@
 	<import resource="transaction-context.xml"/>
 	<import resource="datasource-context.xml"/>
 	<import resource="util-springoo-context.xml" />
+	<import resource="classpath:/META-INF/spring/technical-model-repository-context.xml"/>
 
-    <bean id="persistenceTestUtil" class="com.francetelecom.clara.cloud.commons.PersistenceTestUtil"/>
+	<bean id="persistenceTestUtil" class="com.francetelecom.clara.cloud.commons.PersistenceTestUtil"/>
 
 </beans>

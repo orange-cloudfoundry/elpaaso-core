@@ -849,11 +849,6 @@
             </dependency>
             <dependency>
                 <groupId>com.orange.clara.cloud</groupId>
-                <artifactId>cloud-paas-daos</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.orange.clara.cloud</groupId>
                 <artifactId>cloud-paas-test-database</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -952,11 +947,6 @@
             </dependency>
             <dependency>
                 <groupId>com.orange.clara.cloud</groupId>
-                <artifactId>cloud-paas-daos-impl</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.orange.clara.cloud</groupId>
                 <artifactId>cloud-paas-core-model</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -1025,11 +1015,6 @@
             <dependency>
                 <groupId>com.orange.clara.cloud</groupId>
                 <artifactId>cloud-paas-db</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.orange.clara.cloud</groupId>
-                <artifactId>cloud-paas-webapp-crash</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
@@ -1204,7 +1189,6 @@ java.lang.NoClassDefFoundError: org/apache/commons/logging/LogFactory  -->
                             <exclude>**/infinitest.filters</exclude>
                             <exclude>release note/**</exclude>
                             <exclude>src/test/resources/**</exclude>
-                            <exclude>src/main/resources/crash/commands/base/**</exclude>
                             <exclude>**/EOS-ElpaasoOpenSourceCheck.txt</exclude>
                             <exclude>**/documentation/**</exclude>
                             <!-- ignores version file generated on commit-stage -->

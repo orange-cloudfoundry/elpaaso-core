@@ -14,16 +14,15 @@ package com.francetelecom.clara.cloud.presentation.tools;
 
 import com.francetelecom.clara.cloud.commons.BusinessException;
 import com.francetelecom.clara.cloud.commons.InvalidMavenReferenceException;
+import com.francetelecom.clara.cloud.core.service.exception.DuplicateApplicationException;
+import com.francetelecom.clara.cloud.core.service.exception.InvalidApplicationException;
+import com.francetelecom.clara.cloud.core.service.exception.InvalidReleaseException;
+import com.francetelecom.clara.cloud.core.service.exception.ObjectNotFoundException;
 import com.francetelecom.clara.cloud.presentation.HomePage;
 import com.francetelecom.clara.cloud.presentation.WicketApplication;
 import com.francetelecom.clara.cloud.presentation.common.Breadcrumbs;
 import com.francetelecom.clara.cloud.presentation.common.NavigationMenuFirstLevel;
 import com.francetelecom.clara.cloud.presentation.common.PageTemplate;
-import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationException;
-import com.francetelecom.clara.cloud.coremodel.exception.InvalidApplicationException;
-import com.francetelecom.clara.cloud.coremodel.exception.InvalidReleaseException;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
-
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.WebPage;
@@ -42,7 +41,6 @@ import org.slf4j.LoggerFactory;
 import org.wicketstuff.annotation.mount.MountPath;
 
 import javax.validation.ConstraintViolationException;
-
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;

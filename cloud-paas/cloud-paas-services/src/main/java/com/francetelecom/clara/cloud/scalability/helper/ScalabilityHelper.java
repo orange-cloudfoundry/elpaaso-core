@@ -12,21 +12,21 @@
  */
 package com.francetelecom.clara.cloud.scalability.helper;
 
-import com.francetelecom.clara.cloud.application.ManageLogicalDeployment;
 import com.francetelecom.clara.cloud.commons.BusinessException;
 import com.francetelecom.clara.cloud.commons.InvalidMavenReferenceException;
 import com.francetelecom.clara.cloud.commons.MavenReference;
 import com.francetelecom.clara.cloud.commons.TechnicalException;
 import com.francetelecom.clara.cloud.core.service.ManageApplication;
 import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
+import com.francetelecom.clara.cloud.core.service.ManageEnvironment;
 import com.francetelecom.clara.cloud.core.service.ManagePaasUser;
+import com.francetelecom.clara.cloud.core.service.exception.*;
 import com.francetelecom.clara.cloud.coremodel.*;
-import com.francetelecom.clara.cloud.environment.ManageEnvironment;
+import com.francetelecom.clara.cloud.deployment.logical.service.ManageLogicalDeployment;
 import com.francetelecom.clara.cloud.logicalmodel.*;
 import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppProperties;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto.EnvironmentStatusEnum;
-import com.francetelecom.clara.cloud.coremodel.exception.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;
 
@@ -288,7 +288,7 @@ public class ScalabilityHelper {
 	 * @param envNumber
 	 *            id used to name env
 	 * @return envOutputName
-	 * @throws com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException
+	 * @throws com.francetelecom.clara.cloud.core.service.exception.ObjectNotFoundException
 	 */
 	private String environmentFactory(PaasUser author, String appReleaseUid, int envNumber) throws BusinessException {
 		String environmentUid = "noenv";

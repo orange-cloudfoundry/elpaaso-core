@@ -95,13 +95,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>com.orange.clara.cloud</groupId>
-			<artifactId>cloud-paas-daos-impl</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-
 		<!-- cxf -->
 		<dependency>
 			<groupId>org.apache.cxf</groupId>

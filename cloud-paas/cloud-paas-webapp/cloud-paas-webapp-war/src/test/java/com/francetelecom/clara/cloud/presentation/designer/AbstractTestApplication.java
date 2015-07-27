@@ -12,15 +12,17 @@
  */
 package com.francetelecom.clara.cloud.presentation.designer;
 
-import com.francetelecom.clara.cloud.application.ManageLogicalDeployment;
 import com.francetelecom.clara.cloud.commons.BusinessException;
 import com.francetelecom.clara.cloud.commons.GuiClassMapping;
 import com.francetelecom.clara.cloud.commons.MavenReference;
 import com.francetelecom.clara.cloud.core.service.ManageApplication;
 import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
 import com.francetelecom.clara.cloud.core.service.ManagePaasUser;
+import com.francetelecom.clara.cloud.core.service.exception.DuplicateApplicationException;
+import com.francetelecom.clara.cloud.core.service.exception.PaasUserNotFoundException;
 import com.francetelecom.clara.cloud.coremodel.PaasRoleEnum;
 import com.francetelecom.clara.cloud.coremodel.SSOId;
+import com.francetelecom.clara.cloud.deployment.logical.service.ManageLogicalDeployment;
 import com.francetelecom.clara.cloud.logicalmodel.*;
 import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppFactory;
 import com.francetelecom.clara.cloud.mvn.consumer.MvnRepoDao;
@@ -32,9 +34,6 @@ import com.francetelecom.clara.cloud.presentation.models.ContactUsBean;
 import com.francetelecom.clara.cloud.presentation.models.HypericBean;
 import com.francetelecom.clara.cloud.presentation.models.SplunkBean;
 import com.francetelecom.clara.cloud.presentation.utils.*;
-import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationException;
-import com.francetelecom.clara.cloud.coremodel.exception.PaasUserNotFoundException;
-
 import org.apache.wicket.spring.test.ApplicationContextMock;
 import org.junit.*;
 import org.junit.runner.RunWith;

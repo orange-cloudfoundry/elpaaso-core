@@ -12,10 +12,10 @@
  */
 package com.francetelecom.clara.cloud.webapp.config;
 
-import com.francetelecom.clara.cloud.application.ManageLogicalDeployment;
 import com.francetelecom.clara.cloud.core.service.ManageApplication;
 import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
-import com.francetelecom.clara.cloud.environment.ManageEnvironment;
+import com.francetelecom.clara.cloud.core.service.ManageEnvironment;
+import com.francetelecom.clara.cloud.deployment.logical.service.ManageLogicalDeployment;
 import com.francetelecom.clara.cloud.presentation.tools.PopulateDatasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

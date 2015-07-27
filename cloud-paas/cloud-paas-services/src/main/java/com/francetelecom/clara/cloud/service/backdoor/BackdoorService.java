@@ -12,8 +12,8 @@
  */
 package com.francetelecom.clara.cloud.service.backdoor;
 
+import com.francetelecom.clara.cloud.core.service.exception.EnvironmentNotFoundException;
 import com.francetelecom.clara.cloud.coremodel.Environment;
-import com.francetelecom.clara.cloud.coremodel.exception.EnvironmentNotFoundException;
 
 public interface BackdoorService {
 

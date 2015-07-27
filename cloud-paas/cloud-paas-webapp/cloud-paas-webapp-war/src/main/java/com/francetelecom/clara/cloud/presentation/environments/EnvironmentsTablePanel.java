@@ -13,10 +13,10 @@
 package com.francetelecom.clara.cloud.presentation.environments;
 
 import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
+import com.francetelecom.clara.cloud.core.service.ManageEnvironment;
+import com.francetelecom.clara.cloud.core.service.exception.ApplicationReleaseNotFoundException;
+import com.francetelecom.clara.cloud.core.service.exception.ObjectNotFoundException;
 import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
-import com.francetelecom.clara.cloud.coremodel.exception.ApplicationReleaseNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
-import com.francetelecom.clara.cloud.environment.ManageEnvironment;
 import com.francetelecom.clara.cloud.presentation.common.AjaxFallbackCustomDataTable;
 import com.francetelecom.clara.cloud.presentation.common.PageTemplate;
 import com.francetelecom.clara.cloud.presentation.common.WicketUtils;

@@ -12,15 +12,27 @@
  */
 package com.francetelecom.clara.cloud.stepdefs;
 
-import static org.fest.assertions.Assertions.assertThat;
-
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.francetelecom.clara.cloud.application.impl.DoubleAuthentication;
+import com.francetelecom.clara.cloud.commons.MavenReference;
+import com.francetelecom.clara.cloud.core.service.ManageApplication;
+import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
+import com.francetelecom.clara.cloud.core.service.ManageEnvironment;
+import com.francetelecom.clara.cloud.core.service.ManagePaasUser;
+import com.francetelecom.clara.cloud.coremodel.PaasRoleEnum;
+import com.francetelecom.clara.cloud.coremodel.PaasUser;
+import com.francetelecom.clara.cloud.coremodel.SSOId;
+import com.francetelecom.clara.cloud.deployment.logical.service.ManageLogicalDeployment;
+import com.francetelecom.clara.cloud.logicalmodel.*;
+import com.francetelecom.clara.cloud.logicalmodel.LogicalConfigServiceUtils.ConfigEntry;
+import com.francetelecom.clara.cloud.logicalmodel.LogicalConfigServiceUtils.StructuredLogicalConfigServiceContent;
+import com.francetelecom.clara.cloud.mvn.consumer.MvnRepoDao;
+import com.francetelecom.clara.cloud.mvn.consumer.MvnRepoDaoTestUtils;
+import com.francetelecom.clara.cloud.services.dto.ConfigOverrideDTO;
+import com.francetelecom.clara.cloud.services.dto.EnvironmentDto.EnvironmentTypeEnum;
+import cucumber.api.java.Before;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -30,33 +42,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 
-import com.francetelecom.clara.cloud.application.ManageLogicalDeployment;
-import com.francetelecom.clara.cloud.application.impl.DoubleAuthentication;
-import com.francetelecom.clara.cloud.commons.MavenReference;
-import com.francetelecom.clara.cloud.core.service.ManageApplication;
-import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
-import com.francetelecom.clara.cloud.core.service.ManagePaasUser;
-import com.francetelecom.clara.cloud.coremodel.PaasRoleEnum;
-import com.francetelecom.clara.cloud.coremodel.PaasUser;
-import com.francetelecom.clara.cloud.coremodel.SSOId;
-import com.francetelecom.clara.cloud.environment.ManageEnvironment;
-import com.francetelecom.clara.cloud.logicalmodel.JeeProcessing;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalConfigService;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalConfigServiceUtils;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalConfigServiceUtils.ConfigEntry;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalConfigServiceUtils.StructuredLogicalConfigServiceContent;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalDeployment;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalServiceAccessTypeEnum;
-import com.francetelecom.clara.cloud.logicalmodel.ProcessingNode;
-import com.francetelecom.clara.cloud.mvn.consumer.MvnRepoDao;
-import com.francetelecom.clara.cloud.mvn.consumer.MvnRepoDaoTestUtils;
-import com.francetelecom.clara.cloud.services.dto.ConfigOverrideDTO;
-import com.francetelecom.clara.cloud.services.dto.EnvironmentDto.EnvironmentTypeEnum;
+import java.net.URL;
+import java.util.*;
 
-import cucumber.api.java.Before;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
+import static org.fest.assertions.Assertions.assertThat;
 
 @ContextConfiguration(locations = "classpath:com/francetelecom/clara/cloud/stepdefs/cucumber-context.xml")
 @DirtiesContext

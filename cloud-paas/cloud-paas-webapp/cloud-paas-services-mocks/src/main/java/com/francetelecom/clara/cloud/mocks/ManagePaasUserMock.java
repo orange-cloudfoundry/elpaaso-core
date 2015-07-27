@@ -12,17 +12,16 @@
  */
 package com.francetelecom.clara.cloud.mocks;
 
+import com.francetelecom.clara.cloud.core.service.ManagePaasUser;
+import com.francetelecom.clara.cloud.core.service.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.core.service.exception.PaasUserNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.PaasUser;
+import com.francetelecom.clara.cloud.coremodel.SSOId;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import org.springframework.stereotype.Service;
-
-import com.francetelecom.clara.cloud.core.service.ManagePaasUser;
-import com.francetelecom.clara.cloud.coremodel.PaasUser;
-import com.francetelecom.clara.cloud.coremodel.SSOId;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.PaasUserNotFoundException;
 
 /**
  * Created by IntelliJ IDEA.

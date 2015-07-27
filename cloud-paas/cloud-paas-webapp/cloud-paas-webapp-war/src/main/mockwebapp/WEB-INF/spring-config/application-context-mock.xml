@@ -81,7 +81,7 @@
     <bean id="hypericBean" class="com.francetelecom.clara.cloud.presentation.models.HypericBean">
      </bean>
 
-    <bean id="logicalDeploymentCloner" class="com.francetelecom.clara.cloud.dao.impl.LogicalDeploymentClonerImpl">
+    <bean id="logicalDeploymentCloner" class="com.francetelecom.clara.cloud.deployment.logical.service.LogicalDeploymentClonerImpl">
     </bean>
 
     <import resource="classpath*:services/*-logical-services.xml" />

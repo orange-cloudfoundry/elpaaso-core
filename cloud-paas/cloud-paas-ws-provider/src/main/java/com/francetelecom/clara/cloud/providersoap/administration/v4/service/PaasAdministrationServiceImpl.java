@@ -12,48 +12,29 @@
  */
 package com.francetelecom.clara.cloud.providersoap.administration.v4.service;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.util.Assert;
-
 import com.francetelecom.clara.cloud.core.service.ManageApplication;
 import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
+import com.francetelecom.clara.cloud.core.service.exception.*;
 import com.francetelecom.clara.cloud.coremodel.Application;
 import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
 import com.francetelecom.clara.cloud.coremodel.SSOId;
 import com.francetelecom.clara.cloud.providersoap.mapping.SoapMapper;
 import com.francetelecom.clara.cloud.services.dto.ApplicationDTO;
-import com.francetelecom.clara.cloud.coremodel.exception.ApplicationNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.ApplicationReleaseNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationException;
-import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationReleaseException;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.PaasUserNotFoundException;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import com.orange.clara.cloud.providersoap.administration.v4.exception.ApplicationNotFoundError;
-import com.orange.clara.cloud.providersoap.administration.v4.exception.DuplicateApplicationError;
-import com.orange.clara.cloud.providersoap.administration.v4.exception.DuplicateReleaseError;
-import com.orange.clara.cloud.providersoap.administration.v4.exception.PaasUserNotFoundError;
-import com.orange.clara.cloud.providersoap.administration.v4.exception.ReleaseNotFoundError;
-import com.orange.clara.cloud.providersoap.administration.v4.model.ApplicationModel;
-import com.orange.clara.cloud.providersoap.administration.v4.model.CreateApplicationCommand;
-import com.orange.clara.cloud.providersoap.administration.v4.model.CreateReleaseCommand;
-import com.orange.clara.cloud.providersoap.administration.v4.model.MiddlewareProfile;
-import com.orange.clara.cloud.providersoap.administration.v4.model.ReleaseModel;
-import com.orange.clara.cloud.providersoap.administration.v4.service.ApplicationNotFoundErrorFault;
-import com.orange.clara.cloud.providersoap.administration.v4.service.DuplicateApplicationErrorFault;
-import com.orange.clara.cloud.providersoap.administration.v4.service.DuplicateReleaseErrorFault;
-import com.orange.clara.cloud.providersoap.administration.v4.service.PaasAdministrationService;
-import com.orange.clara.cloud.providersoap.administration.v4.service.PaasUserNotFoundErrorFault;
-import com.orange.clara.cloud.providersoap.administration.v4.service.ReleaseNotFoundErrorFault;
+import com.orange.clara.cloud.providersoap.administration.v4.exception.*;
+import com.orange.clara.cloud.providersoap.administration.v4.model.*;
+import com.orange.clara.cloud.providersoap.administration.v4.service.*;
 import com.orange.clara.cloud.providersoap.security.v1.Credentials;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @javax.jws.WebService(serviceName = "PaasAdministrationService", portName = "PaasAdministrationServicePort", targetNamespace = "http://www.orange.com/paas/administration/v4/PaasAdministrationService", endpointInterface = "com.orange.clara.cloud.providersoap.administration.v4.service.PaasAdministrationService")
 @org.apache.cxf.annotations.SchemaValidation(enabled = true)

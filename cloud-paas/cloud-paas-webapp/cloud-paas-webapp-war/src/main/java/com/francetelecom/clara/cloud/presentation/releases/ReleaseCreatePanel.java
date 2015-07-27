@@ -12,8 +12,21 @@
  */
 package com.francetelecom.clara.cloud.presentation.releases;
 
-import java.net.URL;
-
+import com.francetelecom.clara.cloud.core.service.ManageApplication;
+import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
+import com.francetelecom.clara.cloud.core.service.exception.DuplicateApplicationReleaseException;
+import com.francetelecom.clara.cloud.core.service.exception.InvalidReleaseException;
+import com.francetelecom.clara.cloud.core.service.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.Application;
+import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
+import com.francetelecom.clara.cloud.deployment.logical.service.ManageLogicalDeployment;
+import com.francetelecom.clara.cloud.presentation.applications.SelectedAppPage;
+import com.francetelecom.clara.cloud.presentation.common.ReleaseFieldsetPanel;
+import com.francetelecom.clara.cloud.presentation.designer.pages.DesignerHelperPage;
+import com.francetelecom.clara.cloud.presentation.designer.pages.DesignerPage;
+import com.francetelecom.clara.cloud.presentation.tools.BusinessExceptionHandler;
+import com.francetelecom.clara.cloud.presentation.tools.FieldFeedbackDecorator;
+import com.francetelecom.clara.cloud.presentation.tools.WicketSession;
 import org.apache.wicket.Component;
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -29,21 +42,7 @@ import org.apache.wicket.util.visit.IVisit;
 import org.apache.wicket.util.visit.IVisitor;
 import org.slf4j.LoggerFactory;
 
-import com.francetelecom.clara.cloud.application.ManageLogicalDeployment;
-import com.francetelecom.clara.cloud.core.service.ManageApplication;
-import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
-import com.francetelecom.clara.cloud.coremodel.Application;
-import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
-import com.francetelecom.clara.cloud.presentation.applications.SelectedAppPage;
-import com.francetelecom.clara.cloud.presentation.common.ReleaseFieldsetPanel;
-import com.francetelecom.clara.cloud.presentation.designer.pages.DesignerHelperPage;
-import com.francetelecom.clara.cloud.presentation.designer.pages.DesignerPage;
-import com.francetelecom.clara.cloud.presentation.tools.BusinessExceptionHandler;
-import com.francetelecom.clara.cloud.presentation.tools.FieldFeedbackDecorator;
-import com.francetelecom.clara.cloud.presentation.tools.WicketSession;
-import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationReleaseException;
-import com.francetelecom.clara.cloud.coremodel.exception.InvalidReleaseException;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
+import java.net.URL;
 
 /**
  * ReleaseCreatePanel

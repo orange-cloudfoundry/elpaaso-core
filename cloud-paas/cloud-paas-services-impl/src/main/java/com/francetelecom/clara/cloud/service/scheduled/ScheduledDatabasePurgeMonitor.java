@@ -12,26 +12,30 @@
  */
 package com.francetelecom.clara.cloud.service.scheduled;
 
+import com.francetelecom.clara.cloud.service.OpsService;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.StatefulJob;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.scheduling.quartz.QuartzJobBean;
-
-import com.francetelecom.clara.cloud.service.OpsService;
+import org.springframework.stereotype.Service;
 
 /**
  * ScheduledDatabasePurgeMonitor
  */
+@Service
 public class ScheduledDatabasePurgeMonitor extends QuartzJobBean implements StatefulJob, ApplicationContextAware {
     private final static Logger logger = LoggerFactory.getLogger(ScheduledDatabasePurgeMonitor.class.getName());
     private boolean welcomeDisplayed = false;
 
+    @Autowired
     private OpsService opsService;
+
     private String purgeCronExpression;
     private Boolean enabled;
 
@@ -71,10 +75,6 @@ public class ScheduledDatabasePurgeMonitor extends QuartzJobBean implements Stat
 
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
-    }
-
-    public OpsService getOpsService() {
-        return opsService;
     }
 
     public void setOpsService(OpsService opsService) {

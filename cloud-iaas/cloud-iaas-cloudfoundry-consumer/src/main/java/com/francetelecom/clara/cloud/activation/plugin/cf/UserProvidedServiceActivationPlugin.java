@@ -15,16 +15,16 @@ package com.francetelecom.clara.cloud.activation.plugin.cf;
 import com.francetelecom.clara.cloud.activation.plugin.cf.domain.CFServiceActivationService;
 import com.francetelecom.clara.cloud.activation.plugin.cf.domain.ServiceActivationStatus;
 import com.francetelecom.clara.cloud.activation.plugin.cf.infrastructure.CfAdapter;
-import com.francetelecom.clara.cloud.application.ManageModelItem;
+import com.francetelecom.clara.cloud.commons.NotFoundException;
 import com.francetelecom.clara.cloud.commons.TechnicalException;
 import com.francetelecom.clara.cloud.commons.tasks.Failure;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatus;
 import com.francetelecom.clara.cloud.coremodel.ActivationContext;
+import com.francetelecom.clara.cloud.model.ModelItemRepository;
 import com.francetelecom.clara.cloud.paas.activation.ActivationPlugin;
 import com.francetelecom.clara.cloud.paas.activation.ActivationStepEnum;
 import com.francetelecom.clara.cloud.techmodel.cf.UserProvidedServiceRepository;
 import com.francetelecom.clara.cloud.techmodel.cf.services.userprovided.AbstractUserProvidedService;
-import com.francetelecom.clara.cloud.commons.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,12 +45,12 @@ public class UserProvidedServiceActivationPlugin extends ActivationPlugin<Abstra
 
 
     @Autowired
-    public UserProvidedServiceActivationPlugin(CFServiceActivationService cfServiceActivationService, ManageModelItem manageModelItem,
+    public UserProvidedServiceActivationPlugin(CFServiceActivationService cfServiceActivationService, ModelItemRepository modelItemRepository,
                                                UserProvidedServiceRepository userProvidedServiceRepository) {
         super();
         this.cfServiceActivationService = cfServiceActivationService;
         this.userProvidedServiceRepository = userProvidedServiceRepository;
-        this.setManageModelItem(manageModelItem);
+        this.modelItemRepository = modelItemRepository;
     }
 
     @Override

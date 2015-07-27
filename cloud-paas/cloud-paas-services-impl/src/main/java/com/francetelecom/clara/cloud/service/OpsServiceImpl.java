@@ -12,31 +12,36 @@
  */
 package com.francetelecom.clara.cloud.service;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-
+import com.francetelecom.clara.cloud.commons.DateHelper;
+import com.francetelecom.clara.cloud.core.service.ManageApplication;
+import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
+import com.francetelecom.clara.cloud.core.service.ManageEnvironment;
+import com.francetelecom.clara.cloud.coremodel.Environment;
+import com.francetelecom.clara.cloud.coremodel.PaasRoleEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 
-import com.francetelecom.clara.cloud.commons.DateHelper;
-import com.francetelecom.clara.cloud.core.service.ManageApplication;
-import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
-import com.francetelecom.clara.cloud.coremodel.Environment;
-import com.francetelecom.clara.cloud.coremodel.PaasRoleEnum;
-import com.francetelecom.clara.cloud.environment.ManageEnvironment;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * OpsServiceImpl
  */
+@Service
 public class OpsServiceImpl implements OpsService {
 	private final static Logger logger = LoggerFactory.getLogger(OpsServiceImpl.class.getName());
+	@Autowired
 	private ManageEnvironment manageEnvironment;
+	@Autowired
 	private ManageApplicationRelease manageRelease;
+	@Autowired
 	private ManageApplication manageApplication;
 	private String buildVersion;
 	private String buildDate;

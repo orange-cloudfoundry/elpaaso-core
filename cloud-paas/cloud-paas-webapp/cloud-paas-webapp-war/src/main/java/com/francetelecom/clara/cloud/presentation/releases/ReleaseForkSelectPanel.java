@@ -12,8 +12,14 @@
  */
 package com.francetelecom.clara.cloud.presentation.releases;
 
-import java.util.List;
-
+import com.francetelecom.clara.cloud.core.service.ManageApplication;
+import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
+import com.francetelecom.clara.cloud.core.service.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.Application;
+import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
+import com.francetelecom.clara.cloud.deployment.logical.service.ManageLogicalDeployment;
+import com.francetelecom.clara.cloud.presentation.designer.pages.DesignerHelperPage;
+import com.francetelecom.clara.cloud.presentation.designer.panels.DesignerArchitectureMatrixPanel;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.OnChangeAjaxBehavior;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -26,14 +32,7 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.francetelecom.clara.cloud.application.ManageLogicalDeployment;
-import com.francetelecom.clara.cloud.core.service.ManageApplication;
-import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
-import com.francetelecom.clara.cloud.coremodel.Application;
-import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
-import com.francetelecom.clara.cloud.presentation.designer.pages.DesignerHelperPage;
-import com.francetelecom.clara.cloud.presentation.designer.panels.DesignerArchitectureMatrixPanel;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
+import java.util.List;
 
 /**
  * User: wwnl9733

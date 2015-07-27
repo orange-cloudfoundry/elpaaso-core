@@ -210,14 +210,6 @@
 		</dependency>
 		<dependency>
 			<groupId>com.orange.clara.cloud</groupId>
-			<artifactId>cloud-paas-daos-impl</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.orange.clara.cloud</groupId>
-			<artifactId>cloud-paas-webapp-crash</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.orange.clara.cloud</groupId>
 			<artifactId>cloud-mvn-consumer</artifactId>
 			<type>test-jar</type>
 			<scope>test</scope>
@@ -538,28 +530,6 @@
 			</testResource>
 		</testResources>
 		<plugins>
-			<plugin>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>unpack</id>
-						<phase>package</phase>
-						<goals>
-							<goal>unpack</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>com.orange.clara.cloud</groupId>
-									<artifactId>cloud-paas-webapp-crash</artifactId>
-								</artifactItem>
-							</artifactItems>
-							<outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF</outputDirectory>
-							<includes>**/*.groovy</includes>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>

@@ -12,13 +12,26 @@
  */
 package com.francetelecom.clara.cloud.integration;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.net.MalformedURLException;
-
+import com.francetelecom.clara.cloud.TestHelper;
+import com.francetelecom.clara.cloud.commons.BusinessException;
+import com.francetelecom.clara.cloud.commons.InvalidMavenReferenceException;
+import com.francetelecom.clara.cloud.core.service.ManageApplication;
+import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
+import com.francetelecom.clara.cloud.core.service.ManageEnvironment;
+import com.francetelecom.clara.cloud.core.service.ManagePaasUser;
+import com.francetelecom.clara.cloud.core.service.exception.DuplicateApplicationException;
+import com.francetelecom.clara.cloud.core.service.exception.DuplicateApplicationReleaseException;
+import com.francetelecom.clara.cloud.core.service.exception.InvalidReleaseException;
+import com.francetelecom.clara.cloud.core.service.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.Application;
+import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
+import com.francetelecom.clara.cloud.coremodel.PaasUser;
+import com.francetelecom.clara.cloud.coremodel.SSOId;
+import com.francetelecom.clara.cloud.deployment.logical.service.ManageLogicalDeployment;
+import com.francetelecom.clara.cloud.deployment.technical.service.ManageTechnicalDeployment;
+import com.francetelecom.clara.cloud.logicalmodel.*;
+import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.PetcliniccLogicalModelCatalog;
+import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppProperties;
 import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.Before;
@@ -31,34 +44,9 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.francetelecom.clara.cloud.TestHelper;
-import com.francetelecom.clara.cloud.application.ManageLogicalDeployment;
-import com.francetelecom.clara.cloud.application.ManageTechnicalDeployment;
-import com.francetelecom.clara.cloud.commons.BusinessException;
-import com.francetelecom.clara.cloud.commons.InvalidMavenReferenceException;
-import com.francetelecom.clara.cloud.core.service.ManageApplication;
-import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
-import com.francetelecom.clara.cloud.core.service.ManagePaasUser;
-import com.francetelecom.clara.cloud.coremodel.Application;
-import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
-import com.francetelecom.clara.cloud.coremodel.PaasUser;
-import com.francetelecom.clara.cloud.coremodel.SSOId;
-import com.francetelecom.clara.cloud.environment.ManageEnvironment;
-import com.francetelecom.clara.cloud.logicalmodel.ContextRoot;
-import com.francetelecom.clara.cloud.logicalmodel.JeeProcessing;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalDeployment;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalLogService;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalMomService;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalRelationalService;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalServiceAccessTypeEnum;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalWebGUIService;
-import com.francetelecom.clara.cloud.logicalmodel.ProcessingNode;
-import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.PetcliniccLogicalModelCatalog;
-import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppProperties;
-import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationException;
-import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationReleaseException;
-import com.francetelecom.clara.cloud.coremodel.exception.InvalidReleaseException;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
+import java.net.MalformedURLException;
+
+import static org.junit.Assert.*;
 
 /**
  * Test Business implementation for Application component

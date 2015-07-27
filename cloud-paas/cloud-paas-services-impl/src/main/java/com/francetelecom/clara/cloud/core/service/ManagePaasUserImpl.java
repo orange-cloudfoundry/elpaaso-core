@@ -13,9 +13,9 @@
 package com.francetelecom.clara.cloud.core.service;
 
 import com.francetelecom.clara.cloud.commons.BusinessException;
+import com.francetelecom.clara.cloud.core.service.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.core.service.exception.PaasUserNotFoundException;
 import com.francetelecom.clara.cloud.coremodel.*;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.PaasUserNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

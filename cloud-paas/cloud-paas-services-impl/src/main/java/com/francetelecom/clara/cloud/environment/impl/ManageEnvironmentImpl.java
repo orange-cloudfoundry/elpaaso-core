@@ -15,17 +15,15 @@ package com.francetelecom.clara.cloud.environment.impl;
 import com.francetelecom.clara.cloud.commons.BusinessException;
 import com.francetelecom.clara.cloud.commons.DateHelper;
 import com.francetelecom.clara.cloud.commons.TechnicalException;
+import com.francetelecom.clara.cloud.core.service.ManageEnvironment;
 import com.francetelecom.clara.cloud.core.service.SecurityUtils;
+import com.francetelecom.clara.cloud.core.service.exception.ApplicationReleaseNotFoundException;
+import com.francetelecom.clara.cloud.core.service.exception.EnvironmentNotFoundException;
 import com.francetelecom.clara.cloud.coremodel.*;
-import com.francetelecom.clara.cloud.coremodel.exception.ApplicationReleaseNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.EnvironmentNotFoundException;
-import com.francetelecom.clara.cloud.dao.TechnicalDeploymentCloner;
-import com.francetelecom.clara.cloud.environment.ManageEnvironment;
 import com.francetelecom.clara.cloud.environment.log.LogService;
 import com.francetelecom.clara.cloud.model.DeploymentProfileEnum;
 import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.model.TechnicalDeploymentInstance;
-import com.francetelecom.clara.cloud.model.TechnicalDeploymentRepository;
 import com.francetelecom.clara.cloud.paas.activation.ManagePaasActivation;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDetailsDto;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
@@ -39,6 +37,9 @@ import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,6 +50,7 @@ import java.util.*;
 /**
  * Manages environment
  */
+@Service
 public class ManageEnvironmentImpl implements ManageEnvironment {
 
     private static final Logger log = LoggerFactory.getLogger(ManageEnvironmentImpl.class);
@@ -63,24 +65,25 @@ public class ManageEnvironmentImpl implements ManageEnvironment {
      */
     private static final String LOG_KEY_ENVUID = "env_uid";
 
+    @Autowired
     private ManageEnvironmentImplUtils utils;
 
+    @Value("${paas.schedule.databasePurge.retentionDelayInDay}")
     private Integer purgeRetentionDelayInDay;
 
+    @Autowired
     private EnvironmentRepository environmentRepository;
 
+    @Autowired
     private ManagePaasActivation managePaasActivation;
 
-    private TechnicalDeploymentRepository technicalDeploymentRepository;
-
+    @Autowired
     private ApplicationReleaseRepository applicationReleaseRepository;
 
-    private TechnicalDeploymentCloner tdCloner;
-
+    @Autowired
     private LogService logService;
 
-    private boolean shouldRetrieveMonitoringLink;
-
+    @Autowired
     private EnvironmentMapper environmentMapper;
 
     @Override
@@ -569,32 +572,16 @@ public class ManageEnvironmentImpl implements ManageEnvironment {
         this.managePaasActivation = managePaasActivation;
     }
 
-    public void setTechnicalDeploymentRepository(TechnicalDeploymentRepository technicalDeploymentRepository) {
-        this.technicalDeploymentRepository = technicalDeploymentRepository;
-    }
-
     public void setApplicationReleaseRepository(ApplicationReleaseRepository repository) {
         this.applicationReleaseRepository = repository;
-    }
-
-    public void setTdCloner(TechnicalDeploymentCloner tdCloner) {
-        this.tdCloner = tdCloner;
     }
 
     public void setLogService(LogService logService) {
         this.logService = logService;
     }
 
-    public EnvironmentRepository getEnvironmentRepository() {
-        return environmentRepository;
-    }
-
     public void setUtils(ManageEnvironmentImplUtils utils) {
         this.utils = utils;
-    }
-
-    public void setShouldRetrieveMonitoringLink(boolean shouldRetrieveMonitoringLink) {
-        this.shouldRetrieveMonitoringLink = shouldRetrieveMonitoringLink;
     }
 
     public void setEnvironmentMapper(EnvironmentMapper environmentMapper) {

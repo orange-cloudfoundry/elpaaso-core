@@ -12,23 +12,22 @@
  */
 package com.francetelecom.clara.cloud.scalability.impl;
 
-import java.util.Collection;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.francetelecom.clara.cloud.application.ManageLogicalDeployment;
 import com.francetelecom.clara.cloud.commons.BusinessException;
 import com.francetelecom.clara.cloud.core.service.ManageApplication;
 import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
+import com.francetelecom.clara.cloud.core.service.ManageEnvironment;
 import com.francetelecom.clara.cloud.core.service.ManagePaasUser;
 import com.francetelecom.clara.cloud.coremodel.Application;
 import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
 import com.francetelecom.clara.cloud.coremodel.PaasUser;
-import com.francetelecom.clara.cloud.environment.ManageEnvironment;
+import com.francetelecom.clara.cloud.deployment.logical.service.ManageLogicalDeployment;
 import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppProperties;
 import com.francetelecom.clara.cloud.paas.activation.v1.ActivationPluginStrategyImpl;
 import com.francetelecom.clara.cloud.scalability.ManageScalability;
 import com.francetelecom.clara.cloud.scalability.helper.ScalabilityHelper;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Collection;
 
 /**
  * ManageScalabilityImpl

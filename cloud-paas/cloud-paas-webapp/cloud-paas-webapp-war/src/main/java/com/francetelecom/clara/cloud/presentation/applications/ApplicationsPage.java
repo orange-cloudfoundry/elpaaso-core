@@ -12,13 +12,23 @@
  */
 package com.francetelecom.clara.cloud.presentation.applications;
 
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import com.francetelecom.clara.cloud.commons.AuthorizationException;
+import com.francetelecom.clara.cloud.commons.BusinessException;
+import com.francetelecom.clara.cloud.core.service.ManageApplication;
+import com.francetelecom.clara.cloud.core.service.exception.*;
+import com.francetelecom.clara.cloud.coremodel.Application;
+import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
+import com.francetelecom.clara.cloud.coremodel.SSOId;
+import com.francetelecom.clara.cloud.presentation.HomePage;
+import com.francetelecom.clara.cloud.presentation.common.Breadcrumbs;
+import com.francetelecom.clara.cloud.presentation.common.NavigationMenuFirstLevel;
+import com.francetelecom.clara.cloud.presentation.common.WicketUtils;
+import com.francetelecom.clara.cloud.presentation.designer.pages.DesignerHelperPage;
+import com.francetelecom.clara.cloud.presentation.designer.pages.DesignerPage;
+import com.francetelecom.clara.cloud.presentation.models.FirstApplicationReleaseInfos;
+import com.francetelecom.clara.cloud.presentation.tools.BreadcrumbsItem;
+import com.francetelecom.clara.cloud.presentation.tools.BusinessExceptionHandler;
+import com.francetelecom.clara.cloud.presentation.tools.WicketSession;
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -34,27 +44,8 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.LoggerFactory;
 import org.wicketstuff.annotation.mount.MountPath;
 
-import com.francetelecom.clara.cloud.commons.AuthorizationException;
-import com.francetelecom.clara.cloud.commons.BusinessException;
-import com.francetelecom.clara.cloud.core.service.ManageApplication;
-import com.francetelecom.clara.cloud.coremodel.Application;
-import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
-import com.francetelecom.clara.cloud.coremodel.SSOId;
-import com.francetelecom.clara.cloud.presentation.HomePage;
-import com.francetelecom.clara.cloud.presentation.common.Breadcrumbs;
-import com.francetelecom.clara.cloud.presentation.common.NavigationMenuFirstLevel;
-import com.francetelecom.clara.cloud.presentation.common.WicketUtils;
-import com.francetelecom.clara.cloud.presentation.designer.pages.DesignerHelperPage;
-import com.francetelecom.clara.cloud.presentation.designer.pages.DesignerPage;
-import com.francetelecom.clara.cloud.presentation.models.FirstApplicationReleaseInfos;
-import com.francetelecom.clara.cloud.presentation.tools.BreadcrumbsItem;
-import com.francetelecom.clara.cloud.presentation.tools.BusinessExceptionHandler;
-import com.francetelecom.clara.cloud.presentation.tools.WicketSession;
-import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationException;
-import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationReleaseException;
-import com.francetelecom.clara.cloud.coremodel.exception.InvalidReleaseException;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.PaasUserNotFoundException;
+import java.net.URL;
+import java.util.*;
 
 /**
  * ApplicationsPage

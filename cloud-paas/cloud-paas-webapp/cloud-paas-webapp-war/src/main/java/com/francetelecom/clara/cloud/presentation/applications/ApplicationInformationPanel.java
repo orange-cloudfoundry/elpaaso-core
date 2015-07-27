@@ -12,6 +12,9 @@
  */
 package com.francetelecom.clara.cloud.presentation.applications;
 
+import com.francetelecom.clara.cloud.core.service.exception.ApplicationNotFoundException;
+import com.francetelecom.clara.cloud.core.service.exception.DuplicateApplicationException;
+import com.francetelecom.clara.cloud.core.service.exception.PaasUserNotFoundException;
 import com.francetelecom.clara.cloud.coremodel.Application;
 import com.francetelecom.clara.cloud.coremodel.SSOId;
 import com.francetelecom.clara.cloud.presentation.common.BreadcrumbsUpdateEvent;
@@ -21,10 +24,6 @@ import com.francetelecom.clara.cloud.presentation.tools.BreadcrumbsItem;
 import com.francetelecom.clara.cloud.presentation.tools.BusinessExceptionHandler;
 import com.francetelecom.clara.cloud.presentation.tools.DeleteConfirmationDecorator;
 import com.francetelecom.clara.cloud.presentation.tools.FieldFeedbackDecorator;
-import com.francetelecom.clara.cloud.coremodel.exception.ApplicationNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationException;
-import com.francetelecom.clara.cloud.coremodel.exception.PaasUserNotFoundException;
-
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.attributes.AjaxRequestAttributes;
@@ -36,19 +35,14 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.*;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.model.ResourceModel;
-import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.model.*;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.util.visit.IVisit;
 import org.apache.wicket.util.visit.IVisitor;
 
-import java.util.List;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.util.List;
 
 /**
  * ApplicationInformationPanel

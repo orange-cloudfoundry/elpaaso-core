@@ -12,7 +12,6 @@
  */
 package com.francetelecom.clara.cloud.logicalmodel;
 
-import com.francetelecom.clara.cloud.PersistenceTestUtil;
 import com.francetelecom.clara.cloud.commons.BusinessException;
 import com.francetelecom.clara.cloud.logicalmodel.InvalidConfigServiceException.ErrorType;
 import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.ConfigLogicalModelCatalog;
@@ -29,6 +28,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 import static org.junit.Assert.assertEquals;
@@ -39,7 +39,7 @@ import static org.junit.Assert.assertTrue;
  * TODO: find a way to simulate invalid unicode characters easily. Get some inspiration in https://issues.apache.org/jira/browse/LANG-100 ?<br>
  * @author skwg9735
  */
-@ContextConfiguration(locations = "LogicalModelTest-context.xml")
+@ContextConfiguration(locations = "application-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class  LogicalConfigServiceTest {
 
@@ -50,7 +50,7 @@ public class  LogicalConfigServiceTest {
 	ConfigLogicalModelCatalog configLogicalModelCatalog;
 
     @Autowired
-    PersistenceTestUtil persistenceTestUtil;
+    LogicalDeploymentRepository logicalDeploymentRepository;
 
     //syntaxic sugar
     private HashSet<String> IGNORED_DUPLICATES;
@@ -72,6 +72,7 @@ public class  LogicalConfigServiceTest {
      */
     @Test
     @DirtiesContext
+    @Transactional
     public void testPersistenceOfLongConfigSetContent() throws BusinessException {
         createLongConfigSetContent(LogicalConfigService.MAX_CONFIG_SET_CHARS -1, true);
     }
@@ -318,8 +319,8 @@ public class  LogicalConfigServiceTest {
         lcs.setKeyPrefix(keyPrefix);
 
         if (testPersistence) {
-            persistenceTestUtil.persistObjects(ld);
-            LogicalDeployment reloadedLd = persistenceTestUtil.reloadLogicalDeployment(ld);
+            logicalDeploymentRepository.save(ld);
+            LogicalDeployment reloadedLd = logicalDeploymentRepository.findOne(ld.getId());
             assertEquals(ld, reloadedLd);
         }
 		ld.checkOverallConsistency();

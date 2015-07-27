@@ -12,18 +12,21 @@
  */
 package com.francetelecom.clara.cloud.service.backdoor;
 
+import com.francetelecom.clara.cloud.core.service.exception.EnvironmentNotFoundException;
 import com.francetelecom.clara.cloud.coremodel.*;
-import com.francetelecom.clara.cloud.coremodel.exception.EnvironmentNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 public class BackdoorServiceImpl implements BackdoorService {
 
 	private static final Logger log = LoggerFactory.getLogger(BackdoorServiceImpl.class);
 
+	@Autowired
 	private EnvironmentRepository environmentRepository;
 
+	@Autowired
 	private PaasUserRepository paasUserRepository;
 
 	public void setEnvironmentRepository(EnvironmentRepository repository) {

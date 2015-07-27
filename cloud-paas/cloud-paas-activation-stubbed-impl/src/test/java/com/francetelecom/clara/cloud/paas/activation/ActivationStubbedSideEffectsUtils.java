@@ -12,10 +12,8 @@
  */
 package com.francetelecom.clara.cloud.paas.activation;
 
-import com.francetelecom.clara.cloud.application.ManageTechnicalDeploymentInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Simulates the side effects of the activation on the database content:
@@ -26,9 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class ActivationStubbedSideEffectsUtils {
 
     private static Logger logger = LoggerFactory.getLogger(ActivationStubbedSideEffectsUtils.class.getName());
-
-    @Autowired
-    private ManageTechnicalDeploymentInstance manageTechnicalDeploymentInstance;
 
     public ActivationStubbedSideEffectsUtils() {
     }

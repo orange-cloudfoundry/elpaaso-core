@@ -14,18 +14,18 @@ package com.francetelecom.clara.cloud.activation.plugin.cf;
 
 import com.francetelecom.clara.cloud.activation.plugin.cf.domain.SpaceActivationService;
 import com.francetelecom.clara.cloud.activation.plugin.cf.infrastructure.CfAdapter;
-import com.francetelecom.clara.cloud.application.ManageModelItem;
+import com.francetelecom.clara.cloud.commons.NotFoundException;
 import com.francetelecom.clara.cloud.commons.TechnicalException;
 import com.francetelecom.clara.cloud.commons.tasks.Failure;
 import com.francetelecom.clara.cloud.commons.tasks.Success;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatus;
 import com.francetelecom.clara.cloud.coremodel.ActivationContext;
+import com.francetelecom.clara.cloud.model.ModelItemRepository;
 import com.francetelecom.clara.cloud.paas.activation.ActivationPlugin;
 import com.francetelecom.clara.cloud.paas.activation.ActivationStepEnum;
 import com.francetelecom.clara.cloud.techmodel.cf.Space;
 import com.francetelecom.clara.cloud.techmodel.cf.SpaceName;
 import com.francetelecom.clara.cloud.techmodel.cf.SpaceRepository;
-import com.francetelecom.clara.cloud.commons.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,12 +47,12 @@ public class SpaceActivationPlugin extends ActivationPlugin<Space> {
 
 
     @Autowired
-    public SpaceActivationPlugin(SpaceActivationService spaceActivationService, ManageModelItem manageModelItem,
+    public SpaceActivationPlugin(SpaceActivationService spaceActivationService, ModelItemRepository modelItemRepository,
                                  SpaceRepository spaceRepository) {
         super();
         this.spaceActivationService = spaceActivationService;
         this.spaceRepository = spaceRepository;
-        this.setManageModelItem(manageModelItem);
+        this.modelItemRepository = modelItemRepository;
     }
 
     @Override

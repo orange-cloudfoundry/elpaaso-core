@@ -12,10 +12,29 @@
  */
 package com.francetelecom.clara.cloud.presentation;
 
-import java.net.MalformedURLException;
-import java.util.HashMap;
-import java.util.Map;
-
+import com.francetelecom.clara.cloud.commons.BusinessException;
+import com.francetelecom.clara.cloud.commons.HibernateStatsHelper;
+import com.francetelecom.clara.cloud.commons.HibernateStatsReferenceType;
+import com.francetelecom.clara.cloud.core.service.ManageApplication;
+import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
+import com.francetelecom.clara.cloud.core.service.ManageEnvironment;
+import com.francetelecom.clara.cloud.core.service.ManagePaasUser;
+import com.francetelecom.clara.cloud.coremodel.Application;
+import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
+import com.francetelecom.clara.cloud.coremodel.PaasRoleEnum;
+import com.francetelecom.clara.cloud.deployment.logical.service.ManageLogicalDeployment;
+import com.francetelecom.clara.cloud.environment.log.LogService;
+import com.francetelecom.clara.cloud.presentation.designer.support.DelegatingDesignerServices;
+import com.francetelecom.clara.cloud.presentation.designer.support.LogicalServicesHelper;
+import com.francetelecom.clara.cloud.presentation.environments.SelectedEnvironmentPage;
+import com.francetelecom.clara.cloud.presentation.models.HypericBean;
+import com.francetelecom.clara.cloud.presentation.models.SplunkBean;
+import com.francetelecom.clara.cloud.presentation.tools.PopulateDatasService;
+import com.francetelecom.clara.cloud.presentation.utils.*;
+import com.francetelecom.clara.cloud.scalability.ManageScalability;
+import com.francetelecom.clara.cloud.scalability.ManageStatistics;
+import com.francetelecom.clara.cloud.scalability.helper.StatisticsHelper;
+import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.test.ApplicationContextMock;
 import org.hibernate.SessionFactory;
@@ -31,33 +50,9 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.francetelecom.clara.cloud.application.ManageLogicalDeployment;
-import com.francetelecom.clara.cloud.commons.BusinessException;
-import com.francetelecom.clara.cloud.commons.HibernateStatsHelper;
-import com.francetelecom.clara.cloud.commons.HibernateStatsReferenceType;
-import com.francetelecom.clara.cloud.core.service.ManageApplication;
-import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
-import com.francetelecom.clara.cloud.core.service.ManagePaasUser;
-import com.francetelecom.clara.cloud.coremodel.Application;
-import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
-import com.francetelecom.clara.cloud.coremodel.PaasRoleEnum;
-import com.francetelecom.clara.cloud.environment.ManageEnvironment;
-import com.francetelecom.clara.cloud.environment.log.LogService;
-import com.francetelecom.clara.cloud.presentation.designer.support.DelegatingDesignerServices;
-import com.francetelecom.clara.cloud.presentation.designer.support.LogicalServicesHelper;
-import com.francetelecom.clara.cloud.presentation.environments.SelectedEnvironmentPage;
-import com.francetelecom.clara.cloud.presentation.models.HypericBean;
-import com.francetelecom.clara.cloud.presentation.models.SplunkBean;
-import com.francetelecom.clara.cloud.presentation.tools.PopulateDatasService;
-import com.francetelecom.clara.cloud.presentation.utils.AuthenticationUtil;
-import com.francetelecom.clara.cloud.presentation.utils.CreateObjectsWithJava;
-import com.francetelecom.clara.cloud.presentation.utils.PaasTestApplication;
-import com.francetelecom.clara.cloud.presentation.utils.PaasTestSession;
-import com.francetelecom.clara.cloud.presentation.utils.PaasWicketTester;
-import com.francetelecom.clara.cloud.scalability.ManageScalability;
-import com.francetelecom.clara.cloud.scalability.ManageStatistics;
-import com.francetelecom.clara.cloud.scalability.helper.StatisticsHelper;
-import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
+import java.net.MalformedURLException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.

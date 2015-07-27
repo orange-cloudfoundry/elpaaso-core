@@ -55,7 +55,10 @@
     <import resource="classpath:/META-INF/spring/paas-projection-context.xml"/>
     <import resource="classpath:/META-INF/spring/paas-constraint-context.xml"/>
     <import resource="classpath:/META-INF/spring/cloud-services-context.xml"/>
-    <import resource="classpath:/META-INF/spring/cloud-daos-context.xml"/>
+
+    <import resource="classpath:/META-INF/spring/logical-model-repository-context.xml"/>
+    <import resource="classpath:/META-INF/spring/technical-model-repository-context.xml"/>
+    <import resource="classpath:/META-INF/spring/core-model-repository-context.xml"/>
 
     <import resource="classpath:/META-INF/spring/sampleCatalog-context.xml" />
 

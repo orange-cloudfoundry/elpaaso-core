@@ -13,17 +13,17 @@
 package com.francetelecom.clara.cloud.stepdefs;
 
 import com.francetelecom.clara.cloud.TestHelper;
-import com.francetelecom.clara.cloud.application.ManageLogicalDeployment;
 import com.francetelecom.clara.cloud.application.impl.DoubleAuthentication;
 import com.francetelecom.clara.cloud.commons.AuthorizationException;
 import com.francetelecom.clara.cloud.commons.MissingDefaultUserException;
 import com.francetelecom.clara.cloud.core.service.ManageApplication;
 import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
+import com.francetelecom.clara.cloud.core.service.ManageEnvironment;
 import com.francetelecom.clara.cloud.core.service.ManagePaasUser;
+import com.francetelecom.clara.cloud.core.service.exception.ApplicationNotFoundException;
+import com.francetelecom.clara.cloud.core.service.exception.PaasUserNotFoundException;
 import com.francetelecom.clara.cloud.coremodel.*;
-import com.francetelecom.clara.cloud.coremodel.exception.ApplicationNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.PaasUserNotFoundException;
-import com.francetelecom.clara.cloud.environment.ManageEnvironment;
+import com.francetelecom.clara.cloud.deployment.logical.service.ManageLogicalDeployment;
 import com.francetelecom.clara.cloud.logicalmodel.LogicalDeployment;
 import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppFactory;
 import com.francetelecom.clara.cloud.mvn.consumer.MvnRepoDao;

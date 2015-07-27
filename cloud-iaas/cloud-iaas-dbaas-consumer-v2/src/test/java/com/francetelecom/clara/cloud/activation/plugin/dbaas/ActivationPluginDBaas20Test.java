@@ -16,6 +16,7 @@ import com.francetelecom.clara.cloud.commons.MavenReference;
 import com.francetelecom.clara.cloud.commons.TechnicalException;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatus;
 import com.francetelecom.clara.cloud.model.TechnicalDeployment;
+import com.francetelecom.clara.cloud.model.TechnicalDeploymentRepository;
 import com.francetelecom.clara.cloud.techmodel.dbaas.DBaasSubscriptionSqlDialectEnum;
 import com.francetelecom.clara.cloud.techmodel.dbaas.DBaasSubscriptionV2;
 import com.francetelecom.clara.cloud.techmodel.dbaas.DBaasVersion;
@@ -63,7 +64,7 @@ public class ActivationPluginDBaas20Test {
 	private ActivationPluginDBaasUtils utils;
 
 	@Autowired
-	private TestUtils persistenceUtil;
+	private TechnicalDeploymentRepository technicalDeploymentRepository;
 
 	@Autowired
 	private DbaasApiRemote dbaasApiRemote;
@@ -235,7 +236,7 @@ public class ActivationPluginDBaas20Test {
 		dbaasSubscription.setDbaasVersion(DBaasVersion.DBAAS_10.name());
 		dbaasSubscription.setInitialPopulationScript(reference);
 
-		persistenceUtil.persistObjects(td, dbaasSubscription);
+		technicalDeploymentRepository.save(td);
 		return dbaasSubscription;
 	}
 }

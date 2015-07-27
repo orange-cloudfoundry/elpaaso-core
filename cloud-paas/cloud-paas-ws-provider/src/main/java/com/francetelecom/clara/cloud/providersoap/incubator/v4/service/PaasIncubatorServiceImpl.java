@@ -17,9 +17,9 @@
 
 package com.francetelecom.clara.cloud.providersoap.incubator.v4.service;
 
-import com.francetelecom.clara.cloud.application.ManageLogicalDeployment;
 import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
 import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
+import com.francetelecom.clara.cloud.deployment.logical.service.ManageLogicalDeployment;
 import com.francetelecom.clara.cloud.logicalmodel.LogicalDeployment;
 import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppFactory;
 import com.francetelecom.clara.cloud.providersoap.mapping.SoapMapper;

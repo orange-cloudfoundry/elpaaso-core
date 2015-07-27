@@ -27,8 +27,6 @@
 
 	<modules>
 		<module>cloud-paas-logical-model</module>
-		<module>cloud-paas-daos</module>
-		<module>cloud-paas-daos-impl</module>
 		<module>cloud-paas-services</module>
 		<module>cloud-paas-services-impl</module>
 		<module>cloud-paas-services-dto</module>

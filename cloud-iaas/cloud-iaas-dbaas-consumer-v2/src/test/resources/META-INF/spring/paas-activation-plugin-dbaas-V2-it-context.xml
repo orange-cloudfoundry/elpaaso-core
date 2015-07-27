@@ -21,11 +21,9 @@
     
 	<bean id="activationPluginDBaas-V2" class="com.francetelecom.clara.cloud.activation.plugin.dbaas.ActivationPluginDBaas20">
 		<property name="taskExecutor" ref="taskExecutor"/>
-		<property name="manageModelItem" ref="manageModelItem"/>
 		<property name="utils">
 			<bean class="com.francetelecom.clara.cloud.activation.plugin.dbaas.ActivationPluginDBaasUtils">
 				<property name="dBaasConsumers" ref="dBaasConsumers-V2"/>
-				<property name="manageModelItem" ref="manageModelItem"/>
 			</bean>
 		</property>
 	</bean>

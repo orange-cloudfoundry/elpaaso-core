@@ -12,12 +12,12 @@
  */
 package com.francetelecom.clara.cloud.core.service;
 
+import com.francetelecom.clara.cloud.core.service.exception.ApplicationNotFoundException;
+import com.francetelecom.clara.cloud.core.service.exception.ApplicationReleaseNotFoundException;
+import com.francetelecom.clara.cloud.core.service.exception.DuplicateApplicationReleaseException;
+import com.francetelecom.clara.cloud.core.service.exception.PaasUserNotFoundException;
 import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
 import com.francetelecom.clara.cloud.coremodel.MiddlewareProfile;
-import com.francetelecom.clara.cloud.coremodel.exception.ApplicationNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.ApplicationReleaseNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationReleaseException;
-import com.francetelecom.clara.cloud.coremodel.exception.PaasUserNotFoundException;
 
 import java.net.URL;
 import java.util.List;

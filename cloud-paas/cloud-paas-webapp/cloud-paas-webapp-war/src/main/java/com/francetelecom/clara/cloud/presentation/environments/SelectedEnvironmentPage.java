@@ -12,7 +12,8 @@
  */
 package com.francetelecom.clara.cloud.presentation.environments;
 
-import com.francetelecom.clara.cloud.environment.ManageEnvironment;
+import com.francetelecom.clara.cloud.core.service.ManageEnvironment;
+import com.francetelecom.clara.cloud.core.service.exception.ObjectNotFoundException;
 import com.francetelecom.clara.cloud.presentation.HomePage;
 import com.francetelecom.clara.cloud.presentation.applications.SelectedAppPage;
 import com.francetelecom.clara.cloud.presentation.common.Breadcrumbs;
@@ -21,8 +22,6 @@ import com.francetelecom.clara.cloud.presentation.designer.pages.DesignerHelperP
 import com.francetelecom.clara.cloud.presentation.releases.SelectedReleasePage;
 import com.francetelecom.clara.cloud.presentation.tools.BreadcrumbsItem;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDetailsDto;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
-
 import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.basic.Label;

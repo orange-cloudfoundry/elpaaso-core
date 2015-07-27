@@ -20,6 +20,7 @@ import org.activiti.bpmn.model.*;
 import org.activiti.bpmn.model.Process;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
@@ -37,6 +38,7 @@ public class ActivitiProcessFactory {
     static final String TASK_COUNT_KEY = "[TCK]";
     static final String NODE_SUFFIX_CONDITIONNAL = "-okornot";
 
+    @Autowired
     private ActivationPluginStrategy pluginStrategy;
 
     private boolean canParrallel = false;
@@ -457,7 +459,4 @@ public class ActivitiProcessFactory {
         this.canParrallel = canParrallel;
     }
 
-    public void setPluginStrategy(ActivationPluginStrategy pluginStrategy) {
-        this.pluginStrategy = pluginStrategy;
-    }
 }

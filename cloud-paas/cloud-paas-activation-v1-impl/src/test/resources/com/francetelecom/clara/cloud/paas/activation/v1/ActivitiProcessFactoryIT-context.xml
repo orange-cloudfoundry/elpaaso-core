@@ -15,7 +15,10 @@
 
     <import resource="classpath:/com/francetelecom/clara/cloud/commons/jpa/jpa-context.xml"/>
     <import resource="classpath:/com/francetelecom/clara/cloud/commons/testconfigurations/mock-liquibase-context.xml"/>
-    <import resource="classpath:/META-INF/spring/cloud-daos-context.xml" />
+
+    <import resource="classpath:/META-INF/spring/logical-model-repository-context.xml"/>
+    <import resource="classpath:/META-INF/spring/technical-model-repository-context.xml"/>
+    <import resource="classpath:/META-INF/spring/core-model-repository-context.xml"/>
 
 
     <bean id="pluginStrategy" class="com.francetelecom.clara.cloud.paas.activation.v1.ActivationPluginStrategyImpl">
@@ -25,7 +28,6 @@
                     <property name="utils">
                         <bean class="com.francetelecom.clara.cloud.paas.activation.v1.ActivationPluginMockUtils"/>
                     </property>
-                    <property name="manageModelItem" ref="manageModelItem"/>
                 </bean>
             </list>
         </property>
@@ -35,7 +37,6 @@
 
     <bean name="activitiProcessFactory"
           class="com.francetelecom.clara.cloud.paas.activation.v1.ActivitiProcessFactory">
-        <property name="pluginStrategy" ref="pluginStrategy" />
         <property name="canParrallel" value="false" />
     </bean>
 

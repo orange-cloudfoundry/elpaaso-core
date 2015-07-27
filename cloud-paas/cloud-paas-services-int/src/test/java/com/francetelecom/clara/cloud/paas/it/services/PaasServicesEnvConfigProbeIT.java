@@ -14,14 +14,14 @@ package com.francetelecom.clara.cloud.paas.it.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.francetelecom.clara.cloud.application.ManageLogicalDeployment;
-import com.francetelecom.clara.cloud.environment.ManageEnvironment;
+import com.francetelecom.clara.cloud.core.service.ManageEnvironment;
+import com.francetelecom.clara.cloud.core.service.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.deployment.logical.service.ManageLogicalDeployment;
 import com.francetelecom.clara.cloud.logicalmodel.*;
 import com.francetelecom.clara.cloud.paas.it.services.helper.PaasServicesEnvITHelper;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDetailsDto;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
 import com.francetelecom.clara.cloud.services.dto.LinkDto;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;

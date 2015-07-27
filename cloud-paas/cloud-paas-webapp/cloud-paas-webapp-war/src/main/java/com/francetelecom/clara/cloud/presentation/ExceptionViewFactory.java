@@ -12,17 +12,16 @@
  */
 package com.francetelecom.clara.cloud.presentation;
 
-import java.lang.management.ManagementFactory;
-import java.lang.management.ThreadMXBean;
-
+import com.francetelecom.clara.cloud.commons.AuthorizationException;
+import com.francetelecom.clara.cloud.core.service.exception.InvalidApplicationException;
+import com.francetelecom.clara.cloud.core.service.exception.InvalidReleaseException;
+import com.francetelecom.clara.cloud.core.service.exception.ObjectNotFoundException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.wicket.WicketRuntimeException;
 import org.slf4j.LoggerFactory;
 
-import com.francetelecom.clara.cloud.commons.AuthorizationException;
-import com.francetelecom.clara.cloud.coremodel.exception.InvalidApplicationException;
-import com.francetelecom.clara.cloud.coremodel.exception.InvalidReleaseException;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadMXBean;
 
 public class ExceptionViewFactory {
 

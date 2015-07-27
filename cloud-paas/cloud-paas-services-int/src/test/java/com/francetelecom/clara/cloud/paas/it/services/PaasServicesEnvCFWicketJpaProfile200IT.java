@@ -12,6 +12,10 @@
  */
 package com.francetelecom.clara.cloud.paas.it.services;
 
+import com.francetelecom.clara.cloud.core.service.ManageEnvironment;
+import com.francetelecom.clara.cloud.deployment.logical.service.ManageLogicalDeployment;
+import com.francetelecom.clara.cloud.paas.it.services.helper.PaasServicesEnvITHelper;
+import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,11 +26,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import com.francetelecom.clara.cloud.application.ManageLogicalDeployment;
-import com.francetelecom.clara.cloud.environment.ManageEnvironment;
-import com.francetelecom.clara.cloud.paas.it.services.helper.PaasServicesEnvITHelper;
-import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
 
 @ContextConfiguration(inheritLocations = false)
 @RunWith(SpringJUnit4ClassRunner.class)

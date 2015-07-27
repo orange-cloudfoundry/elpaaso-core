@@ -66,7 +66,6 @@
         <module>cloud-paas-services-mocks</module>
         <module>cloud-paas-webapp-war</module>
         <module>cloud-paas-webapp-int</module>
-        <module>cloud-paas-webapp-crash</module>
     </modules>
 
 </project>

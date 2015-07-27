@@ -12,9 +12,19 @@
  */
 package com.francetelecom.clara.cloud.presentation.applications;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.francetelecom.clara.cloud.core.service.ManageApplication;
+import com.francetelecom.clara.cloud.core.service.exception.ApplicationNotFoundException;
+import com.francetelecom.clara.cloud.core.service.exception.DuplicateApplicationException;
+import com.francetelecom.clara.cloud.core.service.exception.PaasUserNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.Application;
+import com.francetelecom.clara.cloud.presentation.HomePage;
+import com.francetelecom.clara.cloud.presentation.common.Breadcrumbs;
+import com.francetelecom.clara.cloud.presentation.common.NavigationMenuFirstLevel;
+import com.francetelecom.clara.cloud.presentation.designer.pages.DesignerHelperPage;
+import com.francetelecom.clara.cloud.presentation.releases.ReleaseCreatePanel;
+import com.francetelecom.clara.cloud.presentation.releases.ReleasesTablePanel;
+import com.francetelecom.clara.cloud.presentation.tools.BreadcrumbsItem;
+import com.francetelecom.clara.cloud.presentation.tools.BusinessExceptionHandler;
 import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -31,19 +41,8 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.slf4j.LoggerFactory;
 import org.wicketstuff.annotation.mount.MountPath;
 
-import com.francetelecom.clara.cloud.core.service.ManageApplication;
-import com.francetelecom.clara.cloud.coremodel.Application;
-import com.francetelecom.clara.cloud.presentation.HomePage;
-import com.francetelecom.clara.cloud.presentation.common.Breadcrumbs;
-import com.francetelecom.clara.cloud.presentation.common.NavigationMenuFirstLevel;
-import com.francetelecom.clara.cloud.presentation.designer.pages.DesignerHelperPage;
-import com.francetelecom.clara.cloud.presentation.releases.ReleaseCreatePanel;
-import com.francetelecom.clara.cloud.presentation.releases.ReleasesTablePanel;
-import com.francetelecom.clara.cloud.presentation.tools.BreadcrumbsItem;
-import com.francetelecom.clara.cloud.presentation.tools.BusinessExceptionHandler;
-import com.francetelecom.clara.cloud.coremodel.exception.ApplicationNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationException;
-import com.francetelecom.clara.cloud.coremodel.exception.PaasUserNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA. User: Thomas Escalle - tawe8231 Entity :

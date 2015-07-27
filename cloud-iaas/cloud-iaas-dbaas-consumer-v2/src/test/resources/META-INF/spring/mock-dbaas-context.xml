@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:util="http://www.springframework.org/schema/util"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
@@ -14,6 +15,7 @@
 		</property>
 	</bean>
 
+	<import resource="classpath:/META-INF/spring/technical-model-repository-context.xml"/>
 	<import resource="classpath:/com/francetelecom/clara/cloud/commons/jpa/jpa-context.xml" />
 	<import resource="classpath:/com/francetelecom/clara/cloud/commons/testconfigurations/mock-liquibase-context.xml" />
 
@@ -53,9 +55,7 @@
 	</bean>
 
 	<!-- We need real implementations between dbaas plugin an hsqldb -->
-	<bean id="modelItemDao" class="com.francetelecom.clara.cloud.dao.impl.ModelItemDaoJpaImpl" />
-
-	<bean id="manageModelItem" class="com.francetelecom.clara.cloud.application.impl.ManageModelItemImpl" />
+	<bean id="modelItemRepository" class="com.francetelecom.clara.cloud.model.ModelItemRepositoryImpl" />
 
 	<util:map id="dBaasConsumers-V2" map-class="java.util.HashMap">
 		<entry key="DBAAS_10" value-ref="dbaasConsumer-10-V2" />
@@ -63,9 +63,7 @@
 
 	<bean class="com.francetelecom.clara.cloud.activation.plugin.dbaas.ActivationPluginDBaasUtils">
 		<property name="dBaasConsumers" ref="dBaasConsumers-V2" />
-		<property name="manageModelItem" ref="manageModelItem" />
 	</bean>
 
-	<bean class="com.francetelecom.clara.cloud.activation.plugin.dbaas.TestUtils" />
 
 </beans>

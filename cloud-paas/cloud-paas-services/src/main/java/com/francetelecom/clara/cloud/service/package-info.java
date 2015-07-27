@@ -22,7 +22,7 @@
  *
  * The {@link com.francetelecom.clara.cloud.service} package exposes facade services for performing main application logic:
  * {@link com.francetelecom.clara.cloud.core.service.ManageApplication} {@link com.francetelecom.clara.cloud.application.ManageApplicationRelease]
- * {@link com.francetelecom.clara.cloud.environment.ManageEnvironment}
+ * {@link com.francetelecom.clara.cloud.core.service.ManageEnvironment }
  *
  * The {@link com.francetelecom.clara.cloud.service} package only include interfaces, whereas the mock and reference
  * implementations are in the {@link com.francetelecom.clara.cloud.service.impl.mock} and {@link com.francetelecom.clara.cloud.service.impl.mock} which manipulates the core and logical

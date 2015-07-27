@@ -12,12 +12,8 @@
  */
 package com.francetelecom.clara.cloud.paas.activation.v1;
 
-import com.francetelecom.clara.cloud.application.ManageModelItem;
-import com.francetelecom.clara.cloud.model.DependantModelItem;
-import com.francetelecom.clara.cloud.model.DeploymentStateEnum;
-import com.francetelecom.clara.cloud.model.ModelItem;
-import com.francetelecom.clara.cloud.model.XaasSubscription;
 import com.francetelecom.clara.cloud.commons.NotFoundException;
+import com.francetelecom.clara.cloud.model.*;
 import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,13 +27,13 @@ public class ActivationPluginMockUtils {
     private static Logger logger = LoggerFactory.getLogger(ActivationPluginMockUtils.class.getName());
 
     @Autowired
-    private ManageModelItem manageModelItem;
+    private ModelItemRepository modelItemRepository;
 
     @Transactional
     public void init(int entityId, Class<? extends ModelItem> entityClass) throws IOException, NotFoundException, InterruptedException {
         logger.info("Initializing " + entityId);
         Thread.sleep(1000);
-        ModelItem modelItem = manageModelItem.findModelItem(entityId, entityClass);
+        ModelItem modelItem = modelItemRepository.find(entityId, entityClass);
         if (modelItem instanceof XaasSubscription) {
             XaasSubscription sub = (XaasSubscription) modelItem;
             logger.info(sub.getClass().getName() + " description=" + sub.getDescription());
@@ -56,7 +52,7 @@ public class ActivationPluginMockUtils {
     public void activate(int entityId, Class<? extends ModelItem> entityClass) throws IOException, NotFoundException, InterruptedException {
         logger.info("Activating " + entityId);
         Thread.sleep(1000);
-        ModelItem modelItem = manageModelItem.findModelItem(entityId, entityClass);
+        ModelItem modelItem = modelItemRepository.find(entityId, entityClass);
         if (modelItem instanceof DependantModelItem) {
             DependantModelItem entity = (DependantModelItem) modelItem;
             // Set deployment state and check that dependant item has already this same state
@@ -71,7 +67,7 @@ public class ActivationPluginMockUtils {
     public void firststart(int entityId, Class<? extends ModelItem> entityClass) throws IOException, NotFoundException, InterruptedException {
         logger.info("First starting " + entityId);
         Thread.sleep(1000);
-        ModelItem modelItem = manageModelItem.findModelItem(entityId, entityClass);
+        ModelItem modelItem = modelItemRepository.find(entityId, entityClass);
         if (modelItem instanceof DependantModelItem) {
             DependantModelItem entity = (DependantModelItem) modelItem;
             // Set deployment state and check that dependant item has already this same state
@@ -85,7 +81,7 @@ public class ActivationPluginMockUtils {
     @Transactional
     public void start(int entityId, Class<? extends ModelItem> entityClass) throws IOException, NotFoundException, InterruptedException {
         logger.info("Starting " + entityId);
-        ModelItem modelItem = manageModelItem.findModelItem(entityId, entityClass);
+        ModelItem modelItem = modelItemRepository.find(entityId, entityClass);
         if (modelItem instanceof DependantModelItem) {
             DependantModelItem entity = (DependantModelItem) modelItem;
             // Set deployment state and check that dependant item has already this same state
@@ -99,7 +95,7 @@ public class ActivationPluginMockUtils {
     @Transactional
     public void stop(int entityId, Class<? extends ModelItem> entityClass) throws IOException, NotFoundException, InterruptedException {
         logger.info("Stopping " + entityClass.getSimpleName() + "#" + entityId);
-        ModelItem modelItem = manageModelItem.findModelItem(entityId, entityClass);
+        ModelItem modelItem = modelItemRepository.find(entityId, entityClass);
         if (modelItem instanceof DependantModelItem) {
             DependantModelItem entity = (DependantModelItem) modelItem;
             // Set deployment state and check that dependant item has already this same state
@@ -114,7 +110,7 @@ public class ActivationPluginMockUtils {
     @Transactional
     public void delete(int entityId, Class<? extends ModelItem> entityClass) throws IOException, NotFoundException, InterruptedException {
         logger.info("Deleting " + entityId);
-        ModelItem modelItem = manageModelItem.findModelItem(entityId, entityClass);
+        ModelItem modelItem = modelItemRepository.find(entityId, entityClass);
         if (modelItem instanceof DependantModelItem) {
             DependantModelItem entity = (DependantModelItem) modelItem;
             // Set deployment state and check that dependant item has already this same state
@@ -126,7 +122,4 @@ public class ActivationPluginMockUtils {
         }
     }
 
-    public void setManageModelItem(ManageModelItem manageModelItem) {
-        this.manageModelItem = manageModelItem;
-    }
 }

@@ -14,10 +14,9 @@ package com.francetelecom.clara.cloud.presentation.tools;
 
 import com.francetelecom.clara.cloud.commons.BusinessException;
 import com.francetelecom.clara.cloud.commons.InvalidMavenReferenceException;
+import com.francetelecom.clara.cloud.core.service.exception.*;
 import com.francetelecom.clara.cloud.logicalmodel.InvalidConfigServiceException;
 import com.francetelecom.clara.cloud.logicalmodel.LogicalModelNotConsistentException;
-import com.francetelecom.clara.cloud.coremodel.exception.*;
-
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.model.Model;

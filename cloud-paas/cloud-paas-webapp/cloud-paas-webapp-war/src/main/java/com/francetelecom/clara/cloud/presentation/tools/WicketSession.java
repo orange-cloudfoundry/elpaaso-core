@@ -22,13 +22,13 @@
  * */
 package com.francetelecom.clara.cloud.presentation.tools;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
+import com.francetelecom.clara.cloud.core.service.ManagePaasUser;
+import com.francetelecom.clara.cloud.core.service.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.coremodel.PaasRoleEnum;
+import com.francetelecom.clara.cloud.coremodel.PaasUser;
+import com.francetelecom.clara.cloud.coremodel.SSOId;
+import com.francetelecom.clara.cloud.presentation.login.UnauthorizedAccess;
+import com.francetelecom.clara.cloud.scalability.helper.PaasStats;
 import org.apache.wicket.Session;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authroles.authorization.strategies.role.Roles;
@@ -41,15 +41,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-
-import com.francetelecom.clara.cloud.core.service.ManagePaasUser;
-import com.francetelecom.clara.cloud.coremodel.PaasRoleEnum;
-import com.francetelecom.clara.cloud.coremodel.PaasUser;
-import com.francetelecom.clara.cloud.coremodel.SSOId;
-import com.francetelecom.clara.cloud.presentation.login.UnauthorizedAccess;
-import com.francetelecom.clara.cloud.scalability.helper.PaasStats;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
 import org.springframework.util.Assert;
+
+import java.util.*;
 
 /**
  * WicketSession Class that hold application session

@@ -12,19 +12,13 @@
  */
 package com.francetelecom.clara.cloud.mocks;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import javax.xml.bind.annotation.XmlRootElement;
-
+import com.francetelecom.clara.cloud.core.service.exception.ObjectNotFoundException;
+import com.francetelecom.clara.cloud.logicalmodel.LogicalModelItem;
 import org.springframework.stereotype.Service;
 
-import com.francetelecom.clara.cloud.logicalmodel.LogicalModelItem;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by IntelliJ IDEA.

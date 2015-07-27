@@ -14,8 +14,8 @@ package com.francetelecom.clara.cloud.activation.plugin.cf;
 
 import com.francetelecom.clara.cloud.activation.plugin.cf.domain.CFServiceActivationService;
 import com.francetelecom.clara.cloud.activation.plugin.cf.domain.ServiceActivationStatus;
-import com.francetelecom.clara.cloud.application.ManageModelItem;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatus;
+import com.francetelecom.clara.cloud.model.ModelItemRepository;
 import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.techmodel.cf.ManagedServiceRepository;
 import com.francetelecom.clara.cloud.techmodel.cf.Space;
@@ -33,13 +33,13 @@ public class ManagedServiceActivationPluginTest {
     @Mock
     CFServiceActivationService cfServiceActivationService;
     @Mock
-    ManageModelItem manageModelItem;
+    ModelItemRepository modelItemRepository;
     @Mock
     ManagedServiceRepository managedServiceRepository;
 
     @Test
     public void fail_to_activate_managed_service_if_managed_service_does_not_exist() throws Exception {
-        final ManagedServiceActivationPlugin managedServiceActivationPlugin = new ManagedServiceActivationPlugin(cfServiceActivationService, manageModelItem, managedServiceRepository);
+        final ManagedServiceActivationPlugin managedServiceActivationPlugin = new ManagedServiceActivationPlugin(cfServiceActivationService, modelItemRepository, managedServiceRepository);
 
         final TaskStatus status = managedServiceActivationPlugin.activate(99, ManagedService.class, new ActivationTestContext());
 
@@ -49,7 +49,7 @@ public class ManagedServiceActivationPluginTest {
 
     @Test
     public void fail_to_delete_managed_service_if_managed_service_does_not_exist() throws Exception {
-        final ManagedServiceActivationPlugin managedServiceActivationPlugin = new ManagedServiceActivationPlugin(cfServiceActivationService, manageModelItem, managedServiceRepository);
+        final ManagedServiceActivationPlugin managedServiceActivationPlugin = new ManagedServiceActivationPlugin(cfServiceActivationService, modelItemRepository, managedServiceRepository);
 
         final TaskStatus status = managedServiceActivationPlugin.delete(99, ManagedService.class);
 
@@ -69,7 +69,7 @@ public class ManagedServiceActivationPluginTest {
         //and has been activated
         service.activate();
 
-        final ManagedServiceActivationPlugin managedServiceActivationPlugin = new ManagedServiceActivationPlugin(cfServiceActivationService, manageModelItem, managedServiceRepository);
+        final ManagedServiceActivationPlugin managedServiceActivationPlugin = new ManagedServiceActivationPlugin(cfServiceActivationService, modelItemRepository, managedServiceRepository);
         final TaskStatus status = managedServiceActivationPlugin.delete(1, ManagedService.class);
 
         Assertions.assertThat(status.isStarted()).isEqualTo(true);
@@ -86,7 +86,7 @@ public class ManagedServiceActivationPluginTest {
         Mockito.when(managedServiceRepository.findOne(1)).thenReturn(service);
         Mockito.when(cfServiceActivationService.activate(service)).thenReturn(ServiceActivationStatus.ofService("rabbit", space.getSpaceName().getValue()).isPending("in progress"));
 
-        final ManagedServiceActivationPlugin managedServiceActivationPlugin = new ManagedServiceActivationPlugin(cfServiceActivationService, manageModelItem, managedServiceRepository);
+        final ManagedServiceActivationPlugin managedServiceActivationPlugin = new ManagedServiceActivationPlugin(cfServiceActivationService, modelItemRepository, managedServiceRepository);
         final TaskStatus status = managedServiceActivationPlugin.activate(1, ManagedService.class, new ActivationTestContext());
 
         Assertions.assertThat(status.isStarted()).isEqualTo(true);

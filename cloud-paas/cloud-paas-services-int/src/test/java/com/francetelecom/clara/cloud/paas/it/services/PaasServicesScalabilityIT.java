@@ -12,14 +12,17 @@
  */
 package com.francetelecom.clara.cloud.paas.it.services;
 
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.LogManager;
-
+import com.francetelecom.clara.cloud.commons.BusinessException;
+import com.francetelecom.clara.cloud.commons.HibernateStatsHelper;
+import com.francetelecom.clara.cloud.commons.HibernateStatsReferenceType;
+import com.francetelecom.clara.cloud.commons.P6SpyAppender;
+import com.francetelecom.clara.cloud.core.service.ManageEnvironment;
+import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
+import com.francetelecom.clara.cloud.paas.it.services.helper.AuthenticationHelper;
+import com.francetelecom.clara.cloud.scalability.ManageScalability;
+import com.francetelecom.clara.cloud.scalability.helper.StatisticsHelper;
+import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
+import com.francetelecom.clara.cloud.services.dto.EnvironmentDto.EnvironmentStatusEnum;
 import org.hibernate.SessionFactory;
 import org.hibernate.stat.Statistics;
 import org.junit.After;
@@ -36,17 +39,13 @@ import org.springframework.test.annotation.IfProfileValue;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.francetelecom.clara.cloud.commons.BusinessException;
-import com.francetelecom.clara.cloud.commons.HibernateStatsHelper;
-import com.francetelecom.clara.cloud.commons.HibernateStatsReferenceType;
-import com.francetelecom.clara.cloud.commons.P6SpyAppender;
-import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
-import com.francetelecom.clara.cloud.environment.ManageEnvironment;
-import com.francetelecom.clara.cloud.paas.it.services.helper.AuthenticationHelper;
-import com.francetelecom.clara.cloud.scalability.ManageScalability;
-import com.francetelecom.clara.cloud.scalability.helper.StatisticsHelper;
-import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
-import com.francetelecom.clara.cloud.services.dto.EnvironmentDto.EnvironmentStatusEnum;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.LogManager;
 
 /**
  * PaasServicesScalabilityIT Scalability tests through the paas-services layer.

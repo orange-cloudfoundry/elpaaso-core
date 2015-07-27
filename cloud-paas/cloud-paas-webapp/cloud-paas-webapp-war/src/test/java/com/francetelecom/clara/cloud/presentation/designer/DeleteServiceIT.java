@@ -12,11 +12,29 @@
  */
 package com.francetelecom.clara.cloud.presentation.designer;
 
-import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.when;
-
-import java.net.URL;
-
+import com.francetelecom.clara.cloud.commons.BusinessException;
+import com.francetelecom.clara.cloud.commons.GuiClassMapping;
+import com.francetelecom.clara.cloud.commons.InvalidMavenReferenceException;
+import com.francetelecom.clara.cloud.commons.MavenReference;
+import com.francetelecom.clara.cloud.core.service.ManageApplication;
+import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
+import com.francetelecom.clara.cloud.core.service.ManagePaasUser;
+import com.francetelecom.clara.cloud.core.service.exception.*;
+import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
+import com.francetelecom.clara.cloud.coremodel.PaasRoleEnum;
+import com.francetelecom.clara.cloud.coremodel.SSOId;
+import com.francetelecom.clara.cloud.deployment.logical.service.ManageLogicalDeployment;
+import com.francetelecom.clara.cloud.logicalmodel.*;
+import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppFactory;
+import com.francetelecom.clara.cloud.mvn.consumer.MvnRepoDao;
+import com.francetelecom.clara.cloud.presentation.HomePage;
+import com.francetelecom.clara.cloud.presentation.designer.panels.DesignerArchitectureMatrixPanel;
+import com.francetelecom.clara.cloud.presentation.designer.support.DelegatingDesignerServices;
+import com.francetelecom.clara.cloud.presentation.designer.support.LogicalServicesHelper;
+import com.francetelecom.clara.cloud.presentation.models.HypericBean;
+import com.francetelecom.clara.cloud.presentation.models.SplunkBean;
+import com.francetelecom.clara.cloud.presentation.tools.DeleteConfirmationUtils;
+import com.francetelecom.clara.cloud.presentation.utils.*;
 import org.apache.wicket.spring.test.ApplicationContextMock;
 import org.junit.After;
 import org.junit.Assert;
@@ -31,44 +49,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.francetelecom.clara.cloud.application.ManageLogicalDeployment;
-import com.francetelecom.clara.cloud.commons.BusinessException;
-import com.francetelecom.clara.cloud.commons.GuiClassMapping;
-import com.francetelecom.clara.cloud.commons.InvalidMavenReferenceException;
-import com.francetelecom.clara.cloud.commons.MavenReference;
-import com.francetelecom.clara.cloud.core.service.ManageApplication;
-import com.francetelecom.clara.cloud.core.service.ManageApplicationRelease;
-import com.francetelecom.clara.cloud.core.service.ManagePaasUser;
-import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
-import com.francetelecom.clara.cloud.coremodel.PaasRoleEnum;
-import com.francetelecom.clara.cloud.coremodel.SSOId;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalDeployment;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalNodeServiceAssociation;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalService;
-import com.francetelecom.clara.cloud.logicalmodel.LogicalWebGUIService;
-import com.francetelecom.clara.cloud.logicalmodel.ProcessingNode;
-import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppFactory;
-import com.francetelecom.clara.cloud.mvn.consumer.MvnRepoDao;
-import com.francetelecom.clara.cloud.presentation.HomePage;
-import com.francetelecom.clara.cloud.presentation.designer.panels.DesignerArchitectureMatrixPanel;
-import com.francetelecom.clara.cloud.presentation.designer.support.DelegatingDesignerServices;
-import com.francetelecom.clara.cloud.presentation.designer.support.LogicalServicesHelper;
-import com.francetelecom.clara.cloud.presentation.models.HypericBean;
-import com.francetelecom.clara.cloud.presentation.models.SplunkBean;
-import com.francetelecom.clara.cloud.presentation.tools.DeleteConfirmationUtils;
-import com.francetelecom.clara.cloud.presentation.utils.AuthenticationUtil;
-import com.francetelecom.clara.cloud.presentation.utils.CreateObjectsWithJava;
-import com.francetelecom.clara.cloud.presentation.utils.DeleteEditObjects;
-import com.francetelecom.clara.cloud.presentation.utils.GetObjectsUtils;
-import com.francetelecom.clara.cloud.presentation.utils.NavigationUtils;
-import com.francetelecom.clara.cloud.presentation.utils.PaasTestApplication;
-import com.francetelecom.clara.cloud.presentation.utils.PaasTestSession;
-import com.francetelecom.clara.cloud.presentation.utils.PaasWicketTester;
-import com.francetelecom.clara.cloud.coremodel.exception.ApplicationNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationException;
-import com.francetelecom.clara.cloud.coremodel.exception.DuplicateApplicationReleaseException;
-import com.francetelecom.clara.cloud.coremodel.exception.ObjectNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.PaasUserNotFoundException;
+import java.net.URL;
+
+import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by IntelliJ IDEA. User: wwnl9733 Date: 01/02/12 Time: 12:18 To change

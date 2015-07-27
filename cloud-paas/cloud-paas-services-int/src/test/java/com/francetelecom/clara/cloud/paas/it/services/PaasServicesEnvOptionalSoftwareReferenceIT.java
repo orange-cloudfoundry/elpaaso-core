@@ -12,8 +12,8 @@
  */
 package com.francetelecom.clara.cloud.paas.it.services;
 
-import com.francetelecom.clara.cloud.application.ManageLogicalDeployment;
-import com.francetelecom.clara.cloud.environment.ManageEnvironment;
+import com.francetelecom.clara.cloud.core.service.ManageEnvironment;
+import com.francetelecom.clara.cloud.deployment.logical.service.ManageLogicalDeployment;
 import com.francetelecom.clara.cloud.paas.it.services.helper.PaasServicesEnvITHelper;
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto;
 import org.junit.AfterClass;

@@ -25,10 +25,6 @@
     <artifactId>cloud-paas-services-mocks</artifactId>
 
      <dependencies>
-        <dependency>
-            <groupId>com.orange.clara.cloud</groupId>
-            <artifactId>cloud-paas-daos</artifactId>
-        </dependency>
          <dependency>
             <groupId>com.orange.clara.cloud</groupId>
             <artifactId>cloud-paas-services</artifactId>

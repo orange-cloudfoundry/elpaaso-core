@@ -13,7 +13,6 @@
 package com.francetelecom.clara.cloud.paas.activation.v1;
 
 import com.francetelecom.clara.cloud.coremodel.MiddlewareProfile;
-import com.francetelecom.clara.cloud.dao.TechnicalDeploymentCloner;
 import com.francetelecom.clara.cloud.model.*;
 import com.francetelecom.clara.cloud.model.validators.ModelItemGenericValidationUtils;
 import org.junit.Test;
@@ -49,9 +48,6 @@ public class ActivitiProcessFactoryIT {
     @Autowired
     private ActivitiProcessFactory activitiProcessFactory;
 
-    @Autowired(required = true)
-    private TechnicalDeploymentCloner tdCloner;
-
 
     private TechnicalDeploymentInstance getTdiSample() {
         TechnicalDeployment td
@@ -62,8 +58,7 @@ public class ActivitiProcessFactoryIT {
         logger.info("model validation (before TDT creation)");
         ModelItemGenericValidationUtils.validateModel(tdt, logger);
 
-        TechnicalDeployment tdCopy = tdCloner.deepCopy(td);
-        return new TechnicalDeploymentInstance(tdt,tdCopy);
+        return new TechnicalDeploymentInstance(tdt,td);
     }
 
     @Test
@@ -78,35 +73,4 @@ public class ActivitiProcessFactoryIT {
         // THEN
 
     }
-/*
-    private String convertTProcessToXmlString(Process resultTProcess) {
-		// TODO Auto-generated method stub
-		return "";
-	}
-
-	private void assertInitAndActivateSubscription(String workflowResult, String subscription) {
-        assertThat(workflowResult).contains("name=\"init " + subscription + "\"");
-        assertThat(workflowResult).contains("name=\"activate "+ subscription + "\"");
-        assertThat(workflowResult).contains("name=\"firststart "+ subscription + "\"");
-    }
-*/
-
-/*
-    private String convertTProcessToXmlString(org.activiti.bpmn.model.Process resultTProcess) throws JAXBException {
-        ObjectFactory factory = new ObjectFactory();
-        // Creates the root element
-        TDefinitions definitions = factory.createTDefinitions();
-        definitions.setTargetNamespace("Activation");
-
-        definitions.getRootElement().add(factory.createProcess(resultTProcess));
-
-        JAXBContext jc = JAXBContext.newInstance( "com.francetelecom.clara.cloud.paas.activation.bpmn20" );
-        Marshaller m = jc.createMarshaller();
-        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-        m.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-        StringWriter sw = new StringWriter();
-        m.marshal( factory.createDefinitions(definitions), sw);
-        return sw.toString();
-    }
-    */
 }

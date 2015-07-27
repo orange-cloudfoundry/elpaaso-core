@@ -12,17 +12,18 @@
  */
 package com.francetelecom.clara.cloud.paas.activation;
 
-import com.francetelecom.clara.cloud.application.ManageModelItem;
+import com.francetelecom.clara.cloud.commons.NotFoundException;
 import com.francetelecom.clara.cloud.commons.tasks.PollTaskStateInterface;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatus;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatusEnum;
 import com.francetelecom.clara.cloud.commons.xstream.XStreamUtils;
 import com.francetelecom.clara.cloud.coremodel.ActivationContext;
 import com.francetelecom.clara.cloud.model.ModelItem;
-import com.francetelecom.clara.cloud.commons.NotFoundException;
+import com.francetelecom.clara.cloud.model.ModelItemRepository;
 import com.thoughtworks.xstream.XStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Base class that defines the contract that the plugin providers need to meet
@@ -42,11 +43,12 @@ public abstract class ActivationPlugin<T extends ModelItem> implements PollTaskS
 
 	protected static Logger logger = LoggerFactory.getLogger(ActivationPlugin.class);
 
-	private ManageModelItem manageModelItem;
+	@Autowired
+	protected ModelItemRepository modelItemRepository;
 
     public TaskStatus init(int entityId, final Class<T> entityClass) throws NotFoundException {
         return init(
-                (T) manageModelItem.findModelItem(entityId, entityClass));
+				(T) modelItemRepository.find(entityId, entityClass));
     }
 
 	/**
@@ -63,23 +65,23 @@ public abstract class ActivationPlugin<T extends ModelItem> implements PollTaskS
 	 */
     public TaskStatus activate(int entityId, final Class<T> entityClass, ActivationContext context) throws NotFoundException {
         return activate(
-                (T) manageModelItem.findModelItem(entityId, entityClass),
-                context);
+				(T) modelItemRepository.find(entityId, entityClass),
+				context);
     }
 
     public TaskStatus firststart(int entityId, final Class<T> entityClass) throws NotFoundException {
         return firststart(
-                (T) manageModelItem.findModelItem(entityId, entityClass));
+				(T) modelItemRepository.find(entityId, entityClass));
     }
 
     public TaskStatus start(int entityId, final Class<T> entityClass) throws NotFoundException {
         return start(
-                (T) manageModelItem.findModelItem(entityId, entityClass));
+				(T) modelItemRepository.find(entityId, entityClass));
     }
 
     public TaskStatus stop(int entityId, final Class<T> entityClass) throws NotFoundException {
         return stop(
-                (T) manageModelItem.findModelItem(entityId, entityClass));
+				(T) modelItemRepository.find(entityId, entityClass));
     }
 
     /**
@@ -87,7 +89,7 @@ public abstract class ActivationPlugin<T extends ModelItem> implements PollTaskS
      */
     public TaskStatus delete(int entityId, final Class<T> entityClass) throws NotFoundException {
         return delete(
-                (T) manageModelItem.findModelItem(entityId, entityClass));
+                (T) modelItemRepository.find(entityId, entityClass));
     }
 
 	/**
@@ -226,15 +228,7 @@ public abstract class ActivationPlugin<T extends ModelItem> implements PollTaskS
 
 	public abstract TaskStatus giveCurrentTaskStatus(TaskStatus taskStatus);
 
-	public ManageModelItem getManageModelItem() {
-		return manageModelItem;
-	}
-
-	public void setManageModelItem(ManageModelItem manageModelItem) {
-		this.manageModelItem = manageModelItem;
-	}
-
-    protected String dumpToXmlForTraces(ModelItem modelItem) {
+	protected String dumpToXmlForTraces(ModelItem modelItem) {
         XStream xStream = XStreamUtils.instanciateXstreamForHibernate();
 		return xStream.toXML(modelItem);
 	}

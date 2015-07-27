@@ -12,22 +12,24 @@
  */
 package com.francetelecom.clara.cloud.environment.impl;
 
-import com.francetelecom.clara.cloud.application.ManageTechnicalDeploymentTemplate;
 import com.francetelecom.clara.cloud.commons.BusinessException;
 import com.francetelecom.clara.cloud.commons.NotFoundException;
 import com.francetelecom.clara.cloud.commons.TechnicalException;
 import com.francetelecom.clara.cloud.commons.ValidatorUtil;
 import com.francetelecom.clara.cloud.core.service.SecurityUtils;
+import com.francetelecom.clara.cloud.core.service.exception.ApplicationReleaseNotFoundException;
+import com.francetelecom.clara.cloud.core.service.exception.PaasUserNotFoundException;
 import com.francetelecom.clara.cloud.coremodel.*;
-import com.francetelecom.clara.cloud.coremodel.exception.ApplicationReleaseNotFoundException;
-import com.francetelecom.clara.cloud.coremodel.exception.PaasUserNotFoundException;
-import com.francetelecom.clara.cloud.dao.TechnicalDeploymentCloner;
+import com.francetelecom.clara.cloud.deployment.technical.service.ManageTechnicalDeploymentTemplate;
+import com.francetelecom.clara.cloud.deployment.technical.service.TechnicalDeploymentCloner;
 import com.francetelecom.clara.cloud.model.DeploymentProfileEnum;
 import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.model.TechnicalDeploymentInstance;
 import com.francetelecom.clara.cloud.model.TechnicalDeploymentTemplate;
 import com.francetelecom.clara.cloud.paas.projection.ProjectionService;
 import com.francetelecom.clara.cloud.paas.projection.UnsupportedProjectionException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,20 +40,28 @@ import java.util.List;
 /**
  * Utils to manages environment. We need this class to solve transaction lifecycle
  */
+@Service
 public class ManageEnvironmentImplUtils {
 
+	@Autowired
 	private EnvironmentRepository environmentRepository;
 
+	@Autowired
 	private PaasUserRepository paasUserRepository;
 
+	@Autowired
 	private ProjectionService projectionService;
 
+	@Autowired
 	private ManageTechnicalDeploymentTemplate manageTechnicalDeploymentTemplate;
-	
+
+	@Autowired
 	private ConfigRoleRepository configRoleRepository;
 
+	@Autowired
 	private ApplicationReleaseRepository applicationReleaseRepository;
 
+	@Autowired
 	private TechnicalDeploymentCloner tdCloner;
 
 	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackFor = BusinessException.class)
