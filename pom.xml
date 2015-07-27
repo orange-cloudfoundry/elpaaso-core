@@ -1375,7 +1375,7 @@ java.lang.NoClassDefFoundError: org/apache/commons/logging/LogFactory  -->
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <skipIAs>true</skipIAs>
+                <skipATs>true</skipATs>
             </properties>
         </profile>
     </profiles>
