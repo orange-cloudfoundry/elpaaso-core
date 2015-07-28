@@ -1,28 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-    http://www.springframework.org/schema/beans/spring-beans.xsd">
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
-			<bean id="datasource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-				<!--			
-				<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
-				 -->				
- 				
-				<property name="driverClassName" value="com.p6spy.engine.spy.P6SpyDriver"></property>				
-
-				<property name="url" value="jdbc:hsqldb:mem:cloud-model" />
-				<property name="username" value="sa" />
-				<property name="password" value="" />
-
-<!---->
-<!--				<property name="url" value="jdbc:mysql://localhost/cloud"></property>-->
-<!--				<property name="username" value="develop"></property>-->
-<!--				<property name="password" value="develop"></property>-->
-				
-				
-				
-				
-			</bean>
+	<jdbc:embedded-database id="datasource"/>
 
 </beans>
