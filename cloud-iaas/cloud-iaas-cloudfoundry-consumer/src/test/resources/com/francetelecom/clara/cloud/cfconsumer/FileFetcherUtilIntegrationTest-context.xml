@@ -15,12 +15,8 @@
             <artifactId>paas-probe-jee</artifactId>
             <version>${systemTestAppsVersion}</version> -->
 
-    <bean class="com.francetelecom.clara.cloud.commons.MavenReference" id="jeeProbeMavenReference">
-        <constructor-arg name="groupId" value="com.orange.clara.cloud.probes" />
-        <constructor-arg name="artifactId" value="paas-probe-jee-ear" />
-        <constructor-arg name="version" value="${systemTestAppsVersion}" />
-        <constructor-arg name="extension" value="ear" />
-    </bean>
+    <bean id="sampleAppProperties" class="com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppProperties"/>
+
     <bean id="fileFetcherUtil" class="com.francetelecom.clara.cloud.activation.plugin.cf.infrastructure.FileFetcherUtil" />
     <import resource="classpath:/META-INF/spring/mvn-consumer-context.xml"/>
 

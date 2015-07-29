@@ -13,7 +13,9 @@
 package com.francetelecom.clara.cloud.activation.plugin.cf.infrastructure;
 
 import com.francetelecom.clara.cloud.commons.MavenReference;
+import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppProperties;
 import com.francetelecom.clara.cloud.model.TechnicalDeployment;
+import com.francetelecom.clara.cloud.mvn.consumer.MvnRepoDao;
 import com.francetelecom.clara.cloud.techmodel.cf.App;
 import com.francetelecom.clara.cloud.techmodel.cf.Space;
 import com.francetelecom.clara.cloud.techmodel.cf.SpaceName;
@@ -35,102 +37,107 @@ import java.net.URL;
 @ContextConfiguration
 public class CfBindingAdapterIT {
 
-	@Autowired
-	private CfAdapter cfAdapter;
-	
-	@Value("${cf.ccng.space}")
-	private String spaceName;
-	
-	@After
-	public void teardown() throws MalformedURLException {
-		// ensure every created resources will be deleted
-		if (cfAdapter.appExists("joyn", spaceName)) {
-			TechnicalDeployment td = new TechnicalDeployment("name");
-			Space space = new Space(td);
-			space.activate(new SpaceName(spaceName));		
-			cfAdapter.deleteApp(new App(td, space, new MavenReference(), "joyn"), spaceName);			
-		}
-		cfAdapter.deleteAllServices(spaceName);
-	}
+    @Autowired
+    private CfAdapter cfAdapter;
 
-	@Test
-	public void should_create_postgres_service() {
-		TechnicalDeployment td = new TechnicalDeployment("");
-		SimpleUserProvidedService postgresService = new SimpleUserProvidedService("postgres-dbname","postgres://user:password@hostname:1234/dbname", td, new Space(td));
+    @Autowired
+    private SampleAppProperties sampleAppProperties;
 
-		cfAdapter.createService(postgresService, spaceName);
+    @Autowired
+    private MvnRepoDao mvnRepo;
 
-		Assertions.assertThat(cfAdapter.serviceExists(postgresService.getServiceName(), spaceName)).isEqualTo(true);
-	}
+    @Value("${cf.ccng.space}")
+    private String spaceName;
 
-	@Test
-	public void should_delete_postgres_service() {
-		TechnicalDeployment td = new TechnicalDeployment("");
-		SimpleUserProvidedService postgresService = new SimpleUserProvidedService("postgres-dbname","postgres://user:password@hostname:1234/dbname", td, new Space(td));
-		
-		cfAdapter.createService(postgresService, spaceName);
+    @After
+    public void teardown() throws MalformedURLException {
+        // ensure every created resources will be deleted
+        if (cfAdapter.appExists("joyn", spaceName)) {
+            TechnicalDeployment td = new TechnicalDeployment("name");
+            Space space = new Space(td);
+            space.activate(new SpaceName(spaceName));
+            cfAdapter.deleteApp(new App(td, space, new MavenReference(), "joyn"), spaceName);
+        }
+        cfAdapter.deleteAllServices(spaceName);
+    }
 
-		cfAdapter.deleteService(postgresService.getServiceName(), spaceName);
+    @Test
+    public void should_create_postgres_service() {
+        TechnicalDeployment td = new TechnicalDeployment("");
+        SimpleUserProvidedService postgresService = new SimpleUserProvidedService("postgres-dbname", "postgres://user:password@hostname:1234/dbname", td, new Space(td));
 
-		Assertions.assertThat(cfAdapter.serviceExists(postgresService.getServiceName(), spaceName)).isEqualTo(false);
+        cfAdapter.createService(postgresService, spaceName);
 
-	}
-	
-	@Test
-	public void should_create_session_replication_service() {
-		TechnicalDeployment td = new TechnicalDeployment("");
+        Assertions.assertThat(cfAdapter.serviceExists(postgresService.getServiceName(), spaceName)).isEqualTo(true);
+    }
 
-		ManagedService sessionReplicationService = new ManagedService("redis","default","joyn-session-replication", new Space(td), new TechnicalDeployment("name"));
+    @Test
+    public void should_delete_postgres_service() {
+        TechnicalDeployment td = new TechnicalDeployment("");
+        SimpleUserProvidedService postgresService = new SimpleUserProvidedService("postgres-dbname", "postgres://user:password@hostname:1234/dbname", td, new Space(td));
 
-		cfAdapter.createService(sessionReplicationService, spaceName);
+        cfAdapter.createService(postgresService, spaceName);
 
-		Assertions.assertThat(cfAdapter.serviceExists(sessionReplicationService.getServiceInstance(), spaceName)).isEqualTo(true);
-	}
+        cfAdapter.deleteService(postgresService.getServiceName(), spaceName);
 
-	@Test
-	public void should_create_rabbitmq_managed_service() {
-		TechnicalDeployment td = new TechnicalDeployment("");
+        Assertions.assertThat(cfAdapter.serviceExists(postgresService.getServiceName(), spaceName)).isEqualTo(false);
+
+    }
+
+    @Test
+    public void should_create_session_replication_service() {
+        TechnicalDeployment td = new TechnicalDeployment("");
+
+        ManagedService sessionReplicationService = new ManagedService("redis", "default", "joyn-session-replication", new Space(td), new TechnicalDeployment("name"));
+
+        cfAdapter.createService(sessionReplicationService, spaceName);
+
+        Assertions.assertThat(cfAdapter.serviceExists(sessionReplicationService.getServiceInstance(), spaceName)).isEqualTo(true);
+    }
+
+    @Test
+    public void should_create_rabbitmq_managed_service() {
+        TechnicalDeployment td = new TechnicalDeployment("");
 
         ManagedService rabbitMQService = new ManagedService("p-rabbitmq", "standard", "rabbitmq-test", new Space(td), new TechnicalDeployment("name"));
 
-		cfAdapter.createService(rabbitMQService, spaceName);
+        cfAdapter.createService(rabbitMQService, spaceName);
 
-		Assertions.assertThat(cfAdapter.serviceExists(rabbitMQService.getServiceInstance(), spaceName)).isEqualTo(true);
-	}
+        Assertions.assertThat(cfAdapter.serviceExists(rabbitMQService.getServiceInstance(), spaceName)).isEqualTo(true);
+    }
 
-	
-	@Test
-	public void should_bind_postgres_service() {
-		// given an application joyn pushed on cf
-		MavenReference mavenReference = new MavenReference("groupId", "artefactId", "version", "war");
-		URL accessUrl = CfAdapterImpl.class.getClassLoader().getResource("apps/hello-env.war");
-		mavenReference.setAccessUrl(accessUrl);
-		TechnicalDeployment td = new TechnicalDeployment("name");
-		Space space = new Space(td);
-		App application = new App(td, space, mavenReference, "joyn");
-		cfAdapter.createApp(application, spaceName);
-		// given a postgres service created on cf
-		SimpleUserProvidedService postgresService = new SimpleUserProvidedService("postgres-dbname","postgres://user:password@hostname:1234/dbname", td, space);
-		cfAdapter.createService(postgresService,spaceName);
-		
-		// when I bind postgres service to joyn application
-		cfAdapter.bindService("joyn", postgresService.getServiceName(),spaceName);
 
-		//then it should be bound
-		Assertions.assertThat(cfAdapter.isServiceBound("joyn", postgresService.getServiceName(),spaceName)).isEqualTo(true);
-	}
-	
-	@Test
-	public void should_delete_space() {
+    @Test
+    public void should_bind_postgres_service() {
+        // given an application joyn pushed on cf
+        MavenReference simpleProbe = mvnRepo.resolveUrl(sampleAppProperties.getMavenReference("simple-probe", "jar"));
 
-		SpaceName spaceName = new SpaceName("myTestSpace");
-		cfAdapter.createSpace(spaceName);
+        TechnicalDeployment td = new TechnicalDeployment("name");
+        Space space = new Space(td);
+        App application = new App(td, space, simpleProbe, "joyn");
+        cfAdapter.createApp(application, spaceName);
+        // given a postgres service created on cf
+        SimpleUserProvidedService postgresService = new SimpleUserProvidedService("postgres-dbname", "postgres://user:password@hostname:1234/dbname", td, space);
+        cfAdapter.createService(postgresService, spaceName);
 
-		Assertions.assertThat(cfAdapter.spaceExists(spaceName)).isTrue();
-		
-		cfAdapter.deleteSpace(spaceName);
-		
-		Assertions.assertThat(cfAdapter.spaceExists(spaceName)).isFalse();
-	}
+        // when I bind postgres service to joyn application
+        cfAdapter.bindService("joyn", postgresService.getServiceName(), spaceName);
+
+        //then it should be bound
+        Assertions.assertThat(cfAdapter.isServiceBound("joyn", postgresService.getServiceName(), spaceName)).isEqualTo(true);
+    }
+
+    @Test
+    public void should_delete_space() {
+
+        SpaceName spaceName = new SpaceName("myTestSpace");
+        cfAdapter.createSpace(spaceName);
+
+        Assertions.assertThat(cfAdapter.spaceExists(spaceName)).isTrue();
+
+        cfAdapter.deleteSpace(spaceName);
+
+        Assertions.assertThat(cfAdapter.spaceExists(spaceName)).isFalse();
+    }
 
 }

@@ -151,26 +151,22 @@ public abstract class AbstractCfAdapterIT {
 	@Test
 	@Ignore("Re-enable if you need to debug jonas buildpack and compare against native buildpack")
 	public void provisions_starts_stops_deletes_a_small_war_in_tomcat() throws IOException {
-		MavenReference mavenReference = new MavenReference("groupId", "artefactId", "version", "war");
-		URL accessUrl = CfAdapterImpl.class.getClassLoader().getResource("apps/hello-env.war");
-		mavenReference.setAccessUrl(accessUrl);
+		MavenReference cfWicketJpa = sampleAppProperties.getMavenReference("cf-wicket-jpa", "war");
 
 		String testRequestPath = "/"; // default buildpacks "mount" any wars to
 										// ROOT
-		provisionStartStopDeletesApp(mavenReference, getJavaBuildpackUrl(), getTestAppName() + "-" + "travel_test-" + "upload1", 512, testRequestPath);
+		provisionStartStopDeletesApp(cfWicketJpa, getJavaBuildpackUrl(), getTestAppName() + "-" + "travel_test-" + "upload1", 512, testRequestPath);
 	}
 
 	@Test
 	@Ignore("Re-enable if you need to debug jeeprobe and compare against hello-env")
 	public void provisions_starts_stops_deletes_a_small_war_on_jonas() throws IOException {
-		MavenReference mavenReference = new MavenReference("groupId", "artefactId", "version", "war");
-		URL accessUrl = CfAdapterImpl.class.getClassLoader().getResource("apps/hello-env.war");
-		mavenReference.setAccessUrl(accessUrl);
+		MavenReference cfWicketJpa = sampleAppProperties.getMavenReference("cf-wicket-jpa", "war");
 
 		String testRequestPath = "app/"; // buildpacks "mount" any wars to
 											// app.war, and jonas exposes them
 											// as app
-		provisionStartStopDeletesApp(mavenReference, getJonasBuildpackUrl(), getTestAppName() + "-" + "travel_test-" + "upload1", 512, testRequestPath);
+		provisionStartStopDeletesApp(cfWicketJpa, getJonasBuildpackUrl(), getTestAppName() + "-" + "travel_test-" + "upload1", 512, testRequestPath);
 	}
 
 	@Test
@@ -220,15 +216,13 @@ public abstract class AbstractCfAdapterIT {
 	@Test
 	@Ignore("should be tested at upper level")
 	public void handles_uri_conflicts() {
-		MavenReference mavenReference = new MavenReference("groupId", "artefactId", "version", "war");
-		URL accessUrl = CfAdapterImpl.class.getClassLoader().getResource("apps/hello-env.war");
-		mavenReference.setAccessUrl(accessUrl);
+		MavenReference simpleProbe = mvnRepoDao.resolveUrl(sampleAppProperties.getMavenReference("simple-probe", "jar"));
 
 		TechnicalDeployment td = new TechnicalDeployment("depl");
 		Space space = new Space(td);
 		space.activate(new SpaceName(cfDefaultSpace));
 
-		final App cfApp = new App(td, space, getTestAppName(), mavenReference, getJonasBuildpackUrl(), 512, 1);
+		final App cfApp = new App(td, space, getTestAppName(), simpleProbe, getJonasBuildpackUrl(), 512, 1);
 		Route route1 = new Route(new RouteUri("demo-elpaasofrontend13beta." + getTestDomainName()), "root1", space, td);
 		Route route2 = new Route(new RouteUri("demo-elpaasobackend13beta." + getTestDomainName()), "root2", space, td);
 

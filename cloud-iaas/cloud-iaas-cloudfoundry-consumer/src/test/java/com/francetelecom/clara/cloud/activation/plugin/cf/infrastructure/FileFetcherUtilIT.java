@@ -22,6 +22,7 @@ import static org.mockito.Mockito.verify;
 import java.io.File;
 import java.net.URL;
 
+import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppProperties;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Spy;
@@ -41,31 +42,29 @@ public class FileFetcherUtilIT {
     private MvnRepoDao mvnRepoDao;
 
     @Autowired
-    @Qualifier("jeeProbeMavenReference")
-    private MavenReference jeeProbeMavenReference;
-
+private SampleAppProperties sampleAppProperties;
 
     @Spy
 	private SampleProcessorCaller caller = new SampleProcessorCaller();
 
     @Test
-    public void classloader_can_fetch_jeeprobe_added_as_maven_dependency_and_process_it_with_fetcher_util() {
+    public void classloader_can_fetch_simpleprobe_added_as_maven_dependency_and_process_it_with_fetcher_util() {
+        MavenReference simpleProbe = mvnRepoDao.resolveUrl(sampleAppProperties.getMavenReference("simple-probe", "jar"));
         //given
-        MavenReference jeeProbeEarRef = mvnRepoDao.resolveUrl(jeeProbeMavenReference);
-        URL url = jeeProbeEarRef.getAccessUrl();
+        URL url = simpleProbe.getAccessUrl();
 
         assertThat(url).isNotNull();
 
         //when
         FileFetcherUtil.FileProcessor processor = mock(FileFetcherUtil.FileProcessor.class);
-        caller.deployJEEArtifact(jeeProbeEarRef, processor);
+        caller.deployJEEArtifact(simpleProbe, processor);
 
         //then
         //with paas sample release version, full name is paas-probe-jee-ear-1.0.22.ear
         //with snapshot, full name is paas-probe-jee-ear-1.0.38-20140701.141043-2.ear
 		// so we check the start
-		String expectedStart = jeeProbeMavenReference.getArtifactId() + "-" + jeeProbeMavenReference.getVersion().replace("SNAPSHOT", "");
-		verify(processor).process(startsWith(expectedStart), eq("ear"), any(File.class));
+		String expectedStart = simpleProbe.getArtifactId() + "-" + simpleProbe.getVersion().replace("SNAPSHOT", "");
+		verify(processor).process(startsWith(expectedStart), eq("jar"), any(File.class));
     }
 
 }

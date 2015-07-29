@@ -104,7 +104,7 @@ public class LogicalModelTest implements ApplicationContextAware {
 		this.node = new JeeProcessing("node1", deployment);
 
 		MavenReference earNode1 = new MavenReference("test.group","test.appli","1.0");
-		earNode1.setType("ear");
+		earNode1.setExtension("ear");
 
 		this.node.setSoftwareReference(earNode1);
 

@@ -48,5 +48,6 @@
 	<import resource="classpath:/META-INF/spring/mvn-consumer-context.xml" />
 	<import resource="classpath:/META-INF/spring/cf-adapter-context.xml" />
 
+	<bean id="sampleAppProperties" class="com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppProperties"/>
 
 </beans>

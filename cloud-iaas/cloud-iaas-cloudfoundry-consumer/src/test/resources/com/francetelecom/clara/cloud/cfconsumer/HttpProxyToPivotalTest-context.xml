@@ -15,14 +15,6 @@
 
 	<bean id="sampleAppProperties" class="com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppProperties"/>
 
-	<bean class="com.francetelecom.clara.cloud.commons.MavenReference"
-		id="jeeProbeMavenReference">
-		<constructor-arg name="groupId" value="com.orange.clara.cloud.probes" />
-		<constructor-arg name="artifactId" value="paas-probe-jee-ear" />
-		<constructor-arg name="version" value="${systemTestAppsVersion:1.0.35}" />
-		<constructor-arg name="extension" value="ear" />
-	</bean>
-
 	<bean id="modelItemDao" class="org.mockito.Mockito"
 		factory-method="mock">
 		<constructor-arg value="com.francetelecom.clara.cloud.model.ModelItemRepository" />

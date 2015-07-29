@@ -20,6 +20,8 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppProperties;
+import com.francetelecom.clara.cloud.mvn.consumer.MvnRepoDao;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -29,6 +31,7 @@ import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.francetelecom.clara.cloud.commons.MavenReference;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FileFetcherUtilTest {
@@ -39,12 +42,20 @@ public class FileFetcherUtilTest {
     @Mock
     private FileFetcherUtil.FileProcessor fileProcessor;
 
+    @Autowired
+    private SampleAppProperties sampleAppProperties;
+
+    @Autowired
+    private MvnRepoDao mvnRepo;
+
 
     URL accessUrl;
 
     @Before
     public void setUp() {
-        accessUrl = FileFetcherUtilTest.class.getClassLoader().getResource("apps/hello-env.war");
+        MavenReference simpleProbe = mvnRepo.resolveUrl(sampleAppProperties.getMavenReference("simple-probe", "jar"));
+
+        accessUrl = simpleProbe.getAccessUrl();
     }
 
     @Test
