@@ -12,33 +12,35 @@
  */
 package com.francetelecom.clara.cloud.coremodel;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 import static com.francetelecom.clara.cloud.coremodel.ApplicationSpecifications.*;
+import static org.fest.assertions.Assertions.assertThat;
 import static org.springframework.data.jpa.domain.Specifications.where;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/com/francetelecom/clara/cloud/coremodel/application-context.xml" })
+@TransactionConfiguration(defaultRollback = true)
+@DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_CLASS)
 public class ApplicationRepositoryTest {
 
 	@Autowired
 	private ApplicationRepository applicationRepository;
 
-	@Before
-	@Transactional
-	public void setup() throws Exception {
-		Assert.assertNotNull(applicationRepository);
-	}
 
 	@Test
 	@Transactional
@@ -282,5 +284,54 @@ public class ApplicationRepositoryTest {
 		Assert.assertEquals("there should be 0 entities", 0, applicationRepository.count(where(isActive()).and(hasForMember(new SSOId("jdalton")))));
 		Assert.assertEquals("there should be 1 entities", 1, applicationRepository.count(where(isActive()).and(hasForMember(new SSOId("alice123")))));
 		Assert.assertEquals("there should be 2 entities", 2, applicationRepository.count(where(isActive()).and(hasForMember(new SSOId("bob123")))));
+	}
+
+	@Test
+	public void application_with_config_role_should_be_valid() {
+		// Given
+		Application application = new Application("application label","Application code");
+		ConfigRole configRole = new ConfigRole("myapp");
+		configRole.setLastModificationComment("Modified by Guillaume.");
+		configRole.setValues(Arrays.asList(new ConfigValue("myconfigset", "mykey", "myvalue", "update mykey to its new value")));
+		application.addConfigRole(configRole);
+
+		// When
+		applicationRepository.save(application);
+		Application retrievedApplication = applicationRepository.findOne(application.getId());
+
+		// Then
+		assertThat(retrievedApplication.getCode()).isEqualTo(application.getCode());
+		assertThat(retrievedApplication.getLabel()).isEqualTo(application.getLabel());
+		assertThat(retrievedApplication.isPublic()).isEqualTo(application.isPublic());
+
+	}
+
+	@Test
+	@Transactional
+	public void application_with_valid_large_config_role_should_properly_persist() {
+		// Given
+		Application application = new Application("application label","Application code");
+		ConfigRole configRole = new ConfigRole("myapp");
+		configRole.setLastModificationComment("Modified by Guillaume.");
+
+		String long300CharsComment= StringUtils.leftPad("comment", 300, 'X');
+		configRole.setValues(Arrays.asList(new ConfigValue("myconfigset", "mykey", "myvalue", long300CharsComment)));
+		application.addConfigRole(configRole);
+
+		// When
+		applicationRepository.save(application);
+		Application retrievedApplication = applicationRepository.findOne(application.getId());
+
+		// Then
+		List<ConfigRole> reloadedConfigRoles = retrievedApplication.listConfigRoles();
+		assertThat(reloadedConfigRoles.size()).isEqualTo(1);
+		ConfigRole reloadedConfigRole = reloadedConfigRoles.get(0);
+		List<ConfigValue> reloadedConfigValues = reloadedConfigRole.listValues();
+		assertThat(reloadedConfigValues.size()).isEqualTo(1);
+		ConfigValue reloadedConfigValue = reloadedConfigValues.get(0);
+		assertThat(reloadedConfigValue.getConfigSet()).isEqualTo("myconfigset");
+		assertThat(reloadedConfigValue.getKey()).isEqualTo("mykey");
+		assertThat(reloadedConfigValue.getValue()).isEqualTo("myvalue");
+		assertThat(reloadedConfigValue.getComment()).isEqualTo(long300CharsComment);
 	}
 }

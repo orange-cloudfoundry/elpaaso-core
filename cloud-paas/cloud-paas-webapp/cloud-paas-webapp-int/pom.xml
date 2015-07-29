@@ -161,12 +161,6 @@
             <artifactId>cloud-paas-ws-incubator-wsdl</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.orange.clara.cloud</groupId>
-            <artifactId>cloud-paas-core-model</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <scope>test</scope>

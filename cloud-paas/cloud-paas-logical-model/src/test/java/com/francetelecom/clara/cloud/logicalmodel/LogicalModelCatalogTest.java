@@ -12,31 +12,30 @@
  */
 package com.francetelecom.clara.cloud.logicalmodel;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.net.MalformedURLException;
-import java.util.Map;
-
+import com.francetelecom.clara.cloud.commons.ValidatorUtil;
+import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.francetelecom.clara.cloud.PersistenceTestUtil;
-import com.francetelecom.clara.cloud.commons.ValidatorUtil;
-import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppFactory;
+import javax.transaction.Transactional;
+import java.net.MalformedURLException;
+import java.util.Map;
+
+import static org.junit.Assert.*;
 
 /**
  * This test represents the usage made of the {@link SampleAppFactory} interface by the other modules.
  */
-@ContextConfiguration(locations = "LogicalModelTest-context.xml")
+@ContextConfiguration(locations = "application-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
+@DirtiesContext
 public class LogicalModelCatalogTest {
 
 	private static Logger logger = LoggerFactory.getLogger(LogicalModelCatalogTest.class.getName());
@@ -56,7 +55,7 @@ public class LogicalModelCatalogTest {
 	Map<String, SampleAppFactory> sampleAppsCatalog;
 
 	@Autowired
-	PersistenceTestUtil persistenceTestUtil;
+	LogicalDeploymentRepository logicalDeploymentRepository;
 
 	/**
 	 * Simulates calls made by the projection which uses a named bean defined by annotation {@link #petClinicAppFactory}
@@ -64,6 +63,7 @@ public class LogicalModelCatalogTest {
 	 * @throws java.net.MalformedURLException
 	 */
 	@Test
+	@Transactional
 	public void testAllSampleAppFactoryInstances() throws MalformedURLException {
 		for (Map.Entry<String, SampleAppFactory> entry : sampleAppsCatalog.entrySet()) {
 			String beanName = entry.getKey();
@@ -73,8 +73,8 @@ public class LogicalModelCatalogTest {
 				LogicalDeployment logicalDeployment = appFactory.populateLogicalDeployment(null);
 
 				ValidatorUtil.validate(logicalDeployment);
-				persistenceTestUtil.persistObject(logicalDeployment);
-				LogicalDeployment reloadedLd = persistenceTestUtil.reloadLogicalDeployment(logicalDeployment);
+				logicalDeploymentRepository.save(logicalDeployment);
+				LogicalDeployment reloadedLd = logicalDeploymentRepository.findOne(logicalDeployment.getId());
 				assertEquals("incorrect ld reloaded from db for sample:" + beanName, logicalDeployment, reloadedLd);
 				logger.info("sample catalog [" + beanName + "] properly serialized");
 			}

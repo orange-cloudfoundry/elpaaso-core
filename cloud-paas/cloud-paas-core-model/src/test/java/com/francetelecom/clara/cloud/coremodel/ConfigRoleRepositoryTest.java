@@ -12,22 +12,22 @@
  */
 package com.francetelecom.clara.cloud.coremodel;
 
-import java.util.Arrays;
-
 import org.fest.assertions.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.francetelecom.clara.cloud.coremodel.ConfigRoleRepository;
-import com.francetelecom.clara.cloud.coremodel.ConfigRole;
-import com.francetelecom.clara.cloud.coremodel.ConfigValue;
+import java.util.Arrays;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/com/francetelecom/clara/cloud/coremodel/application-context.xml" })
+@TransactionConfiguration(defaultRollback = true)
+@DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_CLASS)
 public class ConfigRoleRepositoryTest {
 
 	@Autowired

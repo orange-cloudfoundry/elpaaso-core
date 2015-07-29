@@ -94,7 +94,7 @@ public class Application extends CoreItem {
 	 */
 	@XmlElementWrapper
 	@XmlElement(name = "configRoles")
-	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE })
+	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE },fetch = FetchType.EAGER)
 	private final Set<ConfigRole> configRoles = new HashSet<>();
 	
 	@GuiMapping(status = GuiMapping.StatusType.SKIPPED)

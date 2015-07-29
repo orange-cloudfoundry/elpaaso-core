@@ -89,12 +89,6 @@ Describes completely a technical architure from the logical description.</descri
 			<artifactId>cloud-commons-test-configurations</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.orange.clara.cloud</groupId>
-			<artifactId>cloud-paas-core-model</artifactId>
-			<type>test-jar</type>
-			<scope>test</scope>
-		</dependency>
 		<dependency> <!-- used to share a common set of reference logical model data sets -->
 			<groupId>com.orange.clara.cloud</groupId>
 			<artifactId>cloud-paas-logical-model</artifactId>

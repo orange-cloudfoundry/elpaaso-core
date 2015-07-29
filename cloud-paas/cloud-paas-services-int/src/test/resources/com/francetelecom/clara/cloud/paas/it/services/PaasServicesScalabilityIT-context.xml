@@ -61,7 +61,6 @@
     <import resource="classpath:/META-INF/spring/cloud-archive-context.xml" />    
 
 	<import resource="mock-taskexecutor-context.xml"/>	
-	<!-- import resource="jmx-context.xml"/-->
 	<import resource="transaction-context.xml" />
 	<!-- note: datasources contexts must be imported in each test context to select between hsql and postgresql  -->
 

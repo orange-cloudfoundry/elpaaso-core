@@ -12,34 +12,37 @@
  */
 package com.francetelecom.clara.cloud.logicalmodel;
 
-import com.francetelecom.clara.cloud.PersistenceTestUtil;
 import com.francetelecom.clara.cloud.commons.GuiClassMapping;
 import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SpringooLogicalModelCatalog;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.transaction.Transactional;
 import java.net.MalformedURLException;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests introspection of the logical model through the {@link GuiClassMapping} annotation
  */
-@ContextConfiguration(locations = "LogicalModelTest-context.xml")
+@ContextConfiguration(locations = "application-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
+@DirtiesContext
 public class LogicalModelIntrospectionTest {
 
 	@Autowired
     SpringooLogicalModelCatalog utilSpringooIntegration;
 
     @Autowired
-    PersistenceTestUtil persistenceTestUtil;
+    LogicalDeploymentRepository logicalDeploymentRepository;
     
     /**
      * Tests that class-level annotations are indeed available at runtime for the portal to use
@@ -65,15 +68,16 @@ public class LogicalModelIntrospectionTest {
     }
 
 	@Test
+    @Transactional
 	public void testPersistenceClassMapping() throws MalformedURLException{
         LogicalDeployment springooLogicalModel = utilSpringooIntegration.createLogicalModel("ModelIntrospectionTest");
         try {
-            persistenceTestUtil.persistObject(springooLogicalModel);
-            LogicalDeployment reloadedLd = persistenceTestUtil.reloadLogicalDeployment(springooLogicalModel);
+            logicalDeploymentRepository.save(springooLogicalModel);
+            LogicalDeployment reloadedLd = logicalDeploymentRepository.findOne(springooLogicalModel.getId());
             testClassMapping(reloadedLd);
         } finally {
             //Clean up the HsqlDB for other tests that run within the same JVM.
-            assertNull(persistenceTestUtil.deleteObject(springooLogicalModel));
+            logicalDeploymentRepository.delete(springooLogicalModel.getId());
         }
 	}
 

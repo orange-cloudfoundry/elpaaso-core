@@ -41,6 +41,7 @@ import static org.junit.Assert.assertTrue;
  */
 @ContextConfiguration(locations = "application-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
+@DirtiesContext
 public class  LogicalConfigServiceTest {
 
 	public static final LogicalConfigServiceUtils LOGICAL_CONFIG_SERVICE_UTILS = new LogicalConfigServiceUtils();

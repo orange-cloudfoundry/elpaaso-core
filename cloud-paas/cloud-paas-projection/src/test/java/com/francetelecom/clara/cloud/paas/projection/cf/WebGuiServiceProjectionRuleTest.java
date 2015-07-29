@@ -12,8 +12,8 @@
  */
 package com.francetelecom.clara.cloud.paas.projection.cf;
 
+import com.francetelecom.clara.cloud.coremodel.Application;
 import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
-import com.francetelecom.clara.cloud.coremodel.CoreModelSamplesTestUtils;
 import com.francetelecom.clara.cloud.logicalmodel.*;
 import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.BaseReferenceLogicalModelsCatalog;
 import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.JeeProbeLogicalModelCatalog;
@@ -41,12 +41,11 @@ public class WebGuiServiceProjectionRuleTest {
     RouteStrategyImpl routeStrategy;
 
     SampleAppProperties sampleAppProperties;
-    ApplicationRelease applicationRelease;
     LogicalDeployment logicalDeployment;
 
     @Before
     public void setUp() throws MalformedURLException {
-        applicationRelease = CoreModelSamplesTestUtils.createSampleAppRelease();
+        ApplicationRelease applicationRelease = new ApplicationRelease(new Application("mon Appli", "code"), "G1R0C0");
         logicalDeployment = applicationRelease.getLogicalDeployment();
 
         webGuiServiceProjectionStrategy = new WebGuiServiceProjectionRule();

@@ -12,7 +12,6 @@
  */
 package com.francetelecom.clara.cloud.paas.projection;
 
-import com.francetelecom.clara.cloud.commons.MavenReference;
 import com.francetelecom.clara.cloud.commons.P6SpyAppender;
 import com.francetelecom.clara.cloud.coremodel.*;
 import com.francetelecom.clara.cloud.logicalmodel.InvalidConfigServiceException;
@@ -27,7 +26,6 @@ import com.francetelecom.clara.cloud.model.TechnicalDeploymentTemplate;
 import com.francetelecom.clara.cloud.model.validators.ModelItemGenericValidationUtils;
 import com.francetelecom.clara.cloud.mvn.consumer.MvnRepoDao;
 import com.francetelecom.clara.cloud.mvn.consumer.MvnRepoDaoTestUtils;
-import com.francetelecom.clara.cloud.paas.constraint.*;
 import com.francetelecom.clara.cloud.paas.projection.cf.ProjectionPlanStrategy;
 import com.francetelecom.clara.cloud.techmodel.cf.App;
 import com.francetelecom.clara.cloud.techmodel.cf.EnvVariableKey;
@@ -53,9 +51,6 @@ import java.util.Set;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * Integrated tests for projection: asserts the created technical model respects expectations.
@@ -228,7 +223,7 @@ public class ProjectionServiceIT {
      * deployment) corresponding
      */
     protected ApplicationRelease generateApplicationRelease(MiddlewareProfile middlewareProfileVersion, SampleAppFactory logicalModelCatalog) {
-        ApplicationRelease applicationRelease = CoreModelSamplesTestUtils.createSampleAppRelease();
+        ApplicationRelease applicationRelease = new ApplicationRelease(new Application("mon Appli", "code"), "G1R0C0");
         LogicalDeployment logicalDeploymentToUpdate = applicationRelease.getLogicalDeployment();
 
         logicalModelCatalog.populateLogicalDeployment(logicalDeploymentToUpdate);

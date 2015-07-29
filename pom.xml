@@ -952,12 +952,6 @@
             </dependency>
             <dependency>
                 <groupId>com.orange.clara.cloud</groupId>
-                <artifactId>cloud-paas-core-model</artifactId>
-                <type>test-jar</type>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.orange.clara.cloud</groupId>
                 <artifactId>cloud-paas-constraint</artifactId>
                 <version>${project.version}</version>
             </dependency>

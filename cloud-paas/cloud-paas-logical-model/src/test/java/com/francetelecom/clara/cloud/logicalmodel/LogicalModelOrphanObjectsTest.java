@@ -20,13 +20,15 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 import java.lang.reflect.Field;
 import java.sql.SQLException;
 import java.util.List;
@@ -38,8 +40,9 @@ import java.util.List;
  * Time: 10:18
  * To change this template use File | Settings | File Templates.
  */
-@ContextConfiguration(locations = "LogicalModelTest-context.xml")
+@ContextConfiguration(locations = "application-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
+@DirtiesContext
 public class LogicalModelOrphanObjectsTest {
 
     /**
@@ -49,10 +52,13 @@ public class LogicalModelOrphanObjectsTest {
     ConfigLogicalModelCatalog configLogicalModelCatalog;
 
     @Autowired
-    PersistenceTestUtil persistenceTestUtil;
+    LogicalDeploymentRepository logicalDeploymentRepository;
 
     @PersistenceContext
     EntityManager em;
+
+    @Autowired
+    PersistenceTestUtil persistenceTestUtil;
 
     @Test
     public void testAddAssociationToServiceNotInLogicalDeployment() {
@@ -72,27 +78,29 @@ public class LogicalModelOrphanObjectsTest {
     }
 
     @Test
+    @Transactional
     public void testUUIDRandomCollision() {
         // Given: a sample config LogicalDeployment persisted in db, with a LogicalConfigService with name=id1
         LogicalDeployment logicalDeployment = configLogicalModelCatalog.populateLogicalDeployment(new LogicalDeployment());
-        LogicalConfigService service = ((LogicalConfigService) logicalDeployment.listLogicalServices(LogicalConfigService.class).toArray()[0]);
+        LogicalDeployment logicalDeployment2 = configLogicalModelCatalog.populateLogicalDeployment(new LogicalDeployment());
         boolean persistenceHasFailed = false;
         String persistenceError = "";
         try {
             Field field = LogicalEntity.class.getDeclaredField("name");
             field.setAccessible(true);
-            field.set(service, "id1");
-            persistenceTestUtil.persistObject(logicalDeployment);
-            // When: I create a new LogicalConfigService, force the name to "id1", and try to persist the LogicalDeployment
-            LogicalConfigService config = new LogicalConfigService("config2 ", logicalDeployment, "key=value");
-            field.set(config, "id1");
-            logicalDeployment.listProcessingNodes().get(0).addLogicalServiceUsage(config, LogicalServiceAccessTypeEnum.NOT_APPLICABLE);
-            persistenceTestUtil.mergeObject(logicalDeployment);
-        } catch (PersistenceException e) {
+            field.set(logicalDeployment, "id1");
+            logicalDeploymentRepository.save(logicalDeployment);
+
+            Field field2 = LogicalEntity.class.getDeclaredField("name");
+            field2.setAccessible(true);
+            field2.set(logicalDeployment2, "id1");
+            logicalDeploymentRepository.save(logicalDeployment2);
+        } catch (DataIntegrityViolationException e) {
             persistenceHasFailed = true;
             Throwable sqlException = getSQLException(e);
             persistenceError = sqlException == null ? "" : sqlException.getMessage();
-        } catch (Exception e) {
+        } catch (Exception e){
+
         }
         // Then: the persistence fails with an error message that gives hint about UUID collision
         // the JPA persistence fails with the unique constraint on the name field
@@ -116,7 +124,7 @@ public class LogicalModelOrphanObjectsTest {
     public void testDeletedServicesCantBeRetrieved() {
         // Given: a sample config LogicalDeployment in database
         LogicalDeployment logicalDeployment = configLogicalModelCatalog.populateLogicalDeployment(new LogicalDeployment());
-        persistenceTestUtil.persistObject(logicalDeployment);
+        logicalDeploymentRepository.save(logicalDeployment);
         // When: I remove all services and exec nodes from the LogicalDeployment
         logicalDeployment.removeAllProcessingNodes();
         try {
@@ -124,7 +132,7 @@ public class LogicalModelOrphanObjectsTest {
         } catch (BusinessException e) {
         }
         // I try to persist the LogicalDeployment
-        persistenceTestUtil.mergeObject(logicalDeployment);
+        logicalDeploymentRepository.save(logicalDeployment);
         final LogicalDeployment finalLd = logicalDeployment;
         // Then: the original JeeProcessing and LogicalService can not be retrieved from the database
         persistenceTestUtil.executeWithinTransaction(new Runnable() {
@@ -149,7 +157,7 @@ public class LogicalModelOrphanObjectsTest {
         LogicalDeployment logicalDeployment = new LogicalDeployment();
         // When: I instantiate a JeeProcessing without adding it to the LogicalDeployment, and I persist the LogicalDeployment
         ProcessingNode node = new JeeProcessing();
-        persistenceTestUtil.persistObject(logicalDeployment);
+        logicalDeploymentRepository.save(logicalDeployment);
         // Then: the JeeProcessing can't be retrieved from the database by its name
         // Then: the original JeeProcessing and LogicalService can not be retrieved from the database
         final ProcessingNode finalNode = node;
@@ -178,10 +186,10 @@ public class LogicalModelOrphanObjectsTest {
         node2.setLabel("node2");
         logicalDeployment.addExecutionNode(node2);
         // I remove the JeeProcessing from the LogicalDeployment
-        persistenceTestUtil.persistObject(logicalDeployment);
+        logicalDeploymentRepository.save(logicalDeployment);
         logicalDeployment.removeProcessingNode(node1);
         // I persist the LogicalDeployment
-        persistenceTestUtil.mergeObject(logicalDeployment);
+        logicalDeploymentRepository.save(logicalDeployment);
         final ProcessingNode finalNode1 = node1;
         final ProcessingNode finalNode2 = node2;
         persistenceTestUtil.executeWithinTransaction(new Runnable() {

@@ -13,8 +13,8 @@
 package com.francetelecom.clara.cloud.paas.projection.cf;
 
 import com.francetelecom.clara.cloud.commons.MavenReference;
+import com.francetelecom.clara.cloud.coremodel.Application;
 import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
-import com.francetelecom.clara.cloud.coremodel.CoreModelSamplesTestUtils;
 import com.francetelecom.clara.cloud.logicalmodel.JeeProcessing;
 import com.francetelecom.clara.cloud.logicalmodel.LogicalDeployment;
 import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.JeeProbeLogicalModelCatalog;
@@ -58,12 +58,11 @@ public class JeeProcessingProjectionRuleTest {
 
     ProjectionPlan projectionPlan = new ProjectionPlan();
 
-    ApplicationRelease applicationRelease;
     LogicalDeployment logicalDeployment;
 
     @Before
     public void setUp() throws MalformedURLException {
-        applicationRelease = CoreModelSamplesTestUtils.createSampleAppRelease();
+        ApplicationRelease applicationRelease = new ApplicationRelease(new Application("mon Appli", "code"), "G1R0C0");
         logicalDeployment = applicationRelease.getLogicalDeployment();
 
         projectionPlan.setWasPerVm(1);

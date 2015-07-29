@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:/com/francetelecom/clara/cloud/logicalmodel/application-context.xml"})
+@ContextConfiguration(locations = {"application-context.xml"})
 @DirtiesContext
 public class LogicalDeploymentRepositoryTest {
 
@@ -144,6 +144,7 @@ public class LogicalDeploymentRepositoryTest {
         Assert.assertEquals("there should be 3 entities", 3, entities.size());
         logicalDeploymentRepository.flush();
     }
+
 
 
 }

@@ -12,7 +12,6 @@
  */
 package com.francetelecom.clara.cloud.logicalmodel;
 
-import com.francetelecom.clara.cloud.PersistenceTestUtil;
 import com.francetelecom.clara.cloud.commons.MavenReference;
 import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.ElPaaSoLogicalModelCatalog;
 import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppFactory;
@@ -23,12 +22,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -42,8 +43,9 @@ import static org.junit.Assert.*;
  *  
  * @author skwg9735
  */
-@ContextConfiguration(locations = "LogicalModelTest-context.xml")
+@ContextConfiguration(locations = "application-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
+@DirtiesContext
 public class LogicalModelEqualsHashCodeTest {
 
     /**
@@ -60,7 +62,7 @@ public class LogicalModelEqualsHashCodeTest {
     Map<String, SampleAppFactory> sampleAppFactories;
 
     @Autowired
-    PersistenceTestUtil persistenceTestUtil;
+    LogicalDeploymentRepository logicalDeploymentRepository;
 
     @Autowired
 	private EntityManagerFactory emf;
@@ -188,6 +190,7 @@ public class LogicalModelEqualsHashCodeTest {
 	 */
 	@Test
 //    @Ignore("Waiting a fix for bug #80111")
+    @Transactional
 	public void testPersistentSpringooLogicalModelEquals() {
 		testSampleLogicalModelEquals(true, defaultSampleAppFactory, null);
 	}
@@ -252,10 +255,10 @@ public class LogicalModelEqualsHashCodeTest {
 		LogicalDeployment sampleLogicalModel2 = sampleAppFactory.populateLogicalDeployment(null);
 
         if (persistModels) {
-            persistenceTestUtil.persistObject(sampleLogicalModel1);
-            persistenceTestUtil.persistObject(sampleLogicalModel2);
-            sampleLogicalModel1 = persistenceTestUtil.reloadLogicalDeployment(sampleLogicalModel1);
-            sampleLogicalModel2 = persistenceTestUtil.reloadLogicalDeployment(sampleLogicalModel2);
+            logicalDeploymentRepository.save(sampleLogicalModel1);
+            logicalDeploymentRepository.save(sampleLogicalModel2);
+            sampleLogicalModel1 = logicalDeploymentRepository.findOne(sampleLogicalModel1.getId());
+            sampleLogicalModel2 = logicalDeploymentRepository.findOne(sampleLogicalModel2.getId());
         }
 
 		if(modifier != null) {

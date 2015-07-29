@@ -22,16 +22,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -40,13 +36,12 @@ import java.util.*;
 
 import static org.junit.Assert.fail;
 
-@ContextConfiguration
+@ContextConfiguration(locations = "application-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
-public class LogicalModelTest implements ApplicationContextAware {
+@DirtiesContext
+public class LogicalModelTest {
 
-    private ApplicationContext ctx;
-	
-	@Autowired
+    @Autowired
     SpringooLogicalModelCatalog utilSpringooIntegration;
 
     @Autowired
@@ -61,9 +56,8 @@ public class LogicalModelTest implements ApplicationContextAware {
 	@Autowired
 	ElPaaSoLogicalModelCatalog elPaaSoLogicalModelCatalog;
 
-	@PersistenceContext
-	EntityManager pm;
-	
+    @Autowired
+    LogicalDeploymentRepository logicalDeploymentRepository;
 	
 	LogicalDeployment deployment;
     LogicalDeployment deployment_bis;
@@ -211,8 +205,8 @@ public class LogicalModelTest implements ApplicationContextAware {
 
     private void validateAndPersist(LogicalDeployment logicalDeployment) {
         ValidatorUtil.validate(logicalDeployment);
-        pm.persist(logicalDeployment);
-        pm.flush();
+        logicalDeploymentRepository.save(logicalDeployment);
+        logicalDeploymentRepository.flush();
     }
 
 
@@ -302,12 +296,10 @@ public class LogicalModelTest implements ApplicationContextAware {
 		adminNode = new JeeProcessing("nodeAdmin", deployment);
 		webAdmin = new LogicalWebGUIService("webAdmin", deployment);
 		webAdmin.setContextRoot(new ContextRoot("/myWebAdmin"));		
-		adminNode.addLogicalServiceUsage(webAdmin,LogicalServiceAccessTypeEnum.NOT_APPLICABLE);
+		adminNode.addLogicalServiceUsage(webAdmin, LogicalServiceAccessTypeEnum.NOT_APPLICABLE);
 
         validateAndPersist(deployment);
-		
-		pm.flush();
-		
+
 	}
 
 
@@ -317,7 +309,7 @@ public class LogicalModelTest implements ApplicationContextAware {
 	public void testMergeModel() throws JAXBException{
 			
 			LogicalDeployment deployment=new LogicalDeployment();
-			pm.persist(deployment);
+        logicalDeploymentRepository.save(deployment);
 			
 			ProcessingNode node=new JeeProcessing("node1", deployment);
 
@@ -325,7 +317,7 @@ public class LogicalModelTest implements ApplicationContextAware {
 			LogicalRelationalService rds = new LogicalRelationalService("rds",deployment);
             rds.setServiceName("jdbc/MyDataSource");
 			node.addLogicalServiceUsage(rds,LogicalServiceAccessTypeEnum.NOT_APPLICABLE);
-			pm.merge(deployment);
+        logicalDeploymentRepository.save(deployment);
 			
 			LogicalMomService mom = new LogicalMomService("mom", deployment);
 			mom.setDestinationName("myQueue");
@@ -354,8 +346,8 @@ public class LogicalModelTest implements ApplicationContextAware {
 			
 			adminNode.addLogicalServiceUsage(mom2,LogicalServiceAccessTypeEnum.NOT_APPLICABLE);
 			node.addLogicalServiceUsage(mom2, LogicalServiceAccessTypeEnum.NOT_APPLICABLE);
-			
-			pm.merge(deployment);
+
+        logicalDeploymentRepository.save(deployment);
 						
 	
 	}
@@ -484,7 +476,7 @@ public class LogicalModelTest implements ApplicationContextAware {
         LogicalDeployment logicalDeployment = dianeLogicalModelCatalog.populateLogicalDeployment(null);
 
         validateAndPersist(logicalDeployment);
-        logicalDeployment = pm.find(logicalDeployment.getClass(), logicalDeployment.getId());
+        logicalDeployment = logicalDeploymentRepository.findOne(logicalDeployment.getId());
 
         logicalDeployment = dianeRemoveAssoication(logicalDeployment, "diane database");
         validateAndPersist(logicalDeployment);
@@ -662,7 +654,7 @@ public class LogicalModelTest implements ApplicationContextAware {
 
                         if (persist) {
                             validateAndPersist(ld);
-                            ld = pm.find(ld.getClass(), ld.getId());
+                            ld = logicalDeploymentRepository.findOne(ld.getId());
                         }
 
                     }
@@ -681,7 +673,7 @@ public class LogicalModelTest implements ApplicationContextAware {
 
                 if (persist) {
                     validateAndPersist(ld);
-                    ld = pm.find(ld.getClass(), ld.getId());
+                    ld = logicalDeploymentRepository.findOne(ld.getId());
                 }
 
             }
@@ -693,7 +685,7 @@ public class LogicalModelTest implements ApplicationContextAware {
 
                 if (persist) {
                     validateAndPersist(ld);
-                    ld = pm.find(ld.getClass(), ld.getId());
+                    ld = logicalDeploymentRepository.findOne(ld.getId());
                 }
 
             }
@@ -796,9 +788,4 @@ public class LogicalModelTest implements ApplicationContextAware {
 
     }
 
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.ctx = applicationContext;
-    }
 }

@@ -13,8 +13,8 @@
 package com.francetelecom.clara.cloud.paas.projection.cf;
 
 import com.francetelecom.clara.cloud.commons.MavenReference;
+import com.francetelecom.clara.cloud.coremodel.Application;
 import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
-import com.francetelecom.clara.cloud.coremodel.CoreModelSamplesTestUtils;
 import com.francetelecom.clara.cloud.logicalmodel.LogicalDeployment;
 import com.francetelecom.clara.cloud.logicalmodel.ProcessingNode;
 import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.JeeProbeLogicalModelCatalog;
@@ -71,7 +71,7 @@ public class CfProjectionServiceSpringConfigTest {
 
 	@Before
 	public void setUp() {
-		applicationRelease = CoreModelSamplesTestUtils.createSampleAppRelease();
+		applicationRelease = new ApplicationRelease(new Application("mon Appli", "code"), "G1R0C0");
 		logicalDeployment = applicationRelease.getLogicalDeployment();
 
 		when(mvnRepoDaoMock.resolveUrl(any(MavenReference.class))).thenAnswer(new Answer<MavenReference>() {
