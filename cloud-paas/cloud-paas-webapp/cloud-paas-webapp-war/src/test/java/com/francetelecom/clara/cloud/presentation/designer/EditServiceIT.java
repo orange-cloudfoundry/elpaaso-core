@@ -33,6 +33,7 @@ import com.francetelecom.clara.cloud.presentation.HomePage;
 import com.francetelecom.clara.cloud.presentation.designer.pages.DesignerPage;
 import com.francetelecom.clara.cloud.presentation.designer.support.DelegatingDesignerServices;
 import com.francetelecom.clara.cloud.presentation.designer.support.LogicalServicesHelper;
+import com.francetelecom.clara.cloud.presentation.models.ContactUsBean;
 import com.francetelecom.clara.cloud.presentation.models.HypericBean;
 import com.francetelecom.clara.cloud.presentation.models.SplunkBean;
 import com.francetelecom.clara.cloud.presentation.utils.*;
@@ -91,6 +92,8 @@ public class EditServiceIT {
 	private SplunkBean splunkBean;
 	@Autowired
 	private HypericBean hypericBean;
+	@Autowired
+	private ContactUsBean contactUsBean;
 	@Autowired
   	private AuthenticationManager authenticationManager;
 
@@ -455,6 +458,7 @@ public class EditServiceIT {
 		applicationContextMock.putBean(mvnDao);
 		applicationContextMock.putBean(splunkBean);
 		applicationContextMock.putBean(hypericBean);
+		applicationContextMock.putBean(contactUsBean);
 		applicationContextMock.putBean("authenticationManager",authenticationManager);
 		return applicationContextMock;
 	}

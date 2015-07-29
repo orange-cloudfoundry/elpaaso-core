@@ -31,6 +31,7 @@ import com.francetelecom.clara.cloud.presentation.HomePage;
 import com.francetelecom.clara.cloud.presentation.designer.panels.DesignerArchitectureMatrixPanel;
 import com.francetelecom.clara.cloud.presentation.designer.support.DelegatingDesignerServices;
 import com.francetelecom.clara.cloud.presentation.designer.support.LogicalServicesHelper;
+import com.francetelecom.clara.cloud.presentation.models.ContactUsBean;
 import com.francetelecom.clara.cloud.presentation.models.HypericBean;
 import com.francetelecom.clara.cloud.presentation.models.SplunkBean;
 import com.francetelecom.clara.cloud.presentation.tools.DeleteConfirmationUtils;
@@ -83,7 +84,8 @@ public class DeleteServiceIT {
 	@Autowired
 	@Qualifier("allServicesLogicalModelCatalog")
 	private SampleAppFactory allServicesLogicalSample;
-	
+	@Autowired
+	private ContactUsBean contactUsBean;
 	@Autowired
   	private AuthenticationManager authenticationManager;
 
@@ -334,6 +336,7 @@ public class DeleteServiceIT {
 		applicationContextMock.putBean(mvnDao);
 		applicationContextMock.putBean(splunkBean);
 		applicationContextMock.putBean(hypericBean);
+		applicationContextMock.putBean(contactUsBean);
 		applicationContextMock.putBean("authenticationManager",authenticationManager);
 
 		return applicationContextMock;

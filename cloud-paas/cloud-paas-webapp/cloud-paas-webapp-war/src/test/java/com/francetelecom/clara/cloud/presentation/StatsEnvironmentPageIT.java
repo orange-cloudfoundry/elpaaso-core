@@ -27,6 +27,7 @@ import com.francetelecom.clara.cloud.environment.log.LogService;
 import com.francetelecom.clara.cloud.presentation.designer.support.DelegatingDesignerServices;
 import com.francetelecom.clara.cloud.presentation.designer.support.LogicalServicesHelper;
 import com.francetelecom.clara.cloud.presentation.environments.SelectedEnvironmentPage;
+import com.francetelecom.clara.cloud.presentation.models.ContactUsBean;
 import com.francetelecom.clara.cloud.presentation.models.HypericBean;
 import com.francetelecom.clara.cloud.presentation.models.SplunkBean;
 import com.francetelecom.clara.cloud.presentation.tools.PopulateDatasService;
@@ -85,7 +86,9 @@ public class StatsEnvironmentPageIT {
     private SplunkBean splunkBean;
     @Autowired
     private HypericBean hypericBean;
-   
+
+    @Autowired
+    private ContactUsBean contactUsBean;
 
     @Autowired(required = true)
     ManageStatistics manageStatistics;
@@ -216,6 +219,7 @@ public class StatsEnvironmentPageIT {
         applicationContextMock.putBean(sessionFactory);
         applicationContextMock.putBean(delegatingDesignerServices);
         applicationContextMock.putBean(logicalServicesHelper);
+        applicationContextMock.putBean(contactUsBean);
         applicationContextMock.putBean("authenticationManager",authenticationManager);
         return applicationContextMock;
     }

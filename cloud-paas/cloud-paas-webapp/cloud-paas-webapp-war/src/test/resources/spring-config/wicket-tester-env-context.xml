@@ -68,6 +68,12 @@
 			value="org.springframework.security.authentication.AuthenticationManager" />
 	</bean>
 
+	<bean id="contactUsBean" class="org.mockito.Mockito"
+		  factory-method="mock">
+		<constructor-arg
+				value="com.francetelecom.clara.cloud.presentation.models.ContactUsBean" />
+	</bean>
+
     <import resource="classpath*:services/*-logical-services.xml" />
     <context:component-scan
 		base-package="com.francetelecom.clara.cloud.presentation.designer.support" />
