@@ -24,20 +24,18 @@
 
 	<!-- INFO level for application : adapt here your verbosity -->
 	<logger name="com.francetelecom.clara.cloud" level="${loglevel-cloud:-INFO}" />
-	<logger name="com.francetelecom.clara.cloud.paas.it.services" level="DEBUG" />
-	<logger name="com.francetelecom.clara.cloud.model" level="DEBUG"/>
-	<!-- set dao.impl to DEBUG to see the TD XML -->
-	<logger name="com.francetelecom.clara.cloud.dao.impl" level="DEBUG" />
+	<!--<logger name="com.francetelecom.clara.cloud.paas.it.services" level="DEBUG" />-->
+	<!--<logger name="com.francetelecom.clara.cloud.model" level="DEBUG"/>-->
 	<logger name="com.francetelecom.clara.cloud.paas.constraint" level="WARN" />
-	<logger name="com.francetelecom.clara.cloud.logicalmodel" level="INFO" />
+	<!--<logger name="com.francetelecom.clara.cloud.logicalmodel" level="INFO" />-->
 
 	<!-- Task pool : Waiting for Task: xxx (check every 5000ms) -->
 	<!-- ## SSH log -->
     <logger name="com.jcraft.jsch" level="${loglevel-jsch:-WARN}"/>
 	<!-- ## SSH set SshCommandExecutorJsch to DEBUG to see the ok ssh command output -->
 	<!-- DEBUG JSCH (double proxy)-->
-    <logger name="com.francetelecom.clara.cloud.paas.projection" level="DEBUG"/>
-    <logger name="com.francetelecom.clara.cloud.cfconsumer" level="DEBUG"/>
+    <!--<logger name="com.francetelecom.clara.cloud.paas.projection" level="DEBUG"/>-->
+    <!--<logger name="com.francetelecom.clara.cloud.cfconsumer" level="DEBUG"/>-->
 
     <!-- HTTP client-->
     <!-- <logger name="httpclient.wire" level="DEBUG"/>
@@ -53,19 +51,14 @@
     <logger name="sun.net.www.protocol.http.HttpURLConnection" level="TRACE"/>
     -->
 
-	<logger name="com.francetelecom.clara.cloud.activation.plugin.cf" level="DEBUG"/>
+	<!--<logger name="com.francetelecom.clara.cloud.activation.plugin.cf" level="DEBUG"/>-->
 	<!-- other deps -->
 	<logger name="org.springframework.transaction" level="WARN" />
-	<logger name="fr.dyade" level="WARN" />
-	<logger name="org.objectweb.joram" level="WARN" />
 	<logger name="org.hibernate" level="WARN" />
 <!--     <logger name="org.hibernate.cfg.beanvalidation.BeanValidationEventListener" level="TRACE"/> -->
-    <logger name="com.usharesoft.client" level="WARN" />
 	<logger name="freemarker" level="WARN" />
 	<logger name="freemarker.cache" level="WARN" />
 
-	<!-- For integration tests, please leave this as DEBUG to ensure better analysis of IaaS failures -->
-	<logger name="com.vmware.vcloud.sdk" level="ERROR"/>
 
 	<!-- This logger is used to dump entities in XML, set DEBUG only if necessary -->
 	<logger name="com.francetelecom.clara.cloud.dump" level="ERROR"/>

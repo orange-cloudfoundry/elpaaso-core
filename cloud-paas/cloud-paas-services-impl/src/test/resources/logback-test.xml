@@ -25,15 +25,14 @@
   <logger name="org.quartz" level="WARN"/>
 
   <!--  INFO level for application -->
-<logger name="com.francetelecom.clara.cloud" level="${loglevel-cloud:-INFO}" />
-  <logger name="com.francetelecom.clara.cloud.dao" level="DEBUG"/>
-  <logger name="com.francetelecom.clara.cloud.service" level="DEBUG"/>
-  <logger name="com.francetelecom.clara.cloud.application.impl" level="DEBUG"/>
-  <logger name="com.francetelecom.clara.cloud.environment.impl" level="DEBUG"/>
-  <logger name="com.francetelecom.clara.cloud.scalability.helper" level="DEBUG"/>
-  <logger name="com.francetelecom.clara.cloud.paas.activation" level="DEBUG"/>
-  <logger name="com.francetelecom.clara.cloud.paas.activation.v1" level="DEBUG"/>
-  <logger name="com.francetelecom.clara.cloud.commons.P6SpyAppender" level="DEBUG"/>
+<!--<logger name="com.francetelecom.clara.cloud" level="${loglevel-cloud:-INFO}" />-->
+  <!--<logger name="com.francetelecom.clara.cloud.service" level="DEBUG"/>-->
+  <!--<logger name="com.francetelecom.clara.cloud.application.impl" level="DEBUG"/>-->
+  <!--<logger name="com.francetelecom.clara.cloud.environment.impl" level="DEBUG"/>-->
+  <!--<logger name="com.francetelecom.clara.cloud.scalability.helper" level="DEBUG"/>-->
+  <!--<logger name="com.francetelecom.clara.cloud.paas.activation" level="DEBUG"/>-->
+  <!--<logger name="com.francetelecom.clara.cloud.paas.activation.v1" level="DEBUG"/>-->
+  <!--<logger name="com.francetelecom.clara.cloud.commons.P6SpyAppender" level="DEBUG"/>-->
 
 
     <root level="INFO">

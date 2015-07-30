@@ -23,7 +23,7 @@
 	</appender>
 
 	<!-- INFO level for application -->
-	<logger name="com.francetelecom.clara.cloud" level="DEBUG" />
+	<!--<logger name="com.francetelecom.clara.cloud" level="DEBUG" />-->
 	<logger name="com.gargoylesoftware.htmlunit" level="ERROR" />
 
     <!-- This logger is used to dump entities in XML, set DEBUG only if necessary -->

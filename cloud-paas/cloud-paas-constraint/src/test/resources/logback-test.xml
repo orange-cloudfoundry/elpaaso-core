@@ -23,7 +23,7 @@
   <!--  INFO level for application -->
 <logger name="com.francetelecom.clara.cloud" level="${loglevel-cloud:-INFO}" />
 
-  <root level="DEBUG">
+  <root level="INFO">
     <appender-ref ref="stdout"/>
     <appender-ref ref="file"/>
   </root>

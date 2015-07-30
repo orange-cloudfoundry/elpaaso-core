@@ -23,12 +23,8 @@
 	</appender>
 
 	<!-- INFO level for application -->
-	<logger name="com.francetelecom.clara.cloud" level="INFO" />
-	<logger name="com.francetelecom.clara.cloud.paas.projection" level="DEBUG" />
-
-	<!-- For integration tests, please leave this as DEBUG to ensure better 
-		analysis of IaaS failures -->
-	<logger name="com.vmware.vcloud.sdk" level="ERROR" />
+	<!--<logger name="com.francetelecom.clara.cloud" level="INFO" />-->
+	<!--<logger name="com.francetelecom.clara.cloud.paas.projection" level="DEBUG" />-->
 
 	<!-- This logger is used to dump entities in XML, set DEBUG only if necessary -->
 	<logger name="com.francetelecom.clara.cloud.dump" level="ERROR" />

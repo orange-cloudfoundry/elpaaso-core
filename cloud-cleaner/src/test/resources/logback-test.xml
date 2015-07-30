@@ -28,7 +28,7 @@
 	</appender>
 
 	<!-- INFO level for application -->
-	<logger name="com.orange.clara.cloud" level="INFO" />
+	<logger name="com.orange.clara.cloud" level="${loglevel-cloud:-INFO}"/>
 	<!-- <logger name="org.springframework" level="DEBUG"/> -->
 
 	<root level="INFO">

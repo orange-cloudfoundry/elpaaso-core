@@ -25,8 +25,8 @@
 	</appender>
 
 	<!-- INFO level for application -->
-	<logger name="com.francetelecom.clara.cloud.cfconsumer" level="DEBUG" />
-	<logger name="com.francetelecom.clara.cloud.activation.plugin.cf" level="DEBUG" />
+	<!--<logger name="com.francetelecom.clara.cloud.cfconsumer" level="DEBUG" />-->
+	<!--<logger name="com.francetelecom.clara.cloud.activation.plugin.cf" level="DEBUG" />-->
 
 	<logger name="org.apache.http.client" level="INFO" />
 	<!-- <logger name="org.apache.http.wire" level="DEBUG"/> 
