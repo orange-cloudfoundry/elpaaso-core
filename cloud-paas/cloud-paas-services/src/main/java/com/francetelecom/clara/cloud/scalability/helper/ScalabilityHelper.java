@@ -93,29 +93,29 @@ public class ScalabilityHelper {
 	public void razData(boolean activationIsAvailable) throws BusinessException {
 		Collection<Application> apps = manageApplication.findApplications();
 		if (apps != null && apps.size() > 0) {
-			logger.info("remove {} apps", apps.size());
+			logger.debug("remove {} apps", apps.size());
 			for (Application app : apps) {
 				try {
                     List<ApplicationRelease> applicationReleases = manageApplicationRelease.findApplicationReleasesByAppUID(app.getUID());
-                    logger.info("remove app {} releases", applicationReleases.size());
+                    logger.debug("remove app {} releases", applicationReleases.size());
                     for (ApplicationRelease ar : applicationReleases) {
                         List<EnvironmentDto> allAREnvironments = manageEnvironment.findEnvironmentsByAppRelease(ar.getUID());
-                        logger.info("remove app {} envs", allAREnvironments.size());
+                        logger.debug("remove app {} envs", allAREnvironments.size());
                         for (EnvironmentDto env : allAREnvironments) {
 
                             String envName = env.getUid();
-                            logger.info("remove env '{}'", envName);
+                            logger.debug("remove env '{}'", envName);
                             if (activationIsAvailable) {
                                 manageEnvironment.deleteEnvironment(envName);
-                                logger.info("wait env '{}' to be removed", envName);
+                                logger.debug("wait env '{}' to be removed", envName);
                                 waitForStatus(envName, EnvironmentStatusEnum.REMOVED);
                             } else {
                                 manageEnvironment.forceStatusForAndEnvironment(envName, EnvironmentStatus.REMOVED);
                             }
-                            logger.info("purge env '{}'", envName);
+                            logger.debug("purge env '{}'", envName);
                             manageEnvironment.purgeRemovedEnvironment(envName);
 						}
-                        logger.info("purge release '{}'", ar.getUID());
+                        logger.debug("purge release '{}'", ar.getUID());
                         manageApplicationRelease.deleteAndPurgeApplicationRelease(ar.getUID());
 					}
 					manageApplication.purgeApplication(app.getUID());
