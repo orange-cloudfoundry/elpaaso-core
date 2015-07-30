@@ -17,39 +17,42 @@ import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.PropertySources;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.ContextHierarchy;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@Import(LdapContext.class)
-@ContextConfiguration("classpath:/spring-config/ldap-checker-context.xml")
+@ContextConfiguration
 public class LdapAccessCheckerIT {
-	@Autowired
-	LdapAccessChecker ldapAccessChecker;
 
-	@Bean
-	public static PropertySourcesPlaceholderConfigurer placeHolderConfigurer() {
-		return new PropertySourcesPlaceholderConfigurer();
-		}
+    @Configuration
+    @ImportResource("classpath:/spring-config/ldap-checker-context.xml")
+    @Import(LdapContext.class)
+    static class Context{
+    }
+
+    @Autowired
+    LdapAccessChecker ldapAccessChecker;
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer placeHolderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
 
 
-	
-	@Test
-	public void test() {
-		ldapAccessChecker.addUserToPaasUserGroup("testuser");
-		ldapAccessChecker.addUserToSplunkUserGroup("testuser");
-		ldapAccessChecker.addUserToNexusUserGroup("testuser");
-	}
+    @Test
+    public void test() {
+        ldapAccessChecker.addUserToPaasUserGroup("testuser");
+        ldapAccessChecker.addUserToSplunkUserGroup("testuser");
+        ldapAccessChecker.addUserToNexusUserGroup("testuser");
+    }
 
-	@After
-	public void tearDown() {
-		ldapAccessChecker.removeUserFromPaasUserGroup("testuser");
-		ldapAccessChecker.removeUserFromSplunkUserGroup("testuser");
-		ldapAccessChecker.removeUserFromNexusUserGroup("testuser");
-	}
-
+    @After
+    public void tearDown() {
+        ldapAccessChecker.removeUserFromPaasUserGroup("testuser");
+        ldapAccessChecker.removeUserFromSplunkUserGroup("testuser");
+        ldapAccessChecker.removeUserFromNexusUserGroup("testuser");
+    }
 }
