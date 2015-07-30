@@ -44,6 +44,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -65,6 +67,8 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:spring-config/designer-context.xml")
 public class ConfigConstraintsTest {
+    private static final Logger logger = LoggerFactory.getLogger(ConfigConstraintsTest.class);
+
 
     @Autowired
     private ManageApplication manageApplication;
@@ -198,13 +202,21 @@ public class ConfigConstraintsTest {
         // Given: an application with its release and an architecture with a JEE Processing node
         myTester.assertNoErrorMessage();
         CreateObjectsWithGUI.createJEEProcessing(myTester, "execNode", "com.francetelecom.clara.prototype.springoojpa", "springoojpa-ear", "6.1.0", "", false, 128);
-        myTester.dumpPage();
+        if (logger.isDebugEnabled()) {
+            myTester.dumpPage();
+        }
         CreateObjectsWithGUI.createConfig(myTester, "config1", "invalid", "Key=value1");
         CreateObjectsWithGUI.createConfig(myTester, "config2", "invalid", "Key=value2");
-        myTester.dumpPage();
+        if (logger.isDebugEnabled()) {
+            myTester.dumpPage();
+        }
+
         CreateObjectsWithGUI.createAssociationAtCell(myTester, 7, 4);
         CreateObjectsWithGUI.createAssociationAtCell(myTester, 8, 4);
-        myTester.dumpPage();
+        if (logger.isDebugEnabled()) {
+            myTester.dumpPage();
+        }
+
         // go on designer step three page to check architecture overall consistency
         NavigationUtils.goOnNextStep(myTester);
 

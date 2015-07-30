@@ -53,6 +53,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.context.ContextConfiguration;
@@ -71,6 +73,7 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:spring-config/designer-context.xml")
 public class EditServiceIT {
+	private static final Logger logger = LoggerFactory.getLogger(EditServiceIT.class);
 
 	@Autowired
 	private ManageApplication manageApplication;
@@ -286,7 +289,10 @@ public class EditServiceIT {
 			// modify service label. just add row index at the end of original
 			// label			
 			DeleteEditObjects.modifyServiceLabelAtRow(myTester, index);
-			myTester.dumpPage();
+			if (logger.isDebugEnabled()) {
+				myTester.dumpPage();
+			}
+
 			// test value of service label in designer matrix
 			Assert.assertEquals("matrix panel has not been updated", service.getLabel() + index,
 					myTester.getComponentFromLastRenderedPage(NavigationUtils.getPathForCell(index, 0) + ":label").getDefaultModelObject().toString());

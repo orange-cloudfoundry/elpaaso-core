@@ -262,7 +262,10 @@ public class ReleasePagesTest {
         assertThat(middlewareProfileVersionTester.getAttribute("disabled"))
                 .as("middlewareProfileVersion should be read only")
                 .isNotNull();
-        myTester.dumpPage();
+
+        if (logger.isDebugEnabled()) {
+            myTester.dumpPage();
+        }
         assertThat(middlewareProfileVersionTester.getAttribute("value")).isEqualTo(MiddlewareProfile.getDefault().getVersion());
 
         // test that modify release button is visible
