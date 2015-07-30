@@ -21,14 +21,7 @@
   </appender>
 
   <!--  INFO level for application -->
-  <logger name="com.francetelecom.clara.cloud" level="${loglevel-cloud:-INFO}" />
-    <!--<logger name="com.francetelecom.clara.cloud.application.impl" level="DEBUG"/>-->
-
-    <logger name="ch.qos.logback.classic" level="WARN"/>
-    <logger name="org.apache.wicket" level="INFO"/>
-    <logger name="org.apache.wicket.RequestListenerInterface" level="WARN"/>
-    <logger name="org.apache.wicket.Localizer" level="WARN"/>
-
+<!--<logger name="com.francetelecom.clara.cloud" level="${loglevel-cloud:-INFO}" />-->
 
   <root level="INFO">
     <appender-ref ref="stdout"/>

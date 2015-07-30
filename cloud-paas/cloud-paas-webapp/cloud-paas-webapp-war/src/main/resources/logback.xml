@@ -42,7 +42,6 @@
     <logger name="org.apache.wicket.Localizer" level="${loglevel-wicket-localizer:-INFO}"/>
 
     <!-- set dao.impl to DEBUG to see the TD XML -->
-    <!-- <logger name="com.francetelecom.clara.cloud.dao.impl" level="DEBUG" /> -->
     <logger name="com.francetelecom.clara.cloud.paas.constraint" level="WARN"/>
     <logger name="com.francetelecom.clara.cloud.logicalmodel" level="INFO"/>
     <!-- This logger is used to dump entities in XML, set DEBUG only if necessary -->
