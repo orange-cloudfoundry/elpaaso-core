@@ -70,7 +70,9 @@
         </repository>
     </repositories>
     <properties>
-        <systemTestAppsVersion>1.0-SNAPSHOT</systemTestAppsVersion>
+        <!-- version of PaaS system test apps; used in several modules (e.g. logical-model,
+            paas-services-int, cloud-mvn-consumer) -->
+        <systemTestAppsVersion>2.0-SNAPSHOT</systemTestAppsVersion>
         <!-- == Project env == -->
         <project.build.java.version>1.8</project.build.java.version>
         <!--<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> -->
@@ -82,8 +84,6 @@
         <skipUTs>${skipTests}</skipUTs>
         <skipITs>true</skipITs>
         <skipATs>true</skipATs>
-        <!-- version of PaaS sample apps; used in several modules (e.g. logical-model,
-            paas-services-int, cloud-mvn-consumer) -->
         <wsdl.administration.version>5.0-SNAPSHOT</wsdl.administration.version>
         <wsdl.environment.version>4.0-SNAPSHOT</wsdl.environment.version>
         <wsdl.incubator.version>5.0-SNAPSHOT</wsdl.incubator.version>
