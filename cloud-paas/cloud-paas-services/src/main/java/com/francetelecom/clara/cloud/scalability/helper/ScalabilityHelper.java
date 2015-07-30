@@ -232,7 +232,7 @@ public class ScalabilityHelper {
 		int nbDB = StringUtils.countMatches(logicalModelPattern, LETTER_DATABASE);
 		int nbStore = StringUtils.countMatches(logicalModelPattern, LETTER_STORE);
 		int nbNode = StringUtils.countMatches(logicalModelPattern, LETTER_NODE);
-		logger.info("logicalModelFactory {} ", releaseName);
+		logger.debug("logicalModelFactory {} ", releaseName);
 		Collection<LogicalWebGUIService> guis = new ArrayList<LogicalWebGUIService>();
 		Collection<LogicalRelationalService> dbs = new ArrayList<LogicalRelationalService>();
 		Collection<LogicalOnlineStorageService> stores = new ArrayList<LogicalOnlineStorageService>();
@@ -382,7 +382,7 @@ public class ScalabilityHelper {
 		len.setSoftwareReference(sampleAppProperties.getMavenReference(appName, type));
 		MavenReference lenMr = len.getSoftwareReference();
 		assert (lenMr != null) : "maven reference should not be null ! for " + appName;
-		logger.info("resolve execution node maven reference {}", lenMr.toString());
+		logger.debug("resolve execution node maven reference {}", lenMr.toString());
 
 		ld.addExecutionNode(len);
 
