@@ -112,13 +112,13 @@ public class StatsEnvironmentPageIT {
    	private AuthenticationManager authenticationManager;
 
     private String cuid = "testuser";
-    private PaasRoleEnum role = PaasRoleEnum.ROLE_USER;
+    private PaasRoleEnum role = PaasRoleEnum.ROLE_ADMIN;
 
     @Before
     public void init() throws BusinessException, MalformedURLException {
         
     	// given Admin is authenticated
-		AuthenticationUtil.connectAsAdmin();
+		AuthenticationUtil.connectAs(cuid,role.toString());
 
     	// Enable Hibernate Stats and clear them
         sessionFactory.getStatistics().setStatisticsEnabled(true);
@@ -156,16 +156,16 @@ public class StatsEnvironmentPageIT {
         // see art #82545 for details
         refs.put(HibernateStatsReferenceType.DURATION, Long.valueOf(10000));
         refs.put(HibernateStatsReferenceType.QUERY_COUNT, Long.valueOf(2));
-        refs.put(HibernateStatsReferenceType.QUERY_MAX_TIME_MS, Long.valueOf(250));
+        refs.put(HibernateStatsReferenceType.QUERY_MAX_TIME_MS, Long.valueOf(1400));
 
 		refs.put(HibernateStatsReferenceType.ENTITY_FETCH_COUNT, Long.valueOf(5));
-		refs.put(HibernateStatsReferenceType.ENTITY_LOAD_COUNT, Long.valueOf(60));
+		refs.put(HibernateStatsReferenceType.ENTITY_LOAD_COUNT, Long.valueOf(44));
         refs.put(HibernateStatsReferenceType.ENTITY_INSERT_COUNT, Long.valueOf(0));
         refs.put(HibernateStatsReferenceType.ENTITY_DELETE_COUNT, Long.valueOf(0));
         refs.put(HibernateStatsReferenceType.ENTITY_UPDATE_COUNT, Long.valueOf(0));
 
-		refs.put(HibernateStatsReferenceType.COLLECTION_FETCH_COUNT, Long.valueOf(26));
-		refs.put(HibernateStatsReferenceType.COLLECTION_LOAD_COUNT, Long.valueOf(28));
+		refs.put(HibernateStatsReferenceType.COLLECTION_FETCH_COUNT, Long.valueOf(13));
+		refs.put(HibernateStatsReferenceType.COLLECTION_LOAD_COUNT, Long.valueOf(58));
         refs.put(HibernateStatsReferenceType.COLLECTION_RECREATE_COUNT, Long.valueOf(0));
         refs.put(HibernateStatsReferenceType.COLLECTION_REMOVE_COUNT, Long.valueOf(0));
         refs.put(HibernateStatsReferenceType.COLLECTION_UPDATE_COUNT, Long.valueOf(0));

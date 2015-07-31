@@ -44,6 +44,9 @@ import java.util.List;
 public class ManageEnvironmentImplUtils {
 
 	@Autowired
+	private SecurityUtils securityUtils;
+
+	@Autowired
 	private EnvironmentRepository environmentRepository;
 
 	@Autowired
@@ -132,7 +135,7 @@ public class ManageEnvironmentImplUtils {
 
 
     private void assertHasWritePermissionFor(ApplicationRelease release) {
-		SecurityUtils.assertHasWritePermissionFor(release);
+		securityUtils.assertHasWritePermissionFor(release);
 	}
 
 	/**

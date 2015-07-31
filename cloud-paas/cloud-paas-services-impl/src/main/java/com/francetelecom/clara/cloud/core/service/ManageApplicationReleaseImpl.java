@@ -43,6 +43,9 @@ public class ManageApplicationReleaseImpl implements ManageApplicationRelease {
 
     private static final Logger log = LoggerFactory.getLogger(ManageApplicationReleaseImpl.class);
 
+    @Autowired
+    private SecurityUtils securityUtils;
+
     @Autowired(required = true)
     private ApplicationReleaseRepository applicationReleaseRepository;
 
@@ -63,17 +66,17 @@ public class ManageApplicationReleaseImpl implements ManageApplicationRelease {
 
     @Override
     public List<ApplicationRelease> findApplicationReleases(int firstIndex, int count) {
-        if (SecurityUtils.currentUserIsAdmin()) {
+        if (securityUtils.currentUserIsAdmin()) {
             return applicationReleaseRepository.findAll();
         } else {
-            return applicationReleaseRepository.findAllPublicOrPrivateByMember(SecurityUtils.currentUser().getValue());
+            return applicationReleaseRepository.findAllPublicOrPrivateByMember(securityUtils.currentUser().getValue());
         }
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public List<ApplicationRelease> findMyApplicationReleases() {
-            return (List<ApplicationRelease>) applicationReleaseRepository.findAllByApplicationMember(SecurityUtils.currentUser().getValue());
+            return (List<ApplicationRelease>) applicationReleaseRepository.findAllByApplicationMember(securityUtils.currentUser().getValue());
     }
 
     @Override
@@ -85,10 +88,10 @@ public class ManageApplicationReleaseImpl implements ManageApplicationRelease {
             log.info(message);
             throw new ApplicationNotFoundException(message);
         }
-        if (SecurityUtils.currentUserIsAdmin()) {
+        if (securityUtils.currentUserIsAdmin()) {
             return applicationReleaseRepository.findApplicationReleasesByAppUID(applicationUid);
         } else {
-            return applicationReleaseRepository.findPublicOrPrivateByMemberAndByAppUID(SecurityUtils.currentUser().getValue(), applicationUid);
+            return applicationReleaseRepository.findPublicOrPrivateByMemberAndByAppUID(securityUtils.currentUser().getValue(), applicationUid);
         }
     }
 
@@ -176,15 +179,15 @@ public class ManageApplicationReleaseImpl implements ManageApplicationRelease {
     }
 
     private void assertHasWritePermissionFor(ApplicationRelease applicationRelease) {
-        SecurityUtils.assertHasWritePermissionFor(applicationRelease);
+        securityUtils.assertHasWritePermissionFor(applicationRelease);
     }
 
     private boolean hasWritePermissionFor(ApplicationRelease applicationRelease) {
-        return SecurityUtils.hasWritePermissionFor(applicationRelease.getApplication());
+        return securityUtils.hasWritePermissionFor(applicationRelease.getApplication());
     }
 
     private void assertHasReadPermissionFor(ApplicationRelease applicationRelease) {
-        SecurityUtils.assertHasReadPermissionFor(applicationRelease);
+        securityUtils.assertHasReadPermissionFor(applicationRelease);
     }
 
     @Override
@@ -263,16 +266,16 @@ public class ManageApplicationReleaseImpl implements ManageApplicationRelease {
 
     @Override
     public long countApplicationReleases() {
-        if (SecurityUtils.currentUserIsAdmin()) {
+        if (securityUtils.currentUserIsAdmin()) {
             return applicationReleaseRepository.countApplicationReleases();
         } else {
-            return applicationReleaseRepository.countPublicOrPrivateByMember(SecurityUtils.currentUser().getValue());
+            return applicationReleaseRepository.countPublicOrPrivateByMember(securityUtils.currentUser().getValue());
         }
     }
 
     @Override
     public long countMyApplicationReleases() {
-        return applicationReleaseRepository.countByApplicationMember(SecurityUtils.currentUser().getValue());
+        return applicationReleaseRepository.countByApplicationMember(securityUtils.currentUser().getValue());
     }
 
     @Override
@@ -283,10 +286,10 @@ public class ManageApplicationReleaseImpl implements ManageApplicationRelease {
             log.info(message);
             throw new ApplicationNotFoundException(message);
         }
-        if (SecurityUtils.currentUserIsAdmin()) {
+        if (securityUtils.currentUserIsAdmin()) {
             return applicationReleaseRepository.countApplicationReleasesByApplicationUID(applicationUID);
         } else {
-            return applicationReleaseRepository.countPublicOrPrivateByMemberAndByAppUID(SecurityUtils.currentUser().getValue(), applicationUID);
+            return applicationReleaseRepository.countPublicOrPrivateByMemberAndByAppUID(securityUtils.currentUser().getValue(), applicationUID);
         }
     }
 

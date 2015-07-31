@@ -66,6 +66,9 @@ public class ManageEnvironmentImpl implements ManageEnvironment {
     private static final String LOG_KEY_ENVUID = "env_uid";
 
     @Autowired
+    private SecurityUtils securityUtils;
+
+    @Autowired
     private ManageEnvironmentImplUtils utils;
 
     @Value("${paas.schedule.databasePurge.retentionDelayInDay}")
@@ -150,11 +153,11 @@ public class ManageEnvironmentImpl implements ManageEnvironment {
     }
 
     private void assertHasWritePermissionFor(Environment environment) {
-        SecurityUtils.assertHasWritePermissionFor(environment);
+        securityUtils.assertHasWritePermissionFor(environment);
     }
 
     private void assertHasReadPermissionFor(Environment environment) {
-        SecurityUtils.assertHasReadPermissionFor(environment);
+        securityUtils.assertHasReadPermissionFor(environment);
     }
 
     @Override
@@ -190,17 +193,17 @@ public class ManageEnvironmentImpl implements ManageEnvironment {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public List<EnvironmentDto> findEnvironments() {
-        if (SecurityUtils.currentUserIsAdmin()) {
+        if (securityUtils.currentUserIsAdmin()) {
             return environmentMapper.toEnvironmentDtoList(environmentRepository.findAllActive());
         } else {
-            return environmentMapper.toEnvironmentDtoList(environmentRepository.findAllPublicOrPrivateByMember(SecurityUtils.currentUser().getValue()));
+            return environmentMapper.toEnvironmentDtoList(environmentRepository.findAllPublicOrPrivateByMember(securityUtils.currentUser().getValue()));
         }
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     public List<EnvironmentDto> findMyEnvironments() {
-        return environmentMapper.toEnvironmentDtoList(environmentRepository.findAllActiveByApplicationMember(SecurityUtils.currentUser().getValue()));
+        return environmentMapper.toEnvironmentDtoList(environmentRepository.findAllActiveByApplicationMember(securityUtils.currentUser().getValue()));
     }
 
     @Override
@@ -212,10 +215,10 @@ public class ManageEnvironmentImpl implements ManageEnvironment {
             throw new ApplicationReleaseNotFoundException("ApplicationRelease#" + releaseUID);
         }
         // cannot see if not authorized
-        if (SecurityUtils.currentUserIsAdmin()) {
+        if (securityUtils.currentUserIsAdmin()) {
             return environmentMapper.toEnvironmentDtoList(environmentRepository.findAllActiveByApplicationReleaseUid(releaseUID));
         } else {
-            return environmentMapper.toEnvironmentDtoList(environmentRepository.findAllPublicOrPrivateByMemberAndByApplicationRelease(releaseUID, SecurityUtils.currentUser().getValue()));
+            return environmentMapper.toEnvironmentDtoList(environmentRepository.findAllPublicOrPrivateByMemberAndByApplicationRelease(releaseUID, securityUtils.currentUser().getValue()));
         }
     }
 
@@ -487,7 +490,7 @@ public class ManageEnvironmentImpl implements ManageEnvironment {
         EnvironmentDetailsDto dto = new EnvironmentDetailsDto(uid, internalName, label, appLabel, appReleaseUid, releaseVersion, envPaasUserSsoId, paasUserName, envCreationDate,
                 envTypeEnum, envStatusEnum, envStatusMessage, envStatusPercent, envComment, envTdiTdName);
 
-        dto.setEditable(SecurityUtils.hasWritePermissionFor(env));
+        dto.setEditable(securityUtils.hasWritePermissionFor(env));
 
         dto.setLinkDtoMap(getEnvironmentLinkDtos(env));
 
@@ -524,16 +527,16 @@ public class ManageEnvironmentImpl implements ManageEnvironment {
 
     @Override
     public Long countEnvironments() {
-        if (SecurityUtils.currentUserIsAdmin()) {
+        if (securityUtils.currentUserIsAdmin()) {
             return environmentRepository.countActive();
         } else {
-            return environmentRepository.countPublicOrPrivateByMember(SecurityUtils.currentUser().getValue());
+            return environmentRepository.countPublicOrPrivateByMember(securityUtils.currentUser().getValue());
         }
     }
 
     @Override
     public Long countMyEnvironments() {
-        return environmentRepository.countActiveByApplicationMember(SecurityUtils.currentUser().getValue());
+        return environmentRepository.countActiveByApplicationMember(securityUtils.currentUser().getValue());
     }
 
     @Override
@@ -543,10 +546,10 @@ public class ManageEnvironmentImpl implements ManageEnvironment {
             throw new ApplicationReleaseNotFoundException("ApplicationRelease#" + releaseUID);
         }
         // cannot see if not authorized
-        if (SecurityUtils.currentUserIsAdmin()) {
+        if (securityUtils.currentUserIsAdmin()) {
             return environmentRepository.countActiveByApplicationReleaseUid(releaseUID);
         } else {
-            return environmentRepository.countAllPublicOrPrivateByMemberAndByApplicationRelease(releaseUID, SecurityUtils.currentUser().getValue());
+            return environmentRepository.countAllPublicOrPrivateByMemberAndByApplicationRelease(releaseUID, securityUtils.currentUser().getValue());
         }
     }
 

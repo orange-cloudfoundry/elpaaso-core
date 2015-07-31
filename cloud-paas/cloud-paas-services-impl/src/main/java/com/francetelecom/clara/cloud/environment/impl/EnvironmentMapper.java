@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
 import com.francetelecom.clara.cloud.core.service.SecurityUtils;
@@ -25,6 +26,9 @@ import com.francetelecom.clara.cloud.services.dto.EnvironmentDto.EnvironmentStat
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto.EnvironmentTypeEnum;
 
 public class EnvironmentMapper {
+
+	@Autowired
+	private SecurityUtils securityUtils;
 
 	private EnvironmentDto toEnvironmentDto(Environment environment, boolean writable) {
 		String environmentUid = environment.getUID();
@@ -54,14 +58,14 @@ public class EnvironmentMapper {
 	
 	public EnvironmentDto toEnvironmentDto(Environment environment) {
 		Assert.notNull(environment,"cannot convert environment. Environment <"+environment+"> is not valid");
-		return toEnvironmentDto(environment, SecurityUtils.hasWritePermissionFor(environment));
+		return toEnvironmentDto(environment, securityUtils.hasWritePermissionFor(environment));
 	}
 
 	public List<EnvironmentDto> toEnvironmentDtoList(List<Environment> environments) {
 		List<EnvironmentDto> dtos = new ArrayList<EnvironmentDto>();
 		if (environments != null) {
 			for (Environment environment : environments) {
-				dtos.add(toEnvironmentDto(environment, SecurityUtils.hasWritePermissionFor(environment)));
+				dtos.add(toEnvironmentDto(environment, securityUtils.hasWritePermissionFor(environment)));
 			}
 		}
 		return dtos;

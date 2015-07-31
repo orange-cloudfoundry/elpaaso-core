@@ -161,5 +161,8 @@
         </property>
     </bean>
 
+    <bean id="securityContextUtil" class="com.francetelecom.clara.cloud.core.service.SecurityContextUtilImpl"/>
+
+    <bean id="securityUtils" class="com.francetelecom.clara.cloud.core.service.SecurityUtils"/>
 
 </beans>

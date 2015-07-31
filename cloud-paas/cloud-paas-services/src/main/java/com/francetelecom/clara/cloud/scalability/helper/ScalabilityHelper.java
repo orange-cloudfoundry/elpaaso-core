@@ -186,10 +186,11 @@ public class ScalabilityHelper {
 		opsTeam.add("QA");
 		opsTeam.add("Dev1");
 		opsTeam.add("Dev2");
+		int i=0;
 		for (String name : opsTeam) {
 			String nameToUse = namePrefix + "." + name;
 
-			PaasUser pUsr = new PaasUser(nameToUse,nameToUse,new SSOId("ssoid"),nameToUse + "." + nameToUse + "@orange.com");
+			PaasUser pUsr = new PaasUser(nameToUse,nameToUse,new SSOId("ssoid"+i++),nameToUse + "." + nameToUse + "@orange.com");
 			managePaasUser.checkBeforeCreatePaasUser(pUsr);
 			createdUsers.add(pUsr);
 		}

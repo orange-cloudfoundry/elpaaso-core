@@ -16,6 +16,7 @@ import java.util.Collection;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,69 +32,59 @@ import com.francetelecom.clara.cloud.coremodel.SSOId;
 public class SecurityUtils {
 	private static Logger LOGGER = LoggerFactory.getLogger(SecurityUtils.class);
 
+	@Autowired
+	SecurityContextUtil securityContextUtil;
 
-	public static SSOId currentUser() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication == null) {
-			throw new TechnicalException("User is not authenticated. No authentication token found.");
-		}
-		return new SSOId(authentication.getName());
+	public SecurityUtils() {
 	}
 
-	public static boolean currentUserIsAdmin() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication == null) {
-			// FIXME raise a specific exception
-			throw new TechnicalException("User is not authenticated. No authentication token found.");
-		}
-		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-		for (GrantedAuthority grantedAuthority : authorities) {
-			if (grantedAuthority.getAuthority().equals(PaasRoleEnum.ROLE_ADMIN.toString())) {
-				return true;
-			}
-		}
-		return false;
+	public SSOId currentUser() {
+		return new SecurityContextUtilImpl().currentUser();
 	}
 
-	public static boolean hasWritePermissionFor(Application application) {
-		return SecurityUtils.currentUserIsAdmin() || application.hasForMember(SecurityUtils.currentUser());
+	public boolean currentUserIsAdmin() {
+		return new SecurityContextUtilImpl().currentUserIsAdmin();
+	}
+
+	public boolean hasWritePermissionFor(Application application) {
+		return currentUserIsAdmin() || application.hasForMember(currentUser());
 	}
 	
-	public static void assertHasWritePermissionFor(Application application) {
+	public void assertHasWritePermissionFor(Application application) {
 		if (!hasWritePermissionFor(application))
 			throw new AuthorizationException();
 	}
 	
-	public static void assertHasWritePermissionFor(ApplicationRelease release) {
+	public void assertHasWritePermissionFor(ApplicationRelease release) {
 		assertHasWritePermissionFor(release.getApplication());
 	}
 	
-	public static void assertHasWritePermissionFor(Environment environment) {
+	public void assertHasWritePermissionFor(Environment environment) {
 		assertHasWritePermissionFor(environment.getApplicationRelease());
 	}
 
-	public static void assertHasReadPermissionFor(Environment environment) {
+	public void assertHasReadPermissionFor(Environment environment) {
 		assertHasReadPermissionFor(environment.getApplicationRelease());	
 	}
 
-	public static void assertHasReadPermissionFor(ApplicationRelease applicationRelease) {
+	public void assertHasReadPermissionFor(ApplicationRelease applicationRelease) {
 		assertHasReadPermissionFor(applicationRelease.getApplication());
 	}
 
-	private static void assertHasReadPermissionFor(Application application) {
+	private void assertHasReadPermissionFor(Application application) {
 		if (!hasReadPermissionFor(application))
 			throw new AuthorizationException();
 	}
 
-	private static boolean hasReadPermissionFor(Application application) {
-		return SecurityUtils.currentUserIsAdmin() || application.hasForMember(SecurityUtils.currentUser()) || application.isPublic();
+	private boolean hasReadPermissionFor(Application application) {
+		return currentUserIsAdmin() || application.hasForMember(currentUser()) || application.isPublic();
 	}
 
-	public static boolean hasWritePermissionFor(Environment environment) {
+	public boolean hasWritePermissionFor(Environment environment) {
 		return hasWritePermissionFor(environment.getApplicationRelease());
 	}
 
-	private static boolean hasWritePermissionFor(ApplicationRelease applicationRelease) {
+	private boolean hasWritePermissionFor(ApplicationRelease applicationRelease) {
 		return hasWritePermissionFor(applicationRelease.getApplication());
 	}
 }

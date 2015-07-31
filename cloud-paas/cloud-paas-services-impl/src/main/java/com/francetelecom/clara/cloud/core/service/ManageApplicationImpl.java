@@ -47,6 +47,9 @@ public class ManageApplicationImpl implements ManageApplication {
 
 	private static final Logger log = LoggerFactory.getLogger(ManageApplicationImpl.class);
 
+	@Autowired
+	private SecurityUtils securityUtils;
+
 	@Autowired(required = true)
 	private ApplicationRepository applicationRepository;
 
@@ -70,10 +73,10 @@ public class ManageApplicationImpl implements ManageApplication {
 
 	@Override
 	public List<Application> findAccessibleApplications() {
-		if (SecurityUtils.currentUserIsAdmin()) {
+		if (securityUtils.currentUserIsAdmin()) {
 			return findApplications();
 		} else {
-			List<Application> applications = applicationRepository.findAll(where(isActive()).and(isPublicOrHasForMember(SecurityUtils.currentUser())));
+			List<Application> applications = applicationRepository.findAll(where(isActive()).and(isPublicOrHasForMember(securityUtils.currentUser())));
 			for (Application application : applications) {
 				application.setEditable(hasWritePermissionFor(application));
 			}
@@ -83,7 +86,7 @@ public class ManageApplicationImpl implements ManageApplication {
 
 	@Override
 	public List<Application> findMyApplications() {
-			return applicationRepository.findAll(where(isActive()).and(hasForMember(SecurityUtils.currentUser())), new Sort(Sort.Direction.ASC, "label"));
+			return applicationRepository.findAll(where(isActive()).and(hasForMember(securityUtils.currentUser())), new Sort(Sort.Direction.ASC, "label"));
 	}
 
 	@Override
@@ -275,7 +278,7 @@ public class ManageApplicationImpl implements ManageApplication {
 	}
 
 	private boolean hasWritePermissionFor(Application application) {
-		return SecurityUtils.hasWritePermissionFor(application);
+		return securityUtils.hasWritePermissionFor(application);
 	}
 
 	private boolean labelHasChanged(Application persisted, Application updated) {
@@ -306,7 +309,7 @@ public class ManageApplicationImpl implements ManageApplication {
 
 	@Override
 	public long countMyApplications() {
-		return applicationRepository.count(where(isActive()).and(hasForMember(SecurityUtils.currentUser())));
+		return applicationRepository.count(where(isActive()).and(hasForMember(securityUtils.currentUser())));
 	}
 
 	@Override
