@@ -1,6 +1,8 @@
 language: java
 jdk:
 - oraclejdk8
+install:
+-
 script: "[ ${TRAVIS_PULL_REQUEST} = 'false' ] && mvn clean deploy -q -B --settings settings.xml || mvn clean verify -q --settings settings.xml"
 env:
   global:
