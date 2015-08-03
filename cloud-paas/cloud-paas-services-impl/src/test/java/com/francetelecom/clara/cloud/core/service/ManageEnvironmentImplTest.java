@@ -32,6 +32,7 @@ import com.francetelecom.clara.cloud.services.dto.EnvironmentDto.EnvironmentStat
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto.EnvironmentTypeEnum;
 import org.junit.*;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
@@ -62,6 +63,13 @@ public class ManageEnvironmentImplTest {
     protected static Logger LOG = LoggerFactory.getLogger(ManageEnvironmentImplTest.class);
 
     @Spy
+    SecurityUtils securityUtils;
+    @Spy
+    SecurityContextUtilImpl securityContextUtil;
+    @Spy
+    EnvironmentMapper environmentMapper;
+
+    @InjectMocks
     ManageEnvironmentImpl manageEnvironment = new ManageEnvironmentImpl();
     @Mock
     ManageEnvironmentImplUtils manageEnvironmentImplUtilsMock;
@@ -96,20 +104,17 @@ public class ManageEnvironmentImplTest {
 
         when(environnementRepository.findOne(Mockito.anyInt())).thenReturn(environment);
         when(environnementRepository.findByUid(Mockito.matches(environment.getUID()))).thenReturn(environment);
-        manageEnvironment.setEnvironmentRepository(environnementRepository);
 
         when(manageEnvironmentImplUtilsMock.createTDI(anyString(), any(DeploymentProfileEnum.class), anyString(), anyString(), anyListOf(String.class))).thenReturn(
                 generatedEnvUid);
-        manageEnvironment.setUtils(manageEnvironmentImplUtilsMock);
 
         when(managePaasActivationMock.activate(anyInt())).thenReturn(new TaskStatusActivation());
-        manageEnvironment.setManagePaasActivation(managePaasActivationMock);
 
 
         when(releaseRepository.findByUID(release.getUID())).thenReturn(release);
-        manageEnvironment.setApplicationReleaseRepository(releaseRepository);
 
-        manageEnvironment.setEnvironmentMapper(new EnvironmentMapper());
+        securityUtils.setSecurityContextUtil(securityContextUtil);
+        environmentMapper.setSecurityUtils(securityUtils);
     }
 
     @After

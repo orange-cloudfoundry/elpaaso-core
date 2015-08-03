@@ -31,8 +31,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.net.URL;
@@ -53,6 +55,12 @@ public class ManageApplicationReleaseImplTest {
 
     private static final PaasUser JOE_DALTON = new PaasUser("Joe", "Dalton", new SSOId("jdalton"), "joe.dalton@alcatraz.com");
 
+    @Spy
+    SecurityUtils securityUtils;
+    @Spy
+    SecurityContextUtilImpl securityContextUtil;
+
+    @InjectMocks
     ManageApplicationReleaseImpl manageApplicationRelease;
 
     @Mock
@@ -73,17 +81,6 @@ public class ManageApplicationReleaseImplTest {
     @Mock
     private ProjectionService projectionServiceMock;
 
-    @Before
-    public void setup() {
-        manageApplicationRelease = new ManageApplicationReleaseImpl();
-        manageApplicationRelease.setApplicationReleaseRepository(applicationReleaseRepository);
-        manageApplicationRelease.setTechnicalDeploymentTemplateRepository(deploymentTemplateRepository);
-        manageApplicationRelease.setPaasUserRepository(paasUserRepository);
-        manageApplicationRelease.setApplicationRepository(applicationRepository);
-        manageApplicationRelease.setEnvironmentRepository(environmentRepositoryMock);
-        manageApplicationRelease.setProjectionService(projectionServiceMock);
-
-    }
 
     @After
     public void cleanSecurityContext() {

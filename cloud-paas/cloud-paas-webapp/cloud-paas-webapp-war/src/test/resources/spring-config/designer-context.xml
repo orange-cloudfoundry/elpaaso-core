@@ -101,5 +101,8 @@
     <bean id="contactUsBean" class="org.mockito.Mockito" factory-method="mock">
         <constructor-arg value="com.francetelecom.clara.cloud.presentation.models.ContactUsBean"/>
     </bean>
+    <bean id="securityContextUtil" class="com.francetelecom.clara.cloud.core.service.SecurityContextUtilImpl"/>
+
+    <bean id="securityUtils" class="com.francetelecom.clara.cloud.core.service.SecurityUtils"/>
 
 </beans>

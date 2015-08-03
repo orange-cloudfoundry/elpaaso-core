@@ -87,4 +87,8 @@ public class SecurityUtils {
 	private boolean hasWritePermissionFor(ApplicationRelease applicationRelease) {
 		return hasWritePermissionFor(applicationRelease.getApplication());
 	}
+
+	public void setSecurityContextUtil(SecurityContextUtil securityContextUtil) {
+		this.securityContextUtil = securityContextUtil;
+	}
 }

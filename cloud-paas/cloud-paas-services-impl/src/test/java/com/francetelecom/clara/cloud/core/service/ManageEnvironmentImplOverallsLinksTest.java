@@ -37,6 +37,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
@@ -67,7 +68,13 @@ public class ManageEnvironmentImplOverallsLinksTest {
     public static final String SPLUNK_PORT = "8080";
 
     @Spy
-    ManageEnvironmentImpl manageEnvironment = new ManageEnvironmentImpl();
+    SecurityUtils securityUtils;
+    @Spy
+    SecurityContextUtilImpl securityContextUtil;
+
+    @InjectMocks
+    ManageEnvironmentImpl manageEnvironment;
+
     @Mock
     ManageEnvironmentImplUtils manageEnvironmentImplUtilsMock;
     @Mock
@@ -103,16 +110,12 @@ public class ManageEnvironmentImplOverallsLinksTest {
 
         when(environmentRepository.findOne(anyInt())).thenReturn(environment);
         when(environmentRepository.findByUid(Mockito.matches(environment.getUID()))).thenReturn(environment);
-        manageEnvironment.setEnvironmentRepository(environmentRepository);
 
         when(manageEnvironmentImplUtilsMock.createTDI(anyString(), any(DeploymentProfileEnum.class), anyString(), anyString(), anyListOf(String.class))).thenReturn(generatedEnvUid);
-        manageEnvironment.setUtils(manageEnvironmentImplUtilsMock);
 
         when(managePaasActivationMock.activate(anyInt())).thenReturn(new TaskStatusActivation());
-        manageEnvironment.setManagePaasActivation(managePaasActivationMock);
 
         LogService logService = new LogServiceSplunkImpl(new BaseSearchURL(SPLUNK_IP, SPLUNK_PORT, false));
-
         manageEnvironment.setLogService(logService);
 
     }

@@ -28,7 +28,7 @@ import com.francetelecom.clara.cloud.services.dto.EnvironmentDto.EnvironmentType
 public class EnvironmentMapper {
 
 	@Autowired
-	private SecurityUtils securityUtils;
+	SecurityUtils securityUtils;
 
 	private EnvironmentDto toEnvironmentDto(Environment environment, boolean writable) {
 		String environmentUid = environment.getUID();
@@ -71,4 +71,7 @@ public class EnvironmentMapper {
 		return dtos;
 	}
 
+	public void setSecurityUtils(SecurityUtils securityUtils) {
+		this.securityUtils = securityUtils;
+	}
 }

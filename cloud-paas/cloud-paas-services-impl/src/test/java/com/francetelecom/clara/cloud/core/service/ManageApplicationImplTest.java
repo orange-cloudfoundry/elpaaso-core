@@ -21,6 +21,7 @@ import com.francetelecom.clara.cloud.core.service.exception.*;
 import com.francetelecom.clara.cloud.coremodel.*;
 import com.francetelecom.clara.cloud.services.dto.ApplicationDTO;
 import com.francetelecom.clara.cloud.services.dto.ConfigOverrideDTO;
+import cucumber.api.java.Before;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Assert;
@@ -28,6 +29,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.*;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
@@ -50,6 +52,11 @@ public class ManageApplicationImplTest {
 
 	@InjectMocks
 	ManageApplicationImpl manageApplication;
+
+	@Spy
+	SecurityUtils securityUtils;
+	@Spy
+	SecurityContextUtilImpl securityContextUtil;
 
 	@Mock
 	ApplicationRepository applicationRepository;

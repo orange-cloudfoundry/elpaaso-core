@@ -24,18 +24,39 @@ import com.francetelecom.clara.cloud.services.dto.EnvironmentDto.EnvironmentStat
 import com.francetelecom.clara.cloud.services.dto.EnvironmentDto.EnvironmentTypeEnum;
 import org.fest.assertions.Assertions;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Spy;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Arrays;
 import java.util.List;
 
+@RunWith(MockitoJUnitRunner.class)
 public class EnvironmentMapperTest {
+	@Spy
+	SecurityUtils securityUtils;
+	@Spy
+	SecurityContextUtilImpl securityContextUtil;
+
+	@InjectMocks
+	private EnvironmentMapper environmentMapper;
+
 
 	@After
 	public void tearwown() {
 		TestHelper.logout();
 	}
-	
+
+	@Before
+	public void setUp() throws Exception {
+		environmentMapper = new EnvironmentMapper();
+		environmentMapper.setSecurityUtils(securityUtils);
+	}
+
 	@Test
 	public void should_map_environment_to_environment_dto() throws Exception {
 		
@@ -53,7 +74,7 @@ public class EnvironmentMapperTest {
 		EnvironmentDto dto = new EnvironmentDto(environment.getUID(), environment.getInternalName(), "env_elpaasso_1_0", elpaaso.getLabel(), elpaaso_1_0.getUID(), "1.0",
 				"jdalton", "joe", environment.getCreationDate(), EnvironmentTypeEnum.DEVELOPMENT, EnvironmentStatusEnum.CREATING, null, -1, null, environment
 								.getTechnicalDeploymentInstance().getTechnicalDeployment().getName());
-		Assertions.assertThat(new EnvironmentMapper().toEnvironmentDto(environment)).isEqualTo(dto);
+		Assertions.assertThat(environmentMapper.toEnvironmentDto(environment)).isEqualTo(dto);
 	}
 	
 	@Test
@@ -71,7 +92,7 @@ public class EnvironmentMapperTest {
 		TechnicalDeploymentInstance tdi = new TechnicalDeploymentInstance(tdt, td);
 		Environment environment = new Environment(DeploymentProfileEnum.DEVELOPMENT, "env_elpaasso_1_0", elpaaso_1_0, owner, tdi);
 		//dto should be editable
-		Assertions.assertThat(new EnvironmentMapper().toEnvironmentDto(environment).isEditable()).isEqualTo(true);
+		Assertions.assertThat(environmentMapper.toEnvironmentDto(environment).isEditable()).isEqualTo(true);
 	}
 	
 	@Test
@@ -88,7 +109,7 @@ public class EnvironmentMapperTest {
 		TechnicalDeploymentInstance tdi = new TechnicalDeploymentInstance(tdt, td);
 		Environment environment = new Environment(DeploymentProfileEnum.DEVELOPMENT, "env_elpaasso_1_0", elpaaso_1_0, owner, tdi);
 		//dto should not be editable
-		Assertions.assertThat(new EnvironmentMapper().toEnvironmentDto(environment).isEditable()).isEqualTo(false);
+		Assertions.assertThat(environmentMapper.toEnvironmentDto(environment).isEditable()).isEqualTo(false);
 	}
 	
 	@Test
@@ -122,10 +143,10 @@ public class EnvironmentMapperTest {
 								.getTechnicalDeploymentInstance().getTechnicalDeployment().getName());
 
 		
-		Assertions.assertThat(new EnvironmentMapper().toEnvironmentDtoList(environments).size()).isEqualTo(3);
-		Assertions.assertThat(new EnvironmentMapper().toEnvironmentDtoList(environments).contains(dto_1)).isTrue();
-		Assertions.assertThat(new EnvironmentMapper().toEnvironmentDtoList(environments).contains(dto_2)).isTrue();
-		Assertions.assertThat(new EnvironmentMapper().toEnvironmentDtoList(environments).contains(dto_3)).isTrue();
+		Assertions.assertThat(environmentMapper.toEnvironmentDtoList(environments).size()).isEqualTo(3);
+		Assertions.assertThat(environmentMapper.toEnvironmentDtoList(environments).contains(dto_1)).isTrue();
+		Assertions.assertThat(environmentMapper.toEnvironmentDtoList(environments).contains(dto_2)).isTrue();
+		Assertions.assertThat(environmentMapper.toEnvironmentDtoList(environments).contains(dto_3)).isTrue();
 
 	}
 	
@@ -148,10 +169,10 @@ public class EnvironmentMapperTest {
 		
 		List<Environment> environments = Arrays.asList(environment_1,environment_2,environment_3);
 		
-		Assertions.assertThat(new EnvironmentMapper().toEnvironmentDtoList(environments).size()).isEqualTo(3);
-		Assertions.assertThat(new EnvironmentMapper().toEnvironmentDtoList(environments).get(0).isEditable()).isTrue();
-		Assertions.assertThat(new EnvironmentMapper().toEnvironmentDtoList(environments).get(1).isEditable()).isTrue();
-		Assertions.assertThat(new EnvironmentMapper().toEnvironmentDtoList(environments).get(2).isEditable()).isTrue();
+		Assertions.assertThat(environmentMapper.toEnvironmentDtoList(environments).size()).isEqualTo(3);
+		Assertions.assertThat(environmentMapper.toEnvironmentDtoList(environments).get(0).isEditable()).isTrue();
+		Assertions.assertThat(environmentMapper.toEnvironmentDtoList(environments).get(1).isEditable()).isTrue();
+		Assertions.assertThat(environmentMapper.toEnvironmentDtoList(environments).get(2).isEditable()).isTrue();
 
 	}
 	
@@ -174,22 +195,22 @@ public class EnvironmentMapperTest {
 		
 		List<Environment> environments = Arrays.asList(environment_1,environment_2,environment_3);
 		
-		Assertions.assertThat(new EnvironmentMapper().toEnvironmentDtoList(environments).size()).isEqualTo(3);
-		Assertions.assertThat(new EnvironmentMapper().toEnvironmentDtoList(environments).get(0).isEditable()).isFalse();
-		Assertions.assertThat(new EnvironmentMapper().toEnvironmentDtoList(environments).get(1).isEditable()).isFalse();
-		Assertions.assertThat(new EnvironmentMapper().toEnvironmentDtoList(environments).get(2).isEditable()).isFalse();
+		Assertions.assertThat(environmentMapper.toEnvironmentDtoList(environments).size()).isEqualTo(3);
+		Assertions.assertThat(environmentMapper.toEnvironmentDtoList(environments).get(0).isEditable()).isFalse();
+		Assertions.assertThat(environmentMapper.toEnvironmentDtoList(environments).get(1).isEditable()).isFalse();
+		Assertions.assertThat(environmentMapper.toEnvironmentDtoList(environments).get(2).isEditable()).isFalse();
 
 	}
 	
 	
 	@Test
 	public void should_map_null_environment_list_to_environment_dto_list() throws Exception {
-		Assertions.assertThat(new EnvironmentMapper().toEnvironmentDtoList(null)).isEmpty();
+		Assertions.assertThat(environmentMapper.toEnvironmentDtoList(null)).isEmpty();
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void fail_to_map_null_environment_to_environment_dto() throws Exception {
-		new EnvironmentMapper().toEnvironmentDto(null);
+		environmentMapper.toEnvironmentDto(null);
 	}
 
 }
