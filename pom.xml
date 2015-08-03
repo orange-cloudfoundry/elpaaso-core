@@ -1357,6 +1357,25 @@ java.lang.NoClassDefFoundError: org/apache/commons/logging/LogFactory  -->
                 <skipATs>true</skipATs>
             </properties>
         </profile>
+        <profile>
+            <id>travis-reduce-log</id>
+            <activation>
+                <property>
+                    <name>TRAVIS_JOB_NUMBER</name>
+                </property>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <artifactId>maven-surefire-plugin</artifactId>
+                            <configuration>
+                                <redirectTestOutputToFile>true</redirectTestOutputToFile>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
     </profiles>
-
 </project>
