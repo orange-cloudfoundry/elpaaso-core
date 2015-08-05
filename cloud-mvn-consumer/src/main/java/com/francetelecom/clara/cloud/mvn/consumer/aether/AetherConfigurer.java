@@ -29,9 +29,12 @@ import org.eclipse.aether.spi.connector.transport.TransporterFactory;
 import org.eclipse.aether.transport.file.FileTransporterFactory;
 import org.eclipse.aether.transport.http.HttpTransporterFactory;
 import org.eclipse.aether.util.repository.SimpleResolutionErrorPolicy;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class AetherConfigurer {
 
+	@Autowired
+	ProxyManager proxyManager;
 
 	public AetherConfigurer() {
 	}
@@ -46,6 +49,7 @@ public class AetherConfigurer {
 		defaultLocator.addService(RepositoryConnectorFactory.class, BasicRepositoryConnectorFactory.class);
 		defaultLocator.addService(TransporterFactory.class, FileTransporterFactory.class);
 		defaultLocator.addService(TransporterFactory.class, HttpTransporterFactory.class);
+
 
 		defaultLocator.setErrorHandler(new DefaultServiceLocator.ErrorHandler() {
 			@Override
@@ -68,6 +72,7 @@ public class AetherConfigurer {
 		disableLocalCaching(session);
 		disableArtifactNotFoundCache(session);
 		disableHttpsCertificateCheck(session);
+		session.setProxySelector(proxyManager.selectProxies());
 		session.setReadOnly();
 		return session;
 	}

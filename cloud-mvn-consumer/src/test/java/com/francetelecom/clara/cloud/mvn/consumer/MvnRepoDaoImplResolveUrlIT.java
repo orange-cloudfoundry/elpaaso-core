@@ -27,7 +27,6 @@ import java.net.URLConnection;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -38,7 +37,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.francetelecom.clara.cloud.commons.Constants;
 import com.francetelecom.clara.cloud.commons.MavenReference;
 
 @ContextConfiguration
@@ -46,7 +44,9 @@ import com.francetelecom.clara.cloud.commons.MavenReference;
 @DirtiesContext
 public class MvnRepoDaoImplResolveUrlIT {
 
+	public static final String PROBES_GROUPID = "com.orange.clara.cloud.probes";
 	private static Logger logger = LoggerFactory.getLogger(MvnRepoDaoImplResolveUrlIT.class.getName());
+
 
 
 	@Autowired
@@ -69,40 +69,13 @@ public class MvnRepoDaoImplResolveUrlIT {
 		System.setProperty("build.dir", new File(basedir, "target").toURI().toURL().toExternalForm());
 	}
 
-
 	@Test
-	public void should_resolve_ear_for_wicketoo_7_0_1() {
-		MavenReference mavenRef0 = new MavenReference("com.francetelecom.clara.prototype.wicketoo", "wicketoo-ear", "7.0.1", "ear");
+	public void should_resolve_war_for_cf_wicketoo_jpa_deployed_on_internal_repo() {
+		MavenReference mavenRef0 = new MavenReference("com.orange.clara.cloud.samples.cf", "cf-wicket-jpa-war", "1.1.4", "war");
 		MavenReference mavenRef1 = mvnRepoDao.resolveUrl(mavenRef0);
 
 		assertAccessUrlIsValid(mavenRef1);
 	}
-
-
-	@Test
-	public void should_resolve_sql_for_prototype_postgres_7_0_1() {
-		MavenReference mavenRef0 = new MavenReference("com.francetelecom.clara.prototype.commons", "commons-sql-postgresql", "7.0.1", "sql");
-		MavenReference mavenRef1 = mvnRepoDao.resolveUrl(mavenRef0);
-
-		assertAccessUrlIsValid(mavenRef1);
-	}
-
-	@Test
-	public void should_resolve_jar_for_bnd_mysql_connector_java_5_1_30() {
-		MavenReference driver = new MavenReference(Constants.mvnRefMysqlDriver);
-		MavenReference mavenRef1 = mvnRepoDao.resolveUrl(driver);
-
-		assertAccessUrlIsValid(mavenRef1);
-	}
-
-	@Test
-	public void should_resolve_jar_for_bnd_postgresql_9_1_901() {
-		MavenReference driver = new MavenReference(Constants.mvnRefPostgresqlDriver);
-		MavenReference mavenRef1 = mvnRepoDao.resolveUrl(driver);
-
-		assertAccessUrlIsValid(mavenRef1);
-	}
-
 
 	@Test(expected = MavenReferenceResolutionException.class)
 	public void should_fail_to_resolve_an_invalid_maven_ref() {
@@ -110,64 +83,39 @@ public class MvnRepoDaoImplResolveUrlIT {
 		mvnRepoDao.resolveUrl(mavenRef0);
 	}
 
-
 	@Test
-	public void should_resolve_rar_for_prototype_xa_snapshot() {
-
-		MavenReference mvnBefore = new MavenReference("com.francetelecom.clara.prototype.commons", "commons-rar-jonas-postgresql-xa", "7.0.2-SNAPSHOT", "rar");
-
-		assertResolveUrlIsValid(mvnBefore);
+	public void should_resolve_paas_probe_simple_jar_with_systemTestAppsVersion() {
+		testResolveUrl(new MavenReference(PROBES_GROUPID, "paas-probe-simple", systemTestAppsVersion, "jar"));
 	}
 
-	/**
-	 * This test validates fix for bug #83336 (i.e. publication of SQL scripts
-	 * using the build helper).
-	 */
-	@Test
-	public void should_resolve_sql_for_petclinic_release() {
-		/*
-		 * <dependency> <groupId>com.orange.clara.cloud.samples</groupId>
-		 * <artifactId>petclinic-springoo-sql-postgres</artifactId>
-		 * <version>1.0.5</version> <type>sql</type> </dependency>
-		 */
-		MavenReference mvnBefore = new MavenReference("com.orange.clara.cloud.samples", "petclinic-springoo-sql-postgres", systemTestAppsVersion, "sql");
 
-		assertResolveUrlIsValid(mvnBefore);
+	@Test
+	public void should_resolve_ear_artifact_for_jeeprobe_latest_snapshot() {
+		MavenReference ear = new MavenReference(PROBES_GROUPID, "paas-probe-jee-ear", "LATEST", "ear");
+
+		MavenReference resolvedUrl = resolveUrlAndAssertResultNotNull(ear);
+		assertTrue(ear.getArtifactId() + " snapshot reference :" + resolvedUrl.getAccessUrl().getPath() + " should contain -SNAPSHOT in url",
+				resolvedUrl.getAccessUrl().getPath().contains("-SNAPSHOT"));
+
 	}
 
-	// @Ignore("Don't work with local repo")
-	@Test
-	public void should_resolve_jar_for_prototype_release() {
-		MavenReference mvnBefore = new MavenReference("com.francetelecom.clara.prototype.commons", "commons-utils", "7.0.1", "jar");
 
-		assertResolveUrlIsValid(mvnBefore);
+	@Test
+	public void should_resolve_war_artifact_for_elpaaso_latest_snapshot() {
+		MavenReference ear = new MavenReference("com.orange.clara.cloud", "cloud-paas-webapp-war", "LATEST", "war");
+		MavenReference resolvedUrl = resolveUrlAndAssertResultNotNull(ear);
+		assertTrue("Should contain elpaaso snapshot reference :" + resolvedUrl.getAccessUrl().getPath(),
+				resolvedUrl.getAccessUrl().getPath().contains(elpaasoVersion));
 	}
 
 	@Test
-	@Ignore("No more tar.gz used directly as dependencies")
-	public void should_resolveUrl_targz_for_cloud_products_software_mysql_5_0_0_SNAPSHOT() {
-		MavenReference mysqlReference = new MavenReference("com.francetelecom.clara.cloud.catalog.product", "cloud-products-software-mysql", "5.0.0-SNAPSHOT",
-				"tar.gz");
-		MavenReference updatedMysqlReference = this.mvnRepoDao.resolveUrl(mysqlReference);
-		Assert.assertNotNull(updatedMysqlReference.getAccessUrl());
+	public void should_resolve_war_artifact_for_elpaaso_latest_release() {
+		MavenReference ear = new MavenReference("com.orange.clara.cloud", "cloud-paas-webapp-war", "RELEASE", "war");
+		MavenReference resolvedUrl = resolveUrlAndAssertResultNotNull(ear);
+		assertFalse("Elpaaso released artifact should not be snapshot : " + resolvedUrl.getAccessUrl().getPath(), resolvedUrl.getAccessUrl().getPath()
+				.contains("-SNAPSHOT"));
 	}
 
-	@Test
-	@Ignore("No more tar.gz used directly as dependencies")
-	public void should_resolve_targz_for_cloud_products_software_apache_2_2_3_SNAPSHOT() {
-		testResolveUrl(new MavenReference("com.francetelecom.clara.cloud.catalog.product", "cloud-products-software-apache", "2.2.3-SNAPSHOT", "tar.gz"));
-	}
-
-	@Test
-	public void should_resolve_sql_url_for_petClinic_paas_sample_version_sql() {
-		/*
-		 * 
-		 * <dependency> <groupId>com.orange.clara.cloud.samples</groupId>
-		 * <artifactId>petclinic-sql-postgres</artifactId>
-		 * <version>1.0.0</version> <type>sql</type> </dependency>
-		 */
-		testResolveUrl(new MavenReference("com.orange.clara.cloud.samples", "petclinic-sql-postgres", systemTestAppsVersion, "sql"));
-	}
 
 	private void assertResolveUrlIsValid(MavenReference mvnBefore) {
 		MavenReference mvnAfter = this.mvnRepoDao.resolveUrl(mvnBefore);
@@ -201,66 +149,17 @@ public class MvnRepoDaoImplResolveUrlIT {
 	 * @param unresolvedReference
 	 */
 	private void testResolveUrl(MavenReference unresolvedReference) {
-
 		MavenReference mvnBefore = unresolvedReference;
-
 		assertResolveUrlIsValid(mvnBefore);
 	}
 
-	@Test
-	public void should_resolve_ear_artifact_for_wicketoo_latest_Snapshot() {
-		/*
-		 * <dependency>
-		 * <groupId>com.francetelecom.clara.prototype.wicketoo</groupId>
-		 * <artifactId>wicketoo-ear</artifactId> <version>LATEST</version>
-		 * <type>ear</type> </dependency>
-		 */
 
-		MavenReference ear = new MavenReference("com.francetelecom.clara.prototype.wicketoo", "wicketoo-ear", "7.0.2-SNAPSHOT", "ear");
-		assertNotNull(ear);
-		MavenReference resolvedUrl = mvnRepoDao.resolveUrl(ear);
+
+	private MavenReference resolveUrlAndAssertResultNotNull(MavenReference mavenReference) {
+		assertNotNull(mavenReference);
+		MavenReference resolvedUrl = mvnRepoDao.resolveUrl(mavenReference);
 		assertNotNull(resolvedUrl);
-		assertTrue(resolvedUrl.getVersion().endsWith("-SNAPSHOT"));
-
-	}
-
-	@Test
-	public void should_resolve_war_artifact_for_elpaaso_latest_Snapshot() {
-		MavenReference ear = new MavenReference("com.orange.clara.cloud", "cloud-paas-webapp-war", "LATEST", "war");
-		assertNotNull(ear);
-		MavenReference resolvedUrl = mvnRepoDao.resolveUrl(ear);
-		assertNotNull(resolvedUrl);
-		assertTrue("Should contain elpaaso snapshot reference :" + resolvedUrl.getAccessUrl().getPath(),
-				resolvedUrl.getAccessUrl().getPath().contains(elpaasoVersion));
-	}
-
-	@Test
-	public void should_resolve_ear_artifact_for_elpaaso_latest_release() {
-		/*
-		 * <dependency> <groupId>com.orange.clara.cloud</groupId>
-		 * <artifactId>cloud-paas-webapp-ear</artifactId>
-		 * <version>LATEST</version> <type>ear</type> </dependency>
-		 */
-
-		MavenReference ear = new MavenReference("com.orange.clara.cloud", "cloud-paas-webapp-ear", "RELEASE", "ear");
-		assertNotNull(ear);
-		MavenReference resolvedUrl = mvnRepoDao.resolveUrl(ear);
-		assertNotNull(resolvedUrl);
-		assertFalse("Elpaaso released artifact should not be snapshot : " + resolvedUrl.getAccessUrl().getPath(), resolvedUrl.getAccessUrl().getPath()
-				.contains("-SNAPSHOT"));
-	}
-
-	@Test
-	public void should_resolve_sql_url_for_protoypes_postgres_latest_snapshot() {
-		// <dependency>
-		// <groupId>com.francetelecom.clara.prototype.commons</groupId>
-		// <artifactId>commons-sql-postgresql</artifactId>
-		// <version>7.0.2-SNAPSHOT</version>
-		// <type>sql</type>
-		// </dependency>
-		MavenReference sql = new MavenReference("com.francetelecom.clara.prototype.commons", "commons-sql-postgresql", "LATEST", "sql");
-		assertNotNull(sql);
-		assertResolveUrlIsValid(sql);
+		return resolvedUrl;
 	}
 
 	private void assertAccessUrlIsValid(MavenReference mavenRef1) {

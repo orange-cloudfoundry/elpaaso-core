@@ -75,4 +75,6 @@
 		<property name="aetherConfigurer" ref="aetherConfigurer" />
 	</bean>
 
+	<bean class="com.francetelecom.clara.cloud.mvn.consumer.aether.ProxyManager" id="proxyManager"/>
+
 </beans>

@@ -82,13 +82,13 @@ public class SettingsGenerator {
 		List<org.apache.maven.settings.Server> servers = new ArrayList<org.apache.maven.settings.Server>();
 
 		org.apache.maven.settings.Server paasInhouse = new org.apache.maven.settings.Server();
-		paasInhouse.setId("paas.inhouse");
+		paasInhouse.setId("paas.push.release.repo");
 		paasInhouse.setUsername(releaseRepositoryUser);
 		paasInhouse.setPassword(releaseRepositoryPassword);
 		servers.add(paasInhouse);
 
 		org.apache.maven.settings.Server paasInhouseSnapshot = new org.apache.maven.settings.Server();
-		paasInhouseSnapshot.setId("paas.inhouse.snapshot");
+		paasInhouseSnapshot.setId("paas.push.snapshot.repo");
 		paasInhouseSnapshot.setUsername(snapshotRepositoryUser);
 		paasInhouseSnapshot.setPassword(snapshotRepositoryPassword);
 		servers.add(paasInhouseSnapshot);

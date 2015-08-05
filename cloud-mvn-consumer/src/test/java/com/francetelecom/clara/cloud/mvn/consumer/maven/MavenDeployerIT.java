@@ -22,6 +22,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -38,6 +39,7 @@ import com.francetelecom.clara.cloud.mvn.consumer.FileRef;
 
 @ContextConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
+@Ignore("no repository available to test deployment")
 public class MavenDeployerIT {
 
 	private static final Logger logger = LoggerFactory.getLogger(MavenDeployerIT.class);

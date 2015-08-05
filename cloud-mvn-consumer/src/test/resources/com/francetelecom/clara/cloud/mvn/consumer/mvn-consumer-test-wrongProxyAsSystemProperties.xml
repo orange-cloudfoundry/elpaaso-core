@@ -33,7 +33,7 @@
 		<property name="arguments">
 			<list>
 				<value>http.nonProxyHosts</value>
-				<value>localhost</value>
+				<value></value>
 			</list>
 		</property>
 	</bean>

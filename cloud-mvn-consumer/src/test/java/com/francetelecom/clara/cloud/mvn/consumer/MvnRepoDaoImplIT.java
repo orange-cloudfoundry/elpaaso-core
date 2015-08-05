@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -59,32 +60,6 @@ public class MvnRepoDaoImplIT
 		System.setProperty("build.dir", new File(basedir, "target").toURI().toURL().toExternalForm());
 	}
 
-    public static void assertSpringTestDependencies(List<MavenReference> dependencies) {
-
-        assertEquals(16, dependencies.size());
-
-        List<MavenReference> expectedDependencies = new ArrayList<MavenReference>();
-
-        expectedDependencies.add(MavenReference.fromGavString("org.aspectj:aspectjrt:1.6.1"));
-        expectedDependencies.add(MavenReference.fromGavString("org.aspectj:aspectjweaver:1.6.1"));
-        expectedDependencies.add(MavenReference.fromGavString("commons-logging:commons-logging:1.1.1"));
-        expectedDependencies.add(MavenReference.fromGavString("javax.persistence:persistence-api:1.0"));
-        expectedDependencies.add(MavenReference.fromGavString("javax.portlet:portlet-api:1.0"));
-        expectedDependencies.add(MavenReference.fromGavString("javax.servlet:jsp-api:2.0"));
-        expectedDependencies.add(MavenReference.fromGavString("javax.servlet:servlet-api:2.4"));
-        expectedDependencies.add(MavenReference.fromGavString("junit:junit:3.8.1"));
-        expectedDependencies.add(MavenReference.fromGavString("taglibs:standard:1.1.2"));
-        expectedDependencies.add(MavenReference.fromGavString("org.springframework:spring-beans:2.5.6"));
-        expectedDependencies.add(MavenReference.fromGavString("org.springframework:spring-context:2.5.6"));
-        expectedDependencies.add(MavenReference.fromGavString("org.springframework:spring-core:2.5.6"));
-        expectedDependencies.add(MavenReference.fromGavString("org.springframework:spring-jdbc:2.5.6"));
-        expectedDependencies.add(MavenReference.fromGavString("org.springframework:spring-orm:2.5.6"));
-        expectedDependencies.add(MavenReference.fromGavString("org.springframework:spring-tx:2.5.6"));
-        expectedDependencies.add(MavenReference.fromGavString("org.springframework:spring-webmvc:2.5.6"));
-
-        assertTrue(dependencies.containsAll(expectedDependencies));
-    }
-
 	public void should_create_a_maven_ref_representing_Springoo700SnapshotUrl() {
 		/*
 		 * <dependency>
@@ -100,14 +75,14 @@ public class MvnRepoDaoImplIT
 
 
 	static void assertValidMavenRef(MvnRepoDao mvnRepoDao, String systemTestAppsVersion) {
-		MavenReference mavenReference = new MavenReference("com.orange.clara.cloud.samples", "petclinic-sql-postgres", systemTestAppsVersion, "sql");
+		MavenReference mavenReference = new MavenReference("com.orange.clara.cloud.probes", "out-of-order-probe", systemTestAppsVersion, "jar");
         File f = mvnRepoDao.getFileFromLocalRepository(mavenReference);
         logger.info("testGeFile - mavenRef:" + mavenReference + " file:" + f);
         assertNotNull(f);
     }
 
 	@Test
-	public void should_get_petclinic_sql_using_paas_sample_version_from_local_repository() {
+	public void should_get_out_of_order_probe_using_system_test_apps_version_from_local_repository() {
         assertValidMavenRef(mvnRepoDao, systemTestAppsVersion);
 	}
 
@@ -119,6 +94,7 @@ public class MvnRepoDaoImplIT
 	}
 
 	@Test
+	@Ignore("no repository available to test deployment")
 	public void should_deploy_dummy_TarGz_on_Maven2_and_check_availability_on_paas_proxy() {
 		//if this test fail then synchronisation between maven2 and paas doesn't work properly
         MavenReference gav = new MavenReference("com.francetelecom.clara.cloud.dummy", "new-dummy-tar-gz", "1.0-SNAPSHOT", "tar.gz");
@@ -140,6 +116,7 @@ public class MvnRepoDaoImplIT
 	}
 
 	@Test
+	@Ignore("no repository available to test deployment")
 	public void should_deploy_dummy_Rar_on_Maven2_and_check_availability_on_paas_proxy() {
         //if this test fail then synchronisation between maven2 and paas doesn't work properly
 

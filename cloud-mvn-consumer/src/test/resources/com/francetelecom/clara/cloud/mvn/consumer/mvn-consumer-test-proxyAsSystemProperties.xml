@@ -33,7 +33,7 @@
         <property name="arguments">
             <list>
                 <value>http.nonProxyHosts</value>
-                <value>localhost|*.redacted-domain.org</value>
+                <value>${test.maven.default.nonProxyHosts}</value>
             </list>
         </property>
     </bean>

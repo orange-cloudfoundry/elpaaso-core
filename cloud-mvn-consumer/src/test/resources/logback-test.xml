@@ -22,7 +22,7 @@
 
   <!--  INFO level for application -->
 <logger name="com.francetelecom.clara.cloud" level="${loglevel-cloud:-INFO}" />
-  <!--<logger name="com.francetelecom.clara.cloud.mvn.consumer" level="DEBUG"/>-->
+  <logger name="com.francetelecom.clara.cloud.mvn.consumer" level="DEBUG"/>
   <!--<logger name="org.eclipse.aether.internal.impl.DefaultRepositorySystem" level="DEBUG"/>-->
   <!--<logger name="org.eclipse.aether" level="DEBUG"/>-->
   <!--<logger name="org.apache.http.headers" level="DEBUG"/>-->

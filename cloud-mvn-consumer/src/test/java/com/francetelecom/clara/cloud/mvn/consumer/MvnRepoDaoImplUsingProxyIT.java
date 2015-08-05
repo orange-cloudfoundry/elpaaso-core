@@ -31,12 +31,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * MvnRepoDaoImplUsingProxyIT
  * 
  * GIVEN a wrong http.proxyHost | http.proxyPort / a correct http.nonProxyHosts
- * "localhost|*.redacted-domain.org" WHEN maven resolution (ref and or
- * dep..) THEN maven resolution is a success
+ *  WHEN maven resolution (ref and or dep..) THEN maven resolution is a success
  * 
- * Last update : $LastChangedDate$ Last author : $Author$
- * 
- * @version : $Revision$
  */
 @ContextConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -58,11 +54,8 @@ public class MvnRepoDaoImplUsingProxyIT {
         System.setProperty("build.dir", new File(basedir, "target").toURI().toURL().toExternalForm());
     }
 
-    /**
-
-     */
     @Test
-    public void testGetFileFromRemoteRepositoryUsingProxy_ValidMavenRef() {
+    public void should_get_artifact_from_local_repo_with_a_non_proxy_host_match() {
 		assertFalse("Should NOT use a proxy, pull repo should be listed in nonProxyHosts", mvnRepoDao.isUsingProxyForPullRepo());
 		MvnRepoDaoImplIT.assertValidMavenRef(mvnRepoDao, systemTestAppsVersion);
     }

@@ -62,7 +62,12 @@ public class MvnRepoDaoImplUsingWrongProxyIT {
 
      */
 	@Test
-	public void testGetFileFromRemoteRepositoryUsingProxy_ValidMavenRef() {
+	public void should_get_artifact_from_local_repo_with_wrong_proxy() {
+		//TODO: How this is working !!! Should not be able to retrieve artifact when using a wrong proxy without valid
+		// MvnRepoDaoImpl(117) - MvnRepo proxy set to wrong-proxy.yoyo.fr:3128 (nonProxyHosts:localhost)
+		// MvnRepoDaoImpl(138) - [repo:maven-repo] => setProxy(wrong-proxy.yoyo.fr:3128)
+		// localhost
+
 		assertTrue("Should use a proxy for pull repo", mvnRepoDao.isUsingProxyForPullRepo());
 		MvnRepoDaoImplIT.assertValidMavenRef(mvnRepoDao, systemTestAppsVersion);
 	}

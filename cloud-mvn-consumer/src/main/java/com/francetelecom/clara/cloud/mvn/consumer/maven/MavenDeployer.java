@@ -25,6 +25,7 @@ import java.util.jar.JarOutputStream;
 
 import javax.activation.DataHandler;
 
+import com.francetelecom.clara.cloud.mvn.consumer.aether.ProxyManager;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.compress.compressors.CompressorOutputStream;
@@ -53,6 +54,7 @@ import com.francetelecom.clara.cloud.commons.TechnicalException;
 import com.francetelecom.clara.cloud.mvn.consumer.FileRef;
 import com.francetelecom.clara.cloud.mvn.consumer.MvnConsumerConfigurer;
 import com.francetelecom.clara.cloud.mvn.consumer.aether.AetherConfigurer;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class MavenDeployer {
 	/**
@@ -85,8 +87,6 @@ public class MavenDeployer {
 
 	protected File settingsFile;
 
-	private ProxySelector mvnProxySelector;
-
 	public MavenDeployer(MvnConsumerConfigurer mvnConsumerConfigurer) {
 		this.mvnConsumerConfigurer = mvnConsumerConfigurer;
 
@@ -102,30 +102,9 @@ public class MavenDeployer {
 		String settingsFilename = this.mvnConsumerConfigurer.getLocalWorkDir().getAbsolutePath() + "/.m2/settings.xml";
 		settingsFile = settingsGenerator.generateAndWrite(settingsFilename);
 		logger.debug("created settings.xml as " + this.settingsFile.getAbsolutePath());
-		mvnProxySelector = selectProxies();
 		logger.debug("creating settings.xml end"); // added to check duration of
 													// this method (take 1
 													// minute !?)
-	}
-
-	private ProxySelector selectProxies() throws Exception {
-		DefaultProxySelector proxySelector = new DefaultProxySelector();
-		String httpProxyHost = System.getProperty("http.proxyHost");
-		if (httpProxyHost != null) {
-			int proxyPort = -1;
-			try {
-				proxyPort = Integer.parseInt(System.getProperty("http.proxyPort"));
-			} catch (NumberFormatException nfe) {
-				throw new Exception("Invalid (or null) http.proxyPort specified into system.properties");
-			}
-			String nonProxyHosts = System.getProperty("http.nonProxyHosts");
-			nonProxyHosts = (nonProxyHosts != null ? nonProxyHosts : "");
-			Proxy proxy = new Proxy("http", httpProxyHost, proxyPort, null);
-			proxySelector.add(proxy, nonProxyHosts);
-			logger.debug("MvnRepo proxy set to {}:{}" + (nonProxyHosts != null ? " (nonProxyHosts:" + nonProxyHosts + ")" : ""), httpProxyHost, proxyPort);
-
-		}
-		return proxySelector;
 	}
 
 	private MavenReference convertToMavenReference(Artifact artifact) {
@@ -210,14 +189,14 @@ public class MavenDeployer {
 			throw new IllegalArgumentException("artifactToDeploy should not be null");
 		}
 
-		RemoteRepository.Builder snapRepoBuilder =  new RemoteRepository.Builder("snapshot-repository", "default", mvnConsumerConfigurer.getPushSnapshotRepositoryUrl());
+		RemoteRepository.Builder snapRepoBuilder =  new RemoteRepository.Builder("paas.push.snapshot.repo", "default", mvnConsumerConfigurer.getPushSnapshotRepositoryUrl());
 		RepositoryPolicy disabledRepo = null;
 		snapRepoBuilder.setReleasePolicy(disabledRepo);
 		Authentication snapshotRepositoryAuthen = new AuthenticationBuilder().addUsername(mvnConsumerConfigurer.getPushSnapshotRepositoryUser()).addPassword(
 				mvnConsumerConfigurer.getPushSnapshotRepositoryPassword()).build();
 		snapRepoBuilder.setAuthentication(snapshotRepositoryAuthen);
 
-		RemoteRepository.Builder releaseRepoBuilder = new RemoteRepository.Builder("release-repository", "default", mvnConsumerConfigurer.getPushReleaseRepositoryUrl());
+		RemoteRepository.Builder releaseRepoBuilder = new RemoteRepository.Builder("paas.push.release.repo", "default", mvnConsumerConfigurer.getPushReleaseRepositoryUrl());
 		releaseRepoBuilder.setReleasePolicy(disabledRepo);
 		Authentication releaseRepositoryAuthen = new AuthenticationBuilder().addUsername(mvnConsumerConfigurer.getPushReleaseRepositoryUser()).addPassword(
 				mvnConsumerConfigurer.getPushReleaseRepositoryPassword()).build();

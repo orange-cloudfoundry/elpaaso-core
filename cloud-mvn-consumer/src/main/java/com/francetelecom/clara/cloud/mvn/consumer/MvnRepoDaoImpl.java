@@ -15,6 +15,7 @@ package com.francetelecom.clara.cloud.mvn.consumer;
 import com.francetelecom.clara.cloud.commons.MavenReference;
 import com.francetelecom.clara.cloud.commons.TechnicalException;
 import com.francetelecom.clara.cloud.mvn.consumer.aether.AetherConfigurer;
+import com.francetelecom.clara.cloud.mvn.consumer.aether.ProxyManager;
 import com.francetelecom.clara.cloud.mvn.consumer.maven.MavenDeployer;
 
 import org.eclipse.aether.RepositorySystem;
@@ -30,9 +31,9 @@ import org.eclipse.aether.resolution.ArtifactRequest;
 import org.eclipse.aether.resolution.ArtifactResolutionException;
 import org.eclipse.aether.resolution.ArtifactResult;
 import org.eclipse.aether.transfer.NoRepositoryLayoutException;
-import org.eclipse.aether.util.repository.DefaultProxySelector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.io.IOException;
@@ -80,6 +81,9 @@ public class MvnRepoDaoImpl implements MvnRepoDao {
     private ProxySelector mvnProxySelector;
     private final RepositoryPolicy disabledRepoPolicy = new RepositoryPolicy(false, null, null);
 
+    @Autowired
+    private ProxyManager proxyManager;
+
     public MvnRepoDaoImpl() {
     }
 
@@ -92,34 +96,9 @@ public class MvnRepoDaoImpl implements MvnRepoDao {
         XTrustProvider.install();
 
         logger.debug("creating settings.xml");
-        mvnProxySelector = selectProxies();
+
+        mvnProxySelector = proxyManager.selectProxies();
         logger.debug("creating settings.xml end");
-    }
-
-    private ProxySelector selectProxies() throws Exception {
-        DefaultProxySelector proxySelector = new DefaultProxySelector();
-        String httpProxyHost = System.getProperty("http.proxyHost");
-        if (httpProxyHost != null) {
-            logger.debug("Setting same proxy for http and https");
-            int proxyPort = -1;
-            try {
-                proxyPort = Integer.parseInt(System.getProperty("http.proxyPort"));
-            } catch (NumberFormatException nfe) {
-                throw new Exception("Invalid (or null) http.proxyPort specified into system.properties");
-            }
-            String nonProxyHosts = System.getProperty("http.nonProxyHosts");
-            nonProxyHosts = (nonProxyHosts != null ? nonProxyHosts : "");
-            Proxy httpProxy = new Proxy("http", httpProxyHost, proxyPort, null);
-            Proxy httpsProxy = new Proxy("https", httpProxyHost, proxyPort, null);
-
-            proxySelector.add(httpProxy, nonProxyHosts);
-            proxySelector.add(httpsProxy, nonProxyHosts);
-            logger.debug("MvnRepo proxy set to {}:{}" + (nonProxyHosts != null ? " (nonProxyHosts:" + nonProxyHosts + ")" : ""), httpProxyHost, proxyPort);
-        } else {
-            logger.debug("No proxy set (http.proxyHost not defined).");
-
-        }
-        return proxySelector;
     }
 
     private List<RemoteRepository> initRemoteRepositories() {
@@ -131,7 +110,9 @@ public class MvnRepoDaoImpl implements MvnRepoDao {
 
         // Add this to support proxy configuration
         for (RemoteRepository.Builder builder : builders) {
+            logger.debug("Processing builder {}",builder);
             if (mvnProxySelector != null) {
+                logger.debug("Proxy selector {} found for builder {}",mvnProxySelector,builder);
                 RemoteRepository remoteRepo = builder.build();
                 Proxy proxy = mvnProxySelector.getProxy(remoteRepo);
                 if (proxy != null) {

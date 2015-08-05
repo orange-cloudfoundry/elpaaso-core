@@ -42,21 +42,5 @@ public interface Constants {
 	MavenReference mvnRefPgsql913_G01R00C02 = new MavenReference("com.francetelecom.clara.cloud.catalog.product", "cloud-products-software-postgresql",
 			"9.1.3-G01R00C02", "tar");
 
-	/** @deprecated use the version constant name instead **/
-	@Deprecated
-	MavenReference mvnRefHypericAgent = new MavenReference("com.francetelecom.clara.cloud.catalog.product", "cloud-products-software-hyperic-agent", "4.5.1",
-			"tar.gz");
-	MavenReference mvnRefHypericAgent4_5_1 = new MavenReference("com.francetelecom.clara.cloud.catalog.product", "Hyperic Agent FT", "4.5.1", "rpm");
-	/** @deprecated use the version constant name instead **/
-	@Deprecated
-	MavenReference mvnRefSplunkAgent = new MavenReference("com.francetelecom.clara.cloud.catalog.product", "cloud-products-software-splunk-agent", "2.0",
-			"tar.gz");
-	MavenReference mvnRefSplunkAgent_4_2_2_101277 = new MavenReference("com.francetelecom.clara.cloud.catalog.product", "Splunk Forwarder", "4.2.2_101277",
-			"rpm");
-
-	MavenReference mvnRefVmWareTools_RH6_8652 = new MavenReference("com.francetelecom.clara.cloud.catalog.product", "VMwareTools FT RHEL 6.x", "8.6.5.2", "rpm");
-
-	MavenReference mvnRefPostgresqlDriver = new MavenReference("com.orange.clara.cloud.db.drivers", "bnd-postgresql", "9.1-901.jdbc4-RC1", "jar");
-	MavenReference mvnRefMysqlDriver = new MavenReference("com.orange.clara.cloud.db.drivers", "bnd-mysql-connector-java", "5.1.30-RC1", "jar");
 
 }

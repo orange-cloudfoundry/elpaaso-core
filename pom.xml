@@ -70,6 +70,9 @@
         </repository>
     </repositories>
     <properties>
+        <license.header.url>
+            https://raw.githubusercontent.com/Orange-OpenSource/elpaaso/master/src/license/apache-2-custom-header.txt
+        </license.header.url>
         <!-- version of PaaS system test apps; used in several modules (e.g. logical-model,
             paas-services-int, cloud-mvn-consumer) -->
         <systemTestAppsVersion>2.0-SNAPSHOT</systemTestAppsVersion>
@@ -1170,7 +1173,7 @@ java.lang.NoClassDefFoundError: org/apache/commons/logging/LogFactory  -->
                     <version>2.11</version>
                     <configuration>
                         <header>
-                            https://raw.githubusercontent.com/Orange-OpenSource/elpaaso/master/src/license/apache-2-custom-header.txt
+                            ${license.header.url}
                         </header>
                         <properties>
                             <owner>Orange</owner>
@@ -1260,6 +1263,7 @@ java.lang.NoClassDefFoundError: org/apache/commons/logging/LogFactory  -->
             </activation>
             <properties>
                 <datacenter>hudson</datacenter>
+                <license.header.url>${env.LICENSE_HEADER_URL}</license.header.url>
             </properties>
             <dependencies>
                 <dependency>
@@ -1332,6 +1336,12 @@ java.lang.NoClassDefFoundError: org/apache/commons/logging/LogFactory  -->
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <profile>
+            <id>skipUTs</id>
+            <properties>
+                <skipUTs>true</skipUTs>
+            </properties>
         </profile>
         <profile>
             <id>runITs</id>
