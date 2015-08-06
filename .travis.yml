@@ -4,7 +4,7 @@ jdk:
 install:
 -
 script:
-  - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && mvn deploy -B --settings settings.xml -Ptravis-reduce-log || mvn verify --settings settings.xml -Ptravis-reduce-log'
+  - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && mvn deploy --settings settings.xml -Ptravis-reduce-log || mvn verify --settings settings.xml -Ptravis-reduce-log'
 env:
   global:
   - secure: COrERS5JNiHBTekQmwAFJH7d7pSjZZ96BXvL2koHAHjjmxP5HbeilloZMR2EDZn1PID/KOLmJpu2kbpV/9sm8Eui6VYJZfPIS374m8MipytSFb+1BM1wm6bdfEEGOl42bhxowN4+sQ53NQX85DZ4Di3Mw/RQBNWWo96oPmq3Mzcf18vGpNALahogfhaIuA1IQzFqN1/sLEL8FzC31UI6WuIl00PVUotF4FoE3iGfZRTul5ecMX9HOJhR/2r1Gx+a52rio7PtFXk+WiX1glUVEPssAM0pkinod1+Q1a1CIu8pXll1aflAVyMGxoK+sNU/iNU4WFmjS0IUjn0Ip9Fc3yCZ57k0x8zRGwaymiuQXHcmxJ4K1er7Tcts04+xFdop+WKbFBLUubF+g9TiyJEELZgXJIR6lDOxjtM/2yTZGlE+4KrJUfvCR2wh+m0tmnog7pQnUfOJ+/EVKIrlx8SfURBNBaS66IE0rBt4ROoIKet2qU4d8waS0PgmuSGC4wBrHSc5aCm3913VAzTaksgzKYPRuuvQBwClU9vn4I75uTuNYa5jblP9xCR/uREJy/kbaXg3XYK4ZHA94/0lSbBldOZH51dO8Lh6Ua3qT3UioNDroUiuh5jDtvSZJEu3XK1gxbuYWOO7jd8rSHnjPfkL6tgMgVgzUUs2J9GaabI2YV0=
