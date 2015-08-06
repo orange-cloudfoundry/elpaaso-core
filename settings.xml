@@ -15,7 +15,7 @@
 <settings>
     <servers>
         <server>
-            <id>oss.snapshot.local</id>
+            <id>jfrog-oss</id>
             <username>${env.BINTRAY_USER}</username>
             <password>${env.BINTRAY_PASSWORD}</password>
         </server>
