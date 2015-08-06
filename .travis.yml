@@ -4,9 +4,9 @@ jdk:
 install:
 - 
 script:
-  - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && mvn deploy --settings settings.xml -Ptravis-reduce-log'
+  - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && mvn deploy --settings settings.xml -Ptravis-reduce-log || false'
   # don't deploy on pull request
-  - '[ "${TRAVIS_PULL_REQUEST}" != "false" ] && mvn verify --settings settings.xml -Ptravis-reduce-log'
+  # - '[ "${TRAVIS_PULL_REQUEST}" != "false" ] && mvn verify --settings settings.xml -Ptravis-reduce-log'
 env:
   global:
   # define deployment info
