@@ -32,5 +32,3 @@ buildNumber.properties
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-
-cloud-commons-parent/cloud-commons-test-configurations/src/main/resources/com/francetelecom/clara/cloud/commons/testconfigurations/credentials-hudson.properties

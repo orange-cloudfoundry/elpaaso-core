@@ -52,9 +52,9 @@ public class MvnRepoDaoImplTest {
 	}
 
 	@Test
-	public void should_resolveUrl_for_elpaaso_snapshot_ear() {
+	public void should_resolveUrl_for_elpaaso_snapshot_war() {
 		// test data
-		MavenReference mavenRef = new MavenReference("com.francetelecom.clara.cloud", "cloud-paas-webapp-ear", "0.0.5-SNAPSHOT", "ear");
+		MavenReference mavenRef = new MavenReference("com.francetelecom.clara.cloud", "cloud-paas-webapp-war", "0.0.5-SNAPSHOT", "war");
 		// exercise sut
 		mvnRepoDao.resolveUrl(mavenRef);
 		// check method call
@@ -62,9 +62,9 @@ public class MvnRepoDaoImplTest {
 	}
 
 	@Test
-	public void should_resolveUrl_for_elpaaso_release_ear() {
+	public void should_resolveUrl_for_elpaaso_release_war() {
 		// test data
-		MavenReference mavenRef = new MavenReference("com.francetelecom.clara.cloud", "cloud-paas-webapp-ear", "0.0.5", "ear");
+		MavenReference mavenRef = new MavenReference("com.francetelecom.clara.cloud", "cloud-paas-webapp-war", "0.0.5", "war");
 		// exercise sut
 		mvnRepoDao.resolveUrl(mavenRef);
 		// check method call

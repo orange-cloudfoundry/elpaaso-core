@@ -38,9 +38,9 @@ public class SampleAppPropertiesTest {
 	}
 
 	@Test
-	public void testGetPaasEarMavenRef() {
-		MavenReference ear = mavenRefCatalog.getMavenReference("paas","ear");
-		checkMavenReference(ear,"ear");
+	public void testGetPaasWarMavenRef() {
+		MavenReference ear = mavenRefCatalog.getMavenReference("elpaaso-tomcat","war");
+		checkMavenReference(ear,"war");
 	}
 
 	@Test

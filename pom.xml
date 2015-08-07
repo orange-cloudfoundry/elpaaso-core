@@ -928,23 +928,6 @@
             </dependency>
             <dependency>
                 <groupId>com.orange.clara.cloud</groupId>
-                <artifactId>cloud-paas-orchestration-integration</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.orange.clara.cloud</groupId>
-                <artifactId>cloud-paas-webapp-ear-mocks</artifactId>
-                <version>${project.version}</version>
-                <type>ear</type>
-            </dependency>
-            <dependency>
-                <groupId>com.orange.clara.cloud</groupId>
-                <artifactId>cloud-paas-webapp-ear</artifactId>
-                <version>${project.version}</version>
-                <type>ear</type>
-            </dependency>
-            <dependency>
-                <groupId>com.orange.clara.cloud</groupId>
                 <artifactId>cloud-paas-services</artifactId>
                 <version>${project.version}</version>
             </dependency>

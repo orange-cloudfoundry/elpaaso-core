@@ -53,8 +53,8 @@ public class LogicalModelTest {
     @Autowired
     Map<String, SampleAppFactory> sampleAppFactoryMap;
 
-	@Autowired
-	ElPaaSoLogicalModelCatalog elPaaSoLogicalModelCatalog;
+    @Autowired
+    InternalMomLogicalModelCatalog internalMomLogicalModelCatalog;
 
     @Autowired
     LogicalDeploymentRepository logicalDeploymentRepository;
@@ -600,7 +600,7 @@ public class LogicalModelTest {
             }
         });
         // Check dead letter queue has a name defined when enabled.
-		instanciateModelAndAssertViolationDetected(elPaaSoLogicalModelCatalog, new LogicalModelModifier() {
+		instanciateModelAndAssertViolationDetected(internalMomLogicalModelCatalog, new LogicalModelModifier() {
 			@Override
 			public void applyModifications(LogicalDeployment ld) {
 				LogicalMomService momService = ld.listLogicalServices(LogicalMomService.class).iterator().next();
@@ -609,7 +609,7 @@ public class LogicalModelTest {
 			}
 		});
 		// Check that we don't have duplicate JNDI queue names.
-		instanciateModelAndAssertViolationDetected(elPaaSoLogicalModelCatalog, new LogicalModelModifier() {
+		instanciateModelAndAssertViolationDetected(internalMomLogicalModelCatalog, new LogicalModelModifier() {
 			@Override
 			public void applyModifications(LogicalDeployment ld) {
 				Iterator<LogicalMomService> it = ld.listLogicalServices(LogicalMomService.class).iterator();
@@ -620,7 +620,7 @@ public class LogicalModelTest {
 			}
 		});
 		// Check that we don't have duplicate JNDI queue names.
-		instanciateModelAndAssertViolationDetected(elPaaSoLogicalModelCatalog, new LogicalModelModifier() {
+		instanciateModelAndAssertViolationDetected(internalMomLogicalModelCatalog, new LogicalModelModifier() {
 			@Override
 			public void applyModifications(LogicalDeployment ld) {
 				Iterator<LogicalMomService> it = ld.listLogicalServices(LogicalMomService.class).iterator();

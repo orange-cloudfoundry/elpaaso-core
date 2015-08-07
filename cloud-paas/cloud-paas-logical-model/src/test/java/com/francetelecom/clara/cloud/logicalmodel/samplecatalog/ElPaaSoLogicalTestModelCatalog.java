@@ -22,7 +22,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-public class ElPaaSoLogicalTestModelCatalog extends ElPaaSoLogicalModelCatalog {
+public class ElPaaSoLogicalTestModelCatalog extends ElPaaSoTomcatLogicalModelCatalog {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ElPaaSoLogicalTestModelCatalog.class);
 	private static final String DEVELOPMENT_PROPERTIES_FILE = "com/francetelecom/clara/cloud/commons/testconfigurations/diff/credentials-development_specific.properties";

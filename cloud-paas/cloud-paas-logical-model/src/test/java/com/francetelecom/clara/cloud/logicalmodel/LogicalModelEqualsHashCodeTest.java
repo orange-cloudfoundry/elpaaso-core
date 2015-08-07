@@ -13,7 +13,7 @@
 package com.francetelecom.clara.cloud.logicalmodel;
 
 import com.francetelecom.clara.cloud.commons.MavenReference;
-import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.ElPaaSoLogicalModelCatalog;
+import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.ElPaaSoTomcatLogicalModelCatalog;
 import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppFactory;
 import junit.framework.Assert;
 import org.junit.Test;
@@ -401,7 +401,7 @@ public class LogicalModelEqualsHashCodeTest {
     public void testCatalogsPersistence() {
         for (SampleAppFactory factory : sampleAppFactories.values()) {
             // Can't test for elpaaso catalog, need datacenter:prismo property
-            if (!(factory instanceof ElPaaSoLogicalModelCatalog)) {
+            if (!(factory instanceof ElPaaSoTomcatLogicalModelCatalog)) {
                 testTypedAndEmptyConstructorLd(factory);
             }
         }

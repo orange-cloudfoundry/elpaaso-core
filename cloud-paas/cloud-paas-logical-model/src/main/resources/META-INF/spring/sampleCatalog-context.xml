@@ -36,10 +36,6 @@
     <bean name="ptpmFrontOfficeLogicalModelCatalog" class="com.francetelecom.clara.cloud.logicalmodel.samplecatalog.PtpmFrontOfficeModelCatalog" />
     <bean name="internalMomLogicalModelCatalog" class="com.francetelecom.clara.cloud.logicalmodel.samplecatalog.InternalMomLogicalModelCatalog" />
     <bean name="pwmLogicalModelCatalog" class="com.francetelecom.clara.cloud.logicalmodel.samplecatalog.PwmLogicalModelCatalog" />
-    <bean name="elPaaSoLogicalModelCatalog" class="com.francetelecom.clara.cloud.logicalmodel.samplecatalog.ElPaaSoLogicalModelCatalog">
-        <!--<property name="contextPropertiesPath" value="com/francetelecom/clara/cloud/commons/testconfigurations/credentials-qa-ms" />-->
-        <property name="contextPropertiesPath" value="com/francetelecom/clara/cloud/commons/testconfigurations/credentials-${datacenter:reference}.properties"/>
-    </bean>
 
 
     <bean name="elPaaSoMocksLogicalModelCatalog" class="com.francetelecom.clara.cloud.logicalmodel.samplecatalog.ElPaaSoMockLogicalModelCatalog" />
@@ -61,5 +57,7 @@
     <bean name="simpleConfigProbeLogicalModelCatalog" class="com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SimpleConfigProbeLogicalModelCatalog"/>
     <bean name="cfWicketCxfJpaLogicalModelCatalog" class="com.francetelecom.clara.cloud.logicalmodel.samplecatalog.CFWicketCxfJpaLogicalModelCatalog" />
     <bean name="springCloudMicroservicesLogicalModelCatalog" class="com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SpringCloudMicroservicesLogicalModelCatalog" />
-    <bean name="elPaaSoTomcatLogicalModelCatalog" class="com.francetelecom.clara.cloud.logicalmodel.samplecatalog.ElPaaSoTomcatLogicalModelCatalog"/>
+    <bean name="elPaaSoTomcatLogicalModelCatalog" class="com.francetelecom.clara.cloud.logicalmodel.samplecatalog.ElPaaSoTomcatLogicalModelCatalog">
+        <!--<property name="contextPropertiesPath" value="com/francetelecom/clara/cloud/commons/testconfigurations/credentials-${datacenter:reference}.properties"/>-->
+    </bean>
 </beans>

@@ -45,7 +45,7 @@ public class LogicalDeploymentImportExportTest {
     @Qualifier(value = "pwmLogicalModelCatalog")
     SampleAppFactory pwmFactory;
     @Autowired
-    @Qualifier(value = "elPaaSoLogicalModelCatalog")
+    @Qualifier(value = "elPaaSoTomcatLogicalModelCatalog")
     SampleAppFactory elpaasoFactory;
 
 

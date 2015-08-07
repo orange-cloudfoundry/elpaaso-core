@@ -63,13 +63,13 @@ public class ElPaaSoMockLogicalModelCatalog extends BaseReferenceLogicalModelsCa
 		}
 
 		// EAR
-		ProcessingNode jeeProcessing = createJeeProcessing(this, "ElPaaSo_Mock", APP_CODE);
-		existingLDToUpdate.addExecutionNode(jeeProcessing);
+		ProcessingNode javaProcessing = createCFJavaProcessing(this, "ElPaaSo_Mock", APP_CODE,ArtefactType.war);
+		existingLDToUpdate.addExecutionNode(javaProcessing);
 
 		// Update context root of webGUI
-		LogicalWebGUIService web = createLogicalWebGuiService("paas-portal", APP_CODE, true, false, 1, 20);
+		LogicalWebGUIService web = createLogicalWebGuiService("paas-portal", APP_CODE, true, false, 1, 20,ArtefactType.war);
         existingLDToUpdate.addLogicalService(web);
-		jeeProcessing.addLogicalServiceUsage(web, LogicalServiceAccessTypeEnum.NOT_APPLICABLE);
+		javaProcessing.addLogicalServiceUsage(web, LogicalServiceAccessTypeEnum.NOT_APPLICABLE);
 
         return existingLDToUpdate;
 
