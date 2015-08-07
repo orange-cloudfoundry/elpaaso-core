@@ -60,7 +60,6 @@
         <ear.context />
 
         <jmx.context>paas-portal-jmx</jmx.context>
-        <jmx-browser-maven-plugin.version>0.0.3</jmx-browser-maven-plugin.version>
         <paas.jmx.port>80</paas.jmx.port>
 
     </properties>
@@ -236,15 +235,6 @@
                 <filtering>true</filtering>
             </testResource>
         </testResources>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>com.orange.clara.cloud</groupId>
-                    <artifactId>jmx-browser-maven-plugin</artifactId>
-                    <version>${jmx-browser-maven-plugin.version}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
         <plugins>
             <plugin>
                 <!-- Overrides analyze-dep-mgt config as xerces and xml-api are required but excluded in cloud-dependencies-mgt -->
@@ -434,128 +424,6 @@
                 <paas.instance.port>${env.ELPAASO_UATTRUNK_PORT}</paas.instance.port>
                 <paas.jmx.host>not-set</paas.jmx.host>
             </properties>
-        </profile>
-
-        <!-- backup-restore-database profile -->
-        <profile>
-            <id>backup-restore-database</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.orange.clara.cloud</groupId>
-                        <artifactId>jmx-browser-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>default-cli</id>
-                                <phase>process-resources</phase>
-                                <goals>
-                                    <goal>httpExportRarInfo</goal>
-                                </goals>
-                                <configuration>
-                                    <exportPrefix>paas.</exportPrefix>
-                                    <jmxServer>${paas.jmx.host}</jmxServer>
-                                    <jmxServerPort>${paas.jmx.port}</jmxServerPort>
-                                    <jmxServerEndpoint>${jmx.context}</jmxServerEndpoint>
-                                    <jndiFilter>jdbc/cloud-webappDataSource</jndiFilter>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-antrun-plugin</artifactId>
-                        <version>1.7</version>
-                        <executions>
-                            <execution>
-                                <id>backup-database</id>
-                                <phase>pre-integration-test</phase>
-                                <configuration>
-                                    <target>
-                                        <echo>Saving database ${backup.id}</echo>
-                                        <echo>from ${paas.db.host}:${paas.db.port}/${paas.db.name}</echo>
-                                        <echo>to</echo>
-                                        <echo>
-                                            ${project.build.directory}/backup-${backup.id}-${paas.db.name}.sql
-                                        </echo>
-                                        <echo />
-                                        <exec executable="pg_dump" failonerror="true">
-                                            <env key="PGPASSWORD" value="${paas.db.password}" />
-                                            <arg value="-h" />
-                                            <arg value="${paas.db.host}" />
-                                            <arg value="-p" />
-                                            <arg value="${paas.db.port}" />
-                                            <arg value="-U" />
-                                            <arg value="${paas.db.user}" />
-                                            <arg value="-w" />
-                                            <arg value="-n" />
-                                            <arg value="public" />
-                                            <arg value="-c" />
-                                            <arg value="-O" />
-                                            <arg value="-x" />
-                                            <arg value="-f" />
-                                            <arg value="${project.build.directory}/backup-${backup.id}-${paas.db.name}.sql" />
-                                            <arg value="${paas.db.name}" />
-                                        </exec>
-                                        <echo />
-                                        <echo>Database saved in</echo>
-                                        <echo>${project.build.directory}/backup-${backup.id}-${paas.db.name}.sql</echo>
-                                        <echo />
-                                    </target>
-                                </configuration>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                            </execution>
-                            <execution>
-                                <id>restore-database</id>
-                                <phase>post-integration-test</phase>
-                                <configuration>
-                                    <target>
-                                        <echo>Restoring database</echo>
-                                        <echo>from ${project.build.directory}/backup-${backup.id}-${paas.db.name}.sql</echo>
-                                        <echo>to ${paas.db.host}:${paas.db.port}/${paas.db.name}</echo>
-                                        <echo />
-                                        <exec executable="psql" failonerror="true">
-                                            <env key="PGPASSWORD" value="${paas.db.password}" />
-                                            <arg value="-h" />
-                                            <arg value="${paas.db.host}" />
-                                            <arg value="-p" />
-                                            <arg value="${paas.db.port}" />
-                                            <arg value="-d" />
-                                            <arg value="${paas.db.name}" />
-                                            <arg value="-U" />
-                                            <arg value="${paas.db.user}" />
-                                            <arg value="-f" />
-                                            <arg value="${project.build.directory}/backup-${backup.id}-${paas.db.name}.sql" />
-                                        </exec>
-                                        <echo />
-                                        <echo>Database restored to</echo>
-                                        <echo>${paas.db.host}:${paas.db.port}/${paas.db.name}</echo>
-                                        <echo />
-                                    </target>
-                                </configuration>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <!-- When we backup database, we need to reexpose sys var to failsafe as process are forked -->
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <inherited>true</inherited>
-                        <configuration>
-                            <systemPropertyVariables>
-                                <paas.db.host>${paas.db.host}</paas.db.host>
-                                <paas.db.port>${paas.db.port}</paas.db.port>
-                                <paas.db.name>${paas.db.name}</paas.db.name>
-                                <paas.db.username>${paas.db.user}</paas.db.username>
-                                <paas.db.password>${paas.db.password}</paas.db.password>
-                            </systemPropertyVariables>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
         </profile>
 
         <profile>
