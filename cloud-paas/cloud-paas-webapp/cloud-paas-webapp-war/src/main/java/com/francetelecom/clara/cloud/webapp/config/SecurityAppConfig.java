@@ -36,7 +36,7 @@ import org.springframework.security.core.context.SecurityContextHolderStrategy;
  */
 @Configuration
 @EnableWebMvcSecurity
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity(debug = false)
 //@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 @Import(LdapContext.class)
 public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
