@@ -32,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.*;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -46,6 +47,8 @@ import java.util.Map;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class PaasServicesEnvSimpleProbeIT {
 
+    public static final String HEADER_ELPAASO_UNIVERSAL_ID = "elpaaso_universalId";
+    public static final String HEADER_ELPAASO_UNIVERSAL_ID_DEFAULT_VALUE = "abcd1234";
     protected static Logger logger = LoggerFactory.getLogger(PaasServicesEnvSimpleProbeIT.class);
     RestTemplate restTemplate = new RestTemplate();
 
@@ -155,7 +158,7 @@ public class PaasServicesEnvSimpleProbeIT {
      * assert that java version is correct
      */
     @Test
-    public void testJavaVersion() throws ObjectNotFoundException {
+    public void enforceJavaVersionAndAssertRequestHeader() throws ObjectNotFoundException {
         // Get environment detail dto
         EnvironmentDetailsDto envDto = manageEnvironment.findEnvironmentDetails(environmentUID);
 
@@ -180,6 +183,11 @@ public class PaasServicesEnvSimpleProbeIT {
                             String javaVersion = getRestTemplateForProbeFrom(linkDto, "env/java.specification.version");
                             Assert.assertNotNull(javaVersion);
                             Assert.assertEquals("Java version " + javaVersion + " not found on WAS", expectedJavaVersion, javaVersion);
+
+                            String elpaasoUniversalId = getRestTemplateForProbeFrom(linkDto, "headers/"+HEADER_ELPAASO_UNIVERSAL_ID.toLowerCase());
+                            Assert.assertNotNull(elpaasoUniversalId);
+                            Assert.assertEquals(HEADER_ELPAASO_UNIVERSAL_ID +" not found. ", HEADER_ELPAASO_UNIVERSAL_ID_DEFAULT_VALUE, elpaasoUniversalId);
+
                         }
                     }
                 }
@@ -200,7 +208,15 @@ public class PaasServicesEnvSimpleProbeIT {
             clientHttpRequestFactory.setProxy(proxy);
         }
         RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory);
-        String result = restTemplate.getForEntity(link.getUrl().toString()+path, String.class).getBody();
+        HttpHeaders customHeaders = new HttpHeaders();
+        customHeaders.add(HEADER_ELPAASO_UNIVERSAL_ID, HEADER_ELPAASO_UNIVERSAL_ID_DEFAULT_VALUE);
+
+        HttpEntity<String> entity = new HttpEntity<>("parameters", customHeaders);
+        ResponseEntity<String> response = restTemplate.exchange(link.getUrl().toString()+path,
+                HttpMethod.GET,
+                entity,
+                String.class);
+        String result = response.getBody();
 
         return result;
     }
