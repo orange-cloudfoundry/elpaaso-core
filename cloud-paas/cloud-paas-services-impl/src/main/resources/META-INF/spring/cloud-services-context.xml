@@ -48,10 +48,8 @@
           class="com.francetelecom.clara.cloud.environment.impl.EnvironmentMapper">
     </bean>
 
-    <bean id="manageEnvironment"
-          class="com.francetelecom.clara.cloud.environment.impl.ManageEnvironmentImpl"/>
-
-    <bean class="com.francetelecom.clara.cloud.environment.impl.ManageEnvironmentImplUtils"/>
+    <context:component-scan
+            base-package="com.francetelecom.clara.cloud.environment.impl"/>
 
     <!-- manageLogicalDeployment facade -->
     <bean id="manageLogicalDeployment"

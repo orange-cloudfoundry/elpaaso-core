@@ -50,7 +50,7 @@ import java.util.*;
 /**
  * Manages environment
  */
-@Service
+@Service("manageEnvironment")
 public class ManageEnvironmentImpl implements ManageEnvironment {
 
     private static final Logger log = LoggerFactory.getLogger(ManageEnvironmentImpl.class);

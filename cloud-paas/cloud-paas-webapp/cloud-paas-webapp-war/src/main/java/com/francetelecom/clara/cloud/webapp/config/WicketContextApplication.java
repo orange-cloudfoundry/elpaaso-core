@@ -42,11 +42,11 @@ public class WicketContextApplication {
 		SplunkBean splunkBean = new SplunkBean();
 		return splunkBean;
 	}
-	
+
+	@ConfigurationProperties("contactus")
 	@Bean
 	public ContactUsBean contactUsBean(){
 		ContactUsBean contactUsBean = new ContactUsBean();
-		contactUsBean.setMailTo(mailTo);
 		return contactUsBean;
 	}
 	
@@ -61,9 +61,6 @@ public class WicketContextApplication {
 	@Value("${pwm.recover.url}")
 	String pwmRecoverUrl;
 	
-	@Value("${contactus.mailTo}")
-	String mailTo;
-
 	@Bean
 	public SignUpLinks signUpLinks(){
 		SignUpLinks signUpLinks = new SignUpLinks();
