@@ -35,15 +35,9 @@ public class ElpaasoEndpointContext {
     public String getEndpointPrefixAddress(){
         String host =environment.getProperty("paas.instance.host","hostShouldBeSetByFailsafePluginThroughResourcePlugin");
         String port =environment.getProperty("paas.instance.port","9999");
-        String earContext = environment.getProperty("ear.context","");
+        String warContext = environment.getProperty("war.context","");
 
-        return host+":"+port+earContext;
-    }
-
-//    @Bean
-    public Utils disableSslCertificateCheck(){
-        Utils.disableSslCertificateCheck();
-        return new Utils();
+        return host+":"+port+warContext;
     }
 
 }

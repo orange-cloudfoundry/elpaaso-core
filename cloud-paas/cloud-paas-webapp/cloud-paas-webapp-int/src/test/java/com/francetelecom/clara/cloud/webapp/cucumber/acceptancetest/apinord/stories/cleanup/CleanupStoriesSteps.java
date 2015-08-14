@@ -17,6 +17,7 @@ import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
+import cucumber.runtime.java.StepDefAnnotation;
 import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +49,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-//@StepDefAnnotation
+@StepDefAnnotation
 @ContextConfiguration(classes = CleanupStoriesStepsContext.class)
 @DirtiesContext
 public class CleanupStoriesSteps {

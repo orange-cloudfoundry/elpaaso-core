@@ -27,12 +27,6 @@ import org.springframework.retry.support.RetryTemplate;
 public class EnvironmentStoriesStepsContext {
 
     @Bean
-    public EnvironmentStoriesSteps getEnvironmentStoriesSteps() {
-        return new EnvironmentStoriesSteps();
-    }
-
-
-    @Bean
     @Qualifier("retryTemplate")
     public RetryTemplate getRetryTemplate(){
         RetryTemplate retryTemplate = new RetryTemplate();

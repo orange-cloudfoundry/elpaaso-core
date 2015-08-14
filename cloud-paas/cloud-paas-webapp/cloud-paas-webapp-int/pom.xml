@@ -57,7 +57,7 @@
         <xerces.version>2.11.0</xerces.version>
         <xml-api.version>1.4.01</xml-api.version>
         <selenium.version>2.42.2</selenium.version>
-        <ear.context />
+        <war.context />
 
         <jmx.context>paas-portal-jmx</jmx.context>
         <paas.jmx.port>80</paas.jmx.port>

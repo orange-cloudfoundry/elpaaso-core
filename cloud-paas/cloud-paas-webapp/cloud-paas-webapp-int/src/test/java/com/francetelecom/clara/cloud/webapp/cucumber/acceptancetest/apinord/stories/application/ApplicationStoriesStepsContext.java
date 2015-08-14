@@ -21,9 +21,4 @@ import org.springframework.context.annotation.ImportResource;
 @Configuration
 @Import(NorthApiContext.class)
 public class ApplicationStoriesStepsContext {
-
-    @Bean
-    public ApplicationStoriesSteps getApplicationStoriesSteps() {
-        return new ApplicationStoriesSteps();
-    }
 }

@@ -22,8 +22,4 @@ import org.springframework.context.annotation.Import;
 @Import(NorthApiContext.class)
 public class CleanupStoriesStepsContext {
 
-    @Bean
-    public CleanupStoriesSteps getCleanupStoriesSteps() {
-        return new CleanupStoriesSteps();
-    }
 }
