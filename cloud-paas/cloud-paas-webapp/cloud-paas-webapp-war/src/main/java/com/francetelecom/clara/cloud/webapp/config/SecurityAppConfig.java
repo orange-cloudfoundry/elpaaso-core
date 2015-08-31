@@ -60,6 +60,7 @@ public class SecurityAppConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("**/favicon.ico").permitAll()
 //                .antMatchers("**/styles/**").permitAll()
                 .antMatchers("/portal/login/**").permitAll()
+                .antMatchers("/api/soap/**").permitAll()
                 .antMatchers("/portal/**").authenticated()
                 .antMatchers(MANAGEMENT_PREFIX+"/health",MANAGEMENT_PREFIX+"/info").permitAll()
                 .antMatchers(MANAGEMENT_PREFIX+"/beans",MANAGEMENT_PREFIX+"/trace",MANAGEMENT_PREFIX+"/dump").hasRole("ADMIN")
