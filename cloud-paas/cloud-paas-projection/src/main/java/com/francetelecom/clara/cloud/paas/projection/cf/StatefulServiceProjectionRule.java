@@ -23,6 +23,9 @@ import java.util.Set;
 
 public class StatefulServiceProjectionRule implements ServiceProjectionRule {
 
+    public static final String REDIS_SERVICE_NAME = "redis";
+    public static final String REDIS_PLAN_DEFAULT = "shared-vm";
+
     @Override
     public void apply(LogicalDeployment ld, TechnicalDeployment td, ProjectionContext projectionContext) {
         Set<LogicalWebGUIService> logicalWebGUIServices = ld.listLogicalServices(LogicalWebGUIService.class);
@@ -34,7 +37,7 @@ public class StatefulServiceProjectionRule implements ServiceProjectionRule {
     }
 
     protected ManagedService toSessionReplicationService(LogicalWebGUIService logicalWebGUIService, Space space, TechnicalDeployment td) {
-        final ManagedService sessionReplicationService = new ManagedService("redis", "default", new ServiceNameBuilder(logicalWebGUIService.getLabel()).build() + "-session-replication", space, td);
+        final ManagedService sessionReplicationService = new ManagedService(REDIS_SERVICE_NAME, REDIS_PLAN_DEFAULT, new ServiceNameBuilder(logicalWebGUIService.getLabel()).build() + "-session-replication", space, td);
         sessionReplicationService.setLogicalModelId(logicalWebGUIService.getName());
         return sessionReplicationService;
     }

@@ -72,7 +72,7 @@ public class StatefulServiceProjectionRuleTest {
         final ManagedService managedService = statefulServiceProjectionRule.toSessionReplicationService(logicalWebGUIService, space, td);
 
         //then service plan should be default
-        Assertions.assertThat(managedService.getPlan()).isEqualTo("default");
+        Assertions.assertThat(managedService.getPlan()).isEqualTo("shared-vm");
     }
 
     @Test
