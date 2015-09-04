@@ -23,7 +23,7 @@ import java.util.Set;
 
 public class StatefulServiceProjectionRule implements ServiceProjectionRule {
 
-    public static final String REDIS_SERVICE_NAME = "redis";
+    public static final String REDIS_SERVICE_NAME = "p-redis";
     public static final String REDIS_PLAN_DEFAULT = "shared-vm";
 
     @Override

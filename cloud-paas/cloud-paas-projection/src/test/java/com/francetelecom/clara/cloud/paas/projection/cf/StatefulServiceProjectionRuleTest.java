@@ -88,7 +88,7 @@ public class StatefulServiceProjectionRuleTest {
         final ManagedService managedService = statefulServiceProjectionRule.toSessionReplicationService(logicalWebGUIService, space, td);
 
         //then service type should be redis
-        Assertions.assertThat(managedService.getService()).isEqualTo("redis");
+        Assertions.assertThat(managedService.getService()).isEqualTo("p-redis");
     }
 
     @Test
@@ -110,7 +110,7 @@ public class StatefulServiceProjectionRuleTest {
         final Set<ManagedService> actual = td.listXaasSubscriptionTemplates(ManagedService.class);
         Assertions.assertThat(actual).hasSize(1);
         final ManagedService managedService = actual.iterator().next();
-        Assertions.assertThat(managedService.getService()).isEqualTo("redis");
+        Assertions.assertThat(managedService.getService()).isEqualTo("p-redis");
 
     }
 
