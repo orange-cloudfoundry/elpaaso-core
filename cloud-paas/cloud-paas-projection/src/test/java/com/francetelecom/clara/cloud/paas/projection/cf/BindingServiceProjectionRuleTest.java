@@ -17,38 +17,20 @@ import com.francetelecom.clara.cloud.logicalmodel.LogicalDeployment;
 import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.CFWicketCxfJpaLogicalModelCatalog;
 import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppProperties;
 import com.francetelecom.clara.cloud.model.TechnicalDeployment;
-import com.francetelecom.clara.cloud.mvn.consumer.MvnRepoDao;
-import com.francetelecom.clara.cloud.paas.projection.security.CryptService;
 import com.francetelecom.clara.cloud.techmodel.cf.App;
 import com.francetelecom.clara.cloud.techmodel.cf.Space;
 import org.fest.assertions.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import java.net.URL;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BindingServiceProjectionRuleTest {
 
-    @Mock
-    MvnRepoDao mvnRepoDao;
-
-    @Mock
-    CryptService cryptService;
-
-
     @Test
     public void should_bind_service_to_app() throws Exception {
         // given
-        ServiceProjectionRule relationalServiceServiceProjectionRule = new RelationalServiceProjectionRule(cryptService, mvnRepoDao, "");
-
-        MavenReference sqlScript = new MavenReference("groupId", "artifactId", "version");
-        sqlScript.setAccessUrl(new URL("http://localhost"));
-        Mockito.when(mvnRepoDao.resolveUrl(sqlScript)).thenReturn(sqlScript);
-        Mockito.when(cryptService.generateRandomPassword()).thenReturn("azerty");
+        ServiceProjectionRule relationalServiceServiceProjectionRule = new ToDbaasServiceProjectionRule();
 
         LogicalDeployment logicalDeployment = new LogicalDeployment();
         CFWicketCxfJpaLogicalModelCatalog logicalModelCatalog = new CFWicketCxfJpaLogicalModelCatalog();

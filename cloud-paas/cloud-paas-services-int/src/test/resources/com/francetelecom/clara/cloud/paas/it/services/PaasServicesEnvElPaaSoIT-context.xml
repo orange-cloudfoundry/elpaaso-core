@@ -7,8 +7,6 @@
 
 
 	<import resource="classpath:/META-INF/spring/paas-activation-plugin-cf-context.xml" />
-	<import resource="classpath:/META-INF/spring/paas-activation-plugin-dbaas-V2-context.xml" />
-
 
 	<!-- properties -->
 	<bean id="springProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -31,7 +29,6 @@
 				<ref bean="userProvidedServiceActivationPlugin" />
 				<ref bean="managedServiceActivationPlugin" />
 				<ref bean="routeActivationPlugin"/>				
-				<ref bean="activationPluginDBaas-V2" />
 				<ref bean="organizationActivationPlugin"/>
 			</list>
 		</property>

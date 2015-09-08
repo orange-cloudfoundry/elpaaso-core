@@ -135,11 +135,6 @@
         </dependency>
         <dependency>
             <groupId>com.orange.clara.cloud</groupId>
-            <artifactId>cloud-iaas-dbaas-consumer-v2</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.orange.clara.cloud</groupId>
             <artifactId>cloud-commons-test-configurations</artifactId>
             <scope>test</scope>
         </dependency>

@@ -251,13 +251,6 @@
 		</dependency>
 
 		<!-- Activation plugins -->
-
-		<!-- Plugin DBaas -->
-		<dependency>
-			<groupId>com.orange.clara.cloud</groupId>
-			<artifactId>cloud-iaas-dbaas-consumer-v2</artifactId>
-			<scope>runtime</scope>
-		</dependency>
 		<!-- Plugin CloudFoundry -->
 		<dependency>
 			<groupId>com.orange.clara.cloud</groupId>

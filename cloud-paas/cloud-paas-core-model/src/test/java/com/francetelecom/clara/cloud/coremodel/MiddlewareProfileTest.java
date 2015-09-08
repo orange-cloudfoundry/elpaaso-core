@@ -41,12 +41,8 @@ public class MiddlewareProfileTest {
 	public void filter_on_admin_users_should_return_deprecated_supported_and_experimental_profiles() throws Exception {
 		Set<MiddlewareProfile> visibleProfiles =  MiddlewareProfile.filter(user(PaasRoleEnum.ROLE_ADMIN), Arrays.asList(MiddlewareProfile.values()));
 
-		// Forbidden for
-		// Currently no internal profile as 1.0.0-dbaas has been removed.
-		// assertThat(visibleProfiles).excludes(MiddlewareProfile.V100_DBAAS);
-		
   	//Allow for
-		assertThat(visibleProfiles).containsOnly(MiddlewareProfile.V200_CF, MiddlewareProfile.V210_CF);
+		assertThat(visibleProfiles).containsOnly(MiddlewareProfile.V210_CF);
 
 	}
 	
@@ -54,19 +50,16 @@ public class MiddlewareProfileTest {
 	public void filter_on_common_users_should_return_supported_profiles() throws Exception {
 		Set<MiddlewareProfile> visibleProfiles =  MiddlewareProfile.filter(user(PaasRoleEnum.ROLE_USER), Arrays.asList(MiddlewareProfile.values()));
 
-		//Forbidden for
-		// assertThat(visibleProfiles).excludes(MiddlewareProfile.V200_CF);
-		
 		//Allow for
-		assertThat(visibleProfiles).containsOnly(MiddlewareProfile.V200_CF);
+		assertThat(visibleProfiles).containsOnly(MiddlewareProfile.V210_CF);
 	}
 	
 	@Test
 	public void filter_on_deprecated_roles_should_return_supported_profiles() throws Exception {
-		assertThatUserOnlySee(user(PaasRoleEnum.DEVELOPER), MiddlewareProfile.V200_CF);
-		assertThatUserOnlySee(user(PaasRoleEnum.ARCHITECT), MiddlewareProfile.V200_CF);
-		assertThatUserOnlySee(user(PaasRoleEnum.USER), MiddlewareProfile.V200_CF);
-		assertThatUserOnlySee(user(PaasRoleEnum.RELEASE_MANAGER), MiddlewareProfile.V200_CF);
+		assertThatUserOnlySee(user(PaasRoleEnum.DEVELOPER), MiddlewareProfile.V210_CF);
+		assertThatUserOnlySee(user(PaasRoleEnum.ARCHITECT), MiddlewareProfile.V210_CF);
+		assertThatUserOnlySee(user(PaasRoleEnum.USER), MiddlewareProfile.V210_CF);
+		assertThatUserOnlySee(user(PaasRoleEnum.RELEASE_MANAGER), MiddlewareProfile.V210_CF);
 	}
 
 	private PaasUser user(PaasRoleEnum role) {

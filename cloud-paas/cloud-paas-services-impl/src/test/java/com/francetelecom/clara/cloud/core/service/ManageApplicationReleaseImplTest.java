@@ -28,7 +28,6 @@ import com.francetelecom.clara.cloud.model.TechnicalDeploymentTemplateRepository
 import com.francetelecom.clara.cloud.paas.projection.ProjectionService;
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -754,13 +753,13 @@ public class ManageApplicationReleaseImplTest {
     @Test
     public void find_all_middleware_profil_should_return_same_list_as_projection_service() throws Exception {
         // Given
-        when(projectionServiceMock.findAllMiddlewareProfil()).thenReturn(Arrays.asList(MiddlewareProfile.V200_CF));
+        when(projectionServiceMock.findAllMiddlewareProfil()).thenReturn(Arrays.asList(MiddlewareProfile.V210_CF));
 
         // When
         List<MiddlewareProfile> middlewareProfiles = manageApplicationRelease.findAllMiddlewareProfil();
 
         // then
-        assertThat(middlewareProfiles).containsExactly(MiddlewareProfile.V200_CF);
+        assertThat(middlewareProfiles).containsExactly(MiddlewareProfile.V210_CF);
     }
 
     @Test

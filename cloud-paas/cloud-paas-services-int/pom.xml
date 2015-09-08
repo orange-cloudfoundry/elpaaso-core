@@ -55,11 +55,6 @@
 			<artifactId>cloud-paas-services-dto</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.orange.clara.cloud</groupId>
-			<artifactId>cloud-iaas-dbaas-consumer-v2</artifactId>
-			<scope>test</scope>
-		</dependency>
 			<!-- Test-jar dependencies: depends on other modules test-classes, not on module itself -->
 
 		<dependency>

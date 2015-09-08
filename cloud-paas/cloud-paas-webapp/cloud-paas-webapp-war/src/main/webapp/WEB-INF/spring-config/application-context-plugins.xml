@@ -28,7 +28,6 @@
 		class="com.francetelecom.clara.cloud.paas.activation.v1.ActivationPluginStrategyImpl">
 		<property name="plugins">
 			<list>
-				<ref bean="activationPluginDBaas-V2" />
 				<ref bean="appActivationPlugin" />
 				<ref bean="spaceActivationPlugin" />
 				<ref bean="userProvidedServiceActivationPlugin" />

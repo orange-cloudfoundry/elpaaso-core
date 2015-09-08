@@ -84,14 +84,6 @@
         <property name="routeStrategy" ref="routeStrategy-2.x"/>
     </bean>
 
-    <bean id="relationalServiceProjectionRule"
-          class="com.francetelecom.clara.cloud.paas.projection.cf.RelationalServiceProjectionRule">
-        <property name="cryptService" ref="cryptService"/>
-        <property name="mvnDao" ref="mvnDao"/>
-        <property name="dbaasVersion" value="DBAAS_10"/>
-    </bean>
-
-
     <bean id="storeServiceProjectionRule" class="com.francetelecom.clara.cloud.paas.projection.cf.StoreServiceProjectionRule">
     </bean>
 
@@ -110,35 +102,6 @@
     <bean id="routeMappingProjectionRule" class="com.francetelecom.clara.cloud.paas.projection.cf.RouteMappingProjectionRule"/>
     <bean id="configOverrideProjectionRule" class="com.francetelecom.clara.cloud.paas.projection.cf.ConfigOverrideProjectionRule"/>
     <bean id="logServiceBindingProjectionRule" class="com.francetelecom.clara.cloud.paas.projection.cf.LogServiceBindingProjectionRule"/>
-
-
-    <bean id="baseProjectionService-2.0.0-cf"
-          class="com.francetelecom.clara.cloud.paas.projection.cf.CfProjectionServiceImpl">
-        <property name="serviceProjectionRules">
-            <util:set>
-                <ref bean="webGuiServiceProjectionRule"/>
-                <ref bean="storeServiceProjectionRule"/>
-                <ref bean="rabbitServiceProjectionRule"/>
-                <ref bean="relationalServiceProjectionRule"/>
-                <ref bean="statefulServiceProjectionRule"/>
-            </util:set>
-        </property>
-        <property name="processingNodeProjectionRules">
-            <util:set>
-                <ref bean="cfJavaProcessingProjectionRule"/>
-                <ref bean="jeeProcessingProjectionRule"/>
-            </util:set>
-        </property>
-        <property name="associationProjectionRules">
-            <util:set>
-                <ref bean="defaultServiceBindingProjectionRule"/>
-                <ref bean="routeMappingProjectionRule"/>
-                <ref bean="serviceConfigProjectionRule"/>
-                <ref bean="logServiceBindingProjectionRule"/>
-            </util:set>
-        </property>
-        <property name="configOverrideProjectionRule" ref="configOverrideProjectionRule"/>
-    </bean>
 
     <bean id="baseProjectionService-2.1.0-cf"
           class="com.francetelecom.clara.cloud.paas.projection.cf.CfProjectionServiceImpl">

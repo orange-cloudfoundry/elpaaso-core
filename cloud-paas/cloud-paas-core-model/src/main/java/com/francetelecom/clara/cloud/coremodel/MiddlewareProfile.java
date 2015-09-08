@@ -26,9 +26,9 @@ import java.util.Set;
  *
  */
 public enum MiddlewareProfile {
-	V200_CF("2.0.0-cf", MiddlewareProfileStatus.SUPPORTED),V210_CF("2.1.0-cf", MiddlewareProfileStatus.EXPERIMENTAL);
+	V210_CF("2.1.0-cf", MiddlewareProfileStatus.SUPPORTED);
 
-	public static final String DEFAULT_PROFILE = "2.0.0-cf";
+	public static final String DEFAULT_PROFILE = "2.1.0-cf";
 
 	public static MiddlewareProfile getDefault() {
 		return fromVersion(DEFAULT_PROFILE);

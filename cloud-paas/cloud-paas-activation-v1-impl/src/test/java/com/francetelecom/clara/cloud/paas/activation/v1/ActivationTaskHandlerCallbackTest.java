@@ -17,7 +17,7 @@ import com.francetelecom.clara.cloud.coremodel.EnvironmentRepository;
 import com.francetelecom.clara.cloud.model.ModelItemRepository;
 import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.paas.activation.ActivationStepEnum;
-import com.francetelecom.clara.cloud.techmodel.dbaas.DBaasSubscriptionV2;
+import com.francetelecom.clara.cloud.techmodel.cf.Space;
 import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.runtime.Execution;
@@ -82,7 +82,7 @@ public class ActivationTaskHandlerCallbackTest {
         final String activitiTaskId = "activity1234";
         int tdiId = 111;
         int entityId = 1111;
-        String entityClassName = "com.francetelecom.clara.cloud.techmodel.dbaas.DBaasSubscriptionV2";
+        String entityClassName = "com.francetelecom.clara.cloud.techmodel.cf.Space";
         String activationTaskErrorMessage = "ActivationTask Error message.";
         String activitiTaskErrorMessage = "ActivitiTask Error message.";
         int taskIndex = 0;
@@ -97,7 +97,7 @@ public class ActivationTaskHandlerCallbackTest {
         currentTask.setTaskStatus(TaskStatusEnum.FINISHED_FAILED);
         currentTask.setErrorMessage(activitiTaskErrorMessage);
 
-        DBaasSubscriptionV2 dBaasSubscriptionV2 = new DBaasSubscriptionV2(new TechnicalDeployment(""));
+        Space space = new Space(new TechnicalDeployment(""));
 
         String executionActivitiId = "124";
         when(executionActiviti.getId())
@@ -107,14 +107,14 @@ public class ActivationTaskHandlerCallbackTest {
 
         doReturn(activitiRuntimeService).when(processEngineMock).getRuntimeService();
 
-        doReturn(dBaasSubscriptionV2).when(modelItemRepository).find(anyInt(),any());
+        doReturn(space).when(modelItemRepository).find(anyInt(),any());
 
-        String calculatedErrorMessage = "stop failed on DBaasSubscriptionV2#1111 (activity1234) : ActivitiTask Error message.";
+        String calculatedErrorMessage = "stop failed on Space#1111 (activity1234) : ActivitiTask Error message.";
 
         doNothing()
             .when(taskHandlerCallback).signalFailedTaskToActivitiEngine(executionActivitiId,
                 "1", calculatedErrorMessage, entityId,
-                DBaasSubscriptionV2.class, activationStep);
+                Space.class, activationStep);
 
         String communicationId = "1234";
         // WHEN
@@ -122,7 +122,7 @@ public class ActivationTaskHandlerCallbackTest {
         // THEN
         verify(taskHandlerCallback).signalFailedTaskToActivitiEngine(executionActivitiId,
                 "1", calculatedErrorMessage, entityId,
-                DBaasSubscriptionV2.class, activationStep);
+                Space.class, activationStep);
     }
     
     @Test

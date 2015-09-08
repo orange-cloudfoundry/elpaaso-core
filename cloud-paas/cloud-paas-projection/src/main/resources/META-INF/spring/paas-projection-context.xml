@@ -25,9 +25,6 @@
 	<bean id="ProjectorPerProfiles" class="java.util.EnumMap">
 		<constructor-arg>
 			<util:map key-type="com.francetelecom.clara.cloud.coremodel.MiddlewareProfile">
-				<entry key="V200_CF">
-					<ref bean="baseProjectionService-2.0.0-cf" />
-				</entry>
 				<entry key="V210_CF">
 					<ref bean="baseProjectionService-2.1.0-cf"/>
 				</entry>

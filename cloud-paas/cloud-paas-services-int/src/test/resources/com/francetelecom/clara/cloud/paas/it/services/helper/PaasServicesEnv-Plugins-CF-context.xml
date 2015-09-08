@@ -12,7 +12,6 @@
 				<ref bean="routeActivationPlugin" />
 				<ref bean="userProvidedServiceActivationPlugin" />
 				<ref bean="managedServiceActivationPlugin" />
-				<ref bean="activationPluginDBaas-V2" />
 				<ref bean="organizationActivationPlugin" />
 			</list>
 		</property>
@@ -26,11 +25,7 @@
 
 	<import resource="classpath:/META-INF/spring/log-service-splunk-context.xml" />
 
-	<import
-		resource="classpath:/META-INF/spring/paas-activation-plugin-dbaas-V2-context.xml" />
-
-
-	<!-- Mock scheduling beans so that scheduled processes do not run during 
+	<!-- Mock scheduling beans so that scheduled processes do not run during
 		tests -->
 	<import resource="PaasServicesEnv-mock-scheduling-context.xml" />
 

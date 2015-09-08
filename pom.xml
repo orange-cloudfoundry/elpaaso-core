@@ -958,11 +958,6 @@
             </dependency>
             <dependency>
                 <groupId>com.orange.clara.cloud</groupId>
-                <artifactId>cloud-iaas-dbaas-consumer-v2</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.orange.clara.cloud</groupId>
                 <artifactId>cloud-paas-ws-provider</artifactId>
                 <version>${project.version}</version>
             </dependency>

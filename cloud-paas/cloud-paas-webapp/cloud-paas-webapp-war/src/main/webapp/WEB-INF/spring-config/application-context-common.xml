@@ -35,9 +35,4 @@
 
     <bean id="taskExecutor" class="org.springframework.core.task.SimpleAsyncTaskExecutor"></bean>
 
-    
-    <beans>
-        <import resource="classpath:/META-INF/spring/paas-activation-plugin-dbaas-V2-context.xml" />
-    </beans>
-    
 </beans>
