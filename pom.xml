@@ -92,7 +92,7 @@
         <wsdl.incubator.version>5.0-SNAPSHOT</wsdl.incubator.version>
 
         <!-- dbaas wsdl version -->
-        <cloud-dbaas-wsdl.version>1.63-SNAPSHOT</cloud-dbaas-wsdl.version>
+        <elpaaso-dbaas-wsdl.version>1.63.10</elpaaso-dbaas-wsdl.version>
 
         <spring-boot.version>1.2.4.RELEASE</spring-boot.version>
 

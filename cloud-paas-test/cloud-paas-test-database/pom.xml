@@ -62,8 +62,8 @@
 		</dependency>	
 		<dependency>
 			<groupId>com.orange.clara.cloud.dbaas.wsdl</groupId>
-			<artifactId>cloud-orange-dbaas-wsdl</artifactId>
-			<version>${cloud-dbaas-wsdl.version}</version>
+			<artifactId>elpaaso-dbaas-wsdl</artifactId>
+			<version>${elpaaso-dbaas-wsdl.version}</version>
 		</dependency>
 	</dependencies>
 	

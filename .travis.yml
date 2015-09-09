@@ -3,6 +3,9 @@ jdk:
 - oraclejdk8
 install:
 - 
+cache:
+  directories:
+    - '$HOME/.m2/repository'
 script:
   - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && mvn deploy --settings settings.xml -Ptravis-reduce-log || false'
   # don't deploy on pull request
