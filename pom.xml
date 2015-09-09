@@ -18,8 +18,8 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.orange.clara.cloud</groupId>
-        <artifactId>cloud-plugins-management</artifactId>
-        <version>3.0.0-SNAPSHOT</version>
+        <artifactId>elpaaso-plugins-management</artifactId>
+        <version>3.0.63</version>
         <relativePath/>
     </parent>
     <!-- NOTE: group id must be duplicated even if it is the same as the parent
