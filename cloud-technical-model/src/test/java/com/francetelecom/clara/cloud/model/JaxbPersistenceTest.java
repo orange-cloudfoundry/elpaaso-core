@@ -50,12 +50,11 @@ public class JaxbPersistenceTest {
 		Marshaller m = jc.createMarshaller();
 		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
-		TechnicalDeployment td = new TechnicalDeployment("test-td");
-		Space space = new Space(td);
+		Space space = new Space();
 
 		MavenReference mavenReference = MavenReference.fromGavString("foo.groupid:foo.artifactid:foo.version");
 
-		App app = new App(td, space, mavenReference, "appName");
+		App app = new App(space, mavenReference, "appName");
 
 		m.marshal(app, System.out);
 	}
@@ -66,10 +65,9 @@ public class JaxbPersistenceTest {
 		Marshaller m = jc.createMarshaller();
 		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
-		TechnicalDeployment td = new TechnicalDeployment("test-td");
-		Space space = new Space(td);
+		Space space = new Space();
 
-		m.marshal(new ManagedService("o-dbaas", "MYSQL_1G", "appName-db", space, td), System.out);
+		m.marshal(new ManagedService("o-dbaas", "MYSQL_1G", "appName-db", space), System.out);
 	}
 
 	@Test
@@ -78,10 +76,9 @@ public class JaxbPersistenceTest {
 		Marshaller m = jc.createMarshaller();
 		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
-		TechnicalDeployment td = new TechnicalDeployment("test-td");
-		Space space = new Space(td);
+		Space space = new Space();
 
-		m.marshal(new Route(new RouteUri("uri1"), null, space, td), System.out);
+		m.marshal(new Route(new RouteUri("uri1"), null, space), System.out);
 	}
 
 	@Test

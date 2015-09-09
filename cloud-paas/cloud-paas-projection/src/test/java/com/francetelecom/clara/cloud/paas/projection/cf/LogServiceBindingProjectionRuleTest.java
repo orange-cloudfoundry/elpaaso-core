@@ -30,13 +30,12 @@ public class LogServiceBindingProjectionRuleTest {
     @Test
     public void log_service_plan_should_be_splunk() throws Exception {
         //given
-        final TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
+        final Space space = new Space();
 
         final LogServiceBindingProjectionRule projectionRule = new LogServiceBindingProjectionRule();
 
         //when
-        final ManagedService managedService = projectionRule.toLogService("my-app-name", space, td);
+        final ManagedService managedService = projectionRule.toLogService("my-app-name", space);
 
         //then service plan should be splunk
         Assertions.assertThat(managedService.getPlan()).isEqualTo("splunk");
@@ -45,13 +44,12 @@ public class LogServiceBindingProjectionRuleTest {
     @Test
     public void log_service_type_should_be_o_logs() throws Exception {
         //given
-        final TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
+        final Space space = new Space();
 
         final LogServiceBindingProjectionRule projectionRule = new LogServiceBindingProjectionRule();
 
         //when
-        final ManagedService managedService = projectionRule.toLogService("my-app-name", space, td);
+        final ManagedService managedService = projectionRule.toLogService("my-app-name", space);
 
         //then service type should be o-logs
         Assertions.assertThat(managedService.getService()).isEqualTo("o-logs");
@@ -60,13 +58,12 @@ public class LogServiceBindingProjectionRuleTest {
     @Test
     public void log_service_name_should_start_with_app_name() throws Exception {
         //given
-        final TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
+        final Space space = new Space();
 
         final LogServiceBindingProjectionRule projectionRule = new LogServiceBindingProjectionRule();
 
         //when
-        final ManagedService managedService = projectionRule.toLogService("my-app-name", space, td);
+        final ManagedService managedService = projectionRule.toLogService("my-app-name", space);
 
         //then service name should start with app name
         Assertions.assertThat(managedService.getServiceInstance()).startsWith("my-app-name");
@@ -75,13 +72,12 @@ public class LogServiceBindingProjectionRuleTest {
     @Test
     public void log_service_name_should_end_with_log() throws Exception {
         //given
-        final TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
+        final Space space = new Space();
 
         final LogServiceBindingProjectionRule projectionRule = new LogServiceBindingProjectionRule();
 
         //when
-        final ManagedService managedService = projectionRule.toLogService("my-app-name", space, td);
+        final ManagedService managedService = projectionRule.toLogService("my-app-name", space);
 
         //then service name should start with app name
         Assertions.assertThat(managedService.getServiceInstance()).endsWith("-log");
@@ -92,7 +88,8 @@ public class LogServiceBindingProjectionRuleTest {
     public void log_service_projection_rule_should_generate_a_log_managed_service_per_app() throws Exception {
         //given
         final TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
+        final Space space = new Space();
+        td.add(space);
         final LogServiceBindingProjectionRule projectionRule = new LogServiceBindingProjectionRule();
         LogicalDeployment logicalDeployment = new LogicalDeployment();
         CFWicketCxfJpaLogicalModelCatalog logicalModelCatalog = new CFWicketCxfJpaLogicalModelCatalog();
@@ -101,9 +98,10 @@ public class LogServiceBindingProjectionRuleTest {
         logicalModelCatalog.populateLogicalDeployment(logicalDeployment);
 
         //simulate app generation
-        new App(td, space, new MavenReference(), "server");
-        new App(td, space, new MavenReference(), "client");
-
+        final App server = new App(space, new MavenReference(), "server");
+        td.add(server);
+        final App client = new App(space, new MavenReference(), "client");
+        td.add(client);
 
         //when
         projectionRule.apply(logicalDeployment, td, new DummyProjectionContext(space));
@@ -119,7 +117,8 @@ public class LogServiceBindingProjectionRuleTest {
     public void should_bind_log_service_to_app() throws Exception {
         //given
         final TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
+        final Space space = new Space();
+        td.add(space);
         final LogServiceBindingProjectionRule projectionRule = new LogServiceBindingProjectionRule();
         LogicalDeployment logicalDeployment = new LogicalDeployment();
         CFWicketCxfJpaLogicalModelCatalog logicalModelCatalog = new CFWicketCxfJpaLogicalModelCatalog();
@@ -128,7 +127,8 @@ public class LogServiceBindingProjectionRuleTest {
         logicalModelCatalog.populateLogicalDeployment(logicalDeployment);
 
         //simulate app generation
-        App app = new App(td, space, new MavenReference(), "my-app-name");
+        App app = new App(space, new MavenReference(), "my-app-name");
+        td.add(app);
 
         //when
         projectionRule.apply(logicalDeployment, td, new DummyProjectionContext(space));

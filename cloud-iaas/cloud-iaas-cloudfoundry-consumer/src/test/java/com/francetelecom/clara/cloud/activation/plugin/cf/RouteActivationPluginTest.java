@@ -15,7 +15,6 @@ package com.francetelecom.clara.cloud.activation.plugin.cf;
 import com.francetelecom.clara.cloud.activation.plugin.cf.domain.RouteActivationService;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatus;
 import com.francetelecom.clara.cloud.model.ModelItemRepository;
-import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.techmodel.cf.Route;
 import com.francetelecom.clara.cloud.techmodel.cf.RouteRepository;
 import com.francetelecom.clara.cloud.techmodel.cf.RouteUri;
@@ -59,9 +58,7 @@ public class RouteActivationPluginTest {
 
     @Test
     public void should_not_delete_route_if_route_has_not_been_activated_yet() throws Exception {
-        TechnicalDeployment td = new TechnicalDeployment("depl");
-        Space space = new Space(td);
-        Route route = new Route(new RouteUri("host1.mysubdomain.cfapps.redacted-domain.org"), "root1", space, td);
+        Route route = new Route(new RouteUri("host1.mysubdomain.cfapps.redacted-domain.org"), "root1", new Space());
         Mockito.when(routeRepository.findOne(1)).thenReturn(route);
 
         final RouteActivationPlugin routeActivationPlugin = new RouteActivationPlugin(routeActivationService, modelItemRepository, routeRepository);
@@ -73,9 +70,7 @@ public class RouteActivationPluginTest {
 
     @Test
     public void should_return_success_task_on_deletion_success() throws Exception {
-        TechnicalDeployment td = new TechnicalDeployment("depl");
-        Space space = new Space(td);
-        Route route = new Route(new RouteUri("host1.mysubdomain.cfapps.redacted-domain.org"), "root1", space, td);
+        Route route = new Route(new RouteUri("host1.mysubdomain.cfapps.redacted-domain.org"), "root1", new Space());
         Mockito.when(routeRepository.findOne(1)).thenReturn(route);
 
         final RouteActivationPlugin routeActivationPlugin = new RouteActivationPlugin(routeActivationService, modelItemRepository, routeRepository);
@@ -87,9 +82,7 @@ public class RouteActivationPluginTest {
 
     @Test
     public void should_return_success_task_on_activation_success() throws Exception {
-        TechnicalDeployment td = new TechnicalDeployment("depl");
-        Space space = new Space(td);
-        Route route = new Route(new RouteUri("host1.mysubdomain.cfapps.redacted-domain.org"), "root1", space, td);
+        Route route = new Route(new RouteUri("host1.mysubdomain.cfapps.redacted-domain.org"), "root1", new Space());
         Mockito.when(routeRepository.findOne(1)).thenReturn(route);
         Mockito.when(routeActivationService.activate(Mockito.any(Route.class))).thenReturn(new RouteUri("host1.mysubdomain.cfapps.redacted-domain.org"));
 

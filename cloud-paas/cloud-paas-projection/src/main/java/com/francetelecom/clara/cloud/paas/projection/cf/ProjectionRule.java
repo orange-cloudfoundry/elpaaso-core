@@ -17,6 +17,6 @@ import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 
 public interface ProjectionRule {
 
-    public void apply(LogicalDeployment ld, TechnicalDeployment td, ProjectionContext projectionContext);
+    void apply(LogicalDeployment ld, TechnicalDeployment td, ProjectionContext projectionContext);
 
 }

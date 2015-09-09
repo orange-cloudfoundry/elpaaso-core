@@ -16,7 +16,6 @@ import com.francetelecom.clara.cloud.activation.plugin.cf.domain.CFServiceActiva
 import com.francetelecom.clara.cloud.activation.plugin.cf.domain.ServiceActivationStatus;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatus;
 import com.francetelecom.clara.cloud.model.ModelItemRepository;
-import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.techmodel.cf.Space;
 import com.francetelecom.clara.cloud.techmodel.cf.UserProvidedServiceRepository;
 import com.francetelecom.clara.cloud.techmodel.cf.services.userprovided.AbstractUserProvidedService;
@@ -62,9 +61,8 @@ public class UserProvidedServiceActivationPluginTest {
 
     @Test
     public void should_return_activation_status() throws Exception {
-        TechnicalDeployment td = new TechnicalDeployment("depl");
-        Space space = new Space(td);
-        SimpleUserProvidedService service = new SimpleUserProvidedService("postgres-joyndb", "postgres://user:password@hostname:1234/joyndb", td, space);
+        Space space = new Space();
+        SimpleUserProvidedService service = new SimpleUserProvidedService("postgres-joyndb", "postgres://user:password@hostname:1234/joyndb", space);
         //given service exists
         Mockito.when(userProvidedServiceRepository.findOne(1)).thenReturn(service);
         Mockito.when(cfServiceActivationService.activate(service)).thenReturn(ServiceActivationStatus.ofService("postgres-joyndb", space.getSpaceName().getValue()).hasSucceeded());
@@ -78,9 +76,8 @@ public class UserProvidedServiceActivationPluginTest {
 
     @Test
     public void should_return_deletion_status() throws Exception {
-        TechnicalDeployment td = new TechnicalDeployment("depl");
-        Space space = new Space(td);
-        SimpleUserProvidedService service = new SimpleUserProvidedService("postgres-joyndb", "postgres://user:password@hostname:1234/joyndb", td, space);
+        Space space = new Space();
+        SimpleUserProvidedService service = new SimpleUserProvidedService("postgres-joyndb", "postgres://user:password@hostname:1234/joyndb", space);
         //given service exists
         Mockito.when(userProvidedServiceRepository.findOne(1)).thenReturn(service);
         Mockito.when(cfServiceActivationService.delete(service)).thenReturn(ServiceActivationStatus.ofService("postgres-joyndb", space.getSpaceName().getValue()).hasSucceeded());

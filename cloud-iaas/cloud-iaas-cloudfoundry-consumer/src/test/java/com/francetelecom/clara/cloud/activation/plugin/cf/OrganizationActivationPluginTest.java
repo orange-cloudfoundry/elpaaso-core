@@ -15,7 +15,6 @@ package com.francetelecom.clara.cloud.activation.plugin.cf;
 import com.francetelecom.clara.cloud.activation.plugin.cf.domain.OrganizationActivationService;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatus;
 import com.francetelecom.clara.cloud.model.ModelItemRepository;
-import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.techmodel.cf.Organization;
 import com.francetelecom.clara.cloud.techmodel.cf.OrganizationRepository;
 import org.fest.assertions.Assertions;
@@ -47,8 +46,7 @@ public class OrganizationActivationPluginTest {
 
     @Test
     public void should_return_success_task_on_activation_success() throws Exception {
-        TechnicalDeployment td = new TechnicalDeployment("depl");
-        Organization organization = new Organization(td);
+        Organization organization = new Organization();
         //given space exists
         Mockito.when(organizationRepository.findOne(1)).thenReturn(organization);
         Mockito.when(organizationActivationService.activate(Mockito.anyString())).thenReturn("test");

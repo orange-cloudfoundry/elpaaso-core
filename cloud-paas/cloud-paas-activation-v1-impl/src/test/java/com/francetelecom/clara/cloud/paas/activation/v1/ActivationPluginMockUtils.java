@@ -36,7 +36,7 @@ public class ActivationPluginMockUtils {
         ModelItem modelItem = modelItemRepository.find(entityId, entityClass);
         if (modelItem instanceof XaasSubscription) {
             XaasSubscription sub = (XaasSubscription) modelItem;
-            logger.info(sub.getClass().getName() + " description=" + sub.getDescription());
+            logger.info(sub.getClass().getName());
         }
         if (modelItem instanceof DependantModelItem) {
             DependantModelItem entity = (DependantModelItem) modelItem;

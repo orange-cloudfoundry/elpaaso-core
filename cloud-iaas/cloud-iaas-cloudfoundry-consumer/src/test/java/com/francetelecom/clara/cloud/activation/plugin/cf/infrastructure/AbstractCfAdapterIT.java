@@ -12,16 +12,11 @@
  */
 package com.francetelecom.clara.cloud.activation.plugin.cf.infrastructure;
 
-import static org.fest.assertions.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.List;
-import java.util.Map;
-
+import com.francetelecom.clara.cloud.commons.MavenReference;
+import com.francetelecom.clara.cloud.commons.TechnicalException;
 import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppProperties;
+import com.francetelecom.clara.cloud.mvn.consumer.MvnRepoDao;
+import com.francetelecom.clara.cloud.techmodel.cf.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.methods.HttpGet;
@@ -46,15 +41,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 
-import com.francetelecom.clara.cloud.commons.MavenReference;
-import com.francetelecom.clara.cloud.commons.TechnicalException;
-import com.francetelecom.clara.cloud.model.TechnicalDeployment;
-import com.francetelecom.clara.cloud.mvn.consumer.MvnRepoDao;
-import com.francetelecom.clara.cloud.techmodel.cf.App;
-import com.francetelecom.clara.cloud.techmodel.cf.Route;
-import com.francetelecom.clara.cloud.techmodel.cf.Space;
-import com.francetelecom.clara.cloud.techmodel.cf.SpaceName;
-import com.francetelecom.clara.cloud.techmodel.cf.RouteUri;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+import static org.fest.assertions.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /*
  * Copyright 2009-2012 the original author or authors.
@@ -184,9 +177,9 @@ public abstract class AbstractCfAdapterIT {
 
 	@Test
 	public void should_create_then_delete_a_route() {
-		TechnicalDeployment td = new TechnicalDeployment("depl");
-		Space space = new Space(td);
-		Route route = new Route(new RouteUri("demo-elpaasofrontend13beta." + getTestDomainName()), "root1", space, td);
+		Space space = new Space();
+
+		Route route = new Route(new RouteUri("demo-elpaasofrontend13beta." + getTestDomainName()), "root1", space);
 
 		Assertions.assertThat(cfAdapter.routeExists(route, cfDefaultSpace)).isFalse();
 
@@ -201,10 +194,9 @@ public abstract class AbstractCfAdapterIT {
 	@Test(expected=CloudFoundryException.class)
 	@Ignore
 	public void fail_to_create_2_routes_with_same_host_for_same_domain() {
-		TechnicalDeployment td = new TechnicalDeployment("depl");
-		Space space = new Space(td);
-		Route route1 = new Route(new RouteUri("test-host-conflict." + getTestDomainName()), "root1", space, td);
-		Route route2 = new Route(new RouteUri("test-host-conflict." + getTestDomainName()), "root1", space, td);
+		final Space space = new Space();
+		Route route1 = new Route(new RouteUri("test-host-conflict." + getTestDomainName()), "root1", space);
+		Route route2 = new Route(new RouteUri("test-host-conflict." + getTestDomainName()), "root1", space);
 
 		cfAdapter.createRoute(route1, cfDefaultSpace);
 		cfAdapter.createRoute(route2, cfDefaultSpace);
@@ -218,13 +210,12 @@ public abstract class AbstractCfAdapterIT {
 	public void handles_uri_conflicts() {
 		MavenReference simpleProbe = mvnRepoDao.resolveUrl(sampleAppProperties.getMavenReference("simple-probe", "jar"));
 
-		TechnicalDeployment td = new TechnicalDeployment("depl");
-		Space space = new Space(td);
+		Space space = new Space();
 		space.activate(new SpaceName(cfDefaultSpace));
 
-		final App cfApp = new App(td, space, getTestAppName(), simpleProbe, getJonasBuildpackUrl(), 512, 1);
-		Route route1 = new Route(new RouteUri("demo-elpaasofrontend13beta." + getTestDomainName()), "root1", space, td);
-		Route route2 = new Route(new RouteUri("demo-elpaasobackend13beta." + getTestDomainName()), "root2", space, td);
+		final App cfApp = new App(space, getTestAppName(), simpleProbe, getJonasBuildpackUrl(), 512, 1);
+		Route route1 = new Route(new RouteUri("demo-elpaasofrontend13beta." + getTestDomainName()), "root1", space);
+		Route route2 = new Route(new RouteUri("demo-elpaasobackend13beta." + getTestDomainName()), "root2", space);
 
 		cfApp.mapRoute(route1);
 		cfApp.mapRoute(route2);
@@ -241,7 +232,7 @@ public abstract class AbstractCfAdapterIT {
 		}
 
 		// Try to provision a second app with with same params (name and uri)
-		final App secondApp = new App(td, space, getTestAppName() + "-2", cfApp.getAppBinaries(), cfApp.getBuildPackUrl(), cfApp.getRamMb(), 1);
+		final App secondApp = new App(space, getTestAppName() + "-2", cfApp.getAppBinaries(), cfApp.getBuildPackUrl(), cfApp.getRamMb(), 1);
 		secondApp.mapRoute(route1);
 		secondApp.mapRoute(route2);
 
@@ -257,10 +248,11 @@ public abstract class AbstractCfAdapterIT {
 	}
 
 	private void provisionStartStopDeletesApp(MavenReference mavenReference, String buildpackUrl, String appName, int ramMb, String testRequestPath) throws IOException {
-		TechnicalDeployment td = new TechnicalDeployment("depl");
-		Space space = new Space(td);
-		App cfApp = new App(td, space, appName, mavenReference, buildpackUrl, ramMb, 1);
-		Route route = new Route(new RouteUri("webgui." + getTestDomainName()), testRequestPath, space, td);
+
+		Space space = new Space();
+
+		App cfApp = new App(space, appName, mavenReference, buildpackUrl, ramMb, 1);
+		Route route = new Route(new RouteUri("webgui." + getTestDomainName()), testRequestPath, space);
 		cfApp.mapRoute(route);
 
 		// when

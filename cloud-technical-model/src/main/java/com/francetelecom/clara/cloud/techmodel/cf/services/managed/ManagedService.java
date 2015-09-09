@@ -14,7 +14,6 @@ package com.francetelecom.clara.cloud.techmodel.cf.services.managed;
 
 import com.francetelecom.clara.cloud.model.DependantModelItem;
 import com.francetelecom.clara.cloud.model.DeploymentStateEnum;
-import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.model.XaasSubscription;
 import com.francetelecom.clara.cloud.techmodel.cf.Space;
 import com.francetelecom.clara.cloud.techmodel.cf.SpaceName;
@@ -45,8 +44,8 @@ public class ManagedService extends XaasSubscription {
 	protected ManagedService() {
 	}
 
-	public ManagedService(String service, String plan, String serviceInstance, Space space, TechnicalDeployment td) {
-		super(td);
+	public ManagedService(String service, String plan, String serviceInstance, Space space) {
+		super();
 		setPlan(plan);
 		setService(service);
 		setServiceInstance(serviceInstance);

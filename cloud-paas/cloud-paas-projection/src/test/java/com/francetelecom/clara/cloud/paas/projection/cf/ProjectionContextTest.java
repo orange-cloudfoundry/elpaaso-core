@@ -13,7 +13,6 @@
 package com.francetelecom.clara.cloud.paas.projection.cf;
 
 import com.francetelecom.clara.cloud.model.DeploymentProfileEnum;
-import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.techmodel.cf.Space;
 import org.junit.Test;
 
@@ -21,17 +20,17 @@ public class ProjectionContextTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void projection_context_requires_application_name_to_be_set() throws Exception {
-        new ProjectionContext(null, "release", DeploymentProfileEnum.DEVELOPMENT, new Space(new TechnicalDeployment("")));
+        new ProjectionContext(null, "release", DeploymentProfileEnum.DEVELOPMENT, new Space());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void projection_context_requires_release_version_to_be_set() throws Exception {
-        new ProjectionContext("application", null, DeploymentProfileEnum.DEVELOPMENT, new Space(new TechnicalDeployment("")));
+        new ProjectionContext("application", null, DeploymentProfileEnum.DEVELOPMENT, new Space());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void projection_context_requires_deployment_profile_to_be_set() throws Exception {
-        new ProjectionContext("application", "release", null, new Space(new TechnicalDeployment("")));
+        new ProjectionContext("application", "release", null, new Space());
     }
 
     @Test(expected = IllegalArgumentException.class)

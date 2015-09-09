@@ -70,15 +70,12 @@ public class AppActivationPluginTest {
 	public void setUp() {
         plugin = new AppActivationPlugin(appActivationService, modelItemRepository, mvnRepoDao, appRepository);
 
-		TechnicalDeployment td = new TechnicalDeployment("depl");
-
-		Space space = new Space(td);
+		Space space = new Space();
 		space.activate(SpaceName.randomSpaceNameWithSuffix("env1"));
 
+		SimpleUserProvidedService joyndb = new SimpleUserProvidedService("postgres-joyndb", "postgres://user:password@hostname:1234/joyndb", space);
 
-		SimpleUserProvidedService joyndb = new SimpleUserProvidedService("postgres-joyndb", "postgres://user:password@hostname:1234/joyndb", td, space);
-
-		joyn = new App(td, space, resolvedMavenReference, "joyn");
+		joyn = new App(space, resolvedMavenReference, "joyn");
 		joyn.bindService(joyndb);
 		joyn.mapRoute(route);
 
@@ -163,9 +160,10 @@ public class AppActivationPluginTest {
     @Test
 	public void should_fail_to_delete_when_app_activation_fails() {
         TechnicalDeployment td = new TechnicalDeployment("depl");
-        Space space = new Space(td);
+        Space space = new Space();
         space.activate(SpaceName.randomSpaceNameWithSuffix("env1"));
-        App app = new App(td, space, resolvedMavenReference, "joyn");
+
+		App app = new App(space, resolvedMavenReference, "joyn");
         app.activate(UUID.randomUUID());
         Mockito.when(appRepository.findOne(1)).thenReturn(app);
         Mockito.doThrow(new TechnicalException("failed")).when(appActivationService).delete(any(App.class));
@@ -181,9 +179,10 @@ public class AppActivationPluginTest {
     public void should_succeed_to_delete_when_app_activation_succeeds() {
         TechnicalDeployment td = new TechnicalDeployment("depl");
 
-        Space space = new Space(td);
+        Space space = new Space();
         space.activate(SpaceName.randomSpaceNameWithSuffix("env1"));
-        App app = new App(td, space, resolvedMavenReference, "joyn");
+
+        App app = new App(space, resolvedMavenReference, "joyn");
         app.activate(UUID.randomUUID());
         Mockito.when(appRepository.findOne(1)).thenReturn(app);
 
@@ -199,9 +198,10 @@ public class AppActivationPluginTest {
 	public void should_delete_when_app_is_activated() {
 		TechnicalDeployment td = new TechnicalDeployment("depl");
 
-		Space space = new Space(td);
+		Space space = new Space();
 		space.activate(SpaceName.randomSpaceNameWithSuffix("env1"));
-		App app = new App(td, space, resolvedMavenReference, "joyn");
+
+		App app = new App(space, resolvedMavenReference, "joyn");
 		app.activate(UUID.randomUUID());
 		Mockito.when(appRepository.findOne(1)).thenReturn(app);
 
@@ -216,9 +216,10 @@ public class AppActivationPluginTest {
 	public void should_delete_when_app_is_in_unknown_state() {
 		TechnicalDeployment td = new TechnicalDeployment("depl");
 
-		Space space = new Space(td);
+		Space space = new Space();
 		space.activate(SpaceName.randomSpaceNameWithSuffix("env1"));
-		App app = new App(td, space, resolvedMavenReference, "joyn");
+
+		App app = new App(space, resolvedMavenReference, "joyn");
 		app.failed();
 		Mockito.when(appRepository.findOne(1)).thenReturn(app);
 
@@ -245,7 +246,6 @@ public class AppActivationPluginTest {
 	@Test
     public void should_succeed_to_stop_when_app_activation_succeeds() {
 
-        //Mockito.when(appActivationService.stop(any(App.class))).thenReturn(new Success());
         Mockito.when(appRepository.findOne(1)).thenReturn(joyn);
 
 

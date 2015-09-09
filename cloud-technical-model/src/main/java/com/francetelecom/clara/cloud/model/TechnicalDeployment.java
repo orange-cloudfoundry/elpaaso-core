@@ -26,7 +26,7 @@ import java.util.Set;
 /**
  * A Technical deployment is a consistent set of PlatformServers build to
  * represent an ApplicationRelease technical instanciation.
- * <p/>
+ * <p>
  * Correspond to the Ovf concept of vAppTemplate.
  *
  * @author APOG7416
@@ -42,7 +42,7 @@ public class TechnicalDeployment extends ModelItem {
 
     /**
      * xAAS Subscriptions associated to the TechnicalDeployment
-     * <p/>
+     * <p>
      * These subscriptions are mutable. They are originally produced by the
      * projection as templates that need to be executed for each environment.
      * Once the TechnicalDeployment instance is attached to a
@@ -53,9 +53,9 @@ public class TechnicalDeployment extends ModelItem {
     @XStreamImplicit(itemFieldName = "xaasSubscription")
     @XmlElementWrapper
     @XmlElement(name = "xaasSubscriptions")
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "technicalDeployment", fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.EAGER)
     @Valid
-    protected Set<XaasSubscription> xaasSubscriptions;
+    protected Set<XaasSubscription> xaasSubscriptions = new HashSet<XaasSubscription>();
 
     /**
      * Required constructor for JPA / Jaxb
@@ -72,6 +72,7 @@ public class TechnicalDeployment extends ModelItem {
         super(name);
         this.xaasSubscriptions = new HashSet<XaasSubscription>();
     }
+
 
     /**
      * returns an unmodifiable collection of SubscriptionsTemplate
@@ -130,4 +131,7 @@ public class TechnicalDeployment extends ModelItem {
         this.state = state;
     }
 
+    public void add(XaasSubscription subscription) {
+        xaasSubscriptions.add(subscription);
+    }
 }

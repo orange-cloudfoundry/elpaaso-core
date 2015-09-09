@@ -36,13 +36,13 @@ public class ToDbaasServiceProjectionRule implements ServiceProjectionRule {
         Set<LogicalRelationalService> logicalRelationalServices = ld.listLogicalServices(LogicalRelationalService.class);
         for (LogicalRelationalService logicalRelationalService : logicalRelationalServices) {
             // generate cloud foundry service
-            toDbaasService(logicalRelationalService, projectionContext.getSpace(), td);
+            td.add(toDbaasService(logicalRelationalService, projectionContext.getSpace()));
         }
 
     }
 
-    protected ManagedService toDbaasService(LogicalRelationalService logicalRelationalService, Space space, TechnicalDeployment td) {
-        ManagedService dbaasService = new ManagedService("o-dbaas", getPlan(logicalRelationalService), logicalRelationalService.getServiceName(), space, td);
+    protected ManagedService toDbaasService(LogicalRelationalService logicalRelationalService, Space space) {
+        ManagedService dbaasService = new ManagedService("o-dbaas", getPlan(logicalRelationalService), logicalRelationalService.getServiceName(), space);
         dbaasService.setLogicalModelId(logicalRelationalService.getName());
         return dbaasService;
     }

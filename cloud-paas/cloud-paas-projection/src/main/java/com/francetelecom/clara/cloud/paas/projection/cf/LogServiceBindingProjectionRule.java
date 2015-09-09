@@ -34,12 +34,14 @@ public class LogServiceBindingProjectionRule implements AssociationProjectionRul
     public void apply(LogicalDeployment ld, TechnicalDeployment td, ProjectionContext projectionContext) {
         final Set<App> apps = td.listXaasSubscriptionTemplates(App.class);
         for (App app : apps) {
-            app.bindService(toLogService(app.getAppName(), projectionContext.getSpace(), td));
+            final ManagedService managedService = toLogService(app.getAppName(), projectionContext.getSpace());
+            app.bindService(managedService);
+            td.add(managedService);
         }
     }
 
-    protected ManagedService toLogService(String appName, Space space, TechnicalDeployment td) {
-        ManagedService logService = new ManagedService(SERVICE_TYPE, SERVICE_PLAN, getServiceName(appName), space, td);
+    protected ManagedService toLogService(String appName, Space space) {
+        ManagedService logService = new ManagedService(SERVICE_TYPE, SERVICE_PLAN, getServiceName(appName), space);
         return logService;
     }
 

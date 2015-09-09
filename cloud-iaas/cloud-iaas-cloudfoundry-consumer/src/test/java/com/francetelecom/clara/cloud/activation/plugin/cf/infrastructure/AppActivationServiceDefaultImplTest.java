@@ -15,7 +15,6 @@ package com.francetelecom.clara.cloud.activation.plugin.cf.infrastructure;
 import com.francetelecom.clara.cloud.activation.plugin.cf.domain.AppActivationService;
 import com.francetelecom.clara.cloud.commons.MavenReference;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatus;
-import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.techmodel.cf.App;
 import com.francetelecom.clara.cloud.techmodel.cf.Space;
 import com.francetelecom.clara.cloud.techmodel.cf.SpaceName;
@@ -45,10 +44,10 @@ public class AppActivationServiceDefaultImplTest {
         AppActivationService appActivationService = new AppActivationServiceDefaultImpl(cfAdapter);
 
         // given application joyns
-        TechnicalDeployment td = new TechnicalDeployment("name");
-        Space space = new Space(td);
+        Space space = new Space();
         space.activate(new SpaceName("joynspace"));
-        App joyn = new App(td, space, Mockito.mock(MavenReference.class), "joyn");
+
+        App joyn = new App(space, Mockito.mock(MavenReference.class), "joyn");
         // given application joyn is already started
         Mockito.when(cfAdapter.isAppStarted("joyn", "joynspace")).thenReturn(true);
 
@@ -63,10 +62,9 @@ public class AppActivationServiceDefaultImplTest {
         AppActivationService appActivationService = new AppActivationServiceDefaultImpl(cfAdapter);
 
         // given application joyn
-        TechnicalDeployment td = new TechnicalDeployment("name");
-        Space space = new Space(td);
+        Space space = new Space();
         space.activate(new SpaceName("joynspace"));
-        App joyn = new App(td, space, Mockito.mock(MavenReference.class), "joyn");
+        App joyn = new App(space, Mockito.mock(MavenReference.class), "joyn");
         // given application joyn is already started
         Mockito.when(cfAdapter.isAppStarted("joyn", "joynspace")).thenReturn(false);
 
@@ -81,8 +79,7 @@ public class AppActivationServiceDefaultImplTest {
         AppActivationService appActivationService = new AppActivationServiceDefaultImpl(cfAdapter);
 
         // given application joyn
-        TechnicalDeployment td = new TechnicalDeployment("name");
-        App joyn = new App(td, new Space(td), Mockito.mock(MavenReference.class), "joyn");
+        App joyn = new App(new Space(), Mockito.mock(MavenReference.class), "joyn");
         // given application joyn is already stopped
         Mockito.when(cfAdapter.isAppStopped("joyn", "joynspace")).thenReturn(true);
 
@@ -96,10 +93,9 @@ public class AppActivationServiceDefaultImplTest {
         AppActivationService appActivationService = new AppActivationServiceDefaultImpl(cfAdapter);
 
         // given application joyn
-        TechnicalDeployment td = new TechnicalDeployment("name");
-        Space space = new Space(td);
+        Space space = new Space();
         space.activate(new SpaceName("joynspace"));
-        App joyn = new App(td, space, Mockito.mock(MavenReference.class), "joyn");
+        App joyn = new App(space, Mockito.mock(MavenReference.class), "joyn");
         // given application joyn is already stopped
         Mockito.when(cfAdapter.isAppStopped("joyn", "joynspace")).thenReturn(false);
 
@@ -113,8 +109,7 @@ public class AppActivationServiceDefaultImplTest {
         AppActivationService appActivationService = new AppActivationServiceDefaultImpl(cfAdapter);
 
         // given application joyn that has not been activated yet
-        TechnicalDeployment td = new TechnicalDeployment("name");
-        App joyn = new App(td, new Space(td), Mockito.mock(MavenReference.class), "joyn");
+        App joyn = new App(new Space(), Mockito.mock(MavenReference.class), "joyn");
 
         appActivationService.delete(joyn);
 
@@ -126,8 +121,7 @@ public class AppActivationServiceDefaultImplTest {
         AppActivationService appActivationService = new AppActivationServiceDefaultImpl(cfAdapter);
 
         // given application joyn
-        TechnicalDeployment td = new TechnicalDeployment("name");
-        App joyn = new App(td, new Space(td), Mockito.mock(MavenReference.class), "joyn");
+        App joyn = new App(new Space(), Mockito.mock(MavenReference.class), "joyn");
         // given application joyn is already deleted
         Mockito.when(cfAdapter.appExists("joyn", "joynspace")).thenReturn(false);
 
@@ -141,10 +135,10 @@ public class AppActivationServiceDefaultImplTest {
         AppActivationService appActivationService = new AppActivationServiceDefaultImpl(cfAdapter);
 
         // given application joyn
-        TechnicalDeployment td = new TechnicalDeployment("name");
-        Space space = new Space(td);
+        Space space = new Space();
         space.activate(new SpaceName("joynspace"));
-        App joyn = new App(td, space, Mockito.mock(MavenReference.class), "joyn");
+
+        App joyn = new App(space, Mockito.mock(MavenReference.class), "joyn");
         joyn.activate(UUID.randomUUID());
 
         // given application joyn exists
@@ -159,9 +153,8 @@ public class AppActivationServiceDefaultImplTest {
     public void app_should_be_ACTIVATED_after_activation() {
 
         // given application joyns
-        TechnicalDeployment td = new TechnicalDeployment("name");
-        final Space space = new Space(td);
-        App joyn = new App(td, space, Mockito.mock(MavenReference.class), "joyn");
+        final Space space = new Space();
+        App joyn = new App(space, Mockito.mock(MavenReference.class), "joyn");
         Mockito.when(cfAdapter.createApp(joyn, space.getSpaceName().getValue())).thenReturn(UUID.randomUUID());
         AppActivationService appActivationService = new AppActivationServiceDefaultImpl(cfAdapter);
 

@@ -12,11 +12,9 @@
  */
 package com.francetelecom.clara.cloud.techmodel.cf.services.managed;
 
+import com.francetelecom.clara.cloud.techmodel.cf.Space;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import com.francetelecom.clara.cloud.model.TechnicalDeployment;
-import com.francetelecom.clara.cloud.techmodel.cf.Space;
 
 
 public class ManagedServiceTest {
@@ -24,56 +22,43 @@ public class ManagedServiceTest {
 	@Test(expected=IllegalArgumentException.class)
 	@Ignore
 	public void service_instance_is_mandatory_ie_should_not_be_null() {
-		TechnicalDeployment td = new TechnicalDeployment("name");
-		Space space = new Space(td);
-		new ManagedService("rabbitmq","default",null,space, td);
+		new ManagedService("rabbitmq","default",null, new Space());
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	@Ignore
 	public void service_instance_is_mandatory_ie_should_not_be_empty() {
-		TechnicalDeployment td = new TechnicalDeployment("name");
-		Space space = new Space(td);
-		new ManagedService("rabbitmq","default","",space, td);
+		new ManagedService("rabbitmq","default","", new Space());
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	@Ignore
 	public void service_is_mandatory_ie_should_not_be_null() {
-		TechnicalDeployment td = new TechnicalDeployment("name");
-		Space space = new Space(td);
-		new ManagedService(null,"default","myservice",space, td);
+		new ManagedService(null,"default","myservice", new Space());
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	@Ignore
 	public void service_is_mandatory_ie_should_not_be_empty() {
-		TechnicalDeployment td = new TechnicalDeployment("name");
-		Space space = new Space(td);
-		new ManagedService("","default","myservice",space, td);
+		new ManagedService("","default","myservice", new Space());
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	@Ignore
 	public void service_plan_is_mandatory_ie_should_not_be_null() {
-		TechnicalDeployment td = new TechnicalDeployment("name");
-		Space space = new Space(td);
-		new ManagedService("rabbitmq",null,"myservice",space, td);
+		new ManagedService("rabbitmq",null,"myservice", new Space());
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	@Ignore
 	public void service_plan_is_mandatory_ie_should_not_be_empty() {
-		TechnicalDeployment td = new TechnicalDeployment("name");
-		Space space = new Space(td);
-		new ManagedService("rabbitmq","","myservice",space, td);
+		new ManagedService("rabbitmq","","myservice", new Space());
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	@Ignore
 	public void service_space_is_mandatory() {
-		TechnicalDeployment td = new TechnicalDeployment("name");
-		new ManagedService("rabbitmq","default","myservice",null, td);
+		new ManagedService("rabbitmq","default","myservice",null);
 	}
 		
 

@@ -128,9 +128,11 @@ public class ManageEnvironmentImplOverallsLinksTest {
 
     private Environment createEnvMock() {
         TechnicalDeployment td = new TechnicalDeployment("tdTest");
-        Space space = new Space(td);
+        Space space = new Space();
         space.activate(new SpaceName("joynspace"));
-        App joyn = new App(td, space, Mockito.mock(MavenReference.class), "joyn");
+        td.add(space);
+        App joyn = new App(space, Mockito.mock(MavenReference.class), "joyn");
+        td.add(joyn);
         joyn.activate(UUID.fromString("55dd956f-05b3-462c-aa5f-10aba84cd82d"));
 
         TechnicalDeploymentInstance envTdiStub = new TechnicalDeploymentInstance(new TechnicalDeploymentTemplate(td, DeploymentProfileEnum.DEVELOPMENT, "releaseId", MiddlewareProfile.DEFAULT_PROFILE), td);

@@ -15,7 +15,6 @@ package com.francetelecom.clara.cloud.activation.plugin.cf.infrastructure;
 import com.francetelecom.clara.cloud.activation.plugin.cf.domain.CFServiceActivationService;
 import com.francetelecom.clara.cloud.activation.plugin.cf.domain.ServiceActivationStatus;
 import com.francetelecom.clara.cloud.activation.plugin.cf.infrastructure.CFServiceActivationServiceDefaultImpl.ServiceAlreadyExists;
-import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.techmodel.cf.Space;
 import com.francetelecom.clara.cloud.techmodel.cf.SpaceName;
 import com.francetelecom.clara.cloud.techmodel.cf.services.managed.ManagedService;
@@ -38,10 +37,9 @@ public class CFServiceActivationServiceDefaultImplTest {
 		CFServiceActivationService cFServiceActivationService = new CFServiceActivationServiceDefaultImpl(cfAdapter);
 
 		// given service postgres-joyndb already exi
-		TechnicalDeployment td = new TechnicalDeployment("");
-		Space space = new Space(td);
+		Space space = new Space();
 		space.activate(new SpaceName("joyn-space"));
-		SimpleUserProvidedService postgresService = new SimpleUserProvidedService("postgres-joyndb", "postgres://user:password@hostname:1234/joyndb", td, space);
+		SimpleUserProvidedService postgresService = new SimpleUserProvidedService("postgres-joyndb", "postgres://user:password@hostname:1234/joyndb", space);
 		Mockito.doReturn(true).when(cfAdapter).serviceExists("postgres-joyndb", "joyn-space");
 
 		// when I create service postgres-joyndb
@@ -55,10 +53,9 @@ public class CFServiceActivationServiceDefaultImplTest {
 		CFServiceActivationService cFServiceActivationService = new CFServiceActivationServiceDefaultImpl(cfAdapter);
 
 		// given no service postgres-joyndb exists
-		TechnicalDeployment td = new TechnicalDeployment("");
-		Space space = new Space(td);
+		Space space = new Space();
 		space.activate(new SpaceName("joyn-space"));
-		SimpleUserProvidedService postgresService = new SimpleUserProvidedService("postgres-joyndb", "postgres://user:password@hostname:1234/joyndb", td, space);
+		SimpleUserProvidedService postgresService = new SimpleUserProvidedService("postgres-joyndb", "postgres://user:password@hostname:1234/joyndb", space);
 		Mockito.doReturn(false).when(cfAdapter).serviceExists("postgres-joyndb", "joyn-space");
 
 		// when I create service postgres-joyndb
@@ -72,10 +69,9 @@ public class CFServiceActivationServiceDefaultImplTest {
 		CFServiceActivationService cFServiceActivationService = new CFServiceActivationServiceDefaultImpl(cfAdapter);
 
 		// given service postgres-joyndb does not exist
-		TechnicalDeployment td = new TechnicalDeployment("");
-		Space space = new Space(td);
+		Space space = new Space();
 		space.activate(new SpaceName("joyn-space"));
-		SimpleUserProvidedService postgresService = new SimpleUserProvidedService("postgres-joyndb", "postgres://user:password@hostname:1234/joyndb", td, space);
+		SimpleUserProvidedService postgresService = new SimpleUserProvidedService("postgres-joyndb", "postgres://user:password@hostname:1234/joyndb", space);
 		Mockito.doReturn(false).when(cfAdapter).serviceExists("postgres-joyndb", "joyn-space");
 
 		// when I delete service postgres-joyndb
@@ -91,9 +87,8 @@ public class CFServiceActivationServiceDefaultImplTest {
 
 		//given service exists
 		//but has not been activated yet
-		TechnicalDeployment td = new TechnicalDeployment("depl");
-		Space space = new Space(td);
-		ManagedService service = new ManagedService("rabbit", "rabbit", "rabbit", space, td);
+		Space space = new Space();
+		ManagedService service = new ManagedService("rabbit", "rabbit", "rabbit", space);
 
 		final ServiceActivationStatus status = cFServiceActivationService.delete(service);
 
@@ -107,9 +102,8 @@ public class CFServiceActivationServiceDefaultImplTest {
 
 		//given service exists
 		//but has not been activated yet
-		TechnicalDeployment td = new TechnicalDeployment("depl");
-		Space space = new Space(td);
-		SimpleUserProvidedService postgresService = new SimpleUserProvidedService("postgres-joyndb", "postgres://user:password@hostname:1234/joyndb", td, space);
+		Space space = new Space();
+		SimpleUserProvidedService postgresService = new SimpleUserProvidedService("postgres-joyndb", "postgres://user:password@hostname:1234/joyndb", space);
 
 		final ServiceActivationStatus status = cFServiceActivationService.delete(postgresService);
 
@@ -122,10 +116,9 @@ public class CFServiceActivationServiceDefaultImplTest {
 		CFServiceActivationService cFServiceActivationService = new CFServiceActivationServiceDefaultImpl(cfAdapter);
 
 		// given service postgres-joyndb already exists
-		TechnicalDeployment td = new TechnicalDeployment("");
-		Space space = new Space(td);
+		Space space = new Space();
 		space.activate(new SpaceName("joyn-space"));
-		SimpleUserProvidedService postgresService = new SimpleUserProvidedService("postgres-joyndb", "postgres://user:password@hostname:1234/joyndb", td, space);
+		SimpleUserProvidedService postgresService = new SimpleUserProvidedService("postgres-joyndb", "postgres://user:password@hostname:1234/joyndb", space);
 		Mockito.doReturn(true).when(cfAdapter).serviceExists("postgres-joyndb", "joyn-space");
 
 		// when I delete service postgres-joyndb

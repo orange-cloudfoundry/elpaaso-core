@@ -35,16 +35,23 @@ public class TechnicalDeploymentTestFactory {
 
 
         TechnicalDeployment td = new TechnicalDeployment("test-td");
-        Space space = new Space(td);
+        Space space = new Space();
 
         MavenReference mavenReference = MavenReference.fromGavString(mavenArtefactGavString);
 
-        App app = new App(td, space, mavenReference, appName);
-        app.bindService(new ManagedService("o-dbaas", "MYSQL_1G", appName + "-db", space, td));
-        app.bindService(new ManagedService("o-logs", "splunk", appName + "-log", space, td));
-        Route route1 = new Route(new RouteUri("uri1"), "", space, td);
+        App app = new App(space, mavenReference, appName);
+        final ManagedService dbaasService = new ManagedService("o-dbaas", "MYSQL_1G", appName + "-db", space);
+        app.bindService(dbaasService);
+        final ManagedService logService = new ManagedService("o-logs", "splunk", appName + "-log", space);
+        app.bindService(logService);
+        Route route1 = new Route(new RouteUri("uri1"), "", space);
         app.mapRoute(route1);
 
+        td.add(space);
+        td.add(app);
+        td.add(route1);
+        td.add(dbaasService);
+        td.add(logService);
 
         return td;
     }

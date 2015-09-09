@@ -86,8 +86,8 @@ public class JeeProcessingProjectionRuleTest {
 
         // when
         TechnicalDeployment td = new TechnicalDeployment("name");
-        final Space space = new Space(td);
-        App app = jeeProcessingStrategy.toApp(space, td, new DummyProjectionContext(space), jeeProcessing);
+        final Space space = new Space();
+        App app = jeeProcessingStrategy.toApp(space, new DummyProjectionContext(space), jeeProcessing);
 
         // then
         assertThat(app).isNotNull();
@@ -129,9 +129,8 @@ public class JeeProcessingProjectionRuleTest {
         projectionPlan.setWasPerVm(3);
 
         // when
-        TechnicalDeployment td = new TechnicalDeployment("name");
-        final Space space = new Space(td);
-        App app = jeeProcessingStrategy.toApp(space, td, new DummyProjectionContext(space), jeeProcessing);
+        final Space space = new Space();
+        App app = jeeProcessingStrategy.toApp(space, new DummyProjectionContext(space), jeeProcessing);
 
         assertThat(app.getAppBinaries()).isEqualTo(jeeProcessing.getSoftwareReference());
         assertThat(app.getAppBinaries().getExtension()).isEqualToIgnoringCase("ear");
@@ -151,9 +150,8 @@ public class JeeProcessingProjectionRuleTest {
         projectionPlan.setWasPerVm(3);
 
         // when
-        TechnicalDeployment td = new TechnicalDeployment("name");
-        final Space space = new Space(td);
-        App app = jeeProcessingStrategy.toApp(space, td, new DummyProjectionContext(space), jeeProcessing);
+        final Space space = new Space();
+        App app = jeeProcessingStrategy.toApp(space, new DummyProjectionContext(space), jeeProcessing);
 
         // then
         assertThat(app.getAppBinaries()).isEqualTo(jeeProcessing.getSoftwareReference());

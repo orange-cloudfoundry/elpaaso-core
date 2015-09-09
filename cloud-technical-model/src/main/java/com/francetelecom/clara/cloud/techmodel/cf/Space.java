@@ -14,7 +14,6 @@ package com.francetelecom.clara.cloud.techmodel.cf;
 
 import com.francetelecom.clara.cloud.model.DependantModelItem;
 import com.francetelecom.clara.cloud.model.DeploymentStateEnum;
-import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.model.XaasSubscription;
 import org.springframework.util.Assert;
 
@@ -37,21 +36,18 @@ public class Space extends XaasSubscription {
 	private SpaceName spaceName;
 
 	@XmlElement(name = "organization")
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private Organization organization;
 
-	protected Space() {
-	}
-
-	public Space(TechnicalDeployment td) {
-		super(td);
+	public Space() {
+		super();
 		// set a default space name
 		setSpaceName(new SpaceName("undefined"));
-		setOrganization(new Organization(td));
+		setOrganization(new Organization());
 	}
 
-	public Space(TechnicalDeployment td,Organization organization) {
-		super(td);
+	public Space(Organization organization) {
+		super();
 		// set a default space name
 		setSpaceName(new SpaceName("undefined"));
 		setOrganization(organization);

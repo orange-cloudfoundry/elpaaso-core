@@ -41,9 +41,9 @@ public class OrganizationRepositoryTest {
 
     @Test
     public void should_merge_organization() throws Exception {
-
         TechnicalDeployment td = new TechnicalDeployment("name");
-        final Organization organization = new Organization(td);
+        final Organization organization = new Organization();
+        td.add(organization);
         technicalDeploymentRepository.save(td);
         organization.activate("newName");
         organizationRepository.save(organization);

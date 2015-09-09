@@ -99,7 +99,6 @@ public class ApplicationLifecycleTest {
 		// test setup
 		// Application application_transient = new Application("aLabel",
 		// "aCode");
-		// application_transient.setDescription("aDescription");
 		logger.debug("/*************** createApplication *************************/");
 		// Initialization of Hibernate statistics
 		sessionFactory.getStatistics().clear();

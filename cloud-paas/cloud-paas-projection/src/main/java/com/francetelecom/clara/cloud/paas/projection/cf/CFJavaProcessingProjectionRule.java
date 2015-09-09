@@ -40,13 +40,13 @@ public class CFJavaProcessingProjectionRule extends BaseProcessingNodeProjection
     public void apply(LogicalDeployment ld, TechnicalDeployment td, ProjectionContext projectionContext) {
         List<CFJavaProcessing> cfJavaProcessings = ld.listProcessingNodes(CFJavaProcessing.class);
         for (CFJavaProcessing cfJavaProcessing : cfJavaProcessings) {
-            toApp(projectionContext.getSpace(), td, projectionContext, cfJavaProcessing);
+            td.add(toApp(projectionContext.getSpace(), projectionContext, cfJavaProcessing));
         }
     }
 
-    protected App toApp(Space space, TechnicalDeployment td, ProjectionContext projectionContext, ProcessingNode processingNode) {
+    protected App toApp(Space space, ProjectionContext projectionContext, ProcessingNode processingNode) {
         try {
-            return super.toApp(space, td, projectionContext, processingNode, buildPack);
+            return super.toApp(space, projectionContext, processingNode, buildPack);
         } catch (UnsupportedProjectionException e) {
             throw new TechnicalException(e);
         }

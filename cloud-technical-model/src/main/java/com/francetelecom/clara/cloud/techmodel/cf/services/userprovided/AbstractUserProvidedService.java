@@ -14,7 +14,6 @@ package com.francetelecom.clara.cloud.techmodel.cf.services.userprovided;
 
 import com.francetelecom.clara.cloud.model.DependantModelItem;
 import com.francetelecom.clara.cloud.model.DeploymentStateEnum;
-import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.model.XaasSubscription;
 import com.francetelecom.clara.cloud.techmodel.cf.Space;
 import com.francetelecom.clara.cloud.techmodel.cf.SpaceName;
@@ -47,8 +46,8 @@ public abstract class AbstractUserProvidedService extends XaasSubscription imple
 	protected AbstractUserProvidedService() {
 	}
 
-	public AbstractUserProvidedService(TechnicalDeployment td, String serviceName, Space space) {
-		super(td);
+	public AbstractUserProvidedService(String serviceName, Space space) {
+		super();
 		setServiceName(serviceName);
 		setSpace(space);
 	}

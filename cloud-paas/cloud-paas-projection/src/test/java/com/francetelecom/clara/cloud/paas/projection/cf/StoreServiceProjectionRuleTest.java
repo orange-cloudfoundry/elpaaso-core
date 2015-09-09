@@ -29,14 +29,13 @@ public class StoreServiceProjectionRuleTest {
     @Test
     public void riacks_service_instance_should_equal_to_logical_logical_online_service_name() throws Exception {
         //given
-        final TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
+        final Space space = new Space();
         LogicalOnlineStorageService logicalOnlineStorageService = new LogicalOnlineStorageService();
         logicalOnlineStorageService.setServiceName("myStorageService");
         final StoreServiceProjectionRule storeServiceProjectionRule = new StoreServiceProjectionRule();
 
         //when
-        final ManagedService managedService = storeServiceProjectionRule.toRiakcsService(logicalOnlineStorageService, space, td);
+        final ManagedService managedService = storeServiceProjectionRule.toRiakcsService(logicalOnlineStorageService, space);
 
         //then service instance name should equal to logical storage service name
         Assertions.assertThat(managedService.getServiceInstance()).isEqualTo("myStorageService");
@@ -45,14 +44,13 @@ public class StoreServiceProjectionRuleTest {
     @Test
     public void riacks_service_plan_should_be_developer() throws Exception {
         //given
-        final TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
+        final Space space = new Space();
         LogicalOnlineStorageService logicalOnlineStorageService = new LogicalOnlineStorageService();
         logicalOnlineStorageService.setServiceName("myStorageService");
         final StoreServiceProjectionRule storeServiceProjectionRule = new StoreServiceProjectionRule();
 
         //when
-        final ManagedService managedService = storeServiceProjectionRule.toRiakcsService(logicalOnlineStorageService, space, td);
+        final ManagedService managedService = storeServiceProjectionRule.toRiakcsService(logicalOnlineStorageService, space);
 
         //then service plan should be developer
         Assertions.assertThat(managedService.getPlan()).isEqualTo("developer");
@@ -61,14 +59,13 @@ public class StoreServiceProjectionRuleTest {
     @Test
     public void riacks_service_type_should_be_p_riakcs() throws Exception {
         //given
-        final TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
+        final Space space = new Space();
         LogicalOnlineStorageService logicalOnlineStorageService = new LogicalOnlineStorageService();
         logicalOnlineStorageService.setServiceName("myStorageService");
         final StoreServiceProjectionRule storeServiceProjectionRule = new StoreServiceProjectionRule();
 
         //when
-        final ManagedService managedService = storeServiceProjectionRule.toRiakcsService(logicalOnlineStorageService, space, td);
+        final ManagedService managedService = storeServiceProjectionRule.toRiakcsService(logicalOnlineStorageService, space);
 
         //then service type should be p-riakcs
         Assertions.assertThat(managedService.getService()).isEqualTo("p-riakcs");
@@ -78,7 +75,7 @@ public class StoreServiceProjectionRuleTest {
     public void store_service_projection_rule_should_generate_a_riakcs_managed_service_per_logical_online_storage_service() throws Exception {
         //given
         final TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
+        final Space space = new Space();
         final StoreServiceProjectionRule storeServiceProjectionRule = new StoreServiceProjectionRule();
         LogicalDeployment logicalDeployment = new LogicalDeployment();
         StoragesLogicalModelCatalog logicalModelCatalog = new StoragesLogicalModelCatalog();

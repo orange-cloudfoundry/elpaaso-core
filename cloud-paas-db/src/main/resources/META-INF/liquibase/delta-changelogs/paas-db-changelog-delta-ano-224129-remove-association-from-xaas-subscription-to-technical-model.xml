@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+    <changeSet author="paas" id="1441811327481-1">
+        <createTable tableName="technical_deployment_xaas_subscription_instance">
+            <column name="technical_deployment_id" type="INT4">
+                <constraints nullable="false"/>
+            </column>
+            <column name="xaassubscriptions_id" type="INT4">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="paas" id="1441811327481-2">
+        <addPrimaryKey columnNames="technical_deployment_id, xaassubscriptions_id" constraintName="technical_deployment_xaas_subscription_instance_pkey" tableName="technical_deployment_xaas_subscription_instance"/>
+    </changeSet>
+    <changeSet author="paas" id="1441811327481-3">
+        <addUniqueConstraint columnNames="xaassubscriptions_id" constraintName="uk_oj7cn6nhkxxiko5kyyor291nb" deferrable="false" disabled="false" initiallyDeferred="false" tableName="technical_deployment_xaas_subscription_instance"/>
+    </changeSet>
+    <changeSet author="paas" id="1441811327481-4">
+        <addForeignKeyConstraint baseColumnNames="technical_deployment_id" baseTableName="technical_deployment_xaas_subscription_instance" constraintName="fk_scefyybq736u92wp6l3hcavu5" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="technical_deployment"/>
+    </changeSet>
+    <changeSet author="paas" id="1441811327481-5">
+        <dropForeignKeyConstraint baseTableName="route" constraintName="fk_7d6brthm5cvdgeto359wrxmfm"/>
+    </changeSet>
+    <changeSet author="paas" id="1441811327481-6">
+        <dropForeignKeyConstraint baseTableName="organization" constraintName="fk_7mhpaxsgblh6slj3utk02foj0"/>
+    </changeSet>
+    <changeSet author="paas" id="1441811327481-7">
+        <dropForeignKeyConstraint baseTableName="space" constraintName="fk_8m3cvglqbyve5w73wb7mtyyhq"/>
+    </changeSet>
+    <changeSet author="paas" id="1441811327481-8">
+        <dropForeignKeyConstraint baseTableName="app" constraintName="fk_np4wriawbisvnnrjglnt1n18x"/>
+    </changeSet>
+    <changeSet author="paas" id="1441811327481-9">
+        <dropForeignKeyConstraint baseTableName="managedservice" constraintName="fk_p6s47rwxtrguyov9pqaivx53a"/>
+    </changeSet>
+    <changeSet author="paas" id="1441811327481-10">
+        <dropForeignKeyConstraint baseTableName="cf_simple_ups_v2" constraintName="fk_s77x271i67r2911ql59lsn29o"/>
+    </changeSet>
+    <changeSet author="paas" id="1441811327481-11">
+        <dropColumn columnName="description" tableName="app"/>
+    </changeSet>
+    <changeSet author="paas" id="1441811327481-12">
+        <dropColumn columnName="description" tableName="cf_simple_ups_v2"/>
+    </changeSet>
+    <changeSet author="paas" id="1441811327481-13">
+        <dropColumn columnName="description" tableName="managedservice"/>
+    </changeSet>
+    <changeSet author="paas" id="1441811327481-14">
+        <dropColumn columnName="description" tableName="organization"/>
+    </changeSet>
+    <changeSet author="paas" id="1441811327481-15">
+        <dropColumn columnName="description" tableName="route"/>
+    </changeSet>
+    <changeSet author="paas" id="1441811327481-16">
+        <dropColumn columnName="description" tableName="space"/>
+    </changeSet>
+    <changeSet author="paas" id="1441811327481-17">
+        <dropColumn columnName="technicaldeployment_id" tableName="app"/>
+    </changeSet>
+    <changeSet author="paas" id="1441811327481-18">
+        <dropColumn columnName="technicaldeployment_id" tableName="cf_simple_ups_v2"/>
+    </changeSet>
+    <changeSet author="paas" id="1441811327481-19">
+        <dropColumn columnName="technicaldeployment_id" tableName="managedservice"/>
+    </changeSet>
+    <changeSet author="paas" id="1441811327481-20">
+        <dropColumn columnName="technicaldeployment_id" tableName="organization"/>
+    </changeSet>
+    <changeSet author="paas" id="1441811327481-21">
+        <dropColumn columnName="technicaldeployment_id" tableName="route"/>
+    </changeSet>
+    <changeSet author="paas" id="1441811327481-22">
+        <dropColumn columnName="technicaldeployment_id" tableName="space"/>
+    </changeSet>
+</databaseChangeLog>

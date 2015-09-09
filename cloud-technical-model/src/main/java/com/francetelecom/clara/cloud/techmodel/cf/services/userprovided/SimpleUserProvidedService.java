@@ -12,16 +12,14 @@
  */
 package com.francetelecom.clara.cloud.techmodel.cf.services.userprovided;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
-import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.techmodel.cf.Space;
 import com.francetelecom.clara.cloud.techmodel.cf.services.NoContraintSpecification;
 import com.francetelecom.clara.cloud.techmodel.cf.services.ServiceNameSpecification;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A user provided service statically bound (at projection time)
@@ -35,8 +33,8 @@ public class SimpleUserProvidedService extends AbstractUserProvidedService {
 	protected SimpleUserProvidedService() {
 	}
 
-	public SimpleUserProvidedService(String serviceName, String serviceUrl, TechnicalDeployment td, Space space) {
-		super(td, serviceName, space);
+	public SimpleUserProvidedService(String serviceName, String serviceUrl, Space space) {
+		super(serviceName, space);
 		this.serviceUrl = serviceUrl;
 	}
 

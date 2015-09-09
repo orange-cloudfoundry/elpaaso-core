@@ -76,12 +76,17 @@ public class SubscriptionV2PersistenceTest extends AbstractPersistenceTest {
 				TechnicalDeploymentInstance tdi = new TechnicalDeploymentInstance(tdt, td);
 
 				MavenReference mavenReference = MavenReference.fromGavString("foo.groupid:foo.artifactid:foo.version");
-				Space space = new Space(td);
-				App app = new App(td, space, mavenReference, "foo");
-				Route route1 = new Route(new RouteUri("uri1"), null, space, td);
-				Route route2 = new Route(new RouteUri("uri2"), null, space, td);
+				Space space = new Space();
+				App app = new App(space, mavenReference, "foo");
+				Route route1 = new Route(new RouteUri("uri1"), null, space);
+				Route route2 = new Route(new RouteUri("uri2"), null, space);
 				app.mapRoute(route1);
 				app.mapRoute(route2);
+
+				td.add(space);
+				td.add(app);
+				td.add(route1);
+				td.add(route2);
 
 				assertListSubscriptions(td);
 				TechnicalDeploymentInstance reloadedTdi = validateAndPersistModel(tdi, false);
@@ -119,14 +124,19 @@ public class SubscriptionV2PersistenceTest extends AbstractPersistenceTest {
 
 				MavenReference mavenReference = MavenReference.fromGavString("foo.groupid:foo.artifactid:foo.version");
 
-				Space space = new Space(td);
+				Space space = new Space();
 
-				SimpleUserProvidedService service1 = new SimpleUserProvidedService("serviceName", "serviceUrl", td, space);
-				SimpleUserProvidedService service2 = new SimpleUserProvidedService("serviceName", "serviceUrl", td, space);
+				SimpleUserProvidedService service1 = new SimpleUserProvidedService("serviceName", "serviceUrl", space);
+				SimpleUserProvidedService service2 = new SimpleUserProvidedService("serviceName", "serviceUrl", space);
 
-				App app = new App(td, space, mavenReference, "foo");
+				App app = new App(space, mavenReference, "foo");
 				app.bindService(service1);
 				app.bindService(service2);
+
+				td.add(space);
+				td.add(app);
+				td.add(service1);
+				td.add(service2);
 
 				assertListSubscriptions(td);
 				TechnicalDeploymentInstance reloadedTdi = validateAndPersistModel(tdi, false);
@@ -163,18 +173,25 @@ public class SubscriptionV2PersistenceTest extends AbstractPersistenceTest {
 
 				MavenReference mavenReference = MavenReference.fromGavString("foo.groupid:foo.artifactid:foo.version");
 
-				Space space = new Space(td);
+				Space space = new Space();
 
-				SimpleUserProvidedService service1 = new SimpleUserProvidedService("serviceName", "serviceUrl", td, space);
-				SimpleUserProvidedService service2 = new SimpleUserProvidedService("serviceName", "serviceUrl", td, space);
+				SimpleUserProvidedService service1 = new SimpleUserProvidedService("serviceName", "serviceUrl", space);
+				SimpleUserProvidedService service2 = new SimpleUserProvidedService("serviceName", "serviceUrl", space);
 
-				App app = new App(td, space, mavenReference, "foo");
+				App app = new App(space, mavenReference, "foo");
 				app.bindService(service1);
 				app.bindService(service2);
-				
-				App app2 = new App(td, space, mavenReference, "foo2");
+
+				App app2 = new App(space, mavenReference, "foo2");
 				app2.bindService(service1);
 				app2.bindService(service2);
+
+				td.add(space);
+				td.add(app);
+				td.add(app2);
+				td.add(service1);
+				td.add(service2);
+
 
 				assertListSubscriptions(td);
 				TechnicalDeploymentInstance reloadedTdi = validateAndPersistModel(tdi, false);
@@ -210,11 +227,14 @@ public class SubscriptionV2PersistenceTest extends AbstractPersistenceTest {
 				TechnicalDeploymentInstance tdi = new TechnicalDeploymentInstance(tdt, td);
 
 				MavenReference mavenReference = MavenReference.fromGavString("foo.groupid:foo.artifactid:foo.version");
-				Space space = new Space(td);
-				ManagedService rabbitMQService = new ManagedService("rabbitmq","default","rabbitmq-service", space, td);
-
-				App app = new App(td, space, mavenReference, "foo");
+				Space space = new Space();
+				ManagedService rabbitMQService = new ManagedService("rabbitmq","default","rabbitmq-service", space);
+				App app = new App(space, mavenReference, "foo");
 				app.bindService(rabbitMQService);
+
+				td.add(space);
+				td.add(app);
+				td.add(rabbitMQService);
 
 				assertListSubscriptions(td);
 				TechnicalDeploymentInstance reloadedTdi = validateAndPersistModel(tdi, false);

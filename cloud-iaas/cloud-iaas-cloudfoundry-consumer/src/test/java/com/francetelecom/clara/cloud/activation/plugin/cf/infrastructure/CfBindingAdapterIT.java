@@ -14,7 +14,6 @@ package com.francetelecom.clara.cloud.activation.plugin.cf.infrastructure;
 
 import com.francetelecom.clara.cloud.commons.MavenReference;
 import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppProperties;
-import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.mvn.consumer.MvnRepoDao;
 import com.francetelecom.clara.cloud.techmodel.cf.App;
 import com.francetelecom.clara.cloud.techmodel.cf.Space;
@@ -31,7 +30,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.net.MalformedURLException;
-import java.net.URL;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
@@ -53,18 +51,16 @@ public class CfBindingAdapterIT {
     public void teardown() throws MalformedURLException {
         // ensure every created resources will be deleted
         if (cfAdapter.appExists("joyn", spaceName)) {
-            TechnicalDeployment td = new TechnicalDeployment("name");
-            Space space = new Space(td);
+            Space space = new Space();
             space.activate(new SpaceName(spaceName));
-            cfAdapter.deleteApp(new App(td, space, new MavenReference(), "joyn"), spaceName);
+            cfAdapter.deleteApp(new App(space, new MavenReference(), "joyn"), spaceName);
         }
         cfAdapter.deleteAllServices(spaceName);
     }
 
     @Test
     public void should_create_postgres_service() {
-        TechnicalDeployment td = new TechnicalDeployment("");
-        SimpleUserProvidedService postgresService = new SimpleUserProvidedService("postgres-dbname", "postgres://user:password@hostname:1234/dbname", td, new Space(td));
+        SimpleUserProvidedService postgresService = new SimpleUserProvidedService("postgres-dbname", "postgres://user:password@hostname:1234/dbname", new Space());
 
         cfAdapter.createService(postgresService, spaceName);
 
@@ -73,8 +69,7 @@ public class CfBindingAdapterIT {
 
     @Test
     public void should_delete_postgres_service() {
-        TechnicalDeployment td = new TechnicalDeployment("");
-        SimpleUserProvidedService postgresService = new SimpleUserProvidedService("postgres-dbname", "postgres://user:password@hostname:1234/dbname", td, new Space(td));
+        SimpleUserProvidedService postgresService = new SimpleUserProvidedService("postgres-dbname", "postgres://user:password@hostname:1234/dbname", new Space());
 
         cfAdapter.createService(postgresService, spaceName);
 
@@ -86,9 +81,7 @@ public class CfBindingAdapterIT {
 
     @Test
     public void should_create_session_replication_service() {
-        TechnicalDeployment td = new TechnicalDeployment("");
-
-        ManagedService sessionReplicationService = new ManagedService("redis", "default", "joyn-session-replication", new Space(td), new TechnicalDeployment("name"));
+        ManagedService sessionReplicationService = new ManagedService("redis", "default", "joyn-session-replication", new Space());
 
         cfAdapter.createService(sessionReplicationService, spaceName);
 
@@ -97,9 +90,8 @@ public class CfBindingAdapterIT {
 
     @Test
     public void should_create_rabbitmq_managed_service() {
-        TechnicalDeployment td = new TechnicalDeployment("");
 
-        ManagedService rabbitMQService = new ManagedService("p-rabbitmq", "standard", "rabbitmq-test", new Space(td), new TechnicalDeployment("name"));
+        ManagedService rabbitMQService = new ManagedService("p-rabbitmq", "standard", "rabbitmq-test", new Space());
 
         cfAdapter.createService(rabbitMQService, spaceName);
 
@@ -112,12 +104,11 @@ public class CfBindingAdapterIT {
         // given an application joyn pushed on cf
         MavenReference simpleProbe = mvnRepo.resolveUrl(sampleAppProperties.getMavenReference("simple-probe", "jar"));
 
-        TechnicalDeployment td = new TechnicalDeployment("name");
-        Space space = new Space(td);
-        App application = new App(td, space, simpleProbe, "joyn");
+        Space space = new Space();
+        App application = new App(space, simpleProbe, "joyn");
         cfAdapter.createApp(application, spaceName);
         // given a postgres service created on cf
-        SimpleUserProvidedService postgresService = new SimpleUserProvidedService("postgres-dbname", "postgres://user:password@hostname:1234/dbname", td, space);
+        SimpleUserProvidedService postgresService = new SimpleUserProvidedService("postgres-dbname", "postgres://user:password@hostname:1234/dbname", space);
         cfAdapter.createService(postgresService, spaceName);
 
         // when I bind postgres service to joyn application

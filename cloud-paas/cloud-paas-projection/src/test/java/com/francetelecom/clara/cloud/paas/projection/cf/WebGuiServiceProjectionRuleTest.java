@@ -22,8 +22,6 @@ import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.paas.projection.UnsupportedProjectionException;
 import com.francetelecom.clara.cloud.techmodel.cf.Route;
 import com.francetelecom.clara.cloud.techmodel.cf.Space;
-import com.francetelecom.clara.cloud.techmodel.cf.services.managed.ManagedService;
-import org.fest.assertions.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,22 +52,6 @@ public class WebGuiServiceProjectionRuleTest {
     }
 
     @Test
-    public void route_context_root_should_equal_to_logical_webgui_service_context_root() throws Exception {
-        //given
-        final TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
-        LogicalRabbitService logicalRabbitService = new LogicalRabbitService();
-        logicalRabbitService.setServiceName("myRabbitService");
-        final RabbitServiceProjectionRule rabbitServiceProjectionRule = new RabbitServiceProjectionRule();
-
-        //when
-        final ManagedService managedService = rabbitServiceProjectionRule.toRabbitService(logicalRabbitService, space, td);
-
-        //then service instance name should equal to logical rabbitmq service name
-        Assertions.assertThat(managedService.getServiceInstance()).isEqualTo("myRabbitService");
-    }
-
-    @Test
     public void generates_two_uris_when_two_webguis_bound_to_a_jeeprocessing() throws UnsupportedProjectionException {
         // Given
         BaseReferenceLogicalModelsCatalog logicalModelCatalog = new JeeProbeLogicalModelCatalog();
@@ -85,7 +67,7 @@ public class WebGuiServiceProjectionRuleTest {
 
         // when
         TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
+        final Space space = new Space();
         webGuiServiceProjectionStrategy.apply(logicalDeployment, td, new DummyProjectionContext(space));
 
         // then
@@ -109,9 +91,8 @@ public class WebGuiServiceProjectionRuleTest {
         webGui1.setContextRoot(new ContextRoot("/context-root1"));
 
         // when
-        TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
-        final Route route = webGuiServiceProjectionStrategy.toRoute(webGui1, new DummyProjectionContext(space), space, td);
+        final Space space = new Space();
+        final Route route = webGuiServiceProjectionStrategy.toRoute(webGui1, new DummyProjectionContext(space), space);
 
         // then
         assertThat(route.getContextRoot()).isEqualTo("/context-root1");

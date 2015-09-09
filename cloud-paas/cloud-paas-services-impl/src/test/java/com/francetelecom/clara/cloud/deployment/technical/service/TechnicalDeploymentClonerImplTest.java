@@ -75,15 +75,24 @@ public class TechnicalDeploymentClonerImplTest {
 
 		MavenReference mavenReference = MavenReference.fromGavString("foo.groupid:foo.artifactid:foo.version");
 
-		Space space = new Space(td);
-        
-        App app = new App(td, space, mavenReference, "foo");
-		app.bindService(new SimpleUserProvidedService("frontend-db", "http://localhost", td, space));
-		app.bindService(new ManagedService("rabbitmq", "default", "myservice", space, td));
-        Route route1 = new Route(new RouteUri("uri1"), null, space, td);
-        Route route2 = new Route(new RouteUri("uri2"), null, space, td);
-        app.mapRoute(route1);
-        app.mapRoute(route2);
+		Space space = new Space();
+
+		App app = new App(space, mavenReference, "foo");
+		final SimpleUserProvidedService frontendDBService = new SimpleUserProvidedService("frontend-db", "http://localhost", space);
+		app.bindService(frontendDBService);
+		final ManagedService rabbitmqService = new ManagedService("rabbitmq", "default", "myservice", space);
+		app.bindService(rabbitmqService);
+		Route route1 = new Route(new RouteUri("uri1"), null, space);
+		Route route2 = new Route(new RouteUri("uri2"), null, space);
+		app.mapRoute(route1);
+		app.mapRoute(route2);
+
+		td.add(space);
+		td.add(app);
+		td.add(route1);
+		td.add(route2);
+		td.add(rabbitmqService);
+		td.add(frontendDBService);
        
         TechnicalDeployment clonedTd = this.cloner.deepCopy(tdi.getTechnicalDeployment());
 

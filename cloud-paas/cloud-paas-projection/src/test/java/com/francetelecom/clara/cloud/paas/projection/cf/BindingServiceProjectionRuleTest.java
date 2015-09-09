@@ -38,10 +38,12 @@ public class BindingServiceProjectionRuleTest {
         logicalModelCatalog.setSampleAppProperties(sampleAppProperties);
         logicalModelCatalog.populateLogicalDeployment(logicalDeployment);
         TechnicalDeployment td = new TechnicalDeployment("name");
-        Space space = new Space(td);
+        Space space = new Space();
+        td.add(space);
         relationalServiceServiceProjectionRule.apply(logicalDeployment, td, new DummyProjectionContext(space));
 
-        App app = new App(td, space, new MavenReference(), "joyn");
+        App app = new App(space, new MavenReference(), "joyn");
+        td.add(app);
         app.setLogicalModelId(logicalDeployment.findProcessingNode("Cf-wicket-jpaSample").getName());
 
         AssociationProjectionRule defaultServiceBindingProjectionRule = new DefaultServiceBindingProjectionRule();

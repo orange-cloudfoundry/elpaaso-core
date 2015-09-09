@@ -36,14 +36,13 @@ public class ToDbaasServiceProjectionRuleTest {
     @Test
     public void dbaas_service_instance_should_equal_to_logical_mysql_service_name() throws Exception {
         //given
-        final TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
+        final Space space = new Space();
         LogicalRelationalService logicalRelationalService = new LogicalRelationalService();
         logicalRelationalService.setServiceName("mysql-database");
         final ToDbaasServiceProjectionRule rule = new ToDbaasServiceProjectionRule();
 
         //when
-        final ManagedService managedService = rule.toDbaasService(logicalRelationalService, space, td);
+        final ManagedService managedService = rule.toDbaasService(logicalRelationalService, space);
 
         //then service instance name should equal to logical relational service name
         Assertions.assertThat(managedService.getServiceInstance()).isEqualTo("mysql-database");
@@ -52,15 +51,14 @@ public class ToDbaasServiceProjectionRuleTest {
     @Test
     public void dbaas_service_plan_should_be_MYSQL_1G_when_a_mysql_db_is_requested() throws Exception {
         //given
-        final TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
+        final Space space = new Space();
         LogicalRelationalService logicalRelationalService = new LogicalRelationalService();
         logicalRelationalService.setServiceName("mysql-database");
         logicalRelationalService.setSqlVersion(LogicalRelationalServiceSqlDialectEnum.MYSQL_DEFAULT);
         final ToDbaasServiceProjectionRule rule = new ToDbaasServiceProjectionRule();
 
         //when
-        final ManagedService managedService = rule.toDbaasService(logicalRelationalService, space, td);
+        final ManagedService managedService = rule.toDbaasService(logicalRelationalService, space);
 
         //then service plan should be MYSQL_1G
         Assertions.assertThat(managedService.getPlan()).isEqualTo("MYSQL_1G");
@@ -69,15 +67,14 @@ public class ToDbaasServiceProjectionRuleTest {
     @Test
     public void dbaas_service_plan_should_be_POSTGRESQL_1G_when_a_postgres_db_is_requested() throws Exception {
         //given
-        final TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
+        final Space space = new Space();
         LogicalRelationalService logicalRelationalService = new LogicalRelationalService();
         logicalRelationalService.setServiceName("postgres-database");
         logicalRelationalService.setSqlVersion(LogicalRelationalServiceSqlDialectEnum.POSTGRESQL_DEFAULT);
         final ToDbaasServiceProjectionRule rule = new ToDbaasServiceProjectionRule();
 
         //when
-        final ManagedService managedService = rule.toDbaasService(logicalRelationalService, space, td);
+        final ManagedService managedService = rule.toDbaasService(logicalRelationalService, space);
 
         //then service plan should be POSTGRESQL_1G
         Assertions.assertThat(managedService.getPlan()).isEqualTo("POSTGRESQL_1G");
@@ -86,14 +83,13 @@ public class ToDbaasServiceProjectionRuleTest {
     @Test
     public void dbaas_service_type_should_be_o_dbaas() throws Exception {
         //given
-        final TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
+        final Space space = new Space();
         LogicalRelationalService logicalRelationalService = new LogicalRelationalService();
         logicalRelationalService.setServiceName("mysql-database");
         final ToDbaasServiceProjectionRule rule = new ToDbaasServiceProjectionRule();
 
         //when
-        final ManagedService managedService = rule.toDbaasService(logicalRelationalService, space, td);
+        final ManagedService managedService = rule.toDbaasService(logicalRelationalService, space);
 
         //then service type should be o-dbaas
         Assertions.assertThat(managedService.getService()).isEqualTo("o-dbaas");
@@ -103,7 +99,7 @@ public class ToDbaasServiceProjectionRuleTest {
     public void to_dbaas_service_projection_rule_should_generate_a_dbaas_managed_service_per_mysql_logical_service() throws Exception {
         //given
         final TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
+        final Space space = new Space();
         final ToDbaasServiceProjectionRule rule = new ToDbaasServiceProjectionRule();
         LogicalDeployment logicalDeployment = new LogicalDeployment();
         CFWicketCxfJpaLogicalModelCatalog logicalModelCatalog = new CFWicketCxfJpaLogicalModelCatalog();
@@ -135,11 +131,14 @@ public class ToDbaasServiceProjectionRuleTest {
 
         // given td
         TechnicalDeployment td = new TechnicalDeployment("name");
-        Space space = new Space(td);
+        Space space = new Space();
+        td.add(space);
+
         rule.apply(logicalDeployment, td, new DummyProjectionContext(space));
 
         //simulate app generation
-        App app = new App(td, space, new MavenReference(), "app");
+        App app = new App(space, new MavenReference(), "app");
+        td.add(app);
         app.setLogicalModelId(logicalDeployment.findProcessingNode("Cf-wicket-jpaSample").getName());
 
         AssociationProjectionRule associationProjectionRule = new DefaultServiceBindingProjectionRule();

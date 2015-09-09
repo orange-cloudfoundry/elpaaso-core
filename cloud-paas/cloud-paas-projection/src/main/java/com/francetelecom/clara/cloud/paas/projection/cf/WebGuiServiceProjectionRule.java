@@ -35,13 +35,13 @@ public class WebGuiServiceProjectionRule implements ServiceProjectionRule {
     public void apply(LogicalDeployment ld, TechnicalDeployment td, ProjectionContext projectionContext) {
         Set<LogicalWebGUIService> logicalWebGUIServices = ld.listLogicalServices(LogicalWebGUIService.class);
         for (LogicalWebGUIService webGUIService : logicalWebGUIServices) {
-            toRoute(webGUIService, projectionContext, projectionContext.getSpace(), td);
+            td.add(toRoute(webGUIService, projectionContext, projectionContext.getSpace()));
         }
     }
 
-    protected Route toRoute(LogicalWebGUIService webGUIService, ProjectionContext projectionContext, Space space, TechnicalDeployment td) {
+    protected Route toRoute(LogicalWebGUIService webGUIService, ProjectionContext projectionContext, Space space) {
         String uriTemplate = routeStrategy.buildRouteTemplate(projectionContext.getApplicationName(), projectionContext.getReleaseVersion(), webGUIService);
-        Route route = new Route(new RouteUri(uriTemplate), webGUIService.getContextRoot().getValue(), space, td);
+        Route route = new Route(new RouteUri(uriTemplate), webGUIService.getContextRoot().getValue(), space);
         route.setLogicalModelId(webGUIService.getName());
         return route;
     }

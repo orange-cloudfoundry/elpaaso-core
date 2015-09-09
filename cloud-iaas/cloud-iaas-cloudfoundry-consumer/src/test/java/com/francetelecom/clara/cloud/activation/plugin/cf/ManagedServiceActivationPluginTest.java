@@ -16,7 +16,6 @@ import com.francetelecom.clara.cloud.activation.plugin.cf.domain.CFServiceActiva
 import com.francetelecom.clara.cloud.activation.plugin.cf.domain.ServiceActivationStatus;
 import com.francetelecom.clara.cloud.commons.tasks.TaskStatus;
 import com.francetelecom.clara.cloud.model.ModelItemRepository;
-import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.techmodel.cf.ManagedServiceRepository;
 import com.francetelecom.clara.cloud.techmodel.cf.Space;
 import com.francetelecom.clara.cloud.techmodel.cf.services.managed.ManagedService;
@@ -60,9 +59,9 @@ public class ManagedServiceActivationPluginTest {
     @Test
     public void should_return_deletion_status() throws Exception {
         //given service has been activated
-        TechnicalDeployment td = new TechnicalDeployment("depl");
-        Space space = new Space(td);
-        ManagedService service = new ManagedService("rabbit", "rabbit", "rabbit", space, td);
+        Space space = new Space();
+
+        ManagedService service = new ManagedService("rabbit", "rabbit", "rabbit", space);
         //given service exists
         Mockito.when(managedServiceRepository.findOne(1)).thenReturn(service);
         Mockito.when(cfServiceActivationService.delete(service)).thenReturn(ServiceActivationStatus.ofService("rabbit", space.getSpaceName().getValue()).isPending("in progress"));
@@ -79,9 +78,9 @@ public class ManagedServiceActivationPluginTest {
     @Test
     public void should_return_activation_status() throws Exception {
         //given service has been activated
-        TechnicalDeployment td = new TechnicalDeployment("depl");
-        Space space = new Space(td);
-        ManagedService service = new ManagedService("rabbit", "rabbit", "rabbit", space, td);
+        Space space = new Space();
+
+        ManagedService service = new ManagedService("rabbit", "rabbit", "rabbit", space);
         //given service exists
         Mockito.when(managedServiceRepository.findOne(1)).thenReturn(service);
         Mockito.when(cfServiceActivationService.activate(service)).thenReturn(ServiceActivationStatus.ofService("rabbit", space.getSpaceName().getValue()).isPending("in progress"));

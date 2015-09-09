@@ -14,10 +14,14 @@ package com.francetelecom.clara.cloud.paas.projection.cf;
 
 import com.francetelecom.clara.cloud.commons.TechnicalException;
 import com.francetelecom.clara.cloud.commons.xstream.XStreamUtils;
-import com.francetelecom.clara.cloud.coremodel.*;
+import com.francetelecom.clara.cloud.coremodel.ApplicationRelease;
+import com.francetelecom.clara.cloud.coremodel.ConfigRole;
+import com.francetelecom.clara.cloud.coremodel.MiddlewareProfile;
 import com.francetelecom.clara.cloud.logicalmodel.LogicalDeployment;
-import com.francetelecom.clara.cloud.logicalmodel.ProcessingNode;
-import com.francetelecom.clara.cloud.model.*;
+import com.francetelecom.clara.cloud.model.DeploymentProfileEnum;
+import com.francetelecom.clara.cloud.model.TechnicalDeployment;
+import com.francetelecom.clara.cloud.model.TechnicalDeploymentInstance;
+import com.francetelecom.clara.cloud.model.TechnicalDeploymentTemplate;
 import com.francetelecom.clara.cloud.paas.projection.ProjectionService;
 import com.francetelecom.clara.cloud.paas.projection.UnsupportedProjectionException;
 import com.francetelecom.clara.cloud.techmodel.cf.Organization;
@@ -26,7 +30,9 @@ import com.thoughtworks.xstream.XStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  *
@@ -53,10 +59,12 @@ public class CfProjectionServiceImpl implements ProjectionService {
 		TechnicalDeploymentTemplate technicalDeploymentTemplate = new TechnicalDeploymentTemplate(td, profile, applicationRelease.getUID(),
 				applicationRelease.getMiddlewareProfileVersion());
 
-        Organization organization=new Organization(td);
+        Organization organization=new Organization();
+        td.add(organization);
 
-		// generate space
-		Space space = new Space(td,organization);
+        // generate space
+		Space space = new Space(organization);
+        td.add(space);
 
 		String applicationName = applicationRelease.getApplication().getLabel();
 		String releaseVersion = applicationRelease.getReleaseVersion();

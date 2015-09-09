@@ -14,7 +14,6 @@ package com.francetelecom.clara.cloud.techmodel.cf;
 
 import com.francetelecom.clara.cloud.commons.MavenReference;
 import com.francetelecom.clara.cloud.model.DependantModelItem;
-import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.techmodel.cf.services.userprovided.SimpleUserProvidedService;
 import org.fest.assertions.Assertions;
 import org.junit.Test;
@@ -28,7 +27,7 @@ import static org.fest.assertions.Assertions.assertThat;
 public class AppTest {
 
     MavenReference appBinaries = new MavenReference("com.francetelecom.clara.prototype.springoojpa", "springoojpa-ear", "6.1.0", "ear");
-    App app = new App(new TechnicalDeployment("name"), new Space(new TechnicalDeployment("name")), appBinaries, "myAppName");
+    App app = new App(new Space(), appBinaries, "myAppName");
 
     @Test
     public void hasDefaultNullBuildPackUrl() {
@@ -43,17 +42,17 @@ public class AppTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void rejectsNullAppName() {
-        new App(new TechnicalDeployment("name"), new Space(new TechnicalDeployment("name")), appBinaries, null);
+        new App(new Space(), appBinaries, null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void rejectsEmptyAppName() {
-        new App(new TechnicalDeployment("name"), new Space(new TechnicalDeployment("name")), appBinaries, "");
+        new App(new Space(), appBinaries, "");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void rejectsNullAppBinaries() {
-        new App(new TechnicalDeployment("name"), new Space(new TechnicalDeployment("name")), null, "myAppName");
+        new App(new Space(), null, "myAppName");
     }
 
     @Test
@@ -85,7 +84,7 @@ public class AppTest {
     @Test
     public void constructorsSupportsOptionalValues() {
         String buildPackUrl = "https://github.com/Orange-OpenSource/vcap-java-client.git";
-        app = new App(new TechnicalDeployment("name"), new Space(new TechnicalDeployment("name")), "myappName", appBinaries, buildPackUrl, 256, 2);
+        app = new App(new Space(), "myappName", appBinaries, buildPackUrl, 256, 2);
 
         assertThat(app.getInstanceCount()).isEqualTo(2);
         assertThat(app.getBuildPackUrl()).isEqualTo(buildPackUrl);
@@ -94,8 +93,7 @@ public class AppTest {
     @Test
     public void supports_bind_services() {
         //given
-        TechnicalDeployment td = new TechnicalDeployment("");
-        SimpleUserProvidedService userProvidedService = new SimpleUserProvidedService("frontend-db", "http://localhost", td, new Space(td));
+        SimpleUserProvidedService userProvidedService = new SimpleUserProvidedService("frontend-db", "http://localhost", new Space());
 
         //when
         app.bindService(userProvidedService);
@@ -107,10 +105,9 @@ public class AppTest {
     @Test
     public void delegates_dependency_resolver_to_service() {
         //given
-        TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
-        App joyn = new App(td, space, appBinaries, "myAppName");
-        SimpleUserProvidedService userProvidedService = new SimpleUserProvidedService("frontend-db", "http://localhost", td, space);
+        final Space space = new Space();
+        App joyn = new App(space, appBinaries, "myAppName");
+        SimpleUserProvidedService userProvidedService = new SimpleUserProvidedService("frontend-db", "http://localhost", space);
         joyn.bindService(userProvidedService);
 
         //when
@@ -125,8 +122,8 @@ public class AppTest {
     @Test(expected = IllegalArgumentException.class)
     public void require_external_id_on_activation() throws Exception {
         MavenReference mavenReference = MavenReference.fromGavString("foo.groupid:foo.artifactid:foo.version");
-        Space space = new Space(new TechnicalDeployment("name"));
-        App joyn = new App(new TechnicalDeployment("name"), space, mavenReference, "joyn");
+        Space space = new Space();
+        App joyn = new App(space, mavenReference, "joyn");
 
         joyn.activate(null);
 
@@ -135,8 +132,8 @@ public class AppTest {
     @Test
     public void should_set_external_id_on_activation() throws Exception {
         MavenReference mavenReference = MavenReference.fromGavString("foo.groupid:foo.artifactid:foo.version");
-        Space space = new Space(new TechnicalDeployment("name"));
-        App joyn = new App(new TechnicalDeployment("name"), space, mavenReference, "joyn");
+        Space space = new Space();
+        App joyn = new App(space, mavenReference, "joyn");
 
         UUID externalId = UUID.randomUUID();
 
@@ -148,8 +145,8 @@ public class AppTest {
     @Test
     public void should_be_activated_after_activation() throws Exception {
         MavenReference mavenReference = MavenReference.fromGavString("foo.groupid:foo.artifactid:foo.version");
-        Space space = new Space(new TechnicalDeployment("name"));
-        App joyn = new App(new TechnicalDeployment("name"), space, mavenReference, "joyn");
+        Space space = new Space();
+        App joyn = new App(space, mavenReference, "joyn");
 
         UUID externalId = UUID.randomUUID();
 
@@ -190,11 +187,8 @@ public class AppTest {
     @Test
     public void should_be_removed_after_deletion() throws Exception {
         MavenReference mavenReference = MavenReference.fromGavString("foo.groupid:foo.artifactid:foo.version");
-        Space space = new Space(new TechnicalDeployment("name"));
-        App joyn = new App(new TechnicalDeployment("name"), space, mavenReference, "joyn");
-
-        UUID externalId = UUID.randomUUID();
-
+        Space space = new Space();
+        App joyn = new App(space, mavenReference, "joyn");
         joyn.delete();
 
         Assertions.assertThat(joyn.isRemoved()).isTrue();
@@ -203,8 +197,8 @@ public class AppTest {
     @Test
     public void should_be_stopped_after_stop() throws Exception {
         MavenReference mavenReference = MavenReference.fromGavString("foo.groupid:foo.artifactid:foo.version");
-        Space space = new Space(new TechnicalDeployment("name"));
-        App joyn = new App(new TechnicalDeployment("name"), space, mavenReference, "joyn");
+        Space space = new Space();
+        App joyn = new App(space, mavenReference, "joyn");
 
         joyn.stop();
 

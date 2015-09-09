@@ -14,7 +14,6 @@ package com.francetelecom.clara.cloud.paas.activation.v1;
 
 import com.francetelecom.clara.cloud.commons.MavenReference;
 import com.francetelecom.clara.cloud.model.DependantModelItem;
-import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.paas.activation.ActivationPlugin;
 import com.francetelecom.clara.cloud.paas.activation.ActivationStepEnum;
 import com.francetelecom.clara.cloud.techmodel.cf.*;
@@ -50,26 +49,25 @@ public class ActivitiProcessUtilsTest {
         Map<String, ActivitiProcessUtils.NodeTask> nodes = new HashMap<>();
         Map<String, Set<ActivitiProcessUtils.NodeTask>> cache = new HashMap<>();
 
-        TechnicalDeployment td = new TechnicalDeployment("call_to_addService_checkAwsUseCase");
         MavenReference mavenRef = mock(MavenReference.class);
         List<DependantModelItem> tdItems = new ArrayList<>();
 
-        final Organization organization = new Organization(td);
+        final Organization organization = new Organization();
         tdItems.add(organization);
 
-        final Space space = new Space(td, organization);
+        final Space space = new Space(organization);
         tdItems.add(space);
 
-        final App app = new App(td, space, mavenRef, "appName");
+        final App app = new App(space, mavenRef, "appName");
         tdItems.add(app);
 
-        final ManagedService mysql_service = new ManagedService("o-dbaas", "MYSQL_1G", "appName-db", space, td);
+        final ManagedService mysql_service = new ManagedService("o-dbaas", "MYSQL_1G", "appName-db", space);
         tdItems.add(mysql_service);
 
-        final ManagedService splunk_service = new ManagedService("o-logs", "splunk", "appName-log", space, td);
+        final ManagedService splunk_service = new ManagedService("o-logs", "splunk", "appName-log", space);
         tdItems.add(splunk_service);
 
-        final Route route1 = new Route(new RouteUri("uri1"), null, space, td);
+        final Route route1 = new Route(new RouteUri("uri1"), null, space);
         tdItems.add(route1);
 
         boolean canParrallel = false;

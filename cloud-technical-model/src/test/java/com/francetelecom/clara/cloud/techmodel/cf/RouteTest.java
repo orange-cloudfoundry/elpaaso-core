@@ -15,8 +15,6 @@ package com.francetelecom.clara.cloud.techmodel.cf;
 import org.fest.assertions.Assertions;
 import org.junit.Test;
 
-import com.francetelecom.clara.cloud.model.TechnicalDeployment;
-
 /**
  *
  */
@@ -24,7 +22,7 @@ public class RouteTest {
 
 	@Test
 	public void should_prefix_route_uri() throws Exception {
-		Route route = new Route(new RouteUri("this-is-an-host.my.domain.fr"), "contextRoot", new Space(new TechnicalDeployment("")), new TechnicalDeployment(""));
+		Route route = new Route(new RouteUri("this-is-an-host.my.domain.fr"), "contextRoot", new Space());
 
 		route.prefix("a_prefix");
 
@@ -34,14 +32,14 @@ public class RouteTest {
 
 	@Test
 	public void http_full_access_url_should_end_with_context_root() throws Exception {
-		Route route = new Route(new RouteUri("this-is-an-host.my.domain.fr"), "/contextRoot", new Space(new TechnicalDeployment("")), new TechnicalDeployment(""));
+		Route route = new Route(new RouteUri("this-is-an-host.my.domain.fr"), "/contextRoot", new Space());
 
 		Assertions.assertThat(route.getFullHttpAccessUrl().toExternalForm()).isEqualTo("http://this-is-an-host.my.domain.fr:80/contextRoot");
 	}
 
 	@Test
 	public void http_full_access_url_should_not_end_with_slash_even_if_context_root_is_slash() throws Exception {
-		Route route = new Route(new RouteUri("this-is-an-host.my.domain.fr"), "/", new Space(new TechnicalDeployment("")), new TechnicalDeployment(""));
+		Route route = new Route(new RouteUri("this-is-an-host.my.domain.fr"), "/", new Space());
 
 		Assertions.assertThat(route.getFullHttpAccessUrl().toExternalForm()).isEqualTo("http://this-is-an-host.my.domain.fr:80");
 	}

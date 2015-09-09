@@ -31,14 +31,13 @@ public class MysqlServiceProjectionRuleTest {
     @Test
     public void mysql_service_instance_should_equal_to_logical_mysql_service_name() throws Exception {
         //given
-        final TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
+        final Space space = new Space();
         LogicalMysqlService logicalMysqlService = new LogicalMysqlService();
         logicalMysqlService.setServiceName("mysql-database");
         final MysqlServiceProjectionRule mysqlServiceProjectionRule = new MysqlServiceProjectionRule();
 
         //when
-        final ManagedService managedService = mysqlServiceProjectionRule.toMysqlService(logicalMysqlService, space, td);
+        final ManagedService managedService = mysqlServiceProjectionRule.toMysqlService(logicalMysqlService, space);
 
         //then service instance name should equal to logical mysql service name
         Assertions.assertThat(managedService.getServiceInstance()).isEqualTo("mysql-database");
@@ -47,14 +46,13 @@ public class MysqlServiceProjectionRuleTest {
     @Test
     public void mysql_service_plan_should_be_standard() throws Exception {
         //given
-        final TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
+        final Space space = new Space();
         LogicalMysqlService logicalMysqlService = new LogicalMysqlService();
         logicalMysqlService.setServiceName("myMysqlService");
         final MysqlServiceProjectionRule mysqlServiceProjectionRule = new MysqlServiceProjectionRule();
 
         //when
-        final ManagedService managedService = mysqlServiceProjectionRule.toMysqlService(logicalMysqlService, space, td);
+        final ManagedService managedService = mysqlServiceProjectionRule.toMysqlService(logicalMysqlService, space);
 
         //then service plan should be default
         Assertions.assertThat(managedService.getPlan()).isEqualTo("100mb");
@@ -63,14 +61,13 @@ public class MysqlServiceProjectionRuleTest {
     @Test
     public void mysql_service_type_should_be_p_mysql() throws Exception {
         //given
-        final TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
+        final Space space = new Space();
         LogicalMysqlService logicalMysqlService = new LogicalMysqlService();
         logicalMysqlService.setServiceName("myMysqlService");
         final MysqlServiceProjectionRule mysqlServiceProjectionRule = new MysqlServiceProjectionRule();
 
         //when
-        final ManagedService managedService = mysqlServiceProjectionRule.toMysqlService(logicalMysqlService, space, td);
+        final ManagedService managedService = mysqlServiceProjectionRule.toMysqlService(logicalMysqlService, space);
 
         //then service type should be redis
         Assertions.assertThat(managedService.getService()).isEqualTo("p-mysql");
@@ -80,7 +77,7 @@ public class MysqlServiceProjectionRuleTest {
     public void mysql_service_projection_rule_should_generate_a_mysql_managed_service_per_mysql_logical_service() throws Exception {
         //given
         final TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
+        final Space space = new Space();
         final MysqlServiceProjectionRule mysqlServiceProjectionRule = new MysqlServiceProjectionRule();
         LogicalDeployment logicalDeployment = new LogicalDeployment();
         CFWicketJpaWithMysqlServiceLogicalModelCatalog logicalModelCatalog = new CFWicketJpaWithMysqlServiceLogicalModelCatalog();
@@ -112,12 +109,14 @@ public class MysqlServiceProjectionRuleTest {
 
         // given td
         TechnicalDeployment td = new TechnicalDeployment("name");
-        Space space = new Space(td);
+        Space space = new Space();
+        td.add(space);
         mysqlServiceProjectionRule.apply(logicalDeployment, td, new DummyProjectionContext(space));
 
         //simulate app generation
-        App app = new App(td, space, new MavenReference(), "app");
+        App app = new App(space, new MavenReference(), "app");
         app.setLogicalModelId(logicalDeployment.findProcessingNode("Cf-wicket-jpaSample").getName());
+td.add(app);
 
         AssociationProjectionRule associationProjectionRule = new DefaultServiceBindingProjectionRule();
 

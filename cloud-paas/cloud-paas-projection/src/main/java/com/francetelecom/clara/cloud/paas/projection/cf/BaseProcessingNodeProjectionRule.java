@@ -13,7 +13,6 @@
 package com.francetelecom.clara.cloud.paas.projection.cf;
 
 import com.francetelecom.clara.cloud.logicalmodel.ProcessingNode;
-import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.mvn.consumer.MvnRepoDao;
 import com.francetelecom.clara.cloud.paas.constraint.ProjectionPlan;
 import com.francetelecom.clara.cloud.paas.projection.UnsupportedProjectionException;
@@ -30,7 +29,7 @@ public abstract class BaseProcessingNodeProjectionRule {
 
     private MvnRepoDao mvnDao;
 
-    protected App toApp(Space space, TechnicalDeployment td, ProjectionContext projectionContext, ProcessingNode processingNode, String buildPack) {
+    protected App toApp(Space space, ProjectionContext projectionContext, ProcessingNode processingNode, String buildPack) {
         // to fail early, however the actual URL will be resolved at activation
         // time
         assertMavenReferenceIsAvailable(processingNode);
@@ -40,8 +39,8 @@ public abstract class BaseProcessingNodeProjectionRule {
         //TODO move to projectionPlan ?
         int ramMb = getMemory(projectionPlan.getMemoryMbPerWas());
 
-        App app = new App(td, space, processingNode.getLabel(), processingNode.getSoftwareReference(), buildPack, ramMb, instanceCount);
-        
+        App app = new App(space, processingNode.getLabel(), processingNode.getSoftwareReference(), buildPack, ramMb, instanceCount);
+
         //TODO: should externalize if cloudfoundry stacks change often and should be managed by middleware profile
         app.setStack("cflinuxfs2");
         app.setDiskSizeMb(processingNode.getMinDiskMbHint());

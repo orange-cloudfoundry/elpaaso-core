@@ -42,12 +42,13 @@ public class RouteMappingProjectionRuleTest {
         final TechnicalDeployment td = new TechnicalDeployment("");
         RouteStrategyImpl routeStrategy = new RouteStrategyImpl("cfapps.redacted-domain.org", "paasinstance");
         webGuiServiceProjectionRule.setRouteStrategy(routeStrategy);
-        final Space space = new Space(td);
+        final Space space = new Space();
         webGuiServiceProjectionRule.apply(logicalDeployment, td, new DummyProjectionContext(space));
 
         //simulate app generation
-        App app = new App(td, space, new MavenReference(), "joyn");
+        App app = new App(space, new MavenReference(), "joyn");
         app.setLogicalModelId(logicalDeployment.findProcessingNode("Cf-wicket-jpaSample").getName());
+        td.add(app);
 
         RouteMappingProjectionRule routeMappingProjectionRule = new RouteMappingProjectionRule();
 

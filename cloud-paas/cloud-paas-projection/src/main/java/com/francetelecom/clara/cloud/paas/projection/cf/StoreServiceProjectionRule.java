@@ -27,12 +27,12 @@ public class StoreServiceProjectionRule implements ServiceProjectionRule {
         Set<LogicalOnlineStorageService> logicalOnlineStorageServices = ld.listLogicalServices(LogicalOnlineStorageService.class);
 
         for (LogicalOnlineStorageService logicalOnlineStorageService : logicalOnlineStorageServices) {
-            toRiakcsService(logicalOnlineStorageService, projectionContext.getSpace(), td);
+            td.add(toRiakcsService(logicalOnlineStorageService, projectionContext.getSpace()));
         }
     }
 
-    protected ManagedService toRiakcsService(LogicalOnlineStorageService logicalOnlineStorageService, Space space, TechnicalDeployment td) {
-        ManagedService riakcsService = new ManagedService("p-riakcs", "developer", logicalOnlineStorageService.getServiceName(), space, td);
+    protected ManagedService toRiakcsService(LogicalOnlineStorageService logicalOnlineStorageService, Space space) {
+        ManagedService riakcsService = new ManagedService("p-riakcs", "developer", logicalOnlineStorageService.getServiceName(), space);
         riakcsService.setLogicalModelId(logicalOnlineStorageService.getName());
         return riakcsService;
     }

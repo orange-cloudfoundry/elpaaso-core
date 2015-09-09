@@ -15,7 +15,6 @@ package com.francetelecom.clara.cloud.techmodel.cf;
 import com.francetelecom.clara.cloud.commons.MavenReference;
 import com.francetelecom.clara.cloud.model.DependantModelItem;
 import com.francetelecom.clara.cloud.model.DeploymentStateEnum;
-import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.model.XaasSubscription;
 import com.francetelecom.clara.cloud.techmodel.cf.services.managed.ManagedService;
 import com.francetelecom.clara.cloud.techmodel.cf.services.userprovided.AbstractUserProvidedService;
@@ -103,13 +102,12 @@ public class App extends XaasSubscription {
     /**
      * Constructor with only mandatory arguments. Mainly used in tests
      *
-     * @param td          the technical deployment
      * @param space       the space, the application is scoped to
      * @param appBinaries maven app binaries reference
      * @param appName     the app name
      */
-    public App(TechnicalDeployment td, Space space, MavenReference appBinaries, String appName) {
-        super(td);
+    public App(Space space, MavenReference appBinaries, String appName) {
+        super();
         setAppName(appName);
         setAppBinaries(appBinaries);
         setSpace(space);
@@ -120,25 +118,13 @@ public class App extends XaasSubscription {
 
     }
 
-    /**
-     * Constructs an app spec
-     *
-     * @param td            the technical deployment
-     * @param space         the space, the application is scoped to
-     * @param appName       mandatory appName. Should be unique within the CF
-     *                      account/space.
-     * @param appBinaries   mandatory pointer to app artefacts
-     * @param buildPackUrl  optional custom buildpack url, or null to use default
-     *                      buildpack
-     * @param ramMb         optional amount of ram
-     * @param instanceCount instance count
-     */
-    public App(TechnicalDeployment td, Space space, String appName, MavenReference appBinaries, String buildPackUrl, int ramMb, int instanceCount) {
-        this(td, space, appBinaries, appName);
+    public App(Space space, String appName, MavenReference appBinaries, String buildPackUrl, int ramMb, int instanceCount) {
+        this(space, appBinaries, appName);
         setBuildPackUrl(buildPackUrl);
         setRamMb(ramMb);
         setInstanceCount(instanceCount);
     }
+
 
     public void activate(UUID externalId) {
         setDeploymentState(DeploymentStateEnum.CREATED);

@@ -14,7 +14,6 @@ package com.francetelecom.clara.cloud.techmodel.cf;
 
 import com.francetelecom.clara.cloud.model.DependantModelItem;
 import com.francetelecom.clara.cloud.model.DeploymentStateEnum;
-import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.model.XaasSubscription;
 import org.springframework.util.Assert;
 
@@ -34,12 +33,8 @@ public class Organization extends XaasSubscription {
 
 	private String organizationName;
 
-	protected Organization() {
-	}
-
-	public Organization(TechnicalDeployment td) {
-		super(td);
-		// set a default space name
+	public Organization() {
+		super();
 		setOrganizationName(UNDEFINED_ORGANIZATION_NAME);
 	}
 
@@ -58,7 +53,7 @@ public class Organization extends XaasSubscription {
 	}
 
 	private void setOrganizationName(String orgName) {
-		Assert.notNull(name, "Fail to set space name. space name should not be empty.");
+		Assert.notNull(orgName, "Fail to set organization name. organization name should not be empty.");
 		this.organizationName = orgName;
 	}
 

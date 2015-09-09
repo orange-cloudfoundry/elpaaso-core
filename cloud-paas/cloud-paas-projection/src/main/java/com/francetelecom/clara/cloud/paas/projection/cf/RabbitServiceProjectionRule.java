@@ -28,13 +28,13 @@ public class RabbitServiceProjectionRule implements ServiceProjectionRule {
         Set<LogicalRabbitService> logicalRabbitServices = ld.listLogicalServices(LogicalRabbitService.class);
         for (LogicalRabbitService logicalRabbitService : logicalRabbitServices) {
             // generate cloud foundry service
-            toRabbitService(logicalRabbitService, projectionContext.getSpace(), td);
+            td.add(toRabbitService(logicalRabbitService, projectionContext.getSpace()));
         }
 
     }
 
-    protected ManagedService toRabbitService(LogicalRabbitService logicalRabbitService, Space space, TechnicalDeployment td) {
-        ManagedService rabbitService = new ManagedService("p-rabbitmq", "standard", logicalRabbitService.getServiceName(), space, td);
+    protected ManagedService toRabbitService(LogicalRabbitService logicalRabbitService, Space space) {
+        ManagedService rabbitService = new ManagedService("p-rabbitmq", "standard", logicalRabbitService.getServiceName(), space);
         rabbitService.setLogicalModelId(logicalRabbitService.getName());
         return rabbitService;
     }

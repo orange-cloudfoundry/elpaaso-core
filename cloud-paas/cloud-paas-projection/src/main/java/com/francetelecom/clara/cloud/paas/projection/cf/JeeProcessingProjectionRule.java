@@ -41,7 +41,7 @@ public class JeeProcessingProjectionRule extends BaseProcessingNodeProjectionRul
         List<JeeProcessing> jeeProcessings = ld.listProcessingNodes(JeeProcessing.class);
         for (JeeProcessing jeeProcessing : jeeProcessings) {
             try {
-                toApp(projectionContext.getSpace(), td, projectionContext, jeeProcessing, buildPack);
+                td.add(toApp(projectionContext.getSpace(), projectionContext, jeeProcessing, buildPack));
             } catch (UnsupportedProjectionException e) {
                 throw new TechnicalException(e);
             }
@@ -49,7 +49,7 @@ public class JeeProcessingProjectionRule extends BaseProcessingNodeProjectionRul
 
     }
 
-    protected App toApp(Space space, TechnicalDeployment td, ProjectionContext projectionContext, ProcessingNode processingNode) {
-        return super.toApp(space, td, projectionContext, processingNode, buildPack);
+    protected App toApp(Space space, ProjectionContext projectionContext, ProcessingNode processingNode) {
+        return super.toApp(space, projectionContext, processingNode, buildPack);
     }
 }

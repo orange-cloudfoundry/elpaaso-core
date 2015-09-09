@@ -15,7 +15,6 @@ package com.francetelecom.clara.cloud.techmodel.cf;
 import com.francetelecom.clara.cloud.commons.TechnicalException;
 import com.francetelecom.clara.cloud.model.DependantModelItem;
 import com.francetelecom.clara.cloud.model.DeploymentStateEnum;
-import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.model.XaasSubscription;
 import org.springframework.util.Assert;
 
@@ -49,12 +48,13 @@ public class Route extends XaasSubscription {
 	protected Route() {
 	}
 
-	public Route(RouteUri initialUri, String contextRoot, Space space, TechnicalDeployment td) {
-		super(td);
+	public Route(RouteUri initialUri, String contextRoot, Space space) {
+		super();
 		setSpace(space);
 		setRouteUri(initialUri);
 		this.contextRoot = contextRoot;
 	}
+
 
 	/**
 	 * prefix route uri with given prefix

@@ -31,13 +31,13 @@ public class StatefulServiceProjectionRule implements ServiceProjectionRule {
         Set<LogicalWebGUIService> logicalWebGUIServices = ld.listLogicalServices(LogicalWebGUIService.class);
         for (LogicalWebGUIService logicalWebGUIService : logicalWebGUIServices) {
             if (logicalWebGUIService.isStateful()) {
-                toSessionReplicationService(logicalWebGUIService, projectionContext.getSpace(), td);
+                td.add(toSessionReplicationService(logicalWebGUIService, projectionContext.getSpace()));
             }
         }
     }
 
-    protected ManagedService toSessionReplicationService(LogicalWebGUIService logicalWebGUIService, Space space, TechnicalDeployment td) {
-        final ManagedService sessionReplicationService = new ManagedService(REDIS_SERVICE_NAME, REDIS_PLAN_DEFAULT, new ServiceNameBuilder(logicalWebGUIService.getLabel()).build() + "-session-replication", space, td);
+    protected ManagedService toSessionReplicationService(LogicalWebGUIService logicalWebGUIService, Space space) {
+        final ManagedService sessionReplicationService = new ManagedService(REDIS_SERVICE_NAME, REDIS_PLAN_DEFAULT, new ServiceNameBuilder(logicalWebGUIService.getLabel()).build() + "-session-replication", space);
         sessionReplicationService.setLogicalModelId(logicalWebGUIService.getName());
         return sessionReplicationService;
     }

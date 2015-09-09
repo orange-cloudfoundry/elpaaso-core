@@ -29,15 +29,14 @@ public class StatefulServiceProjectionRuleTest {
     @Test
     public void log_service_instance_should_end_with_session_replication() throws Exception {
         //given
-        final TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
+        final Space space = new Space();
         final LogicalWebGUIService logicalWebGUIService = new LogicalWebGUIService();
         logicalWebGUIService.setLabel("joyn-cfjavaprocessing");
 
         final StatefulServiceProjectionRule statefulServiceProjectionRule = new StatefulServiceProjectionRule();
 
         //when
-        final ManagedService managedService = statefulServiceProjectionRule.toSessionReplicationService(logicalWebGUIService, space, td);
+        final ManagedService managedService = statefulServiceProjectionRule.toSessionReplicationService(logicalWebGUIService, space);
 
         //then service instance name should end with -session-replication
         Assertions.assertThat(managedService.getServiceInstance()).endsWith("-session-replication");
@@ -46,14 +45,13 @@ public class StatefulServiceProjectionRuleTest {
     @Test
     public void log_service_instance_should_start_with_cf_java_processing_label() throws Exception {
         //given
-        final TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
+        final Space space = new Space();
         final LogicalWebGUIService logicalWebGUIService = new LogicalWebGUIService();
         logicalWebGUIService.setLabel("joyn-cfjavaprocessing");
         final StatefulServiceProjectionRule statefulServiceProjectionRule = new StatefulServiceProjectionRule();
 
         //when
-        final ManagedService managedService = statefulServiceProjectionRule.toSessionReplicationService(logicalWebGUIService, space, td);
+        final ManagedService managedService = statefulServiceProjectionRule.toSessionReplicationService(logicalWebGUIService, space);
 
         //then service instance name should start with cf_java_processing_label
         Assertions.assertThat(managedService.getServiceInstance()).startsWith("joyn-cfjavaprocessing");
@@ -62,14 +60,13 @@ public class StatefulServiceProjectionRuleTest {
     @Test
     public void log_service_plan_should_be_default() throws Exception {
         //given
-        final TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
+        final Space space = new Space();
         final LogicalWebGUIService logicalWebGUIService = new LogicalWebGUIService();
         logicalWebGUIService.setLabel("joyn-cfjavaprocessing");
         final StatefulServiceProjectionRule statefulServiceProjectionRule = new StatefulServiceProjectionRule();
 
         //when
-        final ManagedService managedService = statefulServiceProjectionRule.toSessionReplicationService(logicalWebGUIService, space, td);
+        final ManagedService managedService = statefulServiceProjectionRule.toSessionReplicationService(logicalWebGUIService, space);
 
         //then service plan should be default
         Assertions.assertThat(managedService.getPlan()).isEqualTo("shared-vm");
@@ -78,14 +75,13 @@ public class StatefulServiceProjectionRuleTest {
     @Test
     public void log_service_type_should_be_redis() throws Exception {
         //given
-        final TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
+        final Space space = new Space();
         final LogicalWebGUIService logicalWebGUIService = new LogicalWebGUIService();
         logicalWebGUIService.setLabel("joyn-cfjavaprocessing");
         final StatefulServiceProjectionRule statefulServiceProjectionRule = new StatefulServiceProjectionRule();
 
         //when
-        final ManagedService managedService = statefulServiceProjectionRule.toSessionReplicationService(logicalWebGUIService, space, td);
+        final ManagedService managedService = statefulServiceProjectionRule.toSessionReplicationService(logicalWebGUIService, space);
 
         //then service type should be redis
         Assertions.assertThat(managedService.getService()).isEqualTo("p-redis");
@@ -95,7 +91,7 @@ public class StatefulServiceProjectionRuleTest {
     public void log_service_projection_rule_should_generate_a_redis_managed_service_per_cf_java_processing() throws Exception {
         //given
         final TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
+        final Space space = new Space();
         final StatefulServiceProjectionRule statefulServiceProjectionRule = new StatefulServiceProjectionRule();
         LogicalDeployment logicalDeployment = new LogicalDeployment();
         CFWicketCxfJpaLogicalModelCatalog logicalModelCatalog = new CFWicketCxfJpaLogicalModelCatalog();

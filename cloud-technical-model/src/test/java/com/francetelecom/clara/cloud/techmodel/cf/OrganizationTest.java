@@ -12,7 +12,6 @@
  */
 package com.francetelecom.clara.cloud.techmodel.cf;
 
-import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import org.fest.assertions.Assertions;
 import org.junit.Test;
 
@@ -20,14 +19,13 @@ public class OrganizationTest {
 
 	@Test
 	public void a_default_organization_name_should_be_set() {
-		Organization organization = new Organization(new TechnicalDeployment(""));
+		Organization organization = new Organization();
 		Assertions.assertThat(organization.getOrganizationName()).isEqualTo(Organization.UNDEFINED_ORGANIZATION_NAME);
 	}
 	
 	@Test
 	public void organization_activation_should_update_org_deployment_state() {
-		TechnicalDeployment td = new TechnicalDeployment("name");
-		Organization subscription = new Organization(td);
+		Organization subscription = new Organization();
 		
 		subscription.activate("newName");
 		
@@ -36,8 +34,7 @@ public class OrganizationTest {
 	
 	@Test
 	public void organization_activation_should_update_org_name() {
-		TechnicalDeployment td = new TechnicalDeployment("name");
-		Organization subscription = new Organization(td);
+		Organization subscription = new Organization();
 		
 		subscription.activate("newName");
 		

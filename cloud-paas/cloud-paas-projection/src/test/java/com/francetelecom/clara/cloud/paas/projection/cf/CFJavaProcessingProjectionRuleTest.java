@@ -22,7 +22,6 @@ import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.OptionalSoftware
 import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SampleAppProperties;
 import com.francetelecom.clara.cloud.logicalmodel.samplecatalog.SimpleProbeLogicalModelCatalog;
 import com.francetelecom.clara.cloud.model.DeploymentProfileEnum;
-import com.francetelecom.clara.cloud.model.TechnicalDeployment;
 import com.francetelecom.clara.cloud.mvn.consumer.MvnRepoDao;
 import com.francetelecom.clara.cloud.paas.constraint.ProjectionPlan;
 import com.francetelecom.clara.cloud.paas.projection.UnsupportedProjectionException;
@@ -89,9 +88,8 @@ public class CFJavaProcessingProjectionRuleTest {
         CFJavaProcessing cfJavaProcessing = logicalDeployment.listProcessingNodes(CFJavaProcessing.class).get(0);
 
         // when
-        TechnicalDeployment td = new TechnicalDeployment("name");
-        final Space space = new Space(td);
-        App app = cfJavaProcessingProjectionStrategy.toApp(space, td, new DummyProjectionContext(space), cfJavaProcessing);
+        final Space space = new Space();
+        App app = cfJavaProcessingProjectionStrategy.toApp(space, new DummyProjectionContext(space), cfJavaProcessing);
 
         // then
         assertThat(app).isNotNull();
@@ -108,9 +106,8 @@ public class CFJavaProcessingProjectionRuleTest {
         CFJavaProcessing cfJavaProcessing = logicalDeployment.listProcessingNodes(CFJavaProcessing.class).get(0);
 
         // when
-        TechnicalDeployment td = new TechnicalDeployment("name");
-        final Space space = new Space(td);
-        App app = cfJavaProcessingProjectionStrategy.toApp(space, td, new DummyProjectionContext(space), cfJavaProcessing);
+        final Space space = new Space();
+        App app = cfJavaProcessingProjectionStrategy.toApp(space, new DummyProjectionContext(space), cfJavaProcessing);
 
         // then
         assertThat(app.getDiskSizeMb()).isEqualTo(cfJavaProcessing.getMinDiskMbHint());
@@ -150,9 +147,8 @@ public class CFJavaProcessingProjectionRuleTest {
         projectionPlan.setWasPerVm(3);
 
         // when
-        TechnicalDeployment td = new TechnicalDeployment("name");
-        final Space space = new Space(td);
-        App app = cfJavaProcessingProjectionStrategy.toApp(space, td, new DummyProjectionContext(space), cfJavaProcessing);
+        final Space space = new Space();
+        App app = cfJavaProcessingProjectionStrategy.toApp(space, new DummyProjectionContext(space), cfJavaProcessing);
         // then
         assertThat(app.getAppBinaries()).isEqualTo(cfJavaProcessing.getSoftwareReference());
         assertThat(app.getAppBinaries().getExtension()).isEqualToIgnoringCase("war");
@@ -174,9 +170,8 @@ public class CFJavaProcessingProjectionRuleTest {
         projectionPlan.setWasPerVm(3);
 
         // when
-        TechnicalDeployment td = new TechnicalDeployment("name");
-        final Space space = new Space(td);
-        App app = cfJavaProcessingProjectionStrategy.toApp(space, td, new DummyProjectionContext(space), cfJavaProcessing);
+        final Space space = new Space();
+        App app = cfJavaProcessingProjectionStrategy.toApp(space, new DummyProjectionContext(space), cfJavaProcessing);
         // then
         assertThat(app.getAppBinaries()).isEqualTo(cfJavaProcessing.getSoftwareReference());
         assertThat(app.getAppBinaries().getExtension()).isEqualToIgnoringCase("jar");
@@ -196,9 +191,8 @@ public class CFJavaProcessingProjectionRuleTest {
         projectionPlan.setWasPerVm(3);
 
         // when
-        TechnicalDeployment td = new TechnicalDeployment("name");
-        final Space space = new Space(td);
-        App app = cfJavaProcessingProjectionStrategy.toApp(space, td, new DummyProjectionContext(space), cfJavaProcessing);
+        final Space space = new Space();
+        App app = cfJavaProcessingProjectionStrategy.toApp(space, new DummyProjectionContext(space), cfJavaProcessing);
 
         // then
         assertThat(app.getRamMb()).isEqualTo(512);

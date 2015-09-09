@@ -13,12 +13,9 @@
 package com.francetelecom.clara.cloud.model;
 
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.UUID;
 
 /**
  * Base class for representing a xAAS subscription (per environnent
@@ -39,46 +36,10 @@ public abstract class XaasSubscription extends DependantModelItem {
 	private static final long serialVersionUID = 4826141896100516201L;
 
 	/**
-	 * A human readeable description which is passed to XaaS that support it.
-	 * This is for instance useful within the DBaaS to be able to correlate to
-	 * the environment, applicationRelease and possibly Paas instance.
-	 */
-	private String description = "";
-
-	/** Parent TechnicalDeployment */
-	@XmlIDREF
-	@XmlElement(name = "technicalDeployment")
-	@ManyToOne
-	@NotNull
-	protected TechnicalDeployment technicalDeployment;
-
-	/**
 	 * JPA required constructor
 	 */
-	protected XaasSubscription() {
-	}
-
-	public XaasSubscription(TechnicalDeployment td) {
-		super(td.getName() + "-subscription-" + td.listXaasSubscriptionTemplates().size());
-		this.technicalDeployment = td;
-		td.xaasSubscriptions.add(this);
-	}
-
-	/**
-	 * read only getter
-	 * 
-	 * @return
-	 */
-	public TechnicalDeployment getTechnicalDeployment() {
-		return technicalDeployment;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
+	public XaasSubscription() {
+		super(UUID.randomUUID().toString());
 	}
 
 }

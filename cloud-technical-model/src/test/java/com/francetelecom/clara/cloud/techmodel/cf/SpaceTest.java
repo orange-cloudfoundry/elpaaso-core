@@ -15,20 +15,17 @@ package com.francetelecom.clara.cloud.techmodel.cf;
 import org.fest.assertions.Assertions;
 import org.junit.Test;
 
-import com.francetelecom.clara.cloud.model.TechnicalDeployment;
-
 public class SpaceTest {
 
 	@Test
 	public void a_default_space_name_should_be_set() {
-		Space space = new Space(new TechnicalDeployment(""));
+		Space space = new Space();
 		Assertions.assertThat(space.getSpaceName()).isEqualTo(new SpaceName("undefined"));
 	}
 	
 	@Test
 	public void space_activation_should_update_space_deployment_state() {
-		TechnicalDeployment td = new TechnicalDeployment("name");
-		Space subscription = new Space(td);
+		Space subscription = new Space();
 		
 		subscription.activate(new SpaceName("newName"));
 		
@@ -37,8 +34,7 @@ public class SpaceTest {
 	
 	@Test
 	public void space_activation_should_update_space_name() {
-		TechnicalDeployment td = new TechnicalDeployment("name");
-		Space subscription = new Space(td);
+		Space subscription = new Space();
 		
 		subscription.activate(new SpaceName("newName"));
 		
@@ -47,8 +43,7 @@ public class SpaceTest {
 	
 	@Test
 	public void space_deletion_should_update_space_deployment_state() {
-		TechnicalDeployment td = new TechnicalDeployment("name");
-		Space subscription = new Space(td);
+		Space subscription = new Space();
 		
 		subscription.delete();
 		

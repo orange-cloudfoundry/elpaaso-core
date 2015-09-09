@@ -28,13 +28,13 @@ public class MysqlServiceProjectionRule implements ServiceProjectionRule {
         Set<LogicalMysqlService> logicalMysqlServices = ld.listLogicalServices(LogicalMysqlService.class);
         for (LogicalMysqlService logicalMysqlService : logicalMysqlServices) {
             // generate cloud foundry service
-            toMysqlService(logicalMysqlService, projectionContext.getSpace(), td);
+            td.add(toMysqlService(logicalMysqlService, projectionContext.getSpace()));
         }
 
     }
 
-    protected ManagedService toMysqlService(LogicalMysqlService logicalMysqlService, Space space, TechnicalDeployment td) {
-        ManagedService mysqlService = new ManagedService("p-mysql", "100mb", logicalMysqlService.getServiceName(), space, td);
+    protected ManagedService toMysqlService(LogicalMysqlService logicalMysqlService, Space space) {
+        ManagedService mysqlService = new ManagedService("p-mysql", "100mb", logicalMysqlService.getServiceName(), space);
         mysqlService.setLogicalModelId(logicalMysqlService.getName());
         return mysqlService;
     }

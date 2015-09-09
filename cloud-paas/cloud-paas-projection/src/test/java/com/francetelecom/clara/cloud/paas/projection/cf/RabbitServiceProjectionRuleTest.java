@@ -31,14 +31,13 @@ public class RabbitServiceProjectionRuleTest {
     @Test
     public void rabbit_service_instance_should_equal_to_logical_rabbitmq_service_name() throws Exception {
         //given
-        final TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
+        final Space space = new Space();
         LogicalRabbitService logicalRabbitService = new LogicalRabbitService();
         logicalRabbitService.setServiceName("myRabbitService");
         final RabbitServiceProjectionRule rabbitServiceProjectionRule = new RabbitServiceProjectionRule();
 
         //when
-        final ManagedService managedService = rabbitServiceProjectionRule.toRabbitService(logicalRabbitService, space, td);
+        final ManagedService managedService = rabbitServiceProjectionRule.toRabbitService(logicalRabbitService, space);
 
         //then service instance name should equal to logical rabbitmq service name
         Assertions.assertThat(managedService.getServiceInstance()).isEqualTo("myRabbitService");
@@ -47,14 +46,13 @@ public class RabbitServiceProjectionRuleTest {
     @Test
     public void rabbit_service_plan_should_be_standard() throws Exception {
         //given
-        final TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
+        final Space space = new Space();
         LogicalRabbitService logicalRabbitService = new LogicalRabbitService();
         logicalRabbitService.setServiceName("myRabbitService");
         final RabbitServiceProjectionRule rabbitServiceProjectionRule = new RabbitServiceProjectionRule();
 
         //when
-        final ManagedService managedService = rabbitServiceProjectionRule.toRabbitService(logicalRabbitService, space, td);
+        final ManagedService managedService = rabbitServiceProjectionRule.toRabbitService(logicalRabbitService, space);
 
         //then service plan should be default
         Assertions.assertThat(managedService.getPlan()).isEqualTo("standard");
@@ -63,14 +61,13 @@ public class RabbitServiceProjectionRuleTest {
     @Test
     public void rabbit_service_type_should_be_p_rabbitmq() throws Exception {
         //given
-        final TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
+        final Space space = new Space();
         LogicalRabbitService logicalRabbitService = new LogicalRabbitService();
         logicalRabbitService.setServiceName("myRabbitService");
         final RabbitServiceProjectionRule rabbitServiceProjectionRule = new RabbitServiceProjectionRule();
 
         //when
-        final ManagedService managedService = rabbitServiceProjectionRule.toRabbitService(logicalRabbitService, space, td);
+        final ManagedService managedService = rabbitServiceProjectionRule.toRabbitService(logicalRabbitService, space);
 
         //then service type should be redis
         Assertions.assertThat(managedService.getService()).isEqualTo("p-rabbitmq");
@@ -80,7 +77,7 @@ public class RabbitServiceProjectionRuleTest {
     public void rabbitmq_service_projection_rule_should_generate_a_rabbit_managed_service_per_rabbitmq_logical_service() throws Exception {
         //given
         final TechnicalDeployment td = new TechnicalDeployment("");
-        final Space space = new Space(td);
+        final Space space = new Space();
         final RabbitServiceProjectionRule rabbitServiceProjectionRule = new RabbitServiceProjectionRule();
         LogicalDeployment logicalDeployment = new LogicalDeployment();
         InternalRabbitLogicalModelCatalog logicalModelCatalog = new InternalRabbitLogicalModelCatalog();
@@ -112,14 +109,16 @@ public class RabbitServiceProjectionRuleTest {
 
         // given td
         TechnicalDeployment td = new TechnicalDeployment("name");
-        Space space = new Space(td);
+        Space space = new Space();
         rabbitServiceProjectionRule.apply(logicalDeployment, td, new DummyProjectionContext(space));
         //"InternalRabbitJEE-Client" InternalRabbitJEE-Server
 
         //simulate app generation
-        App client = new App(td, space, new MavenReference(), "client");
+        App client = new App(space, new MavenReference(), "client");
         client.setLogicalModelId(logicalDeployment.findProcessingNode("InternalRabbitJEE-Client").getName());
-        App server = new App(td, space, new MavenReference(), "server");
+        td.add(client);
+        App server = new App(space, new MavenReference(), "server");
+        td.add(server);
         server.setLogicalModelId(logicalDeployment.findProcessingNode("InternalRabbitJEE-Server").getName());
 
         AssociationProjectionRule associationProjectionRule = new DefaultServiceBindingProjectionRule();

@@ -69,7 +69,6 @@ public class OrganizationActivationPlugin extends ActivationPlugin<Organization>
             String orgName = organizationActivationService.getCurrentOrganizationName();
             organization.activate(orgName);
             logger.debug("Activating organization : {}", organization);
-            logger.debug("Activating organization : {}", dumpToXmlForTraces(organization.getTechnicalDeployment()));
             organizationRepository.save(organization);
         } catch (Exception e) {
             String message = "Unable to activate Organization. " + e.getMessage();
