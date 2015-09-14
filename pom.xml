@@ -87,12 +87,10 @@
         <skipUTs>${skipTests}</skipUTs>
         <skipITs>true</skipITs>
         <skipATs>true</skipATs>
-        <wsdl.administration.version>5.0-SNAPSHOT</wsdl.administration.version>
-        <wsdl.environment.version>4.0-SNAPSHOT</wsdl.environment.version>
-        <wsdl.incubator.version>5.0-SNAPSHOT</wsdl.incubator.version>
+        <wsdl.elpaaso.version>1.0.17-SNAPSHOT</wsdl.elpaaso.version>
 
         <!-- dbaas wsdl version -->
-        <elpaaso-dbaas-wsdl.version>1.63.10</elpaaso-dbaas-wsdl.version>
+        <elpaaso-dbaas-wsdl.version>1.63.14-SNAPSHOT</elpaaso-dbaas-wsdl.version>
 
         <spring-boot.version>1.2.4.RELEASE</spring-boot.version>
 
@@ -962,19 +960,9 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.orange.clara.cloud</groupId>
-                <artifactId>cloud-paas-ws-administration-wsdl</artifactId>
-                <version>${wsdl.administration.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.orange.clara.cloud</groupId>
-                <artifactId>cloud-paas-ws-environment-wsdl</artifactId>
-                <version>${wsdl.environment.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.orange.clara.cloud</groupId>
-                <artifactId>cloud-paas-ws-incubator-wsdl</artifactId>
-                <version>${wsdl.incubator.version}</version>
+                <groupId>com.orange.clara.cloud.api.soap</groupId>
+                <artifactId>elpaaso-wsdl</artifactId>
+                <version>${wsdl.elpaaso.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.orange.clara.cloud</groupId>
