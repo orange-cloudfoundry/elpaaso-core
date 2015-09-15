@@ -87,7 +87,7 @@
         <skipUTs>${skipTests}</skipUTs>
         <skipITs>true</skipITs>
         <skipATs>true</skipATs>
-        <wsdl.elpaaso.version>1.0.17-SNAPSHOT</wsdl.elpaaso.version>
+        <wsdl.elpaaso.version>1.0.20-SNAPSHOT</wsdl.elpaaso.version>
 
         <!-- dbaas wsdl version -->
         <elpaaso-dbaas-wsdl.version>1.63.14-SNAPSHOT</elpaaso-dbaas-wsdl.version>
@@ -960,7 +960,7 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.orange.clara.cloud.api.soap</groupId>
+                <groupId>com.orange.clara.cloud</groupId><!--<groupId>com.orange.clara.cloud.api.soap</groupId>-->
                 <artifactId>elpaaso-wsdl</artifactId>
                 <version>${wsdl.elpaaso.version}</version>
             </dependency>

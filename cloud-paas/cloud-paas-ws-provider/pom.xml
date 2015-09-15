@@ -45,23 +45,9 @@
             <artifactId>cxf-rt-transports-http</artifactId>
         </dependency>
 
-        <!--<dependency>-->
-        <!--<groupId>com.orange.clara.cloud</groupId>-->
-        <!--<artifactId>cloud-paas-ws-administration-wsdl</artifactId>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-        <!--<groupId>com.orange.clara.cloud</groupId>-->
-        <!--<artifactId>cloud-paas-ws-environment-wsdl</artifactId>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-        <!--<groupId>com.orange.clara.cloud</groupId>-->
-        <!--<artifactId>cloud-paas-ws-incubator-wsdl</artifactId>-->
-        <!--</dependency>-->
 
         <dependency>
-            <groupId>com.orange.clara.cloud.api.soap</groupId>
+            <groupId>com.orange.clara.cloud</groupId><!--<groupId>com.orange.clara.cloud.api.soap</groupId>-->
             <artifactId>elpaaso-wsdl</artifactId>
         </dependency>
         <dependency>

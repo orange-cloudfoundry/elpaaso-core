@@ -147,7 +147,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.orange.clara.cloud.api.soap</groupId>
+            <groupId>com.orange.clara.cloud</groupId><!--<groupId>com.orange.clara.cloud.api.soap</groupId>-->
             <artifactId>elpaaso-wsdl</artifactId>
         </dependency>
 
