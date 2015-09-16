@@ -171,7 +171,7 @@ public class MockMvnRepoDaoImpl extends MvnRepoDaoImpl {
 	@Override
 	public MavenReference resolveUrl(MavenReference mavenReference) {
 		MavenReference result = new MavenReference(mavenReference);
-		String accessUrl = super.mvnConsumerConfigurer.pullRepositoryUrl;
+		String accessUrl = super.mvnConsumerConfigurer.getPullPrimaryRepository().getUrl();
 		try {
 			// replace . from groupId with / to match a path on maven repo
 			accessUrl += mavenReference.getGroupId().replace('.', '/');

@@ -17,6 +17,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.Validate;
@@ -31,7 +33,7 @@ import com.francetelecom.clara.cloud.commons.TechnicalException;
 public class MvnConsumerConfigurer {
 	private static Logger logger = LoggerFactory.getLogger(MvnConsumerConfigurer.class.getName());
 
-	protected String pullRepositoryUrl;
+	protected String[] pullRepositoryUrls;
 
 	protected String releaseRepositoryRefreshIntervalInMin;
 	protected String snapshotRepositoryRefreshIntervalInMin;
@@ -45,7 +47,7 @@ public class MvnConsumerConfigurer {
 	protected File localM2RepoPath;
 	protected File localWorkDir;
 	protected LocalRepository localM2Repo;
-	protected RemoteRepository pullRemoteRepo;
+	protected List<RemoteRepository> pullRemoteRepo;
 
 	protected InputStream assemblyTemplateFile;
 	protected String assemblyTemplate;
@@ -68,6 +70,8 @@ public class MvnConsumerConfigurer {
 		logger.info("initial config for Maven Connector");
 		this.localM2Repo = new LocalRepository(this.localM2RepoPath);
 
+		Validate.notEmpty(this.pullRepositoryUrls);
+		this.pullRemoteRepo = new ArrayList<RemoteRepository>();
 		initPullRepoInterval();
 		loadAssemblyTemplateFile();
 	}
@@ -82,13 +86,20 @@ public class MvnConsumerConfigurer {
 	}
 
 	private void initPullRepoInterval() {
-		final RemoteRepository.Builder builder = new RemoteRepository.Builder("remoteRepo", "default", this.pullRepositoryUrl);
-		RepositoryPolicy releasePolicy = new RepositoryPolicy(true,RepositoryPolicy.UPDATE_POLICY_INTERVAL + ":" + releaseRepositoryRefreshIntervalInMin,RepositoryPolicy.CHECKSUM_POLICY_WARN);
-		builder.setReleasePolicy(releasePolicy);
+		int repoCount=1;
+		for (String aPullRepoUrl: pullRepositoryUrls) {
+			RemoteRepository.Builder builder = new RemoteRepository.Builder("remoteRepo-" + repoCount++, "default", aPullRepoUrl);
+			RepositoryPolicy releasePolicy = getRepositoryPolicy(releaseRepositoryRefreshIntervalInMin);
+			builder.setReleasePolicy(releasePolicy);
 
-		RepositoryPolicy snapshotPolicy = new RepositoryPolicy(true,RepositoryPolicy.UPDATE_POLICY_INTERVAL + ":" + snapshotRepositoryRefreshIntervalInMin,RepositoryPolicy.CHECKSUM_POLICY_WARN);
-		builder.setSnapshotPolicy(snapshotPolicy);
-		this.pullRemoteRepo=builder.build();
+			RepositoryPolicy snapshotPolicy = getRepositoryPolicy(snapshotRepositoryRefreshIntervalInMin);
+			builder.setSnapshotPolicy(snapshotPolicy);
+			this.pullRemoteRepo.add(builder.build());
+		}
+	}
+
+	private static RepositoryPolicy getRepositoryPolicy(String repositoryRefreshIntervalInMin) {
+		return new RepositoryPolicy(true, RepositoryPolicy.UPDATE_POLICY_INTERVAL + ":" + repositoryRefreshIntervalInMin, RepositoryPolicy.CHECKSUM_POLICY_WARN);
 	}
 
 	public void loadAssemblyTemplateFile() {
@@ -119,19 +130,19 @@ public class MvnConsumerConfigurer {
 	}
 
 
+	public RemoteRepository getPullPrimaryRepository(){
+		assert(pullRemoteRepo!=null);
+		assert(pullRemoteRepo.size()>0);
+
+		return pullRemoteRepo.get(0);
+	}
+
 	/**
 	 * IOC
 	 *
-	 * @param repositoryUrl
-	 * @deprecated please use setPullRepositoryUrl instead
 	 */
-	@Deprecated
-	public void setRepositoryUrl(String repositoryUrl) {
-		this.pullRepositoryUrl = repositoryUrl;
-	}
-
-	public void setPullRepositoryUrl(String repositoryUrl) {
-		this.pullRepositoryUrl = repositoryUrl;
+	public void setPullRepositoryUrls(String[] repositoryUrl) {
+		this.pullRepositoryUrls = repositoryUrl;
 	}
 
 	/**
@@ -196,15 +207,7 @@ public class MvnConsumerConfigurer {
 		return localM2Repo;
 	}
 
-	/**
-	 * @deprecated use {@linkplain getPullRemoteRepo}
-	 */
-	@Deprecated
-	public RemoteRepository getRemoteM2Repo() {
-		return pullRemoteRepo;
-	}
-
-	public RemoteRepository getPullRemoteRepo() {
+	public List<RemoteRepository> getPullRemoteRepo() {
 		return pullRemoteRepo;
 	}
 
@@ -224,16 +227,8 @@ public class MvnConsumerConfigurer {
 		this.snapshotRepositoryRefreshIntervalInMin = snapshotRepositoryRefreshIntervalInMin;
 	}
 
-	/**
-	 * @deprecated use {@linkplain getPullRepositoryUrl}
-	 */
-	@Deprecated
-	public String getRepositoryUrl() {
-		return pullRepositoryUrl;
-	}
-
-	public String getPullRepositoryUrl() {
-		return pullRepositoryUrl;
+	public String[] getPullRepositoryUrls() {
+		return pullRepositoryUrls;
 	}
 
 	public String getPushSnapshotRepositoryUrl() {

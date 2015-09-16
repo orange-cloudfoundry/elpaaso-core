@@ -38,7 +38,7 @@
 			value="${maven.release.repository.refresh.minutes:15}" />
 		<property name="snapshotRepositoryRefreshIntervalInMin"
 			value="${maven.snapshot.repository.refresh.minutes:10}" />
-		<property name="pullRepositoryUrl" value="${maven.pull.repository.url}" />
+		<property name="pullRepositoryUrls" value="${maven.pull.repository.url}" />
 		<property name="pushSnapshotRepositoryUrl" value="${maven.push.repository.snapshot.url}" />
 		<property name="pushSnapshotRepositoryUser" value="${maven.push.repository.snapshot.user}" />
 		<property name="pushSnapshotRepositoryPassword" value="${maven.push.repository.snapshot.password}" />

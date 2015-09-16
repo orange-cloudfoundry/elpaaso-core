@@ -105,8 +105,11 @@ public class MvnRepoDaoImpl implements MvnRepoDao {
         List<RemoteRepository> remoteRepositories = new ArrayList<RemoteRepository>();
         List<RemoteRepository.Builder> builders = new ArrayList<RemoteRepository.Builder>();
 
-        RemoteRepository pullRemoteRepo = this.mvnConsumerConfigurer.getPullRemoteRepo();
-        builders.add(new RemoteRepository.Builder(pullRemoteRepo));
+        List<RemoteRepository> pullRemoteRepo = this.mvnConsumerConfigurer.getPullRemoteRepo();
+        for (RemoteRepository aPullRemoteRepository : pullRemoteRepo) {
+            builders.add(new RemoteRepository.Builder(aPullRemoteRepository));
+        }
+
 
         // Add this to support proxy configuration
         for (RemoteRepository.Builder builder : builders) {
@@ -124,6 +127,7 @@ public class MvnRepoDaoImpl implements MvnRepoDao {
         }
         return remoteRepositories;
     }
+
 
 
     private Artifact convertToArtifact(MavenReference mavenReference) {
@@ -208,7 +212,7 @@ public class MvnRepoDaoImpl implements MvnRepoDao {
 
     public boolean isUsingProxyForPullRepo() {
         boolean result = false;
-        RemoteRepository repository = mvnConsumerConfigurer.getPullRemoteRepo();
+        RemoteRepository repository = mvnConsumerConfigurer.getPullPrimaryRepository();
         if (mvnProxySelector != null && mvnProxySelector.getProxy(repository) != null) {
             result = true;
         }

@@ -46,7 +46,7 @@ public class SettingsGenerator {
 		mirrorId = mvnConsumerConfigurer.getPaasRepositoryId();
 
 		localRepository = mvnConsumerConfigurer.getLocalM2RepoPath().getAbsolutePath();
-		mirrorUrl = mvnConsumerConfigurer.getPullRepositoryUrl();
+		mirrorUrl = mvnConsumerConfigurer.getPullPrimaryRepository().getUrl();
 
 		releaseRepositoryUser = mvnConsumerConfigurer.getPushReleaseRepositoryUser();
 		releaseRepositoryPassword = mvnConsumerConfigurer.getPushReleaseRepositoryPassword();

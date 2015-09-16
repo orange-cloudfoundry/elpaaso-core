@@ -12,7 +12,7 @@
  	<bean id="mvnConsumerConfigurer"
 		class="com.francetelecom.clara.cloud.mvn.consumer.MvnConsumerConfigurer"
 		init-method="init">
-		<property name="pullRepositoryUrl"
+		<property name="pullRepositoryUrls"
 				  value="${test.maven.pull.repository.url}" />
 		<property name="pushSnapshotRepositoryUrl"
 				  value="${test.maven.push.repository.snapshot.url}" />
