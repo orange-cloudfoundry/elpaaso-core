@@ -17,7 +17,7 @@
   <parent>
     <groupId>com.orange.clara.cloud</groupId>
     <artifactId>cloud-paas</artifactId>
-    <version>3.0-SNAPSHOT</version>
+    <version>3.0.32-SNAPSHOT</version>
   </parent>
   <artifactId>cloud-paas-archive</artifactId>
 	<name>${project.artifactId} - archive management</name>
