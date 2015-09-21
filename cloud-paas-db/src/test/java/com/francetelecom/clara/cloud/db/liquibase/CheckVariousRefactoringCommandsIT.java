@@ -102,11 +102,11 @@ public class CheckVariousRefactoringCommandsIT {
 		applyChangeLog("classpath:./test-changesets/rename-table-changeset.xml");
 
 		// Assert table has been renamed
-		int n = jdbcTemplate.queryForInt("select count(*) from table_test_2 where id=1717 and text='test-1717'");
+		int n = jdbcTemplate.queryForObject("select count(*) from table_test_2 where id=1717 and text='test-1717'", Integer.class);
 		assertEquals(1,n);
 		// And old name does not exist
 		try {
-			jdbcTemplate.queryForInt("select count(*) from table_test_1");
+			jdbcTemplate.queryForObject("select count(*) from table_test_1", Integer.class);
 			fail("table_test_1 still exists");
 		} catch(DataAccessException e) {
 			// ignore as we expect an exception
@@ -130,7 +130,7 @@ public class CheckVariousRefactoringCommandsIT {
 		applyChangeLog("classpath:./test-changesets/new-column-changeset.xml");
 
 		// Assert new column can be requested and has a default value
-		int n = jdbcTemplate.queryForInt("select count(*) from table_test_1 where id=1717 and NEW_DATA='default_value_for_new_column'");
+		int n = jdbcTemplate.queryForObject("select count(*) from table_test_1 where id=1717 and NEW_DATA='default_value_for_new_column'", Integer.class);
 		assertEquals(1,n);
 	}
 
@@ -146,9 +146,9 @@ public class CheckVariousRefactoringCommandsIT {
 		applyChangeLog("classpath:./test-changesets/create-sequence-changeset.xml");
 
 		// Assert new sequence is created by requesting it twice
-		int v1 = jdbcTemplate.queryForInt("select nextval('my_sequence')");
+		int v1 = jdbcTemplate.queryForObject("select nextval('my_sequence')", Integer.class);
 		assertEquals(1,v1);	
-		int v2 = jdbcTemplate.queryForInt("select nextval('my_sequence')");
+		int v2 = jdbcTemplate.queryForObject("select nextval('my_sequence')", Integer.class);
 		assertEquals(3,v2);	
 	}
 	

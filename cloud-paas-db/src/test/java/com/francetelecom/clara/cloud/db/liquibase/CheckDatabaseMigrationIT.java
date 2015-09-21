@@ -141,7 +141,7 @@ public class CheckDatabaseMigrationIT {
 	private void assertTestDataIsRelevant() {
 		logger.info("Verifying test database contains relevant data");
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(datasource);
-		int n = jdbcTemplate.queryForInt("select count(*) from environment where status <> 'REMOVED'");
+		int n = jdbcTemplate.queryForObject("select count(*) from environment where status <> 'REMOVED'", Integer.class);
 		logger.debug("Test database contains " + n + " environments");
 		assertTrue("Test data may not be relevant: it should includes at least one environemnt", n > 0);
 	}
