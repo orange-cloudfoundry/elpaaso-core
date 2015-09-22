@@ -43,7 +43,7 @@ import java.util.List;
  * 
  */
 @javax.jws.WebService(serviceName = "PaasEnvironmentService", portName = "PaasEnvironmentServicePort", targetNamespace = "http://www.orange.com/paas/environment/v3/PaasEnvironmentService", endpointInterface = "com.orange.clara.cloud.providersoap.environment.v3.service.PaasEnvironmentService")
-@org.apache.cxf.annotations.SchemaValidation(enabled = true)
+@org.apache.cxf.annotations.SchemaValidation
 public class PaasEnvironmentServiceImpl implements PaasEnvironmentService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(PaasEnvironmentServiceImpl.class);

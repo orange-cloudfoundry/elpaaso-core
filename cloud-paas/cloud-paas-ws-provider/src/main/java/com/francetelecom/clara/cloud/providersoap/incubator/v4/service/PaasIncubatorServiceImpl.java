@@ -46,7 +46,7 @@ import java.util.Map;
         targetNamespace = "http://www.orange.com/paas/incubator/v4/PaasIncubatorService",
         endpointInterface = "com.orange.clara.cloud.providersoap.incubator.v4.service.PaasIncubatorService")
 
-@org.apache.cxf.annotations.SchemaValidation(enabled = true)
+@org.apache.cxf.annotations.SchemaValidation
 public class PaasIncubatorServiceImpl implements PaasIncubatorService {
 
     private static final Logger LOG = LoggerFactory.getLogger(PaasIncubatorServiceImpl.class);

@@ -37,7 +37,7 @@ import java.util.Collection;
 import java.util.List;
 
 @javax.jws.WebService(serviceName = "PaasAdministrationService", portName = "PaasAdministrationServicePort", targetNamespace = "http://www.orange.com/paas/administration/v4/PaasAdministrationService", endpointInterface = "com.orange.clara.cloud.providersoap.administration.v4.service.PaasAdministrationService")
-@org.apache.cxf.annotations.SchemaValidation(enabled = true)
+@org.apache.cxf.annotations.SchemaValidation
 public class PaasAdministrationServiceImpl implements PaasAdministrationService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(PaasAdministrationServiceImpl.class);
@@ -57,8 +57,6 @@ public class PaasAdministrationServiceImpl implements PaasAdministrationService 
 	 * 
 	 * @throws DuplicateApplicationErrorFault
 	 *             when application already exists
-	 * @throws MissingDefaultUserErrorFault
-	 *             when application is private and no default user is specified
 	 * @throws PaasUserNotFoundErrorFault
 	 *             when no paas user matches specified user id
 	 */
