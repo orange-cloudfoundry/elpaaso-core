@@ -89,7 +89,7 @@ public class ManagePaasActivationActivitiImpl implements ManagePaasActivation {
 			taskStatusMap.put(status.getTaskId(), status);
 		}
 		status.setTechnicalDeploymentInstanceId(tdiId);
-		status.setTitle("Starting virtual appliance TechnicalDeploymentInstance#" + tdiId);
+		status.setTitle("Starting TechnicalDeploymentInstance#" + tdiId);
 		status.setStartTime(System.currentTimeMillis());
 		status.setTaskStatus(TaskStatusEnum.STARTED);
 		status.setFinalState(DeploymentStateEnum.STARTED);
@@ -111,7 +111,7 @@ public class ManagePaasActivationActivitiImpl implements ManagePaasActivation {
 			taskStatusMap.put(status.getTaskId(), status);
 		}
 		status.setTechnicalDeploymentInstanceId(tdiId);
-		status.setTitle("Stopping virtual appliance TechnicalDeploymentInstance#" + tdiId);
+		status.setTitle("Stopping TechnicalDeploymentInstance#" + tdiId);
 		status.setStartTime(System.currentTimeMillis());
 		status.setTaskStatus(TaskStatusEnum.STARTED);
 		status.setFinalState(DeploymentStateEnum.STOPPED);
@@ -133,7 +133,7 @@ public class ManagePaasActivationActivitiImpl implements ManagePaasActivation {
 			taskStatusMap.put(status.getTaskId(), status);
 		}
 		status.setTechnicalDeploymentInstanceId(tdiId);
-		status.setTitle("Deleting virtual appliance TechnicalDeploymentInstance#" + tdiId);
+		status.setTitle("Deleting TechnicalDeploymentInstance#" + tdiId);
 		status.setStartTime(System.currentTimeMillis());
 		status.setTaskStatus(TaskStatusEnum.STARTED);
 		status.setFinalState(DeploymentStateEnum.REMOVED);

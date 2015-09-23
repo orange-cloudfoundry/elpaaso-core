@@ -69,24 +69,24 @@ public class ManagePaasActivationStubbedImpl implements ManagePaasActivation {
         // Prepare TaskStatus
         final TaskStatusActivation statusActivate = new TaskStatusActivation(100);
         taskStatus.put(statusActivate.getTaskId(), statusActivate);
-        statusActivate.setTitle("Activating virtual appliance TechnicalDeploymentInstance#" + tdiId);
+        statusActivate.setTitle("Activating TechnicalDeploymentInstance#" + tdiId);
         statusActivate.setStartTime(System.currentTimeMillis());
         statusActivate.setTaskStatus(TaskStatusEnum.STARTED);
 
         final TaskStatusActivation statusIaas = new TaskStatusActivation(101);
-        statusIaas.setTitle("Creating virtual appliance TechnicalDeploymentInstance#" + tdiId);
+        statusIaas.setTitle("Creating TechnicalDeploymentInstance#" + tdiId);
         statusIaas.setTaskStatus(TaskStatusEnum.TRANSIENT);
         statusIaas.setMaxPercent(80);
         statusActivate.addSubtask(statusIaas);
 
         final TaskStatusActivation statusConfiguration = new TaskStatusActivation(102);
-        statusConfiguration.setTitle("Post configuring virtual appliance TechnicalDeploymentInstance#" + tdiId);
+        statusConfiguration.setTitle("Post configuring TechnicalDeploymentInstance#" + tdiId);
         statusConfiguration.setTaskStatus(TaskStatusEnum.TRANSIENT);
         statusConfiguration.setMaxPercent(10);
         statusActivate.addSubtask(statusConfiguration);
 
         final TaskStatusActivation statusPowerOn = new TaskStatusActivation(103);
-        statusPowerOn.setTitle("Powering ON virtual appliance TechnicalDeploymentInstance#" + tdiId);
+        statusPowerOn.setTitle("Powering ON TechnicalDeploymentInstance#" + tdiId);
         statusPowerOn.setTaskStatus(TaskStatusEnum.TRANSIENT);
         statusPowerOn.setMaxPercent(10);
         statusActivate.addSubtask(statusPowerOn);
