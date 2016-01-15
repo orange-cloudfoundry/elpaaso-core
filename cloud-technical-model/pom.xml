@@ -16,7 +16,7 @@
 	<parent>
 		<artifactId>elpaaso-core</artifactId>
 		<groupId>com.orange.clara.cloud</groupId>
-		<version>3.0-SNAPSHOT</version>
+		<version>3.0.121-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
