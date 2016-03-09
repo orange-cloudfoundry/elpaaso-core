@@ -165,7 +165,7 @@
 
         <!-- Utilities -->
         <guava.version>13.0.1</guava.version>
-        <commons-collections.version>3.2.1</commons-collections.version>
+        <commons-collections.version>3.2.2</commons-collections.version>
         <commons-compress.version>1.4.1</commons-compress.version>
         <commons-configuration.version>1.9</commons-configuration.version>
         <commons.lang3.version>3.2.1</commons.lang3.version>
