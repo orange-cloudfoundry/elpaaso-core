@@ -16,7 +16,7 @@
 	<parent>
 		<artifactId>cloud-paas-test</artifactId>
 		<groupId>com.orange.clara.cloud</groupId>
-		<version>3.0-SNAPSHOT</version>
+		<version>3.0.207-SNAPSHOT</version>
 	</parent>
 	<properties>
 		<dbaas.wsdl.package>com.orange.clara.cloud.dbaas.wsdl</dbaas.wsdl.package>
