@@ -17,7 +17,7 @@
 	<parent>
 		<artifactId>cloud-commons-parent</artifactId>
 		<groupId>com.orange.clara.cloud</groupId>
-		<version>3.0-SNAPSHOT</version>
+		<version>3.0.349-SNAPSHOT</version>
 	</parent>
 	<artifactId>cloud-commons</artifactId>
 	<name>${project.artifactId} - Commons module for Clara Cloud Tools</name>
