@@ -16,7 +16,7 @@
     <parent>
         <artifactId>cloud-paas</artifactId>
         <groupId>com.orange.clara.cloud</groupId>
-        <version>3.0-SNAPSHOT</version>
+        <version>3.0.601-SNAPSHOT</version>
         <relativePath>../cloud-paas/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
